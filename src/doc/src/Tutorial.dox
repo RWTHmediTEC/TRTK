@@ -1,0 +1,253 @@
+/**
+
+\page Tutorial Tutorial
+
+
+\b Table \b of \b Contents
+
+    - \ref Introduction
+    - \ref InstallationInstructions
+    - \ref FirstProgram
+    - \ref ImportantClasses
+    - \ref Macros
+    - \ref FurtherReading
+    - \ref AnotherSampleProgram
+
+
+\section Introduction Introduction
+
+
+This is a small tutorial to get started with the Transformation and Registration
+Toolkit (TRTK).
+
+To get an overview of the complete functionality of this toolkit, please have a
+look at the \ref main "main page"; also have a look at the detailed descriptions
+of the classes which often contain some comprehensive code samples.
+
+
+\section InstallationInstructions Installation Instructions
+
+Detailed installation instructions can be found \ref Installation "here".
+
+
+\section FirstProgram A First Program
+
+Let us first have a look at a small sample program, that shows, how to use the
+toolkit. You might also want to run this program to see whether the toolkit
+is properly installed or not. (There is a simple cmake-based template in
+<tt>misc/template</tt>)
+
+\code
+#include <iostream>
+#include <TRTK/Coordinate.hpp>
+
+using namespace std;
+using namespace TRTK;
+
+int main()
+{
+    Coordinate<double> coordinate(1, 2, 3);
+    cout << "coordinate is: " << coordinate << endl;
+
+    return 0;
+}
+\endcode
+
+In the first line, the standard C++ header \c iostream is included, which allows
+us to print out to the console.
+
+In the second line, the header file of the \ref TRTK::Coordinate "Coordinate"
+class is included. As you can see, the header file is prefixed by "TRTK/"; this
+has to be done for all header files in this toolkit.
+
+Then, in line four, the \c std namespace is made public; the same is done for
+the TRTK namespace in line five. Note, that all classes of this toolkit reside
+in the TRTK namespace. (Also note, that, normally, it is considered bad style to
+make a whole namespace public.)
+
+Finally, the \c main function is defined.
+
+In line nine, an object of the Coordinate class is instantiated. The
+\ref TRTK::Coordinate "Coordinate" class is a template class whose template
+parameter denotes the scalar type of the coordinate. In fact, many classes of
+the TRTK are template classes, since this allows to choose between different
+precisions (\c float, \c double or even classes with arbitrary precision like
+CLN or GMP).
+
+Then, in line ten, the coordinate is displayed on the screen. This implies, that
+the <tt><<</tt>-operator is overloaded. In fact, many operators are overloaded
+to make the use of this toolkit feel quite natural (arithmetic with coordinates
+or transforming coordinates, for instance).
+
+After all, the main function is terminated by the return statement.
+
+
+\subsection RunningTheProgram Running the Program
+
+Either start the program in your IDE or on the console:
+
+\code
+& ./main
+\endcode
+
+Then the output should be:
+
+\code
+coordinate is: (1, 2, 3)
+\endcode
+
+
+\section ImportantClasses Important Classes in the Toolkit
+
+There are some classes in the toolkit that are thoroughly used within all
+classes. These are:
+
+    - \ref TRTK::ErrorObj "ErrorObj"
+    - \ref TRTK::Coordinate "Coordinate"
+
+A detailed description of these classes can be found in the respective class
+documentation. You also might want to have a look at these classes/namespace:
+
+    - \ref TRTK::Transform3D "Transform3D"
+           --> transformation classes
+    - \ref TRTK::EstimateTransformation "EstimateTransformation"
+           --> transformation estimation (e.g. \ref TRTK::EstimateRigidTransformation2D)
+    - \ref TRTK::Tools "Tools"
+           --> various helpful functions
+
+All classes in this toolkit behave very similar to the above mentioned classes.
+
+\section Macros Macros
+
+Most functions check for certain assertions (e.g. if an index is in a valid
+range) and trigger an assertion failure if the assumption does not hold.
+This is meant for debugging purposes only and can be disabled by defining
+the macro \macro{NDEBUG}.
+
+There are a few other macros that control the behaviour of TRTK such as
+parallelization of algorithms (e.g. \macro{TRTK_PARALLELIZE}). See
+\ref definitions.hpp for more details.
+
+\section FurtherReading Further Reading
+
+Many classes of this toolkit use or allow the use of so called
+\ref HomogeneousCoordinates "homogeneous coordinates". If you do not know, what
+these are, you might want to read \ref HomogeneousCoordinates "this".
+
+You might also want to have a look at <a href=http://eigen.tuxfamily.org>Eigen</a>,
+a linear algebra library with an outstanding C++ interface, since this library
+is used excessively in this toolkit. In addition, many classes of TRTK provide
+an interface to Eigen.
+
+
+\section AnotherSampleProgram Another Sample Program
+
+We will now conclude this tutorial with another sample program, that shows
+some more functionality of the \e Transformation \e and \e Registration
+\e Toolkit.
+
+\code
+
+#include <iostream>
+#include <vector>
+
+#include <TRTK/Coordinate.hpp>
+#include <TRTK/Transform3D.hpp>
+#include <TRTK/EstimateRigidTransformation3D.hpp>
+
+using std::cout;
+using std::endl;
+using std::vector;
+
+using namespace TRTK;
+
+
+int main()
+{
+    // Construct a transformation which rotates 90 degrees counter-clockwise
+    // in the x-y plane with a center of rotation of (1, 3, 0).
+
+    Transform3D<double> transform;
+    const double pi = Transform3D<double>::pi;
+    transform.translate(-1, -3, 0).rotateZ(pi/2).translate(1, 3, 0);
+
+    // Construct two sets with source and target points, respectively.
+
+    vector<Coordinate<double> > source_points;
+    vector<Coordinate<double> > target_points;
+
+    Coordinate<double> source_point1( 1,  2,  0);
+    Coordinate<double> source_point2( 3, -2,  0);
+    Coordinate<double> source_point3(-1,  1,  1);
+    Coordinate<double> source_point4( 2,  0, -1);
+
+    source_points.push_back(source_point1);
+    source_points.push_back(source_point2);
+    source_points.push_back(source_point3);
+    source_points.push_back(source_point4);
+
+    Coordinate<double> target_point1 = transform * source_point1;
+    Coordinate<double> target_point2 = transform * source_point2;
+    Coordinate<double> target_point3 = transform * source_point3;
+    Coordinate<double> target_point4 = transform * source_point4;
+
+    target_points.push_back(target_point1);
+    target_points.push_back(target_point2);
+    target_points.push_back(target_point3);
+    target_points.push_back(target_point4);
+
+    // Perform the transformation estimation.
+
+    EstimateRigidTransformation3D<double> estimateRigidTransformation3D(source_points,
+                                                                        target_points);
+    estimateRigidTransformation3D.compute();
+
+    // Display the results.
+
+    cout.precision(4);
+    cout << std::fixed;
+
+    cout << "Original transformation matrix:" << endl << endl
+         << transform.getTransformationMatrix() << endl << endl;
+
+    cout << "Estimated transformation matrix:" << endl << endl
+         << estimateRigidTransformation3D.getTransformationMatrix() << endl << endl;
+
+    // Example of how to use the result.
+
+    Transform3D<double> transform2 = estimateRigidTransformation3D.getTransformationMatrix();
+
+    cout << "Source point 1: " << source_point1 << endl
+         << "Target point 1: " << target_point1 << endl
+         << "Target point 1: " << transform2 * source_point1 << endl;
+
+    return 0;
+}
+
+\endcode
+
+The output is as follows:
+
+\code
+
+Original transformation matrix:
+
+    0.0000      -1.0000       0.0000       4.0000
+    1.0000       0.0000       0.0000       2.0000
+    0.0000       0.0000       1.0000       0.0000
+    0.0000       0.0000       0.0000       1.0000
+
+Estimated transformation matrix:
+
+   -0.0000       -1.0000        0.0000        4.0000
+    1.0000        0.0000       -0.0000        2.0000
+    0.0000        0.0000        1.0000       -0.0000
+    0.0000        0.0000        0.0000        1.0000
+
+Source point 1: (1.0000, 2.0000, 0.0000)
+Target point 1: (2.0000, 3.0000, 0.0000)
+Target point 1: (2.0000, 3.0000, 0.0000)
+
+\endcode
+
+*/

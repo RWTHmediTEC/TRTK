@@ -1,0 +1,108 @@
+# Doxyfile 1.7.2
+
+# Last changed on 2013-12-02 by Christoph Hänisch
+
+#---------------------------------------------------------------------------
+# Project related configuration options
+#---------------------------------------------------------------------------
+
+DOXYFILE_ENCODING      = UTF-8
+PROJECT_NAME           = "Transformation and Registration Toolkit"
+PROJECT_NUMBER         = "Version ${FULL_VERSION}"
+OUTPUT_DIRECTORY       = ../../doc
+TAB_SIZE               = 4
+BUILTIN_STL_SUPPORT    = NO
+ALIASES                = "blue{1}=<code style=\"color:blue\">\1</code>" \
+                         "green{1}=<code style=\"color:green\">\1</code>" \
+                         "macro{1}=<tt style=\"color:blue\">\1</tt>" \
+                         "macros=\par Macros:\n" \
+                         "red{1}=<code style=\"color:red\">\1</code>" \
+                         "references=\par References:\n"
+
+#---------------------------------------------------------------------------
+# Build related configuration options
+#---------------------------------------------------------------------------
+
+HIDE_UNDOC_CLASSES     = YES
+SORT_GROUP_NAMES       = NO
+INLINE_INHERITED_MEMB  = YES
+INTERNAL_DOCS          = NO
+GENERATE_TODOLIST      = YES
+GENERATE_TESTLIST      = YES
+GENERATE_BUGLIST       = YES
+GENERATE_DEPRECATEDLIST= YES
+
+#---------------------------------------------------------------------------
+# Configuration options related to warning and progress messages
+#---------------------------------------------------------------------------
+
+QUIET                  = NO
+WARNINGS               = YES
+
+#---------------------------------------------------------------------------
+# Configuration options related to the input files
+#---------------------------------------------------------------------------
+
+INPUT                  = ./src .. ../../include
+FILE_PATTERNS          = *.cpp *.h *.hpp *.dox
+RECURSIVE              = YES
+EXCLUDE                =
+EXCLUDE_SYMLINKS       = NO
+EXCLUDE_PATTERNS       =
+EXCLUDE_SYMBOLS        =
+EXAMPLE_PATH           = ./src/examples ./src/snippets
+IMAGE_PATH             = ./src/res
+
+#---------------------------------------------------------------------------
+# Configuration options related to source browsing
+#---------------------------------------------------------------------------
+
+SOURCE_BROWSER         = YES
+
+#---------------------------------------------------------------------------
+# Configuration options related to the alphabetical class index
+#---------------------------------------------------------------------------
+
+ALPHABETICAL_INDEX     = NO
+IGNORE_PREFIX          =
+
+#---------------------------------------------------------------------------
+# Configuration options related to the preprocessor
+#---------------------------------------------------------------------------
+
+PREDEFINED             += TRTK_PARALLELIZE
+PREDEFINED             += TRTK_SUPPORT_CVECTOR
+PREDEFINED             += EIGEN_MACROS_H
+PREDEFINED             += QT_VERSION
+
+#---------------------------------------------------------------------------
+# Configuration options related to the HTML output
+#---------------------------------------------------------------------------
+
+HTML_HEADER            =
+HTML_FOOTER            = ./src/footer.html
+HTML_STYLESHEET        = ./src/customdoxygen.css
+HTML_DYNAMIC_SECTIONS  = YES
+USE_MATHJAX            = YES
+MATHJAX_RELPATH        = ../mathjax
+MATHJAX_EXTENSIONS     = TeX/AMSmath TeX/AMSsymbols
+
+#---------------------------------------------------------------------------
+# Configuration options related to the LaTeX output
+#---------------------------------------------------------------------------
+
+GENERATE_LATEX         = NO
+
+#---------------------------------------------------------------------------
+# Configuration options related to the dot tool
+#---------------------------------------------------------------------------
+
+CLASS_DIAGRAMS         = YES
+HAVE_DOT               = YES
+
+#---------------------------------------------------------------------------
+# Options related to the search engine
+#---------------------------------------------------------------------------
+
+SEARCHENGINE           = YES
+SERVER_BASED_SEARCH    = NO
