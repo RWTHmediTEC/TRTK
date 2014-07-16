@@ -1,0 +1,32 @@
+/**
+
+\page Documentation Building the Documentation
+
+The documentation can be generated using 'Doxygen' Version 1.7.2 or higher
+(http://www.doxygen.org). You also need the 'dot' tool provided by 'Graphviz'
+(http://www.graphviz.org).
+
+First install both software packages as denoted on their web sites.
+
+\note 'Graphviz' might need to be in the system variable 'path'.
+
+Then you can either generate the documentation using the graphical tool
+'Doxywizard' or by running 'Doxygen' on the console:
+
+    <ul>
+        <li> Run \c doxywizard and open the file 'Doxyfile'. Then open the
+             'Run' tab (below 'Step 2') and click on 'Run doxygen'. Now the
+             documentation is generated.
+
+        <li> On command line change to the './src/doc' directory and enter
+             <tt> doxygen</tt>.
+    </ul>
+
+Now you should have an 'html' folder in './doc'. Open './doc/html/index.html'
+to browse through the documentation.
+
+\note The HTML output is fine-tuned for Doxygen 1.7.2. If the output looks
+      kind of ugly in later versions, just leave the 'HTML_FOOTER' tag as
+      well as the 'HTML_STYLESHEET' tag located in './doc/Doxyfile' empty.
+
+*/

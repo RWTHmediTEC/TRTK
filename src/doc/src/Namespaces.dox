@@ -1,0 +1,10 @@
+/**
+
+\namespace TRTK
+
+\brief Namespace of the Transformation and Registration Toolkit.
+
+This is the global namespace of the \e Transformation \e and \e Registration
+\e Toolkit. All functions and classes are surrounded by this namespace.
+
+*/

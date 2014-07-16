@@ -1,0 +1,19 @@
+Last changed on 2011-11-29.
+
+Missing unit tests:
+
+* Interpolation2D
+  - nothing done, yet
+
+* Interpolation3D
+  - nothing done, yet
+
+* RegionGrowing2D
+  - template <int StrideX, int StrideY> void compute();
+  - void compute(const Point & seed_point);
+  - void compute(const std::deque<Point> & seed_points);
+
+* RegionGrowing3D
+  - template <int StrideX, int StrideY, int StrideZ> void compute();
+  - void compute(const Point & seed_point);
+  - void compute(const std::deque<Point> & seed_points);
