@@ -1,0 +1,160 @@
+/**
+
+\mainpage Transformation and Registration Toolkit
+\anchor main
+
+
+This is the API documentation for the Transformation and Registration Toolkit.
+
+The toolkit comprises several C++ classes dealing with various aspects of
+registration, curve and surface fitting as well as transformation estimation.
+
+To get started, please have a look a the \ref Tutorial.
+
+
+
+\section QickNav Quick Navigation
+
+- Classes and Namespaces by Topic
+    - <a href=#Calibration> Calibration </a>
+    - <a href=#Correlation> Correlation </a>
+    - <a href=#DataEnhancement> Data Enhancement </a>
+    - <a href=#DataStructures> Data Structures </a>
+    - <a href=#ErrorHandling> Error Handling </a>
+    - <a href=#Fitting> Fitting </a>
+    - <a href=#ICP> Iterative Closest Point (ICP) </a>
+    - <a href=#Interpolation> Interpolation </a>
+    - <a href=#Miscellaneous> Miscellaneous </a>
+    - <a href=#Optimization> Optimization</a>
+    - <a href=#Polynomials> Polynomials </a>
+    - <a href=#RANSAC> RANSAC </a>
+    - <a href=#Segmentation> Segmentation </a>
+    - <a href=#Tools> Tools </a>
+    - <a href=#Transformations> Transformations </a>
+    - <a href=#TransformationEstimation> Transformation Estimation </a>
+
+
+
+\section TOC Table of Contents
+
+    - Getting Started
+        - \ref Copyright
+        - \ref Installation
+        - \ref Documentation
+        - \ref Tutorial "Short Tutorial"
+        - \ref HomogeneousCoordinates
+    - Available Classes and Namespaces
+        - <a name=DataStructures> Data Structures </a>
+            - \ref TRTK::Circle "A Simple Circle Structure"
+        - <a name=ErrorHandling> Error Handling </a>
+            - \ref TRTK::ErrorObj "A General Error Class"
+        - <a name=Transformations> Transformations </a>
+            - \ref TRTK::Coordinate "A Coordinate Class"
+            - \ref TRTK::Transform2D "Transforming 2D Coordinates"
+            - \ref TRTK::Transform3D "Transforming 3D Coordinates"
+        - <a name=TransformationEstimation> Transformation Estimation </a>
+            - 2D
+                - \ref TRTK::EstimateRigidTransformation2D "Estimation of a 2D Rigid Transformation"
+                - \ref TRTK::EstimateSimilarityTransformation2D "Estimation of a 2D Similarity Transformation"
+                - \ref TRTK::EstimateAffineTransformation2D "Estimation of a 2D Affine Transformation"
+                - \ref TRTK::EstimateProjectiveTransformation2D "Estimation of a 2D Projective Transformation"
+            - 3D
+                - \ref TRTK::EstimateRigidTransformation3D "Estimation of a 3D Rigid Transformation"
+                - \ref TRTK::EstimateSimilarityTransformation3D "Estimation of a 3D Similarity Transformation"
+                - \ref TRTK::EstimateAffineTransformation3D "Estimation of a 3D Affine Transformation"
+                - \ref TRTK::EstimateAffineTransformationFromPlaneTo3D "Estimation of a 3D Affine Transformation (Source Points in the X-Y-Plane)"
+                - \ref TRTK::EstimateProjectiveTransformation3D "Estimation of a 3D Projective Transformation"
+        - <a name=Fitting> Fitting </a>
+            - 2D
+                - \ref TRTK::FitCircle "Fit a Cirlce in 2D Space"
+                - \ref TRTK::FitCircleInOrigin "Fit a Cirlce Residing at the Origin in 2D Space"
+                - \ref TRTK::FitLine "Fit a Line in 2D Space"
+            - 3D
+                - \ref TRTK::FitCircle3D "Fit a Cirlce in 3D Space"
+                - \ref TRTK::FitLine3D "Fit a Line in 3D Space"
+                - \ref TRTK::FitPlane "Fit a Plane in 3D Space"
+                - \ref TRTK::FitSphere "Fit a Sphere in 3D Space"
+        - <a name=Polynomials> \ref TRTK::Polynomial "Polynomials (Mapping and Estimation)" </a>
+            - 2D
+                - \ref TRTK::BivariateQuadraticPolynomial "Bivariate Quadratic Polynomial"
+                - \ref TRTK::BivariateCubicPolynomial "Bivariate Cubic Polynomial"
+                - \ref TRTK::BivariateQuinticPolynomial "Bivariate Quintic Polynomial"
+                - \ref TRTK::BivariateSexticPolynomial "Bivariate Sextic Polynomial"
+            - 3D
+                - \ref TRTK::TrivariateQuadraticPolynomial "Trivariate Quadratic Polynomial"
+                - \ref TRTK::TrivariateCubicPolynomial "Trivariate Cubic Polynomial"
+            - Generic
+                - \ref TRTK::MultivariatePolynomial "Multidimensional Multivariate Polynomial of Arbitrary Degree"
+        - <a name=RANSAC> RANSAC </a>
+            - \ref TRTK::Ransac "Ransac Class"
+            - \ref TRTK::Ransac::Model "Model Interface"
+            - \ref TRTK::RansacGenericFittingModel "Model For Use With Fitting Classes."
+        - <a name=ICP> Iterative Closest Point (ICP) </a>
+            - \ref TRTK::IcpInterface "ICP Interface Class"
+            - \ref TRTK::Icp3D "ICP in 3D Space"
+            - \ref TRTK::RandomSampleIcp3D "Random Sample ICP in 3D Space"
+            - \ref TRTK::IcpTrimmed3D "Trimmed ICP (TrICP) in 3D Space"
+        - <a name=Optimization> \ref TRTK::Optimization "Optimization" </a>
+            - \ref TRTK::Optimization::Gradient "Functor that Provides the Gradient of a Function"
+            - \ref TRTK::Optimization::jacobian "Jacobian of a Function"
+            - \ref TRTK::Optimization::solve1D "Solver for Unary Scalar-Valued Functions (Newton-Raphson Method)"
+            - \ref TRTK::Optimization::solve "Solver for Vector-Valued Multivariate Functions"
+                - \ref TRTK::Optimization::solveLevenbergMarquardt "Levenberg-Marquardt Algorithm for Vector-Valued Multivariate Functions"
+                - \ref TRTK::Optimization::solveNewtonRaphsonMethod "Newton-Raphson Method for Vector-Valued Multivariate Functions"
+        - <a name=Segmentation> Segmentation </a>
+                - \ref TRTK::RegionGrowing2D "Segmentation of Simply Connected Spaces in 2D Data (Region Growing)"
+                - \ref TRTK::RegionGrowing3D "Segmentation of Simply Connected Spaces in 3D Data (Region Growing)"
+                - \ref TRTK::SurfaceExtraction3D "Surface Extraction in 3D Data"
+        - <a name=Correlation> Correlation </a>
+                - \ref TRTK::CorrelationCircle "Automatic Circle Detection"
+                - \ref TRTK::CorrelationCircle "Cross-Correlation between Circle and Image Data"
+        - <a name=Calibration> Calibration </a>
+            - \ref TRTK::PivotCalibration "Pivot Calibration"
+        - <a name=DataEnhancement> Data Enhancement </a>
+            - \ref TRTK::Diffusion "Diffusion Module"
+                - \ref TRTK::Diffusion::firstDerivative "Computation of the 1st Derivative of a Signal"
+                - \ref TRTK::Diffusion::secondDerivative "Computation of the 2nd Derivative of a Signal"
+                - \ref TRTK::Diffusion::linearDiffusion "Linear Diffusion of a 1-Dimensional Signal"
+                - \ref TRTK::Diffusion::nonlinearIsotropicDiffusion "Nonlinear Isotropic Diffusion of a 1-Dimensional Signal (Overloaded)"
+        - <a name=Interpolation> Interpolation </a>
+            - 2D
+                - \ref TRTK::Interpolation2D "Two-dimensional Interpolation of Irregularly-Spaced Data"
+                - InterpolationOnGrid2D
+            - 3D
+                - \ref TRTK::Interpolation3D "Three-Dimensional Interpolation of Irregularly-Spaced Data"
+                - InterpolationOnGrid3D
+        - <a name=Tools> \ref TRTK::Tools "Tools" </a>
+            - Classes and Inheritance
+                - \ref TRTK::Tools::isClass() "Type Checking (isClass)"
+                - \ref TRTK::Tools::isDerivedFrom() "Inheritance Check (isDerivedFrom)"
+            - Containers
+                - \ref TRTK::Tools::listToVector() "Conversion of a List to a Vector"
+                - \ref TRTK::Tools::vectorToList() "Conversion of a Vector to a List"
+            - Files
+                - \ref TRTK::Tools::fileExists() "Checking for an Existing File"
+                - \ref TRTK::Tools::fileLength() "Determining the Length of a File or a File Stream"
+            - Numbers (Comparisons, Convertions, Random Numbers, etc.)
+                - \ref TRTK::Tools::Eigen3x3_to_QTransfom "Conversion of an Eigen 3x3 matrix into a QTransform"
+                - \ref TRTK::Tools::isEqual() "Test for Equality"
+                - \ref TRTK::Tools::isZero() "Test for Zero"
+                - \ref TRTK::Tools::rand(T, T) "Uniformly Distributed Random Number"
+                - \ref TRTK::Tools::randn(T, T) "Normally Distributed Random Number"
+                - \ref TRTK::Tools::toString() "Conversion to std::string"
+        - <a name=Miscellaneous> Miscellaneous </a>
+            - \ref TRTK::Clock "A Simple Clock Class"
+            - \ref TRTK::Server "A Simple TCP/IP Client and Server"
+            - \ref TRTK::Iterator "Adapter Classes for Iterators"
+            - \ref Definitions.hpp "Macro Definitions and Constants in the TRTK Library"
+            - \ref TRTK::Range "Range - Aggregate of Input Iterator Adapters"
+            - \ref TRTK::Signals::Signal "Signals and Slots"
+            - \ref TRTK::Timestamp "Timestamps and Dependencies Between Objects"
+            - \ref TRTK::Tools "Miscellaneous Tools"
+            - \ref Version.hpp "Version Information"
+    - Miscellaneous
+        - \ref CodingStyle
+    - Automatically Generated Pages
+        - \ref bug "Bug List"
+        - \ref deprecated "Deprecated List"
+        - \ref test "Test List"
+        - \ref todo "ToDo List"
+*/

@@ -1,0 +1,137 @@
+/**
+
+\page HomogeneousCoordinates Homogeneous Coordinates
+
+Many classes of this toolkit allow the use of \e homogeneous \e coordinates and
+they are also often used internally. But what are actually homogeneous
+coordinates?
+
+Homogeneous coordinates are a generalization of Euclidean coordinates. They do
+not only represent ordinary coordinates of Euclidean space but also points at
+infinity. But the reason why we use them, is, that they allow for consistent
+manipulation of the Euclidean space (at least the way we use them...).
+
+First let us have a look at a special case of homogeneous coordinates and
+generalize it later on. Let us regard an affine transformation, that is, a
+linear transformation followed by a translation:
+
+\f[
+    y = Ax + b
+\f]
+
+The expression contains two different operations, namely a matrix vector
+multiplication as well as a vector addition. But it can also be solely
+described by a linear equation (only one operation) if it is embedded into
+a higher dimensional vector space:
+
+\f[
+    \begin{pmatrix} y \\ 1 \end{pmatrix} =
+    \begin{pmatrix} A & b \\
+                    0 & 1
+    \end{pmatrix}
+    \begin{pmatrix} x \\ 1 \end{pmatrix}
+\f]
+
+Now, the linear map and the translation are treated in a uniform way, which was
+our primary goal. The coordinates \f$ (x, 1)^T \f$ and \f$ (y, 1)^T \f$ are (a
+special case of the) so called homogeneous coordinates. This can be interpreted
+such that the Eucledian coordinates \f$ x \f$ and \f$ y \f$ lie on the (hyper-)
+plane \f$ (p_1, ..., p_n, 1), \; p_i \in R \f$.
+
+As said, this concept can be further extended. Instead of just mapping \f$ (x_1,
+\dots, x_n) \f$ to \f$ (x_1, \dots, x_n, 1) \f$, we also allow mappings where
+the last component is different from one. We now define homogeneous coordinates
+(dashed variable names) by the following relation:
+
+\f[
+    \begin{pmatrix} x_1 \\ \vdots \\ x_n \end{pmatrix}
+    = \frac{1}{x'_{n+1}}
+    \begin{pmatrix} x'_1 \\ \vdots \\ x'_n \end{pmatrix}
+    \quad \sim \quad
+    \begin{pmatrix} x'_1 \\ \vdots \\ x'_{n+1} \end{pmatrix}
+    , \; x'_{n+1} \ne 0
+\f]
+
+It follows directly, that homogeneous coordinates are equivalence classes
+since \f$ (1, 2, 3, 1)^T \f$ and \f$ (2, 4, 6, 2)^T \f$ relate to the same
+Euclidean coordinate \f$ (1, 2, 3)^T \f$. In other words: multiplying a
+homogeneous coordinate with a non-zero scalar represents the same point in
+Euclidean space.
+
+Again, the change from homogeneous coordinates to Euclidean coordinates can
+be interpreted as a projection of the homogeneous coordinates to a (hyper-)
+plane with \f$ x'_{n+1} = 1 \f$, where we can identify this (hyper-) plane
+with the Euclidean space.
+
+\e Note:
+Normally if working with homogeneous coordinates \f$ x'_{n+1} \f$ is chosen
+to be \f$ 1 \f$.
+
+Now, with the above definition of homogeneous coordinates, the affine
+transformation
+
+\f[
+    y = Ax + b      \quad \sim \quad        y' = A'x'
+\f]
+
+becomes a two step procedure: First a linear map within homogeneous space is
+computed
+
+\f[
+    \begin{pmatrix} y'_1 \\ \vdots \\ y'_{n+1} \end{pmatrix}
+    =
+    \begin{pmatrix} a_{1, 1}    & \dots   & a_{1, n}    & b_1       \\
+                    \vdots      & \ddots  & \vdots      & \vdots    \\
+                    a_{n, 1}    & \dots   & a_{n, n}    & b_n       \\
+                    0           & \dots   & 0           & 1
+    \end{pmatrix}
+    \begin{pmatrix} x'_1 \\ \vdots \\ x'_{n+1} \end{pmatrix}
+\f]
+
+and then a normalization step is done
+
+\f[
+    \begin{pmatrix} y_1 \\ \vdots \\ y_n \end{pmatrix}
+    = \frac{1}{y'_{n+1}}
+    \begin{pmatrix} y'_1 \\ \vdots \\ y'_n \end{pmatrix}.
+\f]
+
+Until now, we only considered mappings where the last row of the homogeneous
+transformation matrix was \f$ (0, 0, \dots, 1) \f$. Essentially this is
+nothing else but another form of notation of ordinary affine transformations
+(given \f$ x' \f$ is already normalized; then also the normalization step can
+be omitted). This changes if we also allow \f$ A' \f$ to be an arbitrary matrix
+
+\f[
+    \begin{pmatrix} y'_1 \\ \vdots \\ y'_{n+1} \end{pmatrix}
+    =
+    \begin{pmatrix} a'_{1, 1}   & \dots   & a'_{1, n+1}     \\
+                    \vdots      & \ddots  & \vdots          \\
+                    a'_{n+1, 1} & \dots   & a'_{n+1, n+1}   \\
+    \end{pmatrix}
+    \begin{pmatrix} x'_1 \\ \vdots \\ x'_{n+1} \end{pmatrix}.
+\f]
+
+In this case the resultant vector will in general have a last component unequal to
+one. This also means that a normalization step is necessary to obtain the Euclidean
+coordinate:
+
+\f[
+    \begin{pmatrix} y_1 \\ \vdots \\ y_n \end{pmatrix}
+    = \frac{1}{y'_{n+1}}
+    \begin{pmatrix} y'_1 \\ \vdots \\ y'_n \end{pmatrix}
+\f]
+
+Again, this is what we interpreted as the projection before. In other words:
+an arbitrary transformation matrix performs a projective transformation.
+Translation, scaling, rotation, shearing etc. are only special cases of the
+projective transformation. Due to the normalization step, \f$ a'_{n+1, n+1} \f$
+can always chosen to be 1.
+
+To get a more deeper insight into this topic you might want to have a look
+at [1].
+
+
+\references [1] "Homogeneous coordinates", Jules Bloomenthal and Jon Rokne,
+                The Visual Computer 1994
+*/

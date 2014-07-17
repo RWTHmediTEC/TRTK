@@ -1,0 +1,83 @@
+/**
+
+\page Installation Installation Instructions
+
+
+\section InstallationDependencies Dependencies
+
+This library builds on top of Eigen 3, a C++ template library for linear
+algebra (http://eigen.tuxfamily.org). To work properly, it must be
+installed on your system.
+
+You also need the Fast Library for Approximate Nearest Neighbors (FLANN)
+(http://www.cs.ubc.ca/research/flann).
+
+The installation of OpenCV (http://opencv.org) is optional.
+
+\par Linux
+
+On Linux systems the above mentioned software packages are often availabe
+through the system's package management software. On Ubuntu or Debian-based
+systems just run:
+
+\verbatim
+$ apt-get install libeigen3-dev
+$ apt-get install libflann-dev
+$ apt-get install libopencv-dev (optional)
+\endverbatim
+
+
+\section InstallationBuildInstructions Build Instructions
+
+\par Linux
+
+\verbatim
+$ mkdir build && cd build
+$ cmake -G "Unix Makefiles" ..
+$ make && make install
+\endverbatim
+
+If you also want to build the unit tests, change the cmake command as follows:
+
+\verbatim
+$ cmake -D BUILD_TEST=1 -G "Unix Makefiles" ..
+\endverbatim
+
+The default installation location on Unix-like systems is <tt>/usr/local</tt>.
+Thus the default installation directories are
+
+\code
+/usr/local/lib
+/usr/local/include/TRTK
+\endcode
+
+You can change this by setting <tt>CMAKE_INSTALL_PREFIX</tt>:
+
+\verbatim
+$ cmake -DCMAKE_INSTALL_PREFIX:PATH=/home/christoph/usr/local .
+\endverbatim
+
+
+\par "Windows (Visual Studio 2010 or above)"
+
+From the Visual Studio command line run the following commands inside the trunk
+folder:
+
+\verbatim
+> mkdir build
+> cd build
+> cmake -G "Visual Studio 10" ..
+\endverbatim
+
+Alternatively, you can run <tt>cmake-gui</tt>.
+
+\image html "res/cmake-gui.png"
+
+You can adapt the properties as necessary.
+
+Start the solution and buid the project. By building the subproject "INSTALL"
+the library is installed.
+
+The default installation location on Windows is <tt>C:\\Program Files</tt>.
+
+*/

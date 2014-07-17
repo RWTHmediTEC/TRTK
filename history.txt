@@ -1,0 +1,616 @@
+r363
+- Forgot to add 'cmake-gui.png' for the documentation.
+---------------------
+r362
+- Updated the documentation.
+- TRTK runs on Windows and Linux; tested with MSVC, GCC, and Clang
+---------------------
+r361
+- Added a cmake template for a simple project using TRTK.
+---------------------
+r360
+---------------------
+r359
+- Relaxed some assertions in the unit tests.
+---------------------
+r358
+- TRTK now compiles witht GCC
+---------------------
+r357
+- Changed the CMakeLists.txt so that it works on Linux.
+- ToDo: Make the CMakeLists.txt Windows compatible.
+---------------------
+r356
+BUG FIXES
+- Fixed some compiler issues with GCC.
+- Added some documentation for the IcpTrimmed3D class.
+- Did some small clean up with the IcpTrimmed3D code.
+- Fixed a bug in the signal and slot implementation (erasing plus iterating a container)
+---------------------
+r355
+- Updated the copyright information headers
+---------------------
+r354
+NEW
+- Adapted the CMake file such that the Version.hpp is automatically generated always incorporating the actual version number.
+---------------------
+r353
+NEW
+- the license was changed to a modified BSD license
+- added a history
+
+BUG FIXES
+- Fixed a small bug in the destructor of SignalBase when iterating over and erasing the stored slots.
+- Added a new method (isMoreRecentThan) in the Timestamp class; unit tests were adapted
+- Fixed some unit tests because connecting signals with overloaded functions can be ambiguous (use a function pointer in this case)
+---------------------
+r352
+- The 'signals and slots' implementation can now handle slots with an arity less than that defined by a signal.
+---------------------
+r351
+Fixed the signals and slots implementation - now, objects derived from Receiver are fully supported - fixed a memory leak
+---------------------
+r347
+adapted the build files to use Eigen 3.2.0
+---------------------
+r346
+- added the MAKE_NONCOPYABLE macro - fixed a bug in the client-server code
+---------------------
+r345
+- Now the client-server classes are fully working - Unit tests were not written (without portable threading in C++03 this is very cumbersome)
+---------------------
+r344
+added generation of 64 bit projects
+---------------------
+r343
+- added some simple TCP/IP client and server classes - the code is not yet tested and might undergo some refactoring...
+---------------------
+r342
+- removed some unnecessary const qualifiers
+---------------------
+r341
+replaced time consuming sorting step in trimmed ICP with approximation of maximum allowed distance
+---------------------
+r340
+added trimmed ICP
+---------------------
+r338
+Bug fixes:  - fixed a bug in GenericPolynomial (missed adapting a constant while porting the code...) - fixed some issues when defining sqrt(Coordinate<T> &) in namespace TRTK  Enhancements:  - solvers can now make use of OpenMP if applicab...
+---------------------
+r337
+- updated the build scripts for the library
+---------------------
+r336
+- API CHANGE: changed MultivariatePolynomial to GenericPolynomial! - fixed some minor compiler warnings
+---------------------
+r335
+- added a class to map and estimate multidimensional multivariate polynomials of arbitrary degree (MultivaraitePolynomial.hpp) - added corresponding unit tests - changed/fixed some documentation
+---------------------
+r334
+fixed misc/install.bat.in
+---------------------
+r333
+added misc/install.bat.in and appropriate configuration & installation directives to CMakeLists.txt
+---------------------
+r332
+Umstellung von trunk auf CMake (wohl) abgeschlossen
+---------------------
+r331
+fixed trunk/misc/configure.cmake.in
+---------------------
+r330
+fixed trunk/misc/configure.cmake.in
+---------------------
+r329
+fixed trunk/misc/configure.cmake.in
+---------------------
+r328
+fixed trunk/CMakeLists.txt and trunk/misc/configure.cmake.in
+---------------------
+r327
+changed TARGET_NAME in trunk/CMakeLists.txt from TRTK<Major><Minor> pattern to TRTK-<Major>.<Minor>
+---------------------
+r326
+fixed TRTK_INCLUDE in trunk/misc/configure.cmake.in
+---------------------
+r325
+added CMakeList.txt, misc/configure.cmake.in and win32_msvc10_build.bat
+---------------------
+r324
+- added: distance function for the Iterator adapters - fixed: some compiler issues with GCC and VC2010
+---------------------
+r321
+- added range-based parameter passing in the polynomial interface
+---------------------
+r320
+- fixed the Transform3D class when used with VS2010 (probably memory alignment issues despite of an own new operator)
+---------------------
+r316
+- increased version number - new Range class - updated documentation of the Iterator class - new trivariate quadratic polynomial - added unit tests
+---------------------
+r315
+- fixed fileLength(): open file in binary mode
+---------------------
+r313
+- added the isValid() method - added a safe bool conversion operator - added associated unit tests
+---------------------
+r312
+Fixes:  - ICP: made the abortion flag volatile (-> thread safety between different processor cores) - added the missing unit tests for the optimization module  Enhancements:  - added adapter classes for input iterators (+ unit tests)
+---------------------
+r309
+- fixed a bug concerning the handedness of 3D rigid and similarity transformations
+---------------------
+r308
+- API CHANGE: Renamed solve to solve1D - added the function solve as uniform interface for different solvers - added the Levenberg-Marquardt algorithm to the optimization module - added unit tests 
+---------------------
+r307
+- added Levenberg Marquad Algortihm (not yet complete)
+---------------------
+r306
+- added the jacobian function in the optimization module
+---------------------
+r303
+- finished working on unit_test_SurfaceExtraction3D.cpp - added unit_test_SurfaceExtraction3D() to unit_test.cpp
+---------------------
+r302
+Fixed an upper and lower case writing issue.
+---------------------
+r299
+- added the RandomSampleIcp3D class - added FLANN dependencies in TRTK.pro - added some unit tests w.r.t. the ICP classes
+---------------------
+r297
+fixed version line in TRTK.pro
+---------------------
+r295
+- fixed a small bug - updated the documentation
+---------------------
+r294
+- updated the documentation of the ICP class
+---------------------
+r292
+- added a qmake project file for the unit tests - ICP   * works now   * the documentation is still missing   * some compiler warnings regarding flann have to be fixed, yet - fixed the includes in unit_test_CorrelationCircle
+---------------------
+r291
+- added squaredNorm in the Coordinate class - fixed a compiler warning in Tools.hpp by changing the return type to a bigger integral type - cleaned up the Signal.hpp header - changed the error bound slightly in the unit tests of FitSphere (...
+---------------------
+r290
+- deleted some unused branches and tags
+---------------------
+r289
+- fixed a small memory leak in the Interpolation3D class - modified the ICP class (still under development))
+---------------------
+r288
+- added an ICP class (still under development...)
+---------------------
+r287
+- added a linux project file
+---------------------
+r285
+- added to the signal class a translation layer which allows for connecting slots whose function signature differs from that defined by the signal - rewrote the unit tests (some of them did not make sense and not all cases were covered, yet...
+---------------------
+r284
+- fixed a missing virtual destructor in SignalBase
+---------------------
+r280
+- added a class to estimate trivariate quadratic polynomials - unit tests are still missing
+---------------------
+r276
+Adapted TRTK to conform with the new package policy.
+---------------------
+r270
+- added new classes and functions related to optimizations - unit tests are still missing
+---------------------
+r265
+improved documentation
+---------------------
+r264
+beautified version
+---------------------
+r263
+Added a header providing some version information.
+---------------------
+r262
+Added an affine transformation estimation class where the source points are in the x-y-plane.
+---------------------
+r261
+- added the SurfaceExtraction3D class - unit tests are still missing
+---------------------
+r260
+- forgot to commit the version change... (yes, blame me...)
+---------------------
+r259
+Reworked the region growing algorithm. - reduced memory footprint - faster execution - use of std::queue instead of std::list - no API change 
+---------------------
+r255
+- fixed some compiler warning due to the API change
+---------------------
+r254
+- extended the interface of the Fit interface - added getNumberPointsRequired() and getDistanceTo() methods in all fitting classes - added a generic RANSAC model that allows using an arbitrary fitting class - unit tests need to be written, ...
+---------------------
+r253
+API change: Coordinate::size returns unsigned int instead of signed int now, same for the Coordinate::resize argument.
+---------------------
+r252
+Added a hint for how to view the mathematical output in the documentation generated by Doxygen.
+---------------------
+r251
+- added the RANSAC algorithm - added a Model class for the FitLine class - added a new method getDistanceTo() in the FitLine class (unit test must yet be written)
+---------------------
+r250
+*** API CHANGE ***
+---------------------
+r249
+This is a quite large commitment. See the appropriate files for changes.   - fixed tons of bugs - added new methods - fixed unit tests - updated the documentation - fixed compiler errors with clang++ 
+---------------------
+r248
+- added a new algorithm to the pivot calibration class - adapted the unit test
+---------------------
+r246
+-added commands regarding PATH
+---------------------
+r243
+- Added getRMS() functions to all fitting classes. - FitLine2D: Added getDirectionVector(). - FitLine3D: Renamed getGradient() to getDirectionVector(). - Cleaned up unit tests.
+---------------------
+r241
+Fixed bug in FitLine3D: The compute() function did not work locally on zero mean data, but instead subtracted the mean value from the internally stored points, giving wrong results in the case the internal stored points were used again late...
+---------------------
+r237
+fixed compiler issue for remaining fitting classes (templated subclasses now qualify base class members).
+---------------------
+r236
+- fixed a compiler issue (in C++ 98 templated subclasses must qualify base class members; VC is not standard compliant to this effect)
+---------------------
+r233
+Added function getOffset() to classes FitLine2D, FitLine3D and FitPlane. It returns the shortest distance between the line/plane and the origin.
+---------------------
+r231
+Replaced type double with template parameter T.
+---------------------
+r228
+- Added function rotateAxis to class Transform3D, allowing rotation around an arbitrary axis. - Changed construction of rotation matrix in compute() function of class FitCircle3D.
+---------------------
+r227
+Added functions normalize() and normalized() to class Coordinate.
+---------------------
+r218
+Documentation: adjusted links on main page.
+---------------------
+r214
+Added FitCircle3D, a class for fitting a 2D circle in 3D space.
+---------------------
+r213
+Added FitLine3D, a class for fitting the parameters of a line in 3D space.
+---------------------
+r212
+Added FitCircleInOrigin2D, a class for fitting a circle in the origin in 2D space.
+---------------------
+r211
+Added FitLine2D, a class for estimating the parameters of a line in 2D space.
+---------------------
+r210
+Added FitCircle2D, a class for fitting a Circle in 2D space.
+---------------------
+r209
+Fixed slightly wrong unit test for FitSphere.
+---------------------
+r208
+Changed FitSphere into a subclass of Fit3D.
+---------------------
+r207
+Added FitPlane, a class for fitting a 2D plane in 3D space.
+---------------------
+r206
+Added base class Fit for fitting algorithms. Added base class Fit3D for 3D fitting algorithms. Added base class Fit2D for 2D fitting algorithms.
+---------------------
+r205
+Added functions dot, cross and orthogonal to the Coordinate class.
+---------------------
+r204
+Refined build instructions for unit tests on Windows.
+---------------------
+r161
+- fixed the include directory for Eigen3 (EIGEN3_INCLUDE_DIRS [with 's' at the end] is not defined by the find_package procedure) - made Boost optional
+---------------------
+r156
+changed reference value of getTransformationMatrix()unit_test_RegionGrowing2D unit_test_RegionGrowing3D - changed NeighborhoodSize back to default after testing setNeighborhoodSize - added compute(seed_point) - added compute(deque seed_poin...
+---------------------
+r155
+unit_test_RegionGrowing2D - changed NeighborhoodSize back to default after testing setNeighborhoodSize - added compute(seed_point) - added compute(deque seed_points) - added compute<StrideX, StrideY>() 
+---------------------
+r154
+changed reference value of getTransformationMatrix()
+---------------------
+r146
+-added randn() -added randn(mu,sigma)
+---------------------
+r140
+- added some functions for determining the length of a file or a file stream
+---------------------
+r136
+- added some missing checks in the interpolation classes
+---------------------
+r135
+- now exceptions are thrown, if the input data is empty or sizing issues arise 
+---------------------
+r134
+- fixed a missing dependency
+---------------------
+r133
+Updated the ToDo list.
+---------------------
+r132
+unit_test_Tools - rand() added - rand(a,b) added
+---------------------
+r131
+unit_test_Signals is finished
+---------------------
+r130
+Added a class for 3D interpolation of irregularly spaced data.
+---------------------
+r128
+Sync from dev. branch: - fixed a missing include in Diffusion.hpp - added fileExists() in Tools.hpp + unit tests - updated the "Mainpage" - updated the unit tests - updated the Makefile - updated the project file - updated the unit test tod...
+---------------------
+r124
+Added a 2D interpolation for irregularly spaced data.
+---------------------
+r122
+finished unit_test_Diffusion
+---------------------
+r118
+fixed a bug
+---------------------
+r117
+Put back removed change of calculation of scaling factor in EstimateSimilarityTransformation3D 
+---------------------
+r115
+Changed, how member function pointers are saved. This fixes the issue of different member function pointer types of classes with single and multiple inheritance, respectively.
+---------------------
+r114
+- fixed compiler errors with clang++
+---------------------
+r110
+Changed calculation of scaling_factor in compute function of EstimateSimilarityTransformation3D to allow linearly dependent coordinates.
+---------------------
+r108
+- fixed an error message in Transform2D - added a new template parameter in the RegionGrowing3D class (this allows overloading the []-operator of the binary data type)
+---------------------
+r105
+Fixed a wrong capitalization within an include directive (prevented compiling on unix like systems).
+---------------------
+r103
+
+---------------------
+r102
+Added a ToDo list for missing unit tests etc.
+---------------------
+r97
+Updated documentation.
+---------------------
+r95
+- reverted fix (needed by cardio fusion) - error still need to be fixed, though (!)
+---------------------
+r94
+- fixed a compiler error on MSVC when converting a member function pointer
+---------------------
+r93
+added the possibility to use seed points with the region growing algorithms
+---------------------
+r91
+updated the Makefile
+---------------------
+r90
+bug fixed isClass
+---------------------
+r88
+- fixed compiling on Microsoft Visual Studio
+---------------------
+r87
+- fixed some bugs in the documentation
+---------------------
+r86
+- adapted the project file - updated the ReadMe.txt for how to compile the test cases - updated some documentation - added unit_test_Diffusion.cpp (though, it is not yet usable)
+---------------------
+r85
+- added the signal progress to the CorrelationCircle class - adapted unit tests - fixed some bugs with respect to OpenMP in CorrelationCircle - fixed some bugs in Signals.hpp (compiling issues, const correctness, ...) - fixed plenty of comp...
+---------------------
+r84
+- updated project file and documentation
+---------------------
+r83
+- added signals and slots - apparently, forgot to commit Clock.hpp
+---------------------
+r79
+- corrected some constness issues - added some tests cases
+---------------------
+r71
+- added isClass and isDerivedFrom in Tools.hpp - added unit tests
+---------------------
+r67
+- updated the documentation
+---------------------
+r66
+- version bump to version 0.4.0
+---------------------
+r65
+- added similarity transformation estimation - updated documentation
+---------------------
+r64
+- forgot to add some files for the similarity estimation
+---------------------
+r63
+- fixed a capitalisation issue 
+---------------------
+r62
+- added a new transformation estimation, namely EstimateRigidTransformation2D
+---------------------
+r61
+- updated the Copyright notices
+---------------------
+r60
+- updated unit tests - added unit tests for EstimateProjectiveTransformation (2D, 3D) - fixed some small bugs
+---------------------
+r59
+- made the code standard-compliant (now it compiles on MSVC and GCC)
+---------------------
+r58
+- refactored transformation estimation code to be hierarchy based
+---------------------
+r57
+- fixed a reentrancy issue
+---------------------
+r56
+- modified the unit test system such that it uses cmake, now - fixed some alignment issues (PivotCalibration.hpp) - fixed some compiler warnings (RegionGrowing2D.hpp, RegionGrowing3D.hpp, Tools) - updated the documentation - updated the pro...
+---------------------
+r53
+- fixed a small bug in the documentation of the algorithm
+---------------------
+r52
+- added a class for projective transformation estimations in 3D - unit tests have to be implemented, yet - adapted project file
+---------------------
+r51
+- added a class for a projective transformation estimation in 2D - unit tests still have to be written for that class - updated the project file
+---------------------
+r50
+Updated the project file.
+---------------------
+r49
+- added the EstimateAffineTransformation2D class - added unit tests - modified some documentation
+---------------------
+r48
+- updated unit tests for the clock class - fixed the documentation of the PivotCalibration class
+---------------------
+r47
+Updated some documentation, only.
+---------------------
+r46
+Fixed a missing header inclusion.
+---------------------
+r45
+New diffusion module (unit tests are still missing).
+---------------------
+r44
+fixed wrong header files
+---------------------
+r43
+- Added a new transformation estimation class (EstimateAffineTransformation3D.hpp). - Added unit tests for the above class. - Updated some documentation.
+---------------------
+r41
+Version 0.2.0
+---------------------
+r40
+*** API CHANGES ***
+---------------------
+r39
+- Added some simple error handling in the elapsed_time() method of the clock class. - updated getLibraries.py
+---------------------
+r38
+Updated project file.
+---------------------
+r37
+Reverted qmake project file back to revision 20.
+---------------------
+r36
+Added a new clock class.
+---------------------
+r35
+Updated unit tests and documentation.
+---------------------
+r34
+fixed a conversion operator for VSC9
+---------------------
+r32
+- new conversion operator IN coordinate class - documentation almost completed
+---------------------
+r31
+Now, all functions are fully documented and tested within the unit tests!
+---------------------
+r30
+* Completed unit tests for the CorrelationCircle class (working but temporarily disabled) * Added unit tests for the EstimateRigidTransformation2D class (forgot adding it last time...)
+---------------------
+r29
+* fixed a bug in EstimateRigidTransformation3D.hpp * fixed a bug in EstimateRigidTransformation2D.hpp * added unit tests for the EstimateRigidTransformation2D class (everything seems to work fine)
+---------------------
+r28
+Added EstimateRigidTransformation2D class. Not tested, yet.
+---------------------
+r27
+* Documented the EstimateRigidTransformation3D class. * Added some unit tests for that class. * Small documentation fixes.
+---------------------
+r26
+* Added the Transform2D class. * Added unit tests for that class.
+---------------------
+r25
+* Changed the API of some functions in Transform3D. * Updated the documentation.
+---------------------
+r24
+Added some unit tests in Transform3D and added documentation. Still not finished...
+---------------------
+r23
+* Updated documentation. * Added unit tests for RegionGrowing2D and RegionGrowing3D.
+---------------------
+r22
+Fixed missing header. Prevented Transform3D.inverse() from compilation.
+---------------------
+r21
+Reverted changes to revision 17. --> Projects using TRTK need to add "opencv2" and "Eigen" to their libConfig.ini file.
+---------------------
+r20
+Updated qmake project file.
+---------------------
+r19
+Updated getLibraries.py.
+---------------------
+r18
+Updated the qmake project file such that it runs getLibraries.py, now.
+---------------------
+r17
+Fixed a small bug in RegionGrowing2D (overloaded function could not be resolved).
+---------------------
+r16
+fixed a small bug
+---------------------
+r15
+* Added the RegionGrowing3D class.
+---------------------
+r14
+* Added the RegionGrowing2D class. * Fixed some small documentation issues.
+---------------------
+r13
+Updated libConfig.
+---------------------
+r12
+Updated documentation.
+---------------------
+r11
+Adapted qmake project file.
+---------------------
+r10
+Fixed include folder.
+---------------------
+r9
+Added a qmake project file.
+---------------------
+r8
+Documented Transform3D class (not complete, yet). Added Circle structure. Added CorrelationCircle class. Updated some unit tests (still some missing)
+---------------------
+r7
+Surrounded all classes with namespace TRTK. Fixed missing const-qualifiers in Coordinate.hpp Changed overall structure of unit tests and added some small test cases. Renamed tools.hpp into Tools.hpp. Added unit test for Tools.hpp. Adapted s...
+---------------------
+r6
+Forgot to select that file...
+---------------------
+r5
+***WARNING*** This commit breaks some code! ***WARNING***
+---------------------
+r4
+Added Timestamp class. Updated unit tests.
+---------------------
+r3
+Updated the documentation. 
+---------------------
+r2
+Changed paths for documentation. Adapted Doxygen configuration file.
+---------------------
+r1
+Initial release. Actually the (copied) files work, but due to the new directory structure, we still need to adapt some (or all?) files...
+---------------------
