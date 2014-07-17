@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_t_r_t_k_1_1_icp_base.html" title="Base class for all ICP implementations." alt="" coords="267,59,461,88"/>
+<area shape="rect" id="node5" href="$class_t_r_t_k_1_1_icp3_d.html" title="ICP algorithm for 3D point clouds as described by Besl and McKay [1]." alt="" coords="556,5,735,35"/>
+<area shape="rect" id="node7" href="$class_t_r_t_k_1_1_icp_trimmed3_d.html" title="Trimmed ICP algorithm for 3D point clouds." alt="" coords="531,59,760,88"/>
+<area shape="rect" id="node9" href="$class_t_r_t_k_1_1_random_sample_icp3_d.html" title="Random Sample ICP algorithm for 3D point clouds." alt="" coords="509,112,781,141"/>
+</map>

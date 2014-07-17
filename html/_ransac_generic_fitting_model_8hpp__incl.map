@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$_fit_8hpp.html" title="This file contains the base class for all fitting classes." alt="" coords="345,83,407,112"/>
+<area shape="rect" id="node47" href="$_ransac_8hpp.html" title="This file contains the Ransac class." alt="" coords="765,83,856,112"/>
+<area shape="rect" id="node9" href="$_coordinate_8hpp.html" title="This file contains the Coordinate class and related functions." alt="" coords="405,160,515,189"/>
+<area shape="rect" id="node21" href="$_tools_8hpp.html" title="This file contains various helper functions." alt="" coords="235,237,312,267"/>
+<area shape="rect" id="node40" href="$_error_obj_8hpp.html" title="This file contains the declaration of the ErrorObj class." alt="" coords="776,237,869,267"/>
+</map>

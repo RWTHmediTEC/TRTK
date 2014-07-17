@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node5" href="$class_t_r_t_k_1_1_fit_circle.html" title="Estimates the parameters of a circle from a set of 2D points lying on the circle." alt="" coords="5,160,147,189"/>
+<area shape="rect" id="node7" href="$class_t_r_t_k_1_1_fit_circle_in_origin.html" title="Estimates the radius of a circle centered at the origin from a set of 2D points." alt="" coords="171,160,355,189"/>
+<area shape="rect" id="node9" href="$class_t_r_t_k_1_1_fit_line.html" title="Estimates the parameters of a line from a set of 2D points." alt="" coords="379,160,509,189"/>
+<area shape="rect" id="node2" href="$class_t_r_t_k_1_1_fit.html" title="Base class for all fitting classes." alt="" coords="209,5,316,35"/>
+</map>

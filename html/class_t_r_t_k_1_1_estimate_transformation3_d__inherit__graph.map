@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node5" href="$class_t_r_t_k_1_1_estimate_affine_transformation3_d.html" title="Estimates a 3D affine transformation from two point sets." alt="" coords="620,5,897,35"/>
+<area shape="rect" id="node7" href="$class_t_r_t_k_1_1_estimate_affine_transformation_from_plane_to3_d.html" title="Estimates a 3D affine transformation from two point sets." alt="" coords="581,59,936,88"/>
+<area shape="rect" id="node9" href="$class_t_r_t_k_1_1_estimate_projective_transformation3_d.html" title="Estimates a 3D projective transformation from two point sets." alt="" coords="608,112,909,141"/>
+<area shape="rect" id="node11" href="$class_t_r_t_k_1_1_estimate_rigid_transformation3_d.html" title="Estimates a 3D rigid transformation from two point sets." alt="" coords="621,165,896,195"/>
+<area shape="rect" id="node13" href="$class_t_r_t_k_1_1_estimate_similarity_transformation3_d.html" title="Estimates a 3D similarity transformation from two point sets." alt="" coords="609,219,908,248"/>
+<area shape="rect" id="node2" href="$class_t_r_t_k_1_1_estimate_transformation.html" title="Base class for all transformation estimations from two point sets." alt="" coords="7,112,236,141"/>
+</map>

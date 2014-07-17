@@ -1,0 +1,49 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$_clock_8cpp.html" title="This file contains the definitions of the Clock class and related functions." alt="" coords="5,83,387,112"/>
+<area shape="rect" id="node5" href="$_correlation_circle_8cpp.html" title="This file implements the CorrelationCircle class." alt="" coords="3584,392,4027,421"/>
+<area shape="rect" id="node7" href="$_error_obj_8cpp.html" title="This file contains the implementation of the ErrorObj class." alt="" coords="11103,83,11497,112"/>
+<area shape="rect" id="node9" href="$_coordinate_8hpp.html" title="This file contains the Coordinate class and related functions." alt="" coords="6747,83,7216,112"/>
+<area shape="rect" id="node23" href="$_correlation_circle_8hpp.html" title="This file contains the declaration of the CorrelationCircle class." alt="" coords="3357,315,3859,344"/>
+<area shape="rect" id="node26" href="$_icp_8hpp.html" title="This file contains the ICP class." alt="" coords="6635,392,7059,421"/>
+<area shape="rect" id="node28" href="$_diffusion_8hpp.html" title="This file contains several diffusion functions as well as some helper functions." alt="" coords="7864,237,8320,267"/>
+<area shape="rect" id="node30" href="$_transform2_d_8hpp.html" title="This file contains the Transform2D class." alt="" coords="4136,237,4616,267"/>
+<area shape="rect" id="node32" href="$_estimate_transformation2_d_8hpp.html" title="This file contains the base class of all 2D transformation estimations." alt="" coords="2469,315,3029,344"/>
+<area shape="rect" id="node34" href="$_estimate_affine_transformation2_d_8hpp.html" title="This file contains the EstimateAffineTransformation2D class." alt="" coords="461,392,1053,421"/>
+<area shape="rect" id="node36" href="$_estimate_projective_transformation2_d_8hpp.html" title="This file contains the EstimateProjectiveTransformation2D class." alt="" coords="1077,392,1693,421"/>
+<area shape="rect" id="node38" href="$_estimate_rigid_transformation2_d_8hpp.html" title="This file contains the EstimateRigidTransformation2D class." alt="" coords="1717,392,2307,421"/>
+<area shape="rect" id="node40" href="$_estimate_similarity_transformation2_d_8hpp.html" title="This file contains the EstimateSimilarityTransformation2D class." alt="" coords="2331,392,2944,421"/>
+<area shape="rect" id="node43" href="$_transform3_d_8hpp.html" title="This file contains the Transform3D class." alt="" coords="7208,237,7688,267"/>
+<area shape="rect" id="node45" href="$_estimate_transformation3_d_8hpp.html" title="This file contains the base class of all 3D transformation estimations." alt="" coords="4187,315,4747,344"/>
+<area shape="rect" id="node47" href="$_estimate_affine_transformation3_d_8hpp.html" title="This file contains the EstimateAffineTransformation3D class." alt="" coords="2968,392,3560,421"/>
+<area shape="rect" id="node49" href="$_estimate_affine_transformation_from_plane_to3_d_8hpp.html" title="This file contains the EstimateAffineTransformationFromPlaneTo3D class." alt="" coords="4051,392,4720,421"/>
+<area shape="rect" id="node51" href="$_estimate_projective_transformation3_d_8hpp.html" title="This file contains the EstimateProjectiveTransformation3D class." alt="" coords="5995,392,6611,421"/>
+<area shape="rect" id="node53" href="$_estimate_rigid_transformation3_d_8hpp.html" title="This file contains the EstimateRigidTransformation3D class." alt="" coords="4744,392,5333,421"/>
+<area shape="rect" id="node55" href="$_estimate_similarity_transformation3_d_8hpp.html" title="This file contains the EstimateSimilarityTransformation3D class." alt="" coords="5357,392,5971,421"/>
+<area shape="rect" id="node59" href="$_fit2_d_8hpp.html" title="This file contains the base class for all 2D fitting classes." alt="" coords="8240,315,8677,344"/>
+<area shape="rect" id="node61" href="$_fit_circle_8hpp.html" title="This file contains the FitCircle class." alt="" coords="8756,392,9209,421"/>
+<area shape="rect" id="node63" href="$_fit_circle3_d_8hpp.html" title="This file contains the FitCircle3D class." alt="" coords="7339,469,7808,499"/>
+<area shape="rect" id="node65" href="$_fit_circle_in_origin_8hpp.html" title="This file contains the FitCircleInOrigin class." alt="" coords="7713,392,8212,421"/>
+<area shape="rect" id="node67" href="$_fit_line_8hpp.html" title="This file contains the FitLine class." alt="" coords="8236,392,8681,421"/>
+<area shape="rect" id="node69" href="$_fit3_d_8hpp.html" title="This file contains the base class for all 3D fitting classes." alt="" coords="8701,315,9139,344"/>
+<area shape="rect" id="node72" href="$_fit_plane_8hpp.html" title="This file contains the FitPlane class." alt="" coords="7083,392,7536,421"/>
+<area shape="rect" id="node75" href="$_fit_line3_d_8hpp.html" title="This file contains the FitLine3D class." alt="" coords="9233,392,9695,421"/>
+<area shape="rect" id="node77" href="$_fit_sphere_8hpp.html" title="This file contains the FitSphere class." alt="" coords="10567,392,11028,421"/>
+<area shape="rect" id="node79" href="$_pivot_calibration_8hpp.html" title="This file contains the PivotCalibration class." alt="" coords="10415,469,10911,499"/>
+<area shape="rect" id="node116" href="$_generic_polynomial_8hpp.html" title="This file contains the GenericPolynomial class." alt="" coords="10144,237,10659,267"/>
+<area shape="rect" id="node118" href="$_polynomial_8hpp.html" title="This file contains the interface for all polynomials." alt="" coords="9693,160,10163,189"/>
+<area shape="rect" id="node121" href="$_trivariate_quadratic_polynomial_8hpp.html" title="This file contains the TrivariateQuadraticPolynomial class." alt="" coords="9541,237,10120,267"/>
+<area shape="rect" id="node129" href="$_ransac_8hpp.html" title="This file contains the Ransac class." alt="" coords="8813,160,9264,189"/>
+<area shape="rect" id="node11" href="$_coordinate_8cpp.html" title="This file contains functions related to the Coordinate class." alt="" coords="7477,160,7888,189"/>
+<area shape="rect" id="node13" href="$_tools_8hpp.html" title="This file contains various helper functions." alt="" coords="6763,160,7200,189"/>
+<area shape="rect" id="node84" href="$_interpolation2_d_8hpp.html" title="This file contains the Interpolation2D class." alt="" coords="4944,237,5437,267"/>
+<area shape="rect" id="node86" href="$_interpolation3_d_8hpp.html" title="This file contains the Interpolation3D class." alt="" coords="6589,237,7083,267"/>
+<area shape="rect" id="node101" href="$_fit_8hpp.html" title="This file contains the base class for all fitting classes." alt="" coords="8267,160,8688,189"/>
+<area shape="rect" id="node126" href="$_optimization_8hpp.html" title="This file contains various functions to find the roots (zeros) or the local minima and maxima of a fu..." alt="" coords="4592,160,5072,189"/>
+<area shape="rect" id="node132" href="$_region_growing2_d_8hpp.html" title="This file contains the RegionGrowing2D class." alt="" coords="5096,160,5605,189"/>
+<area shape="rect" id="node134" href="$_region_growing3_d_8hpp.html" title="This file contains the RegionGrowing3D class." alt="" coords="5629,160,6139,189"/>
+<area shape="rect" id="node136" href="$_surface_extraction3_d_8hpp.html" title="This file contains the SurfaceExtraction3D class." alt="" coords="6163,160,6688,189"/>
+<area shape="rect" id="node16" href="$_tools_8cpp_source.html" title="D:/Users/haenisch/Programmierung/TRTK/trunk/src/Tools.cpp" alt="" coords="6187,237,6565,267"/>
+<area shape="rect" id="node19" href="$_signals_8hpp.html" title="This file contains all classes and function related to the signal and slot concept." alt="" coords="5651,237,6101,267"/>
+<area shape="rect" id="node21" href="$_signals_8cpp.html" title="This file contains function definitions related to the signal and slot concept." alt="" coords="5672,315,6061,344"/>
+<area shape="rect" id="node105" href="$_ransac_generic_fitting_model_8hpp.html" title="This file contains the RansacGenericFittingModel class." alt="" coords="8597,237,9163,267"/>
+</map>

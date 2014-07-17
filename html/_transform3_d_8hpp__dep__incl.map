@@ -1,0 +1,19 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$_estimate_transformation3_d_8hpp.html" title="This file contains the base class of all 3D transformation estimations." alt="" coords="1969,83,2529,112"/>
+<area shape="rect" id="node9" href="$_estimate_projective_transformation3_d_8hpp.html" title="This file contains the EstimateProjectiveTransformation3D class." alt="" coords="5,160,621,189"/>
+<area shape="rect" id="node15" href="$_icp_8hpp.html" title="This file contains the ICP class." alt="" coords="3205,160,3629,189"/>
+<area shape="rect" id="node18" href="$_fit2_d_8hpp.html" title="This file contains the base class for all 2D fitting classes." alt="" coords="3911,83,4348,112"/>
+<area shape="rect" id="node28" href="$_fit3_d_8hpp.html" title="This file contains the base class for all 3D fitting classes." alt="" coords="5181,83,5619,112"/>
+<area shape="rect" id="node38" href="$_pivot_calibration_8hpp.html" title="This file contains the PivotCalibration class." alt="" coords="6252,237,6748,267"/>
+<area shape="rect" id="node5" href="$_estimate_affine_transformation3_d_8hpp.html" title="This file contains the EstimateAffineTransformation3D class." alt="" coords="645,160,1237,189"/>
+<area shape="rect" id="node7" href="$_estimate_affine_transformation_from_plane_to3_d_8hpp.html" title="This file contains the EstimateAffineTransformationFromPlaneTo3D class." alt="" coords="1261,160,1931,189"/>
+<area shape="rect" id="node11" href="$_estimate_rigid_transformation3_d_8hpp.html" title="This file contains the EstimateRigidTransformation3D class." alt="" coords="1955,160,2544,189"/>
+<area shape="rect" id="node13" href="$_estimate_similarity_transformation3_d_8hpp.html" title="This file contains the EstimateSimilarityTransformation3D class." alt="" coords="2568,160,3181,189"/>
+<area shape="rect" id="node20" href="$_fit_circle_8hpp.html" title="This file contains the FitCircle class." alt="" coords="3653,160,4107,189"/>
+<area shape="rect" id="node24" href="$_fit_circle_in_origin_8hpp.html" title="This file contains the FitCircleInOrigin class." alt="" coords="4131,160,4629,189"/>
+<area shape="rect" id="node26" href="$_fit_line_8hpp.html" title="This file contains the FitLine class." alt="" coords="4653,160,5099,189"/>
+<area shape="rect" id="node22" href="$_fit_circle3_d_8hpp.html" title="This file contains the FitCircle3D class." alt="" coords="4901,237,5371,267"/>
+<area shape="rect" id="node31" href="$_fit_plane_8hpp.html" title="This file contains the FitPlane class." alt="" coords="5173,160,5627,189"/>
+<area shape="rect" id="node34" href="$_fit_line3_d_8hpp.html" title="This file contains the FitLine3D class." alt="" coords="5651,160,6112,189"/>
+<area shape="rect" id="node36" href="$_fit_sphere_8hpp.html" title="This file contains the FitSphere class." alt="" coords="6136,160,6597,189"/>
+</map>
