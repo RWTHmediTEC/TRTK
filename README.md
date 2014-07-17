@@ -90,7 +90,11 @@ The default installation location on Windows is C:\Program Files.
 
 
 Documentation
-=============
+-------------
+
+You can find the documentation at http://haenisch.github.io/TRTK.
+
+### Building the Documentation ###
 
 The documentation can be generated using 'Doxygen' Version 1.7.2 or higher
 (www.doxygen.org). You also need the 'dot' tool provided by 'Graphviz'
