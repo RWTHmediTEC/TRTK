@@ -92,7 +92,7 @@ The default installation location on Windows is C:\Program Files.
 Documentation
 -------------
 
-You can find the documentation at http://haenisch.github.io/TRTK.
+You can find the documentation at http://RWTHmediTEC.github.io/TRTK.
 
 ### Building the Documentation ###
 
