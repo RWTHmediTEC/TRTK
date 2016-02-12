@@ -14,7 +14,7 @@
     Version 0.1.0 (2011-06-17)
 */
 
-#include "Circle.hpp"
+#include "TRTK/Circle.hpp"
 
 
 /** \file Circle.cpp
