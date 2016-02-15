@@ -1,0 +1,24 @@
+# Configuration for package "TRTK"
+include(CMakeFindDependencyMacro)
+find_dependency(Eigen) # 3.2.0
+find_dependency(Flann) # 1.7.1
+find_dependency(OpenCV)
+
+
+@PACKAGE_INIT@
+
+include("${CMAKE_CURRENT_LIST_DIR}/TRTKTargets.cmake")
+
+set_and_check(FOO_INCLUDE_DIR "@PACKAGE_INCLUDE_INSTALL_DIR@")
+set_and_check(FOO_SYSCONFIG_DIR "@PACKAGE_SYSCONFIG_INSTALL_DIR@")
+check_required_components(Foo)
+
+set(_supported_components Devel)
+
+foreach(_comp ${TRTK_FIND_COMPONENTS})
+  if (NOT ";${_supported_components};" MATCHES _comp)
+    set(TRTK_FOUND False)
+    set(TRTK_NOTFOUND_MESSAGE "Unsupported component: ${_comp}")
+  endif()
+  include("${CMAKE_CURRENT_LIST_DIR}/TRTK${_comp}Targets.cmake")
+endforeach()

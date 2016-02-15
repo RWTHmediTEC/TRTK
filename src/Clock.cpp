@@ -18,8 +18,8 @@
   */
 
 
-#include "Clock.hpp"
-#include "ErrorObj.hpp"
+#include "TRTK/Clock.hpp"
+#include "TRTK/ErrorObj.hpp"
 
 
 namespace TRTK

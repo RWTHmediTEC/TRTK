@@ -18,7 +18,7 @@
   */
 
 
-#include <Coordinate.hpp>
+#include <TRTK/Coordinate.hpp>
 
 
 namespace TRTK

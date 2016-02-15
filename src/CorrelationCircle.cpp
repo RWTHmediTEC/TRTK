@@ -25,9 +25,9 @@
     #include <omp.h>
 #endif
 
-#include "CorrelationCircle.hpp"
-#include "ErrorObj.hpp"
-#include "Tools.hpp"
+#include "TRTK/CorrelationCircle.hpp"
+#include "TRTK/ErrorObj.hpp"
+#include "TRTK/Tools.hpp"
 
 
 using namespace cv;

@@ -20,7 +20,7 @@
   */
 
 
-#include "Signals.hpp"
+#include "TRTK/Signals.hpp"
 
 
 using namespace std;

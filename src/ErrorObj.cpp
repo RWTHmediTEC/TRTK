@@ -23,7 +23,7 @@
 #include <sstream>
 #include <string>
 
-#include "ErrorObj.hpp"
+#include "TRTK/ErrorObj.hpp"
 
 
 namespace TRTK
