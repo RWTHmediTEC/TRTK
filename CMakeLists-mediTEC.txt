@@ -26,6 +26,7 @@ set(FULL_VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION})
 
 set(TARGET_NAME ${PROJECT_NAME}-${FULL_VERSION})
 
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/configure.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/cmake/configure.cmake)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Doxyfile.in ${CMAKE_CURRENT_SOURCE_DIR}/src/doc/Doxyfile)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/install.bat.in ${CMAKE_CURRENT_BINARY_DIR}/cmake/install.bat @ONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Version.hpp.in ${CMAKE_CURRENT_SOURCE_DIR}/include/TRTK/Version.hpp)
@@ -44,6 +45,9 @@ option(BUILD_TEST "Build the unit tests" OFF)
 # Find dependencies and add them later to the linker (see below)
 #####################################################################
 
+# If you change the version numbers of the included libraries, do not
+# forget to adapt the configure.cmake.in file in the cmake folder.
+ 
 # Eigen
 
 include($ENV{MEDITEC_LIBS}/Eigen/3.2.8/configure.cmake)
@@ -160,7 +164,7 @@ install(
 )
 
 install(
-    FILES ${CMAKE_CURRENT_BINARY_DIR}/misc/configure.cmake ${CMAKE_CURRENT_BINARY_DIR}/misc/install.bat
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/cmake/configure.cmake ${CMAKE_CURRENT_BINARY_DIR}/cmake/install.bat
     DESTINATION ${INSTALL_DIR}
 )
 
