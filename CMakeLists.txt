@@ -1,11 +1,10 @@
-# Last changed on 2014-07-14
+# Last changed on 2016-04-07
 
 cmake_minimum_required(VERSION 2.8)
 
-set(CMKE_DEBUG_POSTFIX d)
+set(CMAKE_DEBUG_POSTFIX d)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/bin)
-
 
 #####################################################################
 # Library name
@@ -25,11 +24,7 @@ set(PATCH_VERSION  1)
 
 set(FULL_VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION})
 
-set(TRTK_VERSION ${FULL_VERSION})
-
-
-
-set(TARGET_NAME ${PROJECT_NAME})
+set(TARGET_NAME ${PROJECT_NAME}-${FULL_VERSION})
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Doxyfile.in ${CMAKE_CURRENT_SOURCE_DIR}/src/doc/Doxyfile)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/install.bat.in ${CMAKE_CURRENT_BINARY_DIR}/cmake/install.bat @ONLY)
@@ -46,41 +41,31 @@ option(BUILD_TEST "Build the unit tests" OFF)
 
 
 #####################################################################
-# Find dependencies
+# Find dependencies and add them later to the linker (see below)
 #####################################################################
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
+# Eigen
 
-FIND_PACKAGE(Eigen3 REQUIRED)
-include_directories(${EIGEN3_INCLUDE_DIR})
+include($ENV{MEDITEC_LIBS}/Eigen/3.2.8/configure.cmake)
 
-FIND_PACKAGE(Flann REQUIRED)
-include_directories(${FLANN_INCLUDE_DIR})
-set(LIBS ${LIBS} ${FLANN_LIBRARY})
+# OpenCV
 
-FIND_PACKAGE(OpenCV)
+include($ENV{MEDITEC_LIBS}/opencv2.4/2.4.1/configure.cmake)
 
-if(OPENCV_FOUND)
+# FLANN
 
-    list(APPEND CV_HEADERS
-        include/TRTK/CorrelationCircle.hpp
-    )
-
-    list(APPEND CV_SRC
-        src/CorrelationCircle.cpp
-    )
-    
-endif(OPENCV_FOUND)
+include($ENV{MEDITEC_LIBS}/FLANN/1.7.1/configure.cmake)
 
 # Project
 
-include_directories(${CMAKE_PROJECT_DIR}/include/${PROJECT_NAME})
+include_directories(${CMAKE_PROJECT_DIR}include)
 
 set(PUBLIC_HEADERS
     include/TRTK/Circle.hpp
     include/TRTK/ClientServer.hpp
     include/TRTK/Clock.hpp
     include/TRTK/Coordinate.hpp
+    include/TRTK/CorrelationCircle.hpp
     include/TRTK/Definitions.hpp
     include/TRTK/Diffusion.hpp
     include/TRTK/ErrorObj.hpp
@@ -138,28 +123,25 @@ set(SRC
     src/ClientServer.cpp
     src/Clock.cpp
     src/Coordinate.cpp
+    src/CorrelationCircle.cpp
     src/ErrorObj.cpp
     src/Signals.cpp
     src/Timestamp.cpp
     src/Tools.cpp
 )
 
-add_library(${TARGET_NAME} STATIC ${SRC} ${PUBLIC_HEADERS} ${PRIVATE_HEADERS} ${CV_HEADERS} ${CV_SRC})
-target_include_directories(${TARGET_NAME} INTERFACE "$<INSTALL_INTERFACE:${FLANN_INCLUDE_DIR};${EIGEN3_INCLUDE_DIR}>" )
-target_include_directories(${TARGET_NAME} INTERFACE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>" "$<INSTALL_INTERFACE:include/${TARGET_NAME}>")
-
-
-if(OPENCV_FOUND)
-target_include_directories(${TARGET_NAME} INTERFACE "$<INSTALL_INTERFACE:${OpenCV_INCLUDE_DIRS}>" )
-target_link_libraries(${TARGET_NAME} INTERFACE  ${OpenCV_LIBRARIES})
-endif()
+add_library(${TARGET_NAME} STATIC ${SRC} ${PUBLIC_HEADERS} ${PRIVATE_HEADERS})
 
 
 #####################################################################
 # Add dependencies to the linker
 #####################################################################
 
-target_link_libraries(${TARGET_NAME} INTERFACE ${LIBS})
+target_link_libraries(
+    ${TARGET_NAME}
+    ${OPENCV_LIBLIST}
+    ${FLANN_LIBLIST}
+)
 
 
 #vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
@@ -168,106 +150,45 @@ target_link_libraries(${TARGET_NAME} INTERFACE ${LIBS})
 ##vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 #vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
+string(REGEX REPLACE "\\\\" "/" INSTALL_DIR $ENV{MEDITEC_LIBS}/${PROJECT_NAME}/${FULL_VERSION})
 
-include(GenerateExportHeader)
-generate_export_header(${TARGET_NAME})
-set_property(TARGET ${TARGET_NAME} PROPERTY VERSION ${TRTK_VERSION})
-set_property(TARGET ${TARGET_NAME} PROPERTY SOVERSION ${MAJOR_VERSION})
-set_property(TARGET ${TARGET_NAME} PROPERTY
-  INTERFACE_${TARGET_NAME}_MAJOR_VERSION ${MAJOR_VERSION})
-set_property(TARGET ${TARGET_NAME} APPEND PROPERTY
-  COMPATIBLE_INTERFACE_STRING ${TARGET_NAME}_MAJOR_VERSION
-)
-
-
-install(TARGETS ${TARGET_NAME} EXPORT ${TARGET_NAME}Targets
-  LIBRARY DESTINATION lib
-  ARCHIVE DESTINATION lib
-  RUNTIME DESTINATION bin
-  INCLUDES DESTINATION include
-)
 install(
-  FILES
-    ${PUBLIC_HEADERS}
-    "${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}_export.h"
-  DESTINATION
-    include
-  COMPONENT
-    Devel
+    TARGETS ${TARGET_NAME}
+    RUNTIME DESTINATION ${INSTALL_DIR}/bin
+    ARCHIVE DESTINATION ${INSTALL_DIR}/bin
+    LIBRARY DESTINATION ${INSTALL_DIR}/bin
 )
 
-if(OPENCV_FOUND)
 install(
-  FILES
-    ${CV_HEADERS}
-    "${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}_export.h"
-  DESTINATION
-    include
-  COMPONENT
-    CV
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/misc/configure.cmake ${CMAKE_CURRENT_BINARY_DIR}/misc/install.bat
+    DESTINATION ${INSTALL_DIR}
 )
+
+install(
+    DIRECTORY ${CMAKE_PROJECT_DIR}include
+    DESTINATION ${INSTALL_DIR}
+)
+
+if (WIN32)
+    install(
+        FILES ${CMAKE_CURRENT_BINARY_DIR}/bin/${TARGET_NAME}${CMAKE_DEBUG_POSTFIX}.pdb
+        DESTINATION $ENV{MEDITEC_LIBS}/bin
+        OPTIONAL
+    )
+    install(
+        FILES ${CMAKE_CURRENT_BINARY_DIR}/bin/${TARGET_NAME}${CMAKE_DEBUG_POSTFIX}.pdb
+        DESTINATION ${INSTALL_DIR}/bin
+        OPTIONAL
+    )
 endif()
 
-include(CMakePackageConfigHelpers)
-
-write_basic_package_version_file(
-  ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}ConfigVersion.cmake
-  VERSION ${TRTK_VERSION}
-  COMPATIBILITY SameMajorVersion )
-  
-export(EXPORT ${TARGET_NAME}Targets
-  FILE "${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}/${TARGET_NAME}Targets.cmake"
-  NAMESPACE TRTK::
-)
-
-set(INCLUDE_INSTALL_DIR include CACHE PATH "Install dir for include headers" )
-set(LIB_INSTALL_DIR lib CACHE PATH  "Install dir for libraries" )
-set(SYSCONFIG_INSTALL_DIR /usr/local/ CACHE  PATH  "Install dir for system configuration")
-SET(INSTALL_INCLUDE_DIR include/${PROJECT_NAME} CACHE PATH "Install dir for headers")
-IF(WIN32 AND NOT CYGWIN)
-  SET(DEF_INSTALL_CMAKE_DIR CMake)
-ELSE()
-  SET(DEF_INSTALL_CMAKE_DIR lib/cmake/${PROJECT_NAME})
-ENDIF()
-SET(INSTALL_CMAKE_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH "Install dir for CMake files")
-
-include(CMakePackageConfigHelpers)
-configure_package_config_file(
-  cmake/${TARGET_NAME}Config.cmake.in
-  ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}Config.cmake
-  INSTALL_DESTINATION ${INSTALL_CMAKE_DIR}
-  PATH_VARS INCLUDE_INSTALL_DIR SYSCONFIG_INSTALL_DIR
-)
-
-
-#####################################################################
-# Installation
-#####################################################################
-
-install(EXPORT ${TARGET_NAME}Targets
-  FILE
-    ${TARGET_NAME}Targets.cmake
-  NAMESPACE
-    TRTK::
-  DESTINATION
-    ${INSTALL_CMAKE_DIR}
-)
-
-install(
-  FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}ConfigVersion.cmake
-    ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}Config.cmake
-  DESTINATION
-   ${INSTALL_CMAKE_DIR}
-  COMPONENT
-    Devel
-)
 
 #####################################################################
 # Unit tests
 #####################################################################
 
 if(BUILD_TEST)
+    # enable_testing()
     add_subdirectory(test)
 endif()
 
@@ -279,7 +200,7 @@ endif()
 if(BUILD_DOC)
     find_package(Doxygen REQUIRED)
     if(DOXYGEN_FOUND)
-        configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/doc/Doxyfile @ONLY)
+        configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/doc/Doxyfile @ONLY)
         add_custom_target(doc ALL
                         ${DOXYGEN_EXECUTABLE} 
                         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc
@@ -290,10 +211,3 @@ if(BUILD_DOC)
         )
     endif(DOXYGEN_FOUND)
 endif()
-
-###################### Add uninstall target ############################
-if("${CMAKE_PROJECT_NAME}" STREQUAL "${PROJECT_NAME}")
-    ADD_CUSTOM_TARGET(uninstall
-      COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_uninstall.cmake)
-endif()
-
