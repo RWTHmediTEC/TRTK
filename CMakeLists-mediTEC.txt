@@ -1,4 +1,4 @@
-# Last changed on 2014-07-14
+# Last changed on 2016-04-07
 
 cmake_minimum_required(VERSION 2.8)
 
@@ -26,9 +26,9 @@ set(FULL_VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION})
 
 set(TARGET_NAME ${PROJECT_NAME}-${FULL_VERSION})
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/misc/configure.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/misc/configure.cmake @ONLY)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/misc/install.bat.in ${CMAKE_CURRENT_BINARY_DIR}/misc/install.bat @ONLY)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/misc/Doxyfile.in ${CMAKE_CURRENT_SOURCE_DIR}/src/doc/Doxyfile)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Doxyfile.in ${CMAKE_CURRENT_SOURCE_DIR}/src/doc/Doxyfile)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/install.bat.in ${CMAKE_CURRENT_BINARY_DIR}/cmake/install.bat @ONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Version.hpp.in ${CMAKE_CURRENT_SOURCE_DIR}/include/TRTK/Version.hpp)
 
 
 #####################################################################
@@ -46,7 +46,7 @@ option(BUILD_TEST "Build the unit tests" OFF)
 
 # Eigen
 
-include($ENV{MEDITEC_LIBS}/Eigen/3.2.0/configure.cmake)
+include($ENV{MEDITEC_LIBS}/Eigen/3.2.8/configure.cmake)
 
 # OpenCV
 
@@ -58,7 +58,7 @@ include($ENV{MEDITEC_LIBS}/FLANN/1.7.1/configure.cmake)
 
 # Project
 
-include_directories(${CMAKE_PROJECT_DIR}include/${PROJECT_NAME})
+include_directories(${CMAKE_PROJECT_DIR}include)
 
 set(PUBLIC_HEADERS
     include/TRTK/Circle.hpp
