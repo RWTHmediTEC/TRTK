@@ -1,4 +1,4 @@
-# Last changed on 2014-07-14
+# Last changed on 2016-04-13
 
 cmake_minimum_required(VERSION 2.8)
 
@@ -21,7 +21,7 @@ project(TRTK)
 
 set(MAJOR_VERSION  0)
 set(MINOR_VERSION 15)
-set(PATCH_VERSION  1)
+set(PATCH_VERSION  2)
 
 set(FULL_VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION})
 

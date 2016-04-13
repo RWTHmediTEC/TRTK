@@ -889,6 +889,8 @@ ValueType solve1D(UnaryFunction f, ValueType start_value, unsigned max_number_it
   * \author Christoph Haenisch
   * \version 0.1.0
   * \date last changed on 2012-11-07
+  * \bug There is a known bug in the implementation. Do not use this algorithm
+  *      until the bug is fixed.
   */
 
 template <class Function, class ValueType>

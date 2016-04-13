@@ -9,7 +9,7 @@
 
     See license.txt for more information.
 
-    Version 0.7.1 (2013-08-20)
+    Version 0.8.0 (2014-09-02)
 */
 
 /** \file Coordinate.hpp
@@ -147,8 +147,8 @@ namespace Tools
   * \see Transform2D and Transform3D
   *
   * \author Christoph Haenisch
-  * \version 0.7.1
-  * \date last changed on 2013-08-20
+  * \version 0.8.0
+  * \date last changed on 2014-09-02
   */
 
 template <class T>
@@ -241,6 +241,8 @@ public:
     const data_type & toArray() const;                  ///< Returns an Eigen 3 array.
 
     matrix_type toMatrix() const;                       ///< Returns an Eigen 3 matrix.
+
+    std::string toString() const;                       ///< Returns the string representation of the coordinate.
 
     /** \enum Error Error codes that might be set when ErrorObj is thrown. */
 
@@ -1509,6 +1511,58 @@ template <class T>
 inline typename Coordinate<T>::matrix_type Coordinate<T>::toMatrix() const
 {
     return m_data;
+}
+
+
+/** \tparam T scalar type
+  *
+  * \return returns a standard string
+  *
+  * \note
+  * The stream operator is overloaded which alows you to write code like
+  * \code
+  * std::cout << Coordinate<double>(1, 2, 3);
+  * \endcode
+  *
+  * \see operator >> (std::istream & input, Coordinate<T> & coordinate)
+  */
+
+template <class T>
+std::string Coordinate<T>::toString() const
+{
+    std::stringstream ss;
+
+    // throw an exception if the output operation fails for any reason
+
+    ss.exceptions(std::ios_base::badbit | std::ios_base::failbit | std::ios_base::eofbit);
+
+    // put out formatted coordinate
+
+    ss // << std::fixed // or std::scientific
+       // << std::setprecision(4)
+       // << std::showpos
+       // << std::setfill('0')
+       // << std::internal
+       << "(";
+
+    int i = 0;
+
+    while (i < signed(m_data.size()) - 1)
+    {
+        ss // << std::setw(10)
+           << m_data(i++)
+           << ", ";
+    }
+
+    if (m_data.size() != 0)
+    {
+        ss // << std::setw(10)
+           << m_data(i);
+    }
+
+    ss <<  ")";
+
+    return ss.str();
 }
 
 

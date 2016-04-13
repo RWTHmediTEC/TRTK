@@ -8,7 +8,7 @@
 
 DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = "Transformation and Registration Toolkit"
-PROJECT_NUMBER         = "Version 0.15.1"
+PROJECT_NUMBER         = "Version 0.15.2"
 OUTPUT_DIRECTORY       = ../../doc
 TAB_SIZE               = 4
 BUILTIN_STL_SUPPORT    = NO

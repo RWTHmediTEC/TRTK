@@ -73,7 +73,7 @@
   *
   */
 
-#define TRTK_PATCH_LEVEL 1
+#define TRTK_PATCH_LEVEL 2
 
 
 #endif // VERSION_HPP_8641455825
