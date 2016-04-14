@@ -1,3 +1,6 @@
+/* -*- Mode: Javascript; indent-tabs-mode:nil; js-indent-level: 2 -*- */
+/* vim: set ts=2 et sw=2 tw=80: */
+
 /*************************************************************
  *
  *  MathJax/extensions/HTML-CSS/handle-floats.js
@@ -17,7 +20,7 @@
  *
  *  ---------------------------------------------------------------------
  *  
- *  Copyright (c) 2012 Design Science, Inc.
+ *  Copyright (c) 2012-2015 The MathJax Consortium
  * 
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -34,7 +37,7 @@
 
 
 MathJax.Extension["HTML-CSS/handle-floats"] = {
-  version: "2.0.1"
+  version: "2.6.0"
 };
 
 //
@@ -63,7 +66,7 @@ MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
       TRANSLATE = HTMLCSS.Translate;
   HTMLCSS.Augment({
     Translate: function (script,state) {
-      TRANSLATE.call(this,script,state);
+      TRANSLATE.apply(this,arguments);
       if (script.MathJax.elementJax.HTMLCSS.display) {
         var next = script.nextSibling;
         if (!next || next.className !== "MathJax_MSIE_Separator") {

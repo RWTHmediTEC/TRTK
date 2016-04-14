@@ -1,3 +1,6 @@
+/* -*- Mode: Javascript; indent-tabs-mode:nil; js-indent-level: 2 -*- */
+/* vim: set ts=2 et sw=2 tw=80: */
+
 /*************************************************************
  *
  *  MathJax/jax/output/HTML-CSS/autoload/maction.js
@@ -6,7 +9,7 @@
  *
  *  ---------------------------------------------------------------------
  *  
- *  Copyright (c) 2010-2012 Design Science, Inc.
+ *  Copyright (c) 2010-2015 The MathJax Consortium
  * 
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -22,7 +25,7 @@
  */
 
 MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
-  var VERSION = "2.0";
+  var VERSION = "2.6.0";
   var MML = MathJax.ElementJax.mml,
       HTMLCSS = MathJax.OutputJax["HTML-CSS"];
   
@@ -41,15 +44,20 @@ MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
     HTMLtooltip: HTMLCSS.addElement(document.body,"div",{id:"MathJax_Tooltip"}),
     
     toHTML: function (span,HW,D) {
-      span = this.HTMLhandleSize(this.HTMLcreateSpan(span)); span.bbox = null;
       var selected = this.selected();
-      if (selected) {
-        var box = selected.toHTML(span);
-        if (D != null) {HTMLCSS.Remeasured(selected.HTMLstretchV(span,HW,D),span)}
-        else if (HW != null) {HTMLCSS.Remeasured(selected.HTMLstretchH(span,HW),span)}
-	else {HTMLCSS.Measured(box,span)}
-        this.HTMLhandleHitBox(span);
+      if (selected.type == "null") {
+        span = this.HTMLcreateSpan(span);
+        span.bbox = this.HTMLzeroBBox();
+        return span;
       }
+      span = this.HTMLcreateSpan(span); span.bbox = null;
+      span.scale = this.HTMLgetScale();
+      var box = selected.toHTML(span);
+      if (D != null) {HTMLCSS.Remeasured(selected.HTMLstretchV(span,HW,D),span)}
+      else if (HW != null) {
+        HTMLCSS.Remeasured(selected.HTMLstretchH(span,HW),span)
+      } else {HTMLCSS.Measured(box,span)}
+      this.HTMLhandleHitBox(span);
       this.HTMLhandleSpace(span);
       this.HTMLhandleColor(span);
       return span;
@@ -84,25 +92,26 @@ MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
     HTMLaction: {
       toggle: function (span,frame,selection) {
         this.selection = selection;
-        frame.onclick = span.childNodes[1].onclick = MathJax.Callback(["HTMLclick",this]);
-        frame.style.cursor = span.childNodes[1].style.cursor="pointer";
+        span.onclick = MathJax.Callback(["HTMLclick",this]);
+        frame.style.cursor = span.childNodes[1].style.cursor = "pointer";
       },
       
       statusline: function (span,frame,selection) {
-        frame.onmouseover = span.childNodes[1].onmouseover = MathJax.Callback(["HTMLsetStatus",this]);
-        frame.onmouseout  = span.childNodes[1].onmouseout  = MathJax.Callback(["HTMLclearStatus",this]);
-        frame.onmouseover.autoReset = frame.onmouseout.autoReset = true;
+        span.onmouseover = MathJax.Callback(["HTMLsetStatus",this]);
+        span.onmouseout  = MathJax.Callback(["HTMLclearStatus",this]);
+        span.onmouseover.autoReset = span.onmouseout.autoReset = true;
+        frame.style.cursor = span.childNodes[1].style.cursor = "default";
       },
       
       tooltip: function(span,frame,selection) {
         if (this.data[1] && this.data[1].isToken) {
-          frame.title = frame.alt = span.childNodes[1].title =
-            span.childNodes[1].alt = this.data[1].data.join("");
+          span.title = span.alt = this.data[1].data.join("");
         } else {
-          frame.onmouseover = span.childNodes[1].onmouseover = MathJax.Callback(["HTMLtooltipOver",this]);
-          frame.onmouseout  = span.childNodes[1].onmouseout  = MathJax.Callback(["HTMLtooltipOut",this]);
-          frame.onmouseover.autoReset = frame.onmouseout.autoReset = true;
+          span.onmouseover = MathJax.Callback(["HTMLtooltipOver",this]);
+          span.onmouseout  = MathJax.Callback(["HTMLtooltipOut",this]);
+          span.onmouseover.autoReset = span.onmouseout.autoReset = true;
         }
+        frame.style.cursor = span.childNodes[1].style.cursor = "default";
       }
     },
     
@@ -128,11 +137,14 @@ MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
     //
     HTMLsetStatus: function (event) {
       // FIXME:  Do something better with non-token elements
-      window.status =
+      this.messageID = MathJax.Message.Set
         ((this.data[1] && this.data[1].isToken) ?
              this.data[1].data.join("") : this.data[1].toString());
     },
-    HTMLclearStatus: function (event) {window.status = ""},
+    HTMLclearStatus: function (event) {
+      if (this.messageID) {MathJax.Message.Clear(this.messageID,0)}
+      delete this.messageID;
+    },
     
     //
     //  Handle tooltips

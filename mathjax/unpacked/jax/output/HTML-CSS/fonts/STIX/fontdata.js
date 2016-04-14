@@ -1,3 +1,6 @@
+/* -*- Mode: Javascript; indent-tabs-mode:nil; js-indent-level: 2 -*- */
+/* vim: set ts=2 et sw=2 tw=80: */
+
 /*************************************************************
  *
  *  MathJax/jax/output/HTML-CSS/font/STIX/fontdata.js
@@ -7,7 +10,7 @@
  *
  *  ---------------------------------------------------------------------
  *  
- *  Copyright (c) 2009-2012 Design Science, Inc.
+ *  Copyright (c) 2009-2015 The MathJax Consortium
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -22,15 +25,17 @@
  *  limitations under the License.
  */
 
-(function (HTMLCSS,HTML) {
-  var VERSION = "2.0";
+(function (HTMLCSS,MML,HTML) {
+  var VERSION = "2.6.0";
   
   HTMLCSS.allowWebFonts = false;
   
   var GENERAL = "STIXGeneral",
       BOLD    = "STIXGeneral-bold",
       ITALIC  = "STIXGeneral-italic",
+      BITALIC = "STIXGeneral-bold-italic",
       NONUNI  = "STIXNonUnicode",
+      NONUNII = "STIXNonUnicode-italic",
       SIZE1   = "STIXSizeOneSym",
       SIZE2   = "STIXSizeTwoSym",
       SIZE3   = "STIXSizeThreeSym",
@@ -66,42 +71,59 @@
       },
       
       VARIANT: {
-        "normal": {fonts: [GENERAL,NONUNI,SIZE1]},
+        "normal": {fonts: [GENERAL,NONUNI,SIZE1],
+                   remap: {0x2205: [0x2205,"-STIX-variant"]}}, // \emptyset
         "bold":   {fonts: [BOLD,"STIXNonUnicode-bold","STIXSizeOneSym-bold"], bold:true},
-        "italic": {fonts: [ITALIC,"STIXNonUnicode-italic",GENERAL,NONUNI,SIZE1], italic:true},
-        "bold-italic": {fonts: ["STIXGeneral-bold-italic","STIXNonUnicode-bold-italic"], bold:true, italic:true},
+        "italic": {fonts: [ITALIC,NONUNII,GENERAL,NONUNI,SIZE1], italic:true},
+        "bold-italic": {fonts: [BITALIC,"STIXNonUnicode-bold-italic"], bold:true, italic:true},
         "double-struck": {offsetA: 0x1D538, offsetN: 0x1D7D8,
-                           remap: {0x1D53A: 0x2102, 0x1D53F: 0x210D, 0x1D545: 0x2115, 0x1D547: 0x2119,
-                                   0x1D548: 0x211A, 0x1D549: 0x211D, 0x1D551: 0x2124}},
+                   remap: {0x1D53A: 0x2102, 0x1D53F: 0x210D, 0x1D545: 0x2115, 0x1D547: 0x2119,
+                           0x1D548: 0x211A, 0x1D549: 0x211D, 0x1D551: 0x2124}},
         "fraktur": {offsetA: 0x1D504,
-                    remap: {0x1D506: 0x212D, 0x1D50B: 0x210C, 0x1D50C: 0x2111, 0x1D515: 0x211C, 0x1D51D: 0x2128}},
+                   remap: {0x1D506: 0x212D, 0x1D50B: 0x210C, 0x1D50C: 0x2111, 0x1D515: 0x211C, 0x1D51D: 0x2128}},
         "bold-fraktur": {fonts: [BOLD], offsetA: 0x1D56C, bold:true},
-        "script": {fonts: [ITALIC], offsetA: 0x1D49C,
+        "script": {fonts: [ITALIC], offsetA: 0x1D49C, italic:true,
                    remap: {0x1D49D: 0x212C, 0x1D4A0: 0x2130, 0x1D4A1: 0x2131, 0x1D4A3: 0x210B,
                            0x1D4A4: 0x2110, 0x1D4A7: 0x2112, 0x1D4A8: 0x2133, 0x1D4AD: 0x211B,
                            0x1D4BA: 0x212F, 0x1D4BC: 0x210A, 0x1D4C4: 0x2134}},
-        "bold-script": {fonts: [ITALIC], offsetA: 0x1D4D0, bold:true},
-        "sans-serif": {offsetA: 0x1D5A0, offsetN: 0x1D7E2, offsetG: 0xE17D},
+        "bold-script": {fonts: [BITALIC], offsetA: 0x1D4D0, bold:true, italic:true},
+        "sans-serif": {offsetA: 0x1D5A0, offsetN: 0x1D7E2, offsetG: 0xE17D, offsetE: 0xE17D},
         "bold-sans-serif": {offsetA: 0x1D5D4, offsetG: 0x1D756, offsetN: 0x1D7EC, bold:true},
-        "sans-serif-italic": {fonts: [ITALIC], offsetA: 0x1D608, offsetN: 0xE1B4, offsetG: 0xE1BF, italic:true},
-        "sans-serif-bold-italic": {fonts: ["STIXGeneral-bold-italic"], offsetA: 0x1D63C, offsetN: 0xE1F6, offsetG: 0x1D790, bold:true, italic:true},
-        "monospace": {offsetA: 0x1D670, offsetN: 0x1D7F6},
-        "-STIX-variant": {fonts:["STIXVariants",NONUNI,GENERAL]},
-        "-tex-caligraphic": {fonts: [ITALIC,"STIXNonUnicode-italic",NONUNI,SIZE1], offsetA: 0xE22D, noLowerCase: 1},
+        "sans-serif-italic": {fonts: [ITALIC,NONUNII], offsetA: 0x1D608, offsetN: 0xE1B4, offsetG: 0xE1BF, offsetE: 0xE1BF, italic:true},
+        "sans-serif-bold-italic": {fonts: [BITALIC,"STIXNonUnicode-bold-italic"], offsetA: 0x1D63C, offsetN: 0xE1F6, offsetG: 0x1D790, bold:true, italic:true},
+        "monospace": {offsetA: 0x1D670, offsetN: 0x1D7F6,
+                   remap: {0x20: [0x20,"-STIX-variant"]}}, // use a special space for monospace (see below)
+        "-STIX-variant": {fonts:["STIXVariants",NONUNI,GENERAL],
+                   remap: {0x2A87: 0xE010, 0x2A88: 0xE00F, 0x2270: 0xE011, 0x2271: 0xE00E,
+                           0x22E0: 0xE04B, 0x22E1: 0xE04F, 0x2288: 0xE016, 0x2289: 0xE018,
+                           0x25B3: 0x25B5, 0x25BD: 0x25BF,
+                           0x2205: [0x2205,MML.VARIANT.NORMAL]}},  // \varnothing
+        "-tex-caligraphic": {fonts: [ITALIC,NONUNII,NONUNI,SIZE1], offsetA: 0xE22D, noLowerCase: 1},
         "-tex-oldstyle": {offsetN: 0xE261,
-                          remap: {0xE262: 0xE265, 0xE263: 0xE269, 0xE264: 0xE26D, 0xE265: 0xE271,
-                                  0xE266: 0xE275, 0xE267: 0xE279, 0xE268: 0xE27D, 0xE269: 0xE281,
-                                  0xE26A: 0xE285}},
-        "-tex-mathit": {fonts: [ITALIC,"STIXNonUnicode-italic",GENERAL,NONUNI,SIZE1], italic:true, noIC:true},
+                   remap: {0xE262: 0xE265, 0xE263: 0xE269, 0xE264: 0xE26D, 0xE265: 0xE271,
+                           0xE266: 0xE275, 0xE267: 0xE279, 0xE268: 0xE27D, 0xE269: 0xE281,
+                           0xE26A: 0xE285}},
+        "-tex-mathit": {fonts: [ITALIC,NONUNII,GENERAL,NONUNI,SIZE1], italic:true, noIC:true},
         "-largeOp": {fonts:[SIZE1,"STIXIntegralsD",NONUNI,GENERAL]},
-        "-smallOp": {}
+        "-smallOp": {},
+        "-tex-caligraphic-bold": {
+          fonts:["STIXGeneral-bold-italic","STIXNonUnicode-bold-italic","STIXNonUnicode","STIXGeneral","STIXSizeOneSym"], bold:true,
+          offsetA: 0xE247, noLowerCase: 1
+        },
+        "-tex-oldstyle-bold": {
+          fonts:["STIXGeneral-bold","STIXNonUnicode-bold","STIXGeneral","STIXSizeOneSym"], bold:true, offsetN: 0xE263,
+          remap: {0xE264: 0xE267, 0xE265: 0xE26B, 0xE266: 0xE26F,
+                  0xE267: 0xE273, 0xE268: 0xE277, 0xE269: 0xE27B,
+                  0xE26A: 0xE27F, 0xE26B: 0xE283, 0xE26C: 0xE287}
+        }
       },
       
       RANGES: [
         {name: "alpha", low: 0x61, high: 0x7A, offset: "A", add: 26},
         {name: "Alpha", low: 0x41, high: 0x5A, offset: "A"},
         {name: "number", low: 0x30, high: 0x39, offset: "N"},
-        {name: "greek", low: 0x03B1, high: 0x03C9, offset: "G", add: 25},
+        {name: "greek-non-unicode", low: 0x03B1, high: 0x03C9, offset: "E", add: 25},
+        {name: "greek", low: 0x03B1, high: 0x03C9, offset: "G", add: 26},
         {name: "Greek", low: 0x0391, high: 0x03F6, offset: "G",
            remap: {0x03F5: 53, 0x03D1: 54, 0x03F0: 55, 0x03D5: 56, 0x03F1: 57, 0x03D6: 58, 0x03F4: 17}}
       ],
@@ -116,7 +138,13 @@
       },
       
       REMAPACCENT: {
-        "\u2192": "\u20D7"
+        "\u007E": "\u0303",
+        "\u2192": "\u20D7",
+        "\u0060": "\u0300",
+        "\u005E": "\u0302",
+        "\u00B4": "\u0301",
+        "\u2032": "\u0301",
+        "\u2035": "\u0300"
       },
       REMAPACCENTUNDER: {
       },
@@ -224,7 +252,7 @@
         },
         0x21D1: // \Uparrow
         {
-          dir: V, HW: [[.818,GENERAL]], stretch: {top:[0x21D1,GENERAL], ext:[0x2225,GENERAL,.1]}
+          dir: V, HW: [[.818,GENERAL]], stretch: {top:[0x21D1,GENERAL], ext:[0x2225,GENERAL,.082]}
         },
         0x21D2: // right double arrow
         {
@@ -232,7 +260,7 @@
         },
         0x21D3: // \Downarrow
         {
-          dir: V, HW: [[.818,GENERAL]], stretch: {ext:[0x2225,GENERAL,.1], bot:[0x21D3,GENERAL]}
+          dir: V, HW: [[.818,GENERAL]], stretch: {ext:[0x2225,GENERAL,.082], bot:[0x21D3,GENERAL]}
         },
         0x21D4: // left-right double arrow
         {
@@ -242,7 +270,7 @@
         0x21D5: // \Updownarrow
         {
           dir: V, HW: [[.818,GENERAL]],
-          stretch: {top:[0x21D1,GENERAL], ext:[0x2225,GENERAL,.1], bot:[0x21D3,GENERAL]}
+          stretch: {top:[0x21D1,GENERAL], ext:[0x2225,GENERAL,.082], bot:[0x21D3,GENERAL]}
         },
         0x221A: // \surd
         {
@@ -336,7 +364,7 @@
           stretch: {top:[0x23AB,SIZE1], ext:[0x23AA,SIZE1], bot:[0x23AD,SIZE1]}
         },
         0x002D: {alias: 0x23AF, dir:H}, // minus
-        0x005E: {alias: 0x02D6, dir:H}, // wide hat
+        0x005E: {alias: 0x02C6, dir:H}, // wide hat
         0x005F: {alias: 0x23AF, dir:H}, // low line
         0x007E: {alias: 0x02DC, dir:H}, // wide tilde
         0x00AF: {alias: 0x23AF, dir:H}, // macron
@@ -397,6 +425,9 @@
         0x295F: EXTRAH, // rightwards harpoon with barb down from bar
         0x2960: EXTRAV, // up harpoon with barb left from bar
         0x2961: EXTRAV, // down harpoon with barb left from bar
+        0x2312: {alias: 0x23DC, dir:H}, // arc
+        0x2322: {alias: 0x23DC, dir:H}, // frown
+        0x2323: {alias: 0x23DD, dir:H}, // smile
         0x27F5: {alias: 0x2190, dir:H}, // long left arrow
         0x27F6: {alias: 0x2192, dir:H}, // long right arrow
         0x27F7: {alias: 0x2194, dir:H}, // long left-right arrow
@@ -454,18 +485,6 @@
     }
   });
   
-  MathJax.Hub.Register.StartupHook("TeX Jax Ready", function () {
-    var TEX = MathJax.InputJax.TeX;
-    
-    TEX.isSTIX = true;
-    TEX.Definitions.mathchar0mi.hbar = ['210F',{variantForm: true}];
-    TEX.Definitions.mathchar0mi.emptyset[1].variantForm = true;
-    TEX.Definitions.mathchar0mi.backslash[1].variantForm = true;
-    TEX.Definitions.mathchar0mi.triangle[1].mathsize = "71%";
-
-    TEX.Definitions.mathchar0mo.setminus = ['2216',{variantForm: true}];
-  });
-
   HTMLCSS.FONTDATA.FONTS['STIXGeneral'] = {
     directory: 'General/Regular',
     family: 'STIXGeneral',
@@ -1493,6 +1512,27 @@
   HTMLCSS.FONTDATA.FONTS['STIXNonUnicode'][0xE14A][1] += 200;  // adjust depth for brace extender
   HTMLCSS.FONTDATA.FONTS['STIXNonUnicode'][0xE14B][0] += 200;  // adjust height for brace extender
   HTMLCSS.FONTDATA.FONTS['STIXNonUnicode'][0xE14B][1] += 200;  // adjust depth for brace extender
+  MathJax.Hub.Register.LoadHook(HTMLCSS.fontDir+"/Variants/Regular/All.js",function () {
+    // monospace mathvariant uses space from STIXVariants, so make it the right size
+    HTMLCSS.FONTDATA.FONTS['STIXVariants'][0x20][2] += 275;       // fix error in character width
+    HTMLCSS.FONTDATA.FONTS['STIXVariants'][0x20][5] = {rfix:275}; // fix error in character width
+  });
+
+  //
+  //  Add some spacing characters (more will come later)
+  //
+  MathJax.Hub.Insert(HTMLCSS.FONTDATA.FONTS['STIXGeneral'],{
+    0x2000: [0,0,500,0,0,{space:1}],     // en quad
+    0x2001: [0,0,1000,0,0,{space:1}],    // em quad
+    0x2002: [0,0,500,0,0,{space:1}],     // en space
+    0x2003: [0,0,1000,0,0,{space:1}],    // em space
+    0x2004: [0,0,333,0,0,{space:1}],     // 3-per-em space
+    0x2005: [0,0,250,0,0,{space:1}],     // 4-per-em space
+    0x2006: [0,0,167,0,0,{space:1}],     // 6-per-em space
+    0x2009: [0,0,167,0,0,{space:1}],     // thin space
+    0x200A: [0,0,83,0,0,{space:1}],      // hair space
+    0x200B: [0,0,0,0,0,{space:1}]        // zero-width space
+  });
 
   MathJax.Hub.Browser.Select({
     MSIE: function (browser) {
@@ -1516,8 +1556,10 @@
       browser.STIXfontBug = browser.versionAtLeast("5.1") && browser.isMac;
     },
     Chrome: function (browser) {
-      var match = navigator.appVersion.match(/AppleWebKit\/(\d+)/);
-      if (match && parseInt(match[1]) > 534) {browser.STIXfontBug = true}
+      if (browser.isMac) {
+        var match = navigator.appVersion.match(/AppleWebKit\/(\d+)/);
+        if (match && parseInt(match[1]) > 534) {browser.STIXfontBug = true}
+      }
     }
   });
   
@@ -1567,5 +1609,5 @@
   QUEUE.push(["loadComplete",MathJax.Ajax,HTMLCSS.fontDir + "/fontdata.js"]);
   MathJax.Callback.Queue.apply(MathJax.Callback,QUEUE);
 
-})(MathJax.OutputJax["HTML-CSS"],MathJax.HTML);
+})(MathJax.OutputJax["HTML-CSS"],MathJax.ElementJax.mml,MathJax.HTML);
 

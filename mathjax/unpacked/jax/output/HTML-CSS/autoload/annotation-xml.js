@@ -1,3 +1,6 @@
+/* -*- Mode: Javascript; indent-tabs-mode:nil; js-indent-level: 2 -*- */
+/* vim: set ts=2 et sw=2 tw=80: */
+
 /*************************************************************
  *
  *  MathJax/jax/output/HTML-CSS/autoload/annotation-xm;l.js
@@ -6,7 +9,7 @@
  *
  *  ---------------------------------------------------------------------
  *  
- *  Copyright (c) 2011-2012 Design Science, Inc.
+ *  Copyright (c) 2011-2015 The MathJax Consortium
  * 
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -22,7 +25,7 @@
  */
 
 MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
-  var VERSION = "2.0";
+  var VERSION = "2.6.0";
   var MML = MathJax.ElementJax.mml,
       HTMLCSS = MathJax.OutputJax["HTML-CSS"];
 
@@ -45,9 +48,11 @@ MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
     toHTML: function (span,encoding) {
       for (var i = 0, m = this.data.length; i < m; i++) 
         {span.appendChild(this.data[i].cloneNode(true))}
-      span.bbox.w = HTMLCSS.getW(span); span.bbox.rw = span.bbox.w;
+      var bbox = span.bbox; span.bbox = null;
+      bbox.rw = bbox.w = HTMLCSS.getW(span);
       var HD = HTMLCSS.getHD(span);
-      span.bbox.h = HD.h; span.bbox.d = HD.d;
+      bbox.h = HD.h; bbox.d = HD.d;
+      span.bbox = bbox;
     }
   });
   
