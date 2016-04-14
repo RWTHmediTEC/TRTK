@@ -98,6 +98,7 @@ function toggleVisibility(linkObj) {
 </div>
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#related">Related Functions</a>  </div>
   <div class="headertitle">
@@ -112,6 +113,10 @@ function toggleVisibility(linkObj) {
 
 <p><a href="class_t_r_t_k_1_1_range-members.html">List of all members.</a></p>
 <table class="memberdecls">
+<tr><td colspan="2"><h2><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2b5cd04b120b56ebab0fc5144eee9a94"></a><!-- doxytag: member="TRTK::Range::const_iterator" ref="a2b5cd04b120b56ebab0fc5144eee9a94" args="" -->
+typedef <a class="el" href="class_t_r_t_k_1_1_iterator.html">Iterator</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>const_iterator</b></td></tr>
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4edca37ecf226612e56129f7a783fa01"></a><!-- doxytag: member="TRTK::Range::Range" ref="a4edca37ecf226612e56129f7a783fa01" args="()" -->
@@ -204,8 +209,8 @@ Sequence::value_type &gt;&#160;</td><td class="memTemplItemRight" valign="bottom
 </pre></div><p><b>Output:</b> </p>
 <div class="fragment"><pre class="fragment"> 1 2 3
 </pre></div><dl class="author"><dt><b>Author:</b></dt><dd>Christoph Haenisch </dd></dl>
-<dl class="version"><dt><b>Version:</b></dt><dd>0.1.0 </dd></dl>
-<dl class="date"><dt><b>Date:</b></dt><dd>last changed on 2013-04-02 </dd></dl>
+<dl class="version"><dt><b>Version:</b></dt><dd>0.1.1 </dd></dl>
+<dl class="date"><dt><b>Date:</b></dt><dd>last changed on 2014-08-31 </dd></dl>
 
 <p>Definition at line <a class="el" href="_range_8hpp_source.html#l00090">90</a> of file <a class="el" href="_range_8hpp_source.html">Range.hpp</a>.</p>
 <hr/><h2>Constructor &amp; Destructor Documentation</h2>
@@ -246,7 +251,7 @@ template&lt;class T &gt; </div>
 </dl>
 <p>The range is a half-open intervall [begin, last). </p>
 
-<p>Definition at line <a class="el" href="_range_8hpp_source.html#l00155">155</a> of file <a class="el" href="_range_8hpp_source.html">Range.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_range_8hpp_source.html#l00157">157</a> of file <a class="el" href="_range_8hpp_source.html">Range.hpp</a>.</p>
 
 </div>
 </div>
@@ -270,7 +275,7 @@ template&lt;class T &gt; </div>
 <p>Returns true if the sequence does not contain any elements. </p>
 <p>If the range is uninitialized <code>true</code> is returned. </p>
 
-<p>Definition at line <a class="el" href="_range_8hpp_source.html#l00327">327</a> of file <a class="el" href="_range_8hpp_source.html">Range.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_range_8hpp_source.html#l00329">329</a> of file <a class="el" href="_range_8hpp_source.html">Range.hpp</a>.</p>
 
 </div>
 </div>
@@ -299,7 +304,7 @@ template&lt;class T &gt; </div>
        <span class="keywordflow">if</span> (range) doSomething(); <span class="comment">// instead of using it.isValid()</span>
 </pre></div> </dd></dl>
 
-<p>Definition at line <a class="el" href="_range_8hpp_source.html#l00360">360</a> of file <a class="el" href="_range_8hpp_source.html">Range.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_range_8hpp_source.html#l00362">362</a> of file <a class="el" href="_range_8hpp_source.html">Range.hpp</a>.</p>
 
 </div>
 </div>
@@ -330,7 +335,7 @@ template&lt;class T &gt; </div>
 </pre></div></dd></dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>If both ranges are valid, <code>true</code> is returned in the case of mutually identic iterators <code><a class="el" href="class_t_r_t_k_1_1_range.html#ae5e5bd7d06f7766b425ca7ed20d17855" title="Returns the first element of the range.">begin()</a></code> and <code><a class="el" href="class_t_r_t_k_1_1_range.html#ae459cb0f1a602de9e6e419b67f8cc36e" title="Returns the last element of the range (as done in the STL).">end()</a></code>. If both ranges are uninitialized, <code>true</code> is returned as well. In all other cases <code>false</code> is returned. </dd></dl>
 
-<p>Definition at line <a class="el" href="_range_8hpp_source.html#l00205">205</a> of file <a class="el" href="_range_8hpp_source.html">Range.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_range_8hpp_source.html#l00207">207</a> of file <a class="el" href="_range_8hpp_source.html">Range.hpp</a>.</p>
 
 </div>
 </div>
@@ -353,7 +358,7 @@ template&lt;class T &gt; </div>
 <p>Returns the size of the sequence. </p>
 <p>Coputational complexity: O(n) where n is the number of elements in the range. </p>
 
-<p>Definition at line <a class="el" href="_range_8hpp_source.html#l00395">395</a> of file <a class="el" href="_range_8hpp_source.html">Range.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_range_8hpp_source.html#l00397">397</a> of file <a class="el" href="_range_8hpp_source.html">Range.hpp</a>.</p>
 
 </div>
 </div>
@@ -380,12 +385,12 @@ template&lt;class Sequence &gt; </div>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Returns an instance of the Range&lt;T&gt; class.</dd></dl>
 <dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_range.html" title="Aggregate of two input iterator adapters.">Range</a>, <a class="el" href="class_t_r_t_k_1_1_iterator.html" title="Common base class for input iterator adapter classes.">Iterator</a>, <a class="el" href="class_t_r_t_k_1_1_iterator_adapter.html" title="Adapter class for arbitrary input iterator classes.">IteratorAdapter</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_range_8hpp_source.html#l00422">422</a> of file <a class="el" href="_range_8hpp_source.html">Range.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_range_8hpp_source.html#l00424">424</a> of file <a class="el" href="_range_8hpp_source.html">Range.hpp</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>D:/Users/haenisch/Programmierung/TRTK/trunk/include/TRTK/<a class="el" href="_range_8hpp_source.html">Range.hpp</a></li>
+<li>D:/Users/haenisch/Programmierung/C++/TRTK/include/TRTK/<a class="el" href="_range_8hpp_source.html">Range.hpp</a></li>
 </ul>
 </div>
 <!--- window showing the filter options -->

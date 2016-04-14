@@ -1,5 +1,5 @@
 <map id="G" name="G">
-<area shape="rect" id="node3" href="$_polynomial_8hpp.html" title="This file contains the interface for all polynomials." alt="" coords="309,83,779,112"/>
-<area shape="rect" id="node5" href="$_generic_polynomial_8hpp.html" title="This file contains the GenericPolynomial class." alt="" coords="5,160,520,189"/>
-<area shape="rect" id="node7" href="$_trivariate_quadratic_polynomial_8hpp.html" title="This file contains the TrivariateQuadraticPolynomial class." alt="" coords="544,160,1123,189"/>
+<area shape="rect" id="node2" href="$_polynomial_8hpp.html" title="This file contains the interface for all polynomials." alt="" coords="305,80,771,107"/>
+<area shape="rect" id="node3" href="$_generic_polynomial_8hpp.html" title="This file contains the GenericPolynomial class." alt="" coords="5,155,513,181"/>
+<area shape="rect" id="node4" href="$_trivariate_quadratic_polynomial_8hpp.html" title="This file contains the TrivariateQuadraticPolynomial class." alt="" coords="537,155,1112,181"/>
 </map>

@@ -1,8 +1,8 @@
 <map id="G" name="G">
-<area shape="rect" id="node15" href="$_error_obj_8hpp.html" title="This file contains the declaration of the ErrorObj class." alt="" coords="980,315,1073,344"/>
-<area shape="rect" id="node21" href="$_coordinate_8hpp.html" title="This file contains the Coordinate class and related functions." alt="" coords="425,237,535,267"/>
-<area shape="rect" id="node52" href="$_fit2_d_8hpp.html" title="This file contains the base class for all 2D fitting classes." alt="" coords="821,83,899,112"/>
-<area shape="rect" id="node31" href="$_tools_8hpp.html" title="This file contains various helper functions." alt="" coords="533,315,611,344"/>
-<area shape="rect" id="node60" href="$_transform3_d_8hpp.html" title="This file contains the Transform3D class." alt="" coords="567,160,687,189"/>
-<area shape="rect" id="node69" href="$_fit_8hpp.html" title="This file contains the base class for all fitting classes." alt="" coords="761,160,823,189"/>
+<area shape="rect" id="node8" href="$_error_obj_8hpp.html" title="This file contains the declaration of the ErrorObj class." alt="" coords="979,304,1075,331"/>
+<area shape="rect" id="node11" href="$_coordinate_8hpp.html" title="This file contains the Coordinate class and related functions." alt="" coords="425,229,535,256"/>
+<area shape="rect" id="node22" href="$_fit2_d_8hpp.html" title="This file contains the base class for all 2D fitting classes." alt="" coords="822,80,898,107"/>
+<area shape="rect" id="node14" href="$_tools_8hpp.html" title="This file contains various helper functions." alt="" coords="533,304,611,331"/>
+<area shape="rect" id="node23" href="$_transform3_d_8hpp.html" title="This file contains the Transform3D class." alt="" coords="564,155,687,181"/>
+<area shape="rect" id="node24" href="$_fit_8hpp.html" title="This file contains the base class for all fitting classes." alt="" coords="761,155,823,181"/>
 </map>

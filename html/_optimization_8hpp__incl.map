@@ -1,7 +1,7 @@
 <map id="G" name="G">
-<area shape="rect" id="node9" href="$_coordinate_8hpp.html" title="This file contains the Coordinate class and related functions." alt="" coords="412,83,521,112"/>
-<area shape="rect" id="node46" href="$_definitions_8hpp.html" title="This file contains some commonly used constants of the TRTK library as well as some macro definitions..." alt="" coords="715,83,821,112"/>
-<area shape="rect" id="node20" href="$_tools_8hpp.html" title="This file contains various helper functions." alt="" coords="504,160,581,189"/>
-<area shape="rect" id="node39" href="$_error_obj_8hpp.html" title="This file contains the declaration of the ErrorObj class." alt="" coords="336,160,429,189"/>
-<area shape="rect" id="node48" href="$_version_8hpp.html" title="This file contains some version information of the TRTK library." alt="" coords="893,160,984,189"/>
+<area shape="rect" id="node5" href="$_coordinate_8hpp.html" title="This file contains the Coordinate class and related functions." alt="" coords="411,80,521,107"/>
+<area shape="rect" id="node20" href="$_definitions_8hpp.html" title="This file contains some commonly used constants of the TRTK library as well as some macro definitions..." alt="" coords="715,80,822,107"/>
+<area shape="rect" id="node9" href="$_tools_8hpp.html" title="This file contains various helper functions." alt="" coords="504,155,583,181"/>
+<area shape="rect" id="node17" href="$_error_obj_8hpp.html" title="This file contains the declaration of the ErrorObj class." alt="" coords="333,155,429,181"/>
+<area shape="rect" id="node21" href="$_version_8hpp.html" title="This file contains some version information of the TRTK library." alt="" coords="895,155,986,181"/>
 </map>

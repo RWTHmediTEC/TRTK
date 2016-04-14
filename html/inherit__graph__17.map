@@ -1,5 +1,5 @@
 <map id="G" name="G">
-<area shape="rect" id="node1" href="$class_t_r_t_k_1_1_polynomial.html" title="Interface class for all polynomials." alt="" coords="5,32,163,61"/>
-<area shape="rect" id="node3" href="$class_t_r_t_k_1_1_generic_polynomial.html" title="Multivariate multidimensional polynomial." alt="" coords="241,5,444,35"/>
-<area shape="rect" id="node5" href="$class_t_r_t_k_1_1_trivariate_quadratic_polynomial.html" title="Trivariate quadratic polynomial." alt="" coords="211,59,475,88"/>
+<area shape="rect" id="node1" href="$class_t_r_t_k_1_1_polynomial.html" title="Interface class for all polynomials." alt="" coords="5,31,164,57"/>
+<area shape="rect" id="node2" href="$class_t_r_t_k_1_1_generic_polynomial.html" title="Multivariate multidimensional polynomial." alt="" coords="245,5,447,32"/>
+<area shape="rect" id="node3" href="$class_t_r_t_k_1_1_trivariate_quadratic_polynomial.html" title="Trivariate quadratic polynomial." alt="" coords="212,56,480,83"/>
 </map>

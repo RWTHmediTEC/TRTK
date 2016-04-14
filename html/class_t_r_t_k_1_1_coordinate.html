@@ -232,6 +232,8 @@ Public Member Functions</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an Eigen 3 array.  <a href="#aac668a245947eb2dbb3378bd2bc85656"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_t_r_t_k_1_1_coordinate.html#a042577c860231363c463e62703f7c53a">matrix_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_coordinate.html#a30b5a52b8a5034e70156f8998e6807aa">toMatrix</a> () const </td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an Eigen 3 matrix.  <a href="#a30b5a52b8a5034e70156f8998e6807aa"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_coordinate.html#a8a95e54de7ae923d497af1e46842ae2b">toString</a> () const </td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the string representation of the coordinate.  <a href="#a8a95e54de7ae923d497af1e46842ae2b"></a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_t_r_t_k_1_1_coordinate.html">Coordinate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_coordinate.html#ae2a61fc31f3f7aa312942f927cc03fde">rand</a> (unsigned int size, T a=T(0), T b=T(1))</td></tr>
@@ -316,8 +318,8 @@ Related Functions</h2></td></tr>
 <dl class="user"><dt><b>Macros:</b></dt><dd>If <code style="color:blue">TRTK_SUPPORT_CVECTOR</code> is defined, <a class="el" href="class_t_r_t_k_1_1_coordinate.html" title="A generic coordinate class.">Coordinate</a> will support the mediTEC <code>CVector</code> class. That is, an constructor as well as a conversion operator is defined.</dd></dl>
 <dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_transform2_d.html" title="Affine or projective transformation in 2D.">Transform2D</a> and <a class="el" href="class_t_r_t_k_1_1_transform3_d.html" title="Affine or projective transformation in 3D.">Transform3D</a></dd></dl>
 <dl class="author"><dt><b>Author:</b></dt><dd>Christoph Haenisch </dd></dl>
-<dl class="version"><dt><b>Version:</b></dt><dd>0.7.1 </dd></dl>
-<dl class="date"><dt><b>Date:</b></dt><dd>last changed on 2013-08-20 </dd></dl>
+<dl class="version"><dt><b>Version:</b></dt><dd>0.8.0 </dd></dl>
+<dl class="date"><dt><b>Date:</b></dt><dd>last changed on 2014-09-02 </dd></dl>
 
 <p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00148">148</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 <hr/><h2>Member Enumeration Documentation</h2>
@@ -345,7 +347,7 @@ template&lt;class T&gt; </div>
 </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00240">240</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00242">242</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -381,7 +383,7 @@ template&lt;class T&gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00327">327</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00329">329</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -427,7 +429,7 @@ template&lt;class T&gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00340">340</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00342">342</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -480,7 +482,7 @@ template&lt;class T&gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00355">355</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00357">357</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -540,7 +542,7 @@ template&lt;class T&gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00372">372</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00374">374</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -574,7 +576,7 @@ template&lt;class T&gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00389">389</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00391">391</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -611,7 +613,7 @@ template&lt;class U &gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00405">405</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00407">407</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -647,7 +649,7 @@ template&lt;class T&gt; </div>
 <p>This constructor converts a <code>CVector</code> into a <a class="el" href="class_t_r_t_k_1_1_coordinate.html" title="A generic coordinate class.">Coordinate</a>.</p>
 <dl class="note"><dt><b>Note:</b></dt><dd><code style="color:blue">TRTK_SUPPORT_CVECTOR</code> must be defined to enable this function. </dd></dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00433">433</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00435">435</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -691,7 +693,7 @@ template&lt;typename Derived &gt; </div>
 </pre></div><dl class="note"><dt><b>Note:</b></dt><dd>The constructor is defined <em>explicit</em> to avoid automatic conversion clashes with the <em>Eigen</em> libraray.</dd></dl>
 <dl class="see"><dt><b>See also:</b></dt><dd>Eigen (<a href="http://eigen.tuxfamily.org">http://eigen.tuxfamily.org</a>) </dd></dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00470">470</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00472">472</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -718,7 +720,7 @@ template&lt;class T &gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00483">483</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00485">485</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -755,7 +757,7 @@ template&lt;class T &gt; </div>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Returns the cross product of <code>*this</code> and <code>other</code>. </dd></dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01126">1126</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01128">1128</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -791,7 +793,7 @@ template&lt;class T &gt; </div>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Returns the dot product of <code>*this</code> and <code>other</code>. </dd></dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01152">1152</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01154">1154</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -827,7 +829,7 @@ template&lt;class T&gt; </div>
 <p>Sets each component of <code>*this</code> to <code>value</code>.</p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Returns <code>*this</code>. </dd></dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01170">1170</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01172">1172</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -855,7 +857,7 @@ template&lt;class T &gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01180">1180</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01182">1182</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -885,7 +887,7 @@ template&lt;class T &gt; </div>
 <p>If this function is called, <code>*this</code> is divided by its Euclidean norm.</p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Returns <code>*this</code>. </dd></dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01194">1194</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01196">1196</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -913,7 +915,7 @@ template&lt;class T &gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01204">1204</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01206">1206</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -944,7 +946,7 @@ template&lt;class T &gt; </div>
 <p>This operator performs an automatic conversion of <code>*this</code> to <a class="el" href="class_t_r_t_k_1_1_coordinate.html#a146cd9476b1f2ca2d1ae13c3ac4c0f0d" title="See also http://eigen.tuxfamily.org.">Coordinate::const_data_type</a>, i.e. an <code>Eigen::Array</code> </p>
 <dl class="see"><dt><b>See also:</b></dt><dd><a href="http://eigen.tuxfamily.org">http://eigen.tuxfamily.org</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01081">1081</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01083">1083</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -975,7 +977,7 @@ template&lt;class T &gt; </div>
 <p>This operator performs an automatic type conversion from <a class="el" href="class_t_r_t_k_1_1_coordinate.html" title="A generic coordinate class.">Coordinate</a> to <code>CVector</code>.</p>
 <dl class="note"><dt><b>Note:</b></dt><dd><code style="color:blue">TRTK_SUPPORT_CVECTOR</code> must be defined to enable this function. </dd></dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01101">1101</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01103">1103</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -1006,7 +1008,7 @@ template&lt;class T &gt; </div>
 <p>This operator performs an automatic conversion of <code>*this</code> to <a class="el" href="class_t_r_t_k_1_1_coordinate.html#ac5a4d43ee3a2503684c5021bbc681dd6" title="See also http://eigen.tuxfamily.org.">Coordinate::data_type</a>, i.e. an <code>Eigen::Array</code> </p>
 <dl class="see"><dt><b>See also:</b></dt><dd><a href="http://eigen.tuxfamily.org">http://eigen.tuxfamily.org</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01064">1064</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01066">1066</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -1041,7 +1043,7 @@ template&lt;class T&gt; </div>
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_coordinate.html" title="A generic coordinate class.">Coordinate</a></dd></dl>
 <p>Multiplies <code>value</code> with each component of <code>*this</code>. </p>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00868">868</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00870">870</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -1077,7 +1079,7 @@ template&lt;class T&gt; </div>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_coordinate.html" title="A generic coordinate class.">Coordinate</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00957">957</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00959">959</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -1112,7 +1114,7 @@ template&lt;class T&gt; </div>
 <dl class="return"><dt><b>Returns:</b></dt><dd>*this</dd></dl>
 <p>Multiplies each component of <code>*this</code> with <code>value</code>. </p>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00689">689</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00691">691</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -1149,7 +1151,7 @@ template&lt;class T&gt; </div>
 <dl class="return"><dt><b>Returns:</b></dt><dd>*this</dd></dl>
 <p>Component-wise multiplication of <code>other</code> and <code>*this</code>. </p>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00776">776</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00778">778</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -1184,7 +1186,7 @@ template&lt;class T&gt; </div>
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_coordinate.html" title="A generic coordinate class.">Coordinate</a></dd></dl>
 <p>Adds <code>value</code> to each component of <code>*this</code>. </p>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00830">830</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00832">832</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -1220,7 +1222,7 @@ template&lt;class T&gt; </div>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_coordinate.html" title="A generic coordinate class.">Coordinate</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00919">919</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00921">921</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -1257,7 +1259,7 @@ template&lt;class T&gt; </div>
 <dl class="return"><dt><b>Returns:</b></dt><dd>*this</dd></dl>
 <p>Component-wise addition of <code>other</code> and <code>*this</code>. </p>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00738">738</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00740">740</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -1292,7 +1294,7 @@ template&lt;class T&gt; </div>
 <dl class="return"><dt><b>Returns:</b></dt><dd>*this</dd></dl>
 <p>Adds <code>value</code> to each component of <code>*this</code>. </p>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00655">655</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00657">657</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -1340,7 +1342,7 @@ template&lt;class T&gt; </div>
  (1, 2, 3, 4, 4)
 </pre></div><dl class="note"><dt><b>Note:</b></dt><dd>You need to embrace the expression, otherwise the comma is not recognized as an operator! </dd></dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01039">1039</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01041">1041</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -1375,7 +1377,7 @@ template&lt;class T&gt; </div>
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_coordinate.html" title="A generic coordinate class.">Coordinate</a></dd></dl>
 <p>Subtracts <code>value</code> from each component of <code>*this</code>. </p>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00849">849</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00851">851</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -1411,7 +1413,7 @@ template&lt;class T&gt; </div>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_coordinate.html" title="A generic coordinate class.">Coordinate</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00938">938</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00940">940</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -1448,7 +1450,7 @@ template&lt;class T&gt; </div>
 <dl class="return"><dt><b>Returns:</b></dt><dd>*this</dd></dl>
 <p>Component-wise subtraction of <code>other</code> and <code>*this</code>. </p>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00757">757</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00759">759</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -1483,7 +1485,7 @@ template&lt;class T&gt; </div>
 <dl class="return"><dt><b>Returns:</b></dt><dd>*this</dd></dl>
 <p>Subtracts <code>value</code> from each component of <code>*this</code>. </p>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00672">672</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00674">674</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -1525,7 +1527,7 @@ template&lt;class T&gt; </div>
 <p>Divides each component of <code>*this</code> by <code>value</code>.</p>
 <dl class="see"><dt><b>See also:</b></dt><dd>Enumerator <a class="el" href="class_t_r_t_k_1_1_coordinate.html#a0797b65d3addf4aa13d1063552917d35">Coordinate::Error</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00892">892</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00894">894</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -1568,7 +1570,7 @@ template&lt;class T&gt; </div>
 </dl>
 <dl class="see"><dt><b>See also:</b></dt><dd>Enumerator <a class="el" href="class_t_r_t_k_1_1_coordinate.html#a0797b65d3addf4aa13d1063552917d35">Coordinate::Error</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00981">981</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00983">983</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -1612,7 +1614,7 @@ template&lt;class T&gt; </div>
 <p>Component-wise division of <code>*this</code> by <code>other</code>.</p>
 <dl class="see"><dt><b>See also:</b></dt><dd>Enumerator <a class="el" href="class_t_r_t_k_1_1_coordinate.html#a0797b65d3addf4aa13d1063552917d35">Coordinate::Error</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00800">800</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00802">802</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -1654,7 +1656,7 @@ template&lt;class T&gt; </div>
 <p>Divides each component of <code>*this</code> by <code>value</code>.</p>
 <dl class="see"><dt><b>See also:</b></dt><dd>Enumerator <a class="el" href="class_t_r_t_k_1_1_coordinate.html#a0797b65d3addf4aa13d1063552917d35">Coordinate::Error</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00711">711</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00713">713</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -1688,7 +1690,7 @@ template&lt;class T &gt; </div>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>true if all elements of <code>*this</code> and <code>coordinate</code> are equal to each other </dd></dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00637">637</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00639">639</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -1726,7 +1728,7 @@ template&lt;class T &gt; </div>
 <div class="fragment"><pre class="fragment"> Coordinate&lt;double&gt; c(1, 2, 3);
  <span class="keywordtype">double</span> a = c[1]; <span class="comment">// a == 2</span>
 </pre></div> 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00594">594</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00596">596</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -1764,7 +1766,7 @@ template&lt;class T &gt; </div>
 <div class="fragment"><pre class="fragment"> Coordinate&lt;double&gt; c(1, 2, 3);
  <span class="keywordtype">double</span> a = c[1]; <span class="comment">// a == 2</span>
 </pre></div> 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00620">620</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00622">622</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -1793,7 +1795,7 @@ template&lt;class T &gt; </div>
 </dl>
 <p>The returned vector is <b>not</b> normalized! </p>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01216">1216</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01218">1218</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -1822,7 +1824,7 @@ template&lt;class T &gt; </div>
 </dl>
 <p>The returned vector is normalized! </p>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01266">1266</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01268">1268</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -1884,7 +1886,7 @@ template&lt;class T&gt; </div>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Returns a <code>Coordinate&lt;T&gt;</code>.</dd></dl>
 <dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_coordinate.html#af41309082a015b059fe4f50e2d8b37b5">size()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01332">1332</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01334">1334</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -1946,7 +1948,7 @@ template&lt;class T&gt; </div>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Returns a <code>Coordinate&lt;T&gt;</code>.</dd></dl>
 <dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_coordinate.html#af41309082a015b059fe4f50e2d8b37b5">size()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01364">1364</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01366">1366</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -1984,7 +1986,7 @@ template&lt;class T &gt; </div>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Returns <code>*this</code>.</dd></dl>
 <dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_coordinate.html#af41309082a015b059fe4f50e2d8b37b5">size()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01390">1390</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01392">1392</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -2031,7 +2033,7 @@ template&lt;class T&gt; </div>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Returns <code>*this</code>.</dd></dl>
 <dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_coordinate.html#af41309082a015b059fe4f50e2d8b37b5">size()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01410">1410</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01412">1412</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -2059,7 +2061,7 @@ template&lt;class T &gt; </div>
 <dl class="return"><dt><b>Returns:</b></dt><dd>size of <code>*this</code> </dd></dl>
 <dl class="see"><dt><b>See also:</b></dt><dd>resize(const int size, const T value) </dd></dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01444">1444</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01446">1446</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -2087,37 +2089,7 @@ template&lt;class T &gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01453">1453</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ae0ca1a27f2d216b7f10ebad49182bef4"></a><!-- doxytag: member="TRTK::Coordinate::toArray" ref="ae0ca1a27f2d216b7f10ebad49182bef4" args="()" -->
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class T &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_t_r_t_k_1_1_coordinate.html">Coordinate</a>&lt; T &gt;::<a class="el" href="class_t_r_t_k_1_1_coordinate.html#ac5a4d43ee3a2503684c5021bbc681dd6">data_type</a> &amp; <a class="el" href="class_t_r_t_k_1_1_coordinate.html">TRTK::Coordinate</a>&lt; T &gt;::toArray </td>
-          <td>(</td>
-          <td class="paramname">&#160;)</td>
-          <td><code> [inline]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Returns an Eigen 3 array. </p>
-<dl><dt><b>Template Parameters:</b></dt><dd>
-  <table class="">
-    <tr><td class="paramname">T</td><td>scalar type</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>returns an <em>Eigen</em> <em>3</em> column vector</dd></dl>
-<dl class="see"><dt><b>See also:</b></dt><dd>Eigen (<a href="http://eigen.tuxfamily.org">http://eigen.tuxfamily.org</a>) </dd></dl>
-
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01467">1467</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01455">1455</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -2147,7 +2119,37 @@ template&lt;class T &gt; </div>
 <dl class="return"><dt><b>Returns:</b></dt><dd>returns an <em>Eigen</em> <em>3</em> column vector</dd></dl>
 <dl class="see"><dt><b>See also:</b></dt><dd>Eigen (<a href="http://eigen.tuxfamily.org">http://eigen.tuxfamily.org</a>) </dd></dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01481">1481</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01483">1483</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae0ca1a27f2d216b7f10ebad49182bef4"></a><!-- doxytag: member="TRTK::Coordinate::toArray" ref="ae0ca1a27f2d216b7f10ebad49182bef4" args="()" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_t_r_t_k_1_1_coordinate.html">Coordinate</a>&lt; T &gt;::<a class="el" href="class_t_r_t_k_1_1_coordinate.html#ac5a4d43ee3a2503684c5021bbc681dd6">data_type</a> &amp; <a class="el" href="class_t_r_t_k_1_1_coordinate.html">TRTK::Coordinate</a>&lt; T &gt;::toArray </td>
+          <td>(</td>
+          <td class="paramname">&#160;)</td>
+          <td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Returns an Eigen 3 array. </p>
+<dl><dt><b>Template Parameters:</b></dt><dd>
+  <table class="">
+    <tr><td class="paramname">T</td><td>scalar type</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>returns an <em>Eigen</em> <em>3</em> column vector</dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd>Eigen (<a href="http://eigen.tuxfamily.org">http://eigen.tuxfamily.org</a>) </dd></dl>
+
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01469">1469</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -2179,7 +2181,39 @@ template&lt;class T &gt; </div>
 </pre></div> which is more efficient (since no copying is done).</dd></dl>
 <dl class="see"><dt><b>See also:</b></dt><dd>Eigen (<a href="http://eigen.tuxfamily.org">http://eigen.tuxfamily.org</a>) </dd></dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01502">1502</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01504">1504</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8a95e54de7ae923d497af1e46842ae2b"></a><!-- doxytag: member="TRTK::Coordinate::toString" ref="a8a95e54de7ae923d497af1e46842ae2b" args="() const " -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string <a class="el" href="class_t_r_t_k_1_1_coordinate.html">TRTK::Coordinate</a>&lt; T &gt;::toString </td>
+          <td>(</td>
+          <td class="paramname">&#160;)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Returns the string representation of the coordinate. </p>
+<dl><dt><b>Template Parameters:</b></dt><dd>
+  <table class="">
+    <tr><td class="paramname">T</td><td>scalar type</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>returns a standard string</dd></dl>
+<dl class="note"><dt><b>Note:</b></dt><dd>The stream operator is overloaded which alows you to write code like <div class="fragment"><pre class="fragment"> std::cout &lt;&lt; Coordinate&lt;double&gt;(1, 2, 3);
+</pre></div></dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd>operator &gt;&gt; (std::istream &amp; input, <a class="el" href="class_t_r_t_k_1_1_coordinate.html#a4e48b18a266899efc62e557b265df9f8" title="Constructs a zero-dimensional coordinate.">Coordinate&lt;T&gt;</a> &amp; coordinate) </dd></dl>
+
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01524">1524</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -2207,7 +2241,7 @@ template&lt;class T &gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00568">568</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00570">570</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -2235,35 +2269,7 @@ template&lt;class T &gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00524">524</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a59b1c049e4492c7106c299961c7eaf83"></a><!-- doxytag: member="TRTK::Coordinate::x" ref="a59b1c049e4492c7106c299961c7eaf83" args="() const " -->
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class T &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">const T &amp; <a class="el" href="class_t_r_t_k_1_1_coordinate.html">TRTK::Coordinate</a>&lt; T &gt;::x </td>
-          <td>(</td>
-          <td class="paramname">&#160;)</td>
-          <td> const<code> [inline]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Returns the first component. </p>
-<dl><dt><b>Template Parameters:</b></dt><dd>
-  <table class="">
-    <tr><td class="paramname">T</td><td>scalar type </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00535">535</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00526">526</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -2291,7 +2297,35 @@ template&lt;class T &gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00491">491</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00493">493</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a59b1c049e4492c7106c299961c7eaf83"></a><!-- doxytag: member="TRTK::Coordinate::x" ref="a59b1c049e4492c7106c299961c7eaf83" args="() const " -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">const T &amp; <a class="el" href="class_t_r_t_k_1_1_coordinate.html">TRTK::Coordinate</a>&lt; T &gt;::x </td>
+          <td>(</td>
+          <td class="paramname">&#160;)</td>
+          <td> const<code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Returns the first component. </p>
+<dl><dt><b>Template Parameters:</b></dt><dd>
+  <table class="">
+    <tr><td class="paramname">T</td><td>scalar type </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00537">537</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -2319,7 +2353,7 @@ template&lt;class T &gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00502">502</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00504">504</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -2347,35 +2381,7 @@ template&lt;class T &gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00546">546</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a246b7069000ed2b89551633acb22571d"></a><!-- doxytag: member="TRTK::Coordinate::z" ref="a246b7069000ed2b89551633acb22571d" args="()" -->
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class T &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">T &amp; <a class="el" href="class_t_r_t_k_1_1_coordinate.html">TRTK::Coordinate</a>&lt; T &gt;::z </td>
-          <td>(</td>
-          <td class="paramname">&#160;)</td>
-          <td><code> [inline]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Returns the third component. </p>
-<dl><dt><b>Template Parameters:</b></dt><dd>
-  <table class="">
-    <tr><td class="paramname">T</td><td>scalar type </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00513">513</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00548">548</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -2403,7 +2409,35 @@ template&lt;class T &gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00557">557</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00559">559</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a246b7069000ed2b89551633acb22571d"></a><!-- doxytag: member="TRTK::Coordinate::z" ref="a246b7069000ed2b89551633acb22571d" args="()" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">T &amp; <a class="el" href="class_t_r_t_k_1_1_coordinate.html">TRTK::Coordinate</a>&lt; T &gt;::z </td>
+          <td>(</td>
+          <td class="paramname">&#160;)</td>
+          <td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Returns the third component. </p>
+<dl><dt><b>Template Parameters:</b></dt><dd>
+  <table class="">
+    <tr><td class="paramname">T</td><td>scalar type </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l00515">515</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -2490,7 +2524,7 @@ template&lt;class T &gt; </div>
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_coordinate.html" title="A generic coordinate class.">Coordinate</a> with scalar type T</dd></dl>
 <p>Multiplies each component of <code>coordinate</code> with <code>value</code>. </p>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01565">1565</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01619">1619</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -2577,7 +2611,7 @@ template&lt;class T &gt; </div>
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_coordinate.html" title="A generic coordinate class.">Coordinate</a> with scalar type T</dd></dl>
 <p>Adds <code>value</code> to each component of <code>coordinate</code>. </p>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01526">1526</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01580">1580</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -2743,7 +2777,7 @@ template&lt;class T &gt; </div>
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_coordinate.html" title="A generic coordinate class.">Coordinate</a> with scalar type T</dd></dl>
 <p>Element-wise subtraction where <code>coordinate</code> is subtracted from \( (value, value, ..., value)^T \). </p>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01546">1546</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01600">1600</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -2910,7 +2944,7 @@ template&lt;class T &gt; </div>
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_coordinate.html" title="A generic coordinate class.">Coordinate</a> with scalar type T</dd></dl>
 <p>Element-wise division of \( (value, value, \dots, value)^T \) by <code>coordinate</code>. </p>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01585">1585</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01639">1639</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -2964,7 +2998,7 @@ template&lt;class T &gt; </div>
 <div class="fragment"><pre class="fragment"> (1, 2, 3)
 </pre></div><dl class="see"><dt><b>See also:</b></dt><dd>operator &gt;&gt; (std::istream &amp; input, <a class="el" href="class_t_r_t_k_1_1_coordinate.html#a4e48b18a266899efc62e557b265df9f8" title="Constructs a zero-dimensional coordinate.">Coordinate&lt;T&gt;</a> &amp; coordinate) </dd></dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01739">1739</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01793">1793</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
@@ -3041,13 +3075,13 @@ template&lt;class T &gt; </div>
 </dl>
 <dl class="see"><dt><b>See also:</b></dt><dd>operator &gt;&gt; (std::istream &amp; input, <a class="el" href="class_t_r_t_k_1_1_coordinate.html#a4e48b18a266899efc62e557b265df9f8" title="Constructs a zero-dimensional coordinate.">Coordinate&lt;T&gt;</a> &amp; coordinate) </dd></dl>
 
-<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01655">1655</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_coordinate_8hpp_source.html#l01709">1709</a> of file <a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>D:/Users/haenisch/Programmierung/TRTK/trunk/include/TRTK/<a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a></li>
-<li>D:/Users/haenisch/Programmierung/TRTK/trunk/src/<a class="el" href="_coordinate_8cpp_source.html">Coordinate.cpp</a></li>
+<li>D:/Users/haenisch/Programmierung/C++/TRTK/include/TRTK/<a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a></li>
+<li>D:/Users/haenisch/Programmierung/C++/TRTK/src/<a class="el" href="_coordinate_8cpp_source.html">Coordinate.cpp</a></li>
 </ul>
 </div>
 <!--- window showing the filter options -->

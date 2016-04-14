@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<title>Transformation and Registration Toolkit: D:/Users/haenisch/Programmierung/TRTK/trunk/include/TRTK/Optimization.hpp Source File</title>
+<title>Transformation and Registration Toolkit: D:/Users/haenisch/Programmierung/C++/TRTK/include/TRTK/Optimization.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javaScript" src="search/search.js"></script>
@@ -90,7 +90,7 @@ function toggleVisibility(linkObj) {
   </div>
 <div class="header">
   <div class="headertitle">
-<h1>D:/Users/haenisch/Programmierung/TRTK/trunk/include/TRTK/Optimization.hpp</h1>  </div>
+<h1>D:/Users/haenisch/Programmierung/C++/TRTK/include/TRTK/Optimization.hpp</h1>  </div>
 </div>
 <div class="contents">
 <a href="_optimization_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
@@ -334,220 +334,220 @@ function toggleVisibility(linkObj) {
 <a name="l00791"></a>00791 }
 <a name="l00792"></a>00792 
 <a name="l00793"></a>00793 
-<a name="l00894"></a>00894 <span class="keyword">template</span> &lt;<span class="keyword">class</span> Function, <span class="keyword">class</span> ValueType&gt;
-<a name="l00895"></a>00895 Result&lt;ValueType&gt; <a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a2740acef116b835b6c18d69acf41f4ed" title="This function solves for the root (zero) of a given function.">solveLevenbergMarquardt</a>(Function function, <span class="keyword">const</span> Coordinate&lt;ValueType&gt; &amp; start_value, Options&lt;ValueType&gt; options = Options&lt;ValueType&gt;())
-<a name="l00896"></a>00896 {
-<a name="l00897"></a>00897     <span class="comment">// The algorithm is implemented as described in the original article</span>
-<a name="l00898"></a>00898     <span class="comment">// of Marquardt. However, instead of scaling the matrix A and the vector</span>
-<a name="l00899"></a>00899     <span class="comment">// g we add lambda * diag(A) to A rather than lambda * I since this is</span>
-<a name="l00900"></a>00900     <span class="comment">// equivalent but more efficient.</span>
-<a name="l00901"></a>00901 
-<a name="l00902"></a>00902     <span class="keyword">using</span> std::numeric_limits;
-<a name="l00903"></a>00903     <span class="keyword">using</span> <a class="code" href="namespace_t_r_t_k.html#ab6a8c5f73ab8b7638ca1011e6f2c89aa" title="Computes the square root of each element.">std::sqrt</a>;
-<a name="l00904"></a>00904 
-<a name="l00905"></a>00905     <span class="keyword">using namespace </span>Eigen;
+<a name="l00896"></a>00896 <span class="keyword">template</span> &lt;<span class="keyword">class</span> Function, <span class="keyword">class</span> ValueType&gt;
+<a name="l00897"></a>00897 Result&lt;ValueType&gt; <a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a2740acef116b835b6c18d69acf41f4ed" title="This function solves for the root (zero) of a given function.">solveLevenbergMarquardt</a>(Function function, <span class="keyword">const</span> Coordinate&lt;ValueType&gt; &amp; start_value, Options&lt;ValueType&gt; options = Options&lt;ValueType&gt;())
+<a name="l00898"></a>00898 {
+<a name="l00899"></a>00899     <span class="comment">// The algorithm is implemented as described in the original article</span>
+<a name="l00900"></a>00900     <span class="comment">// of Marquardt. However, instead of scaling the matrix A and the vector</span>
+<a name="l00901"></a>00901     <span class="comment">// g we add lambda * diag(A) to A rather than lambda * I since this is</span>
+<a name="l00902"></a>00902     <span class="comment">// equivalent but more efficient.</span>
+<a name="l00903"></a>00903 
+<a name="l00904"></a>00904     <span class="keyword">using</span> std::numeric_limits;
+<a name="l00905"></a>00905     <span class="keyword">using</span> <a class="code" href="namespace_t_r_t_k.html#ab6a8c5f73ab8b7638ca1011e6f2c89aa" title="Computes the square root of each element.">std::sqrt</a>;
 <a name="l00906"></a>00906 
-<a name="l00907"></a>00907     <span class="keyword">typedef</span> <a class="code" href="class_t_r_t_k_1_1_coordinate.html">TRTK::Coordinate&lt;ValueType&gt;</a> Coordinate;
-<a name="l00908"></a>00908     <span class="keyword">typedef</span> Eigen::Matrix&lt;ValueType, Dynamic, 1&gt; Vector;
-<a name="l00909"></a>00909     <span class="keyword">typedef</span> Eigen::Matrix&lt;ValueType, Dynamic, Dynamic&gt; Matrix;
-<a name="l00910"></a>00910 
-<a name="l00911"></a>00911     <span class="keywordtype">unsigned</span> iteration = 0;
-<a name="l00912"></a>00912     <span class="keyword">const</span> <span class="keywordtype">unsigned</span> m = function(start_value).<a class="code" href="class_t_r_t_k_1_1_coordinate.html#af41309082a015b059fe4f50e2d8b37b5">size</a>();    <span class="comment">// function : R^n --&gt; R^m</span>
-<a name="l00913"></a>00913     ValueType error = 0;
-<a name="l00914"></a>00914     ValueType lambda = options.lambda;                  <span class="comment">// damping parameter</span>
-<a name="l00915"></a>00915     ValueType nu = options.nu;                          <span class="comment">// damping parameter</span>
-<a name="l00916"></a>00916     ValueType Phi = numeric_limits&lt;ValueType&gt;::max();
-<a name="l00917"></a>00917     Coordinate x = start_value;
-<a name="l00918"></a>00918     Matrix <a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a57d46d5b206adc1c3310577f1836524f" title="Computes the Jacobian of f at x.">jacobian</a>;
-<a name="l00919"></a>00919 
-<a name="l00920"></a>00920     assert(lambda &gt; 0);
-<a name="l00921"></a>00921     assert(nu &gt; 1);
-<a name="l00922"></a>00922 
-<a name="l00923"></a>00923     <span class="keywordflow">for</span> (iteration = 0; iteration &lt; options.max_number_iterations; ++iteration)
-<a name="l00924"></a>00924     {
-<a name="l00925"></a>00925         <span class="comment">// Compute Phi(lambda) and Phi(lambda/nu).</span>
-<a name="l00926"></a>00926 
-<a name="l00927"></a>00927         <span class="comment">// Now, compute (A + lambda * diag(A)) * delta = g where A = Jacobian(f)^T *</span>
-<a name="l00928"></a>00928         <span class="comment">// Jacobian(f) and g = Jacobian(f)^T * f. Split the computation due to</span>
-<a name="l00929"></a>00929         <span class="comment">// stability reasons; this also leads to a speed up since no inverse must</span>
-<a name="l00930"></a>00930         <span class="comment">// be computed.</span>
-<a name="l00931"></a>00931 
-<a name="l00932"></a>00932         Vector x1 = x.toArray(); <span class="comment">// --&gt; Phi(lambda / nu)</span>
-<a name="l00933"></a>00933         Vector x2 = x.toArray(); <span class="comment">// --&gt; Phi(lambda)</span>
-<a name="l00934"></a>00934         Vector f  = function(x).toArray();
-<a name="l00935"></a>00935 
-<a name="l00936"></a>00936         <a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a57d46d5b206adc1c3310577f1836524f" title="Computes the Jacobian of f at x.">jacobian</a> = <a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a57d46d5b206adc1c3310577f1836524f" title="Computes the Jacobian of f at x.">Optimization::jacobian</a>(function, x, options);
+<a name="l00907"></a>00907     <span class="keyword">using namespace </span>Eigen;
+<a name="l00908"></a>00908 
+<a name="l00909"></a>00909     <span class="keyword">typedef</span> <a class="code" href="class_t_r_t_k_1_1_coordinate.html">TRTK::Coordinate&lt;ValueType&gt;</a> Coordinate;
+<a name="l00910"></a>00910     <span class="keyword">typedef</span> Eigen::Matrix&lt;ValueType, Dynamic, 1&gt; Vector;
+<a name="l00911"></a>00911     <span class="keyword">typedef</span> Eigen::Matrix&lt;ValueType, Dynamic, Dynamic&gt; Matrix;
+<a name="l00912"></a>00912 
+<a name="l00913"></a>00913     <span class="keywordtype">unsigned</span> iteration = 0;
+<a name="l00914"></a>00914     <span class="keyword">const</span> <span class="keywordtype">unsigned</span> m = function(start_value).<a class="code" href="class_t_r_t_k_1_1_coordinate.html#af41309082a015b059fe4f50e2d8b37b5">size</a>();    <span class="comment">// function : R^n --&gt; R^m</span>
+<a name="l00915"></a>00915     ValueType error = 0;
+<a name="l00916"></a>00916     ValueType lambda = options.lambda;                  <span class="comment">// damping parameter</span>
+<a name="l00917"></a>00917     ValueType nu = options.nu;                          <span class="comment">// damping parameter</span>
+<a name="l00918"></a>00918     ValueType Phi = numeric_limits&lt;ValueType&gt;::max();
+<a name="l00919"></a>00919     Coordinate x = start_value;
+<a name="l00920"></a>00920     Matrix <a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a57d46d5b206adc1c3310577f1836524f" title="Computes the Jacobian of f at x.">jacobian</a>;
+<a name="l00921"></a>00921 
+<a name="l00922"></a>00922     assert(lambda &gt; 0);
+<a name="l00923"></a>00923     assert(nu &gt; 1);
+<a name="l00924"></a>00924 
+<a name="l00925"></a>00925     <span class="keywordflow">for</span> (iteration = 0; iteration &lt; options.max_number_iterations; ++iteration)
+<a name="l00926"></a>00926     {
+<a name="l00927"></a>00927         <span class="comment">// Compute Phi(lambda) and Phi(lambda/nu).</span>
+<a name="l00928"></a>00928 
+<a name="l00929"></a>00929         <span class="comment">// Now, compute (A + lambda * diag(A)) * delta = g where A = Jacobian(f)^T *</span>
+<a name="l00930"></a>00930         <span class="comment">// Jacobian(f) and g = Jacobian(f)^T * f. Split the computation due to</span>
+<a name="l00931"></a>00931         <span class="comment">// stability reasons; this also leads to a speed up since no inverse must</span>
+<a name="l00932"></a>00932         <span class="comment">// be computed.</span>
+<a name="l00933"></a>00933 
+<a name="l00934"></a>00934         Vector x1 = x.toArray(); <span class="comment">// --&gt; Phi(lambda / nu)</span>
+<a name="l00935"></a>00935         Vector x2 = x.toArray(); <span class="comment">// --&gt; Phi(lambda)</span>
+<a name="l00936"></a>00936         Vector f  = function(x).toArray();
 <a name="l00937"></a>00937 
-<a name="l00938"></a>00938         <span class="keywordflow">if</span> (<a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a57d46d5b206adc1c3310577f1836524f" title="Computes the Jacobian of f at x.">jacobian</a>.norm() == 0)
-<a name="l00939"></a>00939         {
-<a name="l00940"></a>00940             error = function(x).norm() / <a class="code" href="namespace_t_r_t_k.html#ab6a8c5f73ab8b7638ca1011e6f2c89aa" title="Computes the square root of each element.">sqrt</a>(ValueType(m)); <span class="comment">// RMSE</span>
-<a name="l00941"></a>00941             <span class="keywordflow">break</span>;
-<a name="l00942"></a>00942         }
-<a name="l00943"></a>00943 
-<a name="l00944"></a>00944         Matrix jj = <a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a57d46d5b206adc1c3310577f1836524f" title="Computes the Jacobian of f at x.">jacobian</a>.transpose() * <a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a57d46d5b206adc1c3310577f1836524f" title="Computes the Jacobian of f at x.">jacobian</a>;
-<a name="l00945"></a>00945         Matrix diagonal = Matrix(jj.diagonal().asDiagonal());
-<a name="l00946"></a>00946         Matrix left_term1 = jj + lambda / nu * diagonal;
-<a name="l00947"></a>00947         Matrix left_term2 = jj + lambda * diagonal;
-<a name="l00948"></a>00948         Vector right_term = <a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a57d46d5b206adc1c3310577f1836524f" title="Computes the Jacobian of f at x.">jacobian</a>.transpose() * -f;
-<a name="l00949"></a>00949 
-<a name="l00950"></a>00950         <span class="comment">// Same as &quot;x1 = x1 - (jj + lambda / nu * diagonal).inverse() * jacobian.transpose() * f;&quot;</span>
-<a name="l00951"></a>00951         <span class="comment">// but faster and more stable:</span>
-<a name="l00952"></a>00952 
-<a name="l00953"></a>00953         Vector delta = left_term1.fullPivLu().solve(right_term);
-<a name="l00954"></a>00954         x1 = delta + x1;
-<a name="l00955"></a>00955 
-<a name="l00956"></a>00956         delta = left_term2.fullPivLu().solve(right_term);
-<a name="l00957"></a>00957         x2 = delta + x2;
-<a name="l00958"></a>00958 
-<a name="l00959"></a>00959         ValueType Phi1 = function(Coordinate(x1)).squaredNorm();
-<a name="l00960"></a>00960         ValueType Phi2 = function(Coordinate(x2)).squaredNorm();
-<a name="l00961"></a>00961 
-<a name="l00962"></a>00962         <span class="comment">// Case-by-case analysis</span>
+<a name="l00938"></a>00938         <a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a57d46d5b206adc1c3310577f1836524f" title="Computes the Jacobian of f at x.">jacobian</a> = <a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a57d46d5b206adc1c3310577f1836524f" title="Computes the Jacobian of f at x.">Optimization::jacobian</a>(function, x, options);
+<a name="l00939"></a>00939 
+<a name="l00940"></a>00940         <span class="keywordflow">if</span> (<a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a57d46d5b206adc1c3310577f1836524f" title="Computes the Jacobian of f at x.">jacobian</a>.norm() == 0)
+<a name="l00941"></a>00941         {
+<a name="l00942"></a>00942             error = function(x).norm() / <a class="code" href="namespace_t_r_t_k.html#ab6a8c5f73ab8b7638ca1011e6f2c89aa" title="Computes the square root of each element.">sqrt</a>(ValueType(m)); <span class="comment">// RMSE</span>
+<a name="l00943"></a>00943             <span class="keywordflow">break</span>;
+<a name="l00944"></a>00944         }
+<a name="l00945"></a>00945 
+<a name="l00946"></a>00946         Matrix jj = <a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a57d46d5b206adc1c3310577f1836524f" title="Computes the Jacobian of f at x.">jacobian</a>.transpose() * <a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a57d46d5b206adc1c3310577f1836524f" title="Computes the Jacobian of f at x.">jacobian</a>;
+<a name="l00947"></a>00947         Matrix diagonal = Matrix(jj.diagonal().asDiagonal());
+<a name="l00948"></a>00948         Matrix left_term1 = jj + lambda / nu * diagonal;
+<a name="l00949"></a>00949         Matrix left_term2 = jj + lambda * diagonal;
+<a name="l00950"></a>00950         Vector right_term = <a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a57d46d5b206adc1c3310577f1836524f" title="Computes the Jacobian of f at x.">jacobian</a>.transpose() * -f;
+<a name="l00951"></a>00951 
+<a name="l00952"></a>00952         <span class="comment">// Same as &quot;x1 = x1 - (jj + lambda / nu * diagonal).inverse() * jacobian.transpose() * f;&quot;</span>
+<a name="l00953"></a>00953         <span class="comment">// but faster and more stable:</span>
+<a name="l00954"></a>00954 
+<a name="l00955"></a>00955         Vector delta = left_term1.fullPivLu().solve(right_term);
+<a name="l00956"></a>00956         x1 = delta + x1;
+<a name="l00957"></a>00957 
+<a name="l00958"></a>00958         delta = left_term2.fullPivLu().solve(right_term);
+<a name="l00959"></a>00959         x2 = delta + x2;
+<a name="l00960"></a>00960 
+<a name="l00961"></a>00961         ValueType Phi1 = function(Coordinate(x1)).squaredNorm();
+<a name="l00962"></a>00962         ValueType Phi2 = function(Coordinate(x2)).squaredNorm();
 <a name="l00963"></a>00963 
-<a name="l00964"></a>00964         <span class="keywordflow">if</span> (Phi1 &lt;= Phi)
-<a name="l00965"></a>00965         {
-<a name="l00966"></a>00966             <span class="comment">// case i. in the original article</span>
-<a name="l00967"></a>00967 
-<a name="l00968"></a>00968             lambda = lambda / nu;
-<a name="l00969"></a>00969             Phi = Phi1;
-<a name="l00970"></a>00970             x = Coordinate(x1);
-<a name="l00971"></a>00971         }
-<a name="l00972"></a>00972         <span class="keywordflow">else</span>
-<a name="l00973"></a>00973         {
-<a name="l00974"></a>00974             <span class="keywordflow">if</span> (Phi2 &lt;= Phi)
-<a name="l00975"></a>00975             {
-<a name="l00976"></a>00976                 <span class="comment">// case ii. in the original article</span>
-<a name="l00977"></a>00977 
-<a name="l00978"></a>00978                 lambda = lambda;
-<a name="l00979"></a>00979                 Phi = Phi2;
-<a name="l00980"></a>00980                 x = Coordinate(x2);
-<a name="l00981"></a>00981             }
-<a name="l00982"></a>00982             <span class="keywordflow">else</span>
-<a name="l00983"></a>00983             {
-<a name="l00984"></a>00984                 <span class="comment">// case iii. in the original article</span>
-<a name="l00985"></a>00985 
-<a name="l00986"></a>00986                 Vector x3 = x.toArray();
+<a name="l00964"></a>00964         <span class="comment">// Case-by-case analysis</span>
+<a name="l00965"></a>00965 
+<a name="l00966"></a>00966         <span class="keywordflow">if</span> (Phi1 &lt;= Phi)
+<a name="l00967"></a>00967         {
+<a name="l00968"></a>00968             <span class="comment">// case i. in the original article</span>
+<a name="l00969"></a>00969 
+<a name="l00970"></a>00970             lambda = lambda / nu;
+<a name="l00971"></a>00971             Phi = Phi1;
+<a name="l00972"></a>00972             x = Coordinate(x1);
+<a name="l00973"></a>00973         }
+<a name="l00974"></a>00974         <span class="keywordflow">else</span>
+<a name="l00975"></a>00975         {
+<a name="l00976"></a>00976             <span class="keywordflow">if</span> (Phi2 &lt;= Phi)
+<a name="l00977"></a>00977             {
+<a name="l00978"></a>00978                 <span class="comment">// case ii. in the original article</span>
+<a name="l00979"></a>00979 
+<a name="l00980"></a>00980                 lambda = lambda;
+<a name="l00981"></a>00981                 Phi = Phi2;
+<a name="l00982"></a>00982                 x = Coordinate(x2);
+<a name="l00983"></a>00983             }
+<a name="l00984"></a>00984             <span class="keywordflow">else</span>
+<a name="l00985"></a>00985             {
+<a name="l00986"></a>00986                 <span class="comment">// case iii. in the original article</span>
 <a name="l00987"></a>00987 
-<a name="l00988"></a>00988                 ValueType lambda3 = lambda;
-<a name="l00989"></a>00989                 ValueType Phi3 = Phi;
-<a name="l00990"></a>00990 
-<a name="l00991"></a>00991                 <span class="keywordtype">unsigned</span> w = 0;
-<a name="l00992"></a>00992                 <span class="keyword">const</span> <span class="keywordtype">unsigned</span> MAX_POWER = 100; <span class="comment">// this bound is arbitrarily chosen...</span>
-<a name="l00993"></a>00993 
-<a name="l00994"></a>00994                 <span class="keywordflow">do</span>
-<a name="l00995"></a>00995                 {
-<a name="l00996"></a>00996                     lambda3 *= nu; <span class="comment">// increase lambda by successive multiplication</span>
-<a name="l00997"></a>00997 
-<a name="l00998"></a>00998                     Matrix left_term = jj + lambda3 * diagonal;
-<a name="l00999"></a>00999                     x3 += left_term.fullPivLu().solve(right_term);
-<a name="l01000"></a>01000 
-<a name="l01001"></a>01001                     Phi3 = function(Coordinate(x3)).squaredNorm();
-<a name="l01002"></a>01002                 }
-<a name="l01003"></a>01003                 <span class="keywordflow">while</span> (!(Phi3 &lt;= Phi || w++ &gt;= MAX_POWER));
-<a name="l01004"></a>01004 
-<a name="l01005"></a>01005                 <span class="keywordflow">if</span> (w &gt; MAX_POWER)
-<a name="l01006"></a>01006                 {
-<a name="l01007"></a>01007                     <span class="comment">// increasing lambda does not seem to work, hence do nothing</span>
-<a name="l01008"></a>01008                     <span class="comment">// and keep the old value (Phi3 might now be even worse...)</span>
-<a name="l01009"></a>01009                 }
-<a name="l01010"></a>01010                 <span class="keywordflow">else</span>
-<a name="l01011"></a>01011                 {
-<a name="l01012"></a>01012                     lambda = lambda3;
-<a name="l01013"></a>01013                     Phi = Phi3;
-<a name="l01014"></a>01014                     x = Coordinate(x3);
-<a name="l01015"></a>01015                 }
-<a name="l01016"></a>01016             }
-<a name="l01017"></a>01017         }
-<a name="l01018"></a>01018 
-<a name="l01019"></a>01019         <span class="comment">// Converged or small enough RMSE?</span>
+<a name="l00988"></a>00988                 Vector x3 = x.toArray();
+<a name="l00989"></a>00989 
+<a name="l00990"></a>00990                 ValueType lambda3 = lambda;
+<a name="l00991"></a>00991                 ValueType Phi3 = Phi;
+<a name="l00992"></a>00992 
+<a name="l00993"></a>00993                 <span class="keywordtype">unsigned</span> w = 0;
+<a name="l00994"></a>00994                 <span class="keyword">const</span> <span class="keywordtype">unsigned</span> MAX_POWER = 100; <span class="comment">// this bound is arbitrarily chosen...</span>
+<a name="l00995"></a>00995 
+<a name="l00996"></a>00996                 <span class="keywordflow">do</span>
+<a name="l00997"></a>00997                 {
+<a name="l00998"></a>00998                     lambda3 *= nu; <span class="comment">// increase lambda by successive multiplication</span>
+<a name="l00999"></a>00999 
+<a name="l01000"></a>01000                     Matrix left_term = jj + lambda3 * diagonal;
+<a name="l01001"></a>01001                     x3 += left_term.fullPivLu().solve(right_term);
+<a name="l01002"></a>01002 
+<a name="l01003"></a>01003                     Phi3 = function(Coordinate(x3)).squaredNorm();
+<a name="l01004"></a>01004                 }
+<a name="l01005"></a>01005                 <span class="keywordflow">while</span> (!(Phi3 &lt;= Phi || w++ &gt;= MAX_POWER));
+<a name="l01006"></a>01006 
+<a name="l01007"></a>01007                 <span class="keywordflow">if</span> (w &gt; MAX_POWER)
+<a name="l01008"></a>01008                 {
+<a name="l01009"></a>01009                     <span class="comment">// increasing lambda does not seem to work, hence do nothing</span>
+<a name="l01010"></a>01010                     <span class="comment">// and keep the old value (Phi3 might now be even worse...)</span>
+<a name="l01011"></a>01011                 }
+<a name="l01012"></a>01012                 <span class="keywordflow">else</span>
+<a name="l01013"></a>01013                 {
+<a name="l01014"></a>01014                     lambda = lambda3;
+<a name="l01015"></a>01015                     Phi = Phi3;
+<a name="l01016"></a>01016                     x = Coordinate(x3);
+<a name="l01017"></a>01017                 }
+<a name="l01018"></a>01018             }
+<a name="l01019"></a>01019         }
 <a name="l01020"></a>01020 
-<a name="l01021"></a>01021         Coordinate return_value = function(x);
+<a name="l01021"></a>01021         <span class="comment">// Converged or small enough RMSE?</span>
 <a name="l01022"></a>01022 
-<a name="l01023"></a>01023         <span class="comment">// Check whether the error (RMSE) is less than the given error</span>
-<a name="l01024"></a>01024         <span class="comment">// tolerance. Should the situation arise, stop the iteration.</span>
-<a name="l01025"></a>01025 
-<a name="l01026"></a>01026         error = return_value.norm() / <a class="code" href="namespace_t_r_t_k.html#ab6a8c5f73ab8b7638ca1011e6f2c89aa" title="Computes the square root of each element.">sqrt</a>(ValueType(m));
+<a name="l01023"></a>01023         Coordinate return_value = function(x);
+<a name="l01024"></a>01024 
+<a name="l01025"></a>01025         <span class="comment">// Check whether the error (RMSE) is less than the given error</span>
+<a name="l01026"></a>01026         <span class="comment">// tolerance. Should the situation arise, stop the iteration.</span>
 <a name="l01027"></a>01027 
-<a name="l01028"></a>01028         <span class="keywordflow">if</span> (error &lt; options.error_tolerance) <span class="keywordflow">break</span>;
-<a name="l01029"></a>01029     }
-<a name="l01030"></a>01030 
-<a name="l01031"></a>01031     Result&lt;ValueType&gt; result;
+<a name="l01028"></a>01028         error = return_value.norm() / <a class="code" href="namespace_t_r_t_k.html#ab6a8c5f73ab8b7638ca1011e6f2c89aa" title="Computes the square root of each element.">sqrt</a>(ValueType(m));
+<a name="l01029"></a>01029 
+<a name="l01030"></a>01030         <span class="keywordflow">if</span> (error &lt; options.error_tolerance) <span class="keywordflow">break</span>;
+<a name="l01031"></a>01031     }
 <a name="l01032"></a>01032 
-<a name="l01033"></a>01033     result.error = error;
-<a name="l01034"></a>01034     result.jacobian = <a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a57d46d5b206adc1c3310577f1836524f" title="Computes the Jacobian of f at x.">jacobian</a>;
-<a name="l01035"></a>01035     result.number_of_iterations = iteration + 1;
-<a name="l01036"></a>01036     result.root = x;
-<a name="l01037"></a>01037 
-<a name="l01038"></a>01038     <span class="keywordflow">return</span> result;
-<a name="l01039"></a>01039 }
-<a name="l01040"></a>01040 
-<a name="l01041"></a>01041 
-<a name="l01118"></a>01118 <span class="keyword">template</span> &lt;<span class="keyword">class</span> Function, <span class="keyword">class</span> ValueType&gt;
-<a name="l01119"></a>01119 Result&lt;ValueType&gt; <a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a6d832dd2eede65349208f27bd12f1115" title="This function solves for the root (zero) of a given function.">solveNewtonRaphsonMethod</a>(Function function, <span class="keyword">const</span> Coordinate&lt;ValueType&gt; &amp; start_value, Options&lt;ValueType&gt; options = Options&lt;ValueType&gt;())
-<a name="l01120"></a>01120 {
-<a name="l01121"></a>01121     <span class="keyword">using namespace </span>Eigen;
-<a name="l01122"></a>01122 
-<a name="l01123"></a>01123     <span class="keyword">using</span> <a class="code" href="namespace_t_r_t_k.html#ab6a8c5f73ab8b7638ca1011e6f2c89aa" title="Computes the square root of each element.">std::sqrt</a>;
+<a name="l01033"></a>01033     Result&lt;ValueType&gt; result;
+<a name="l01034"></a>01034 
+<a name="l01035"></a>01035     result.error = error;
+<a name="l01036"></a>01036     result.jacobian = <a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a57d46d5b206adc1c3310577f1836524f" title="Computes the Jacobian of f at x.">jacobian</a>;
+<a name="l01037"></a>01037     result.number_of_iterations = iteration + 1;
+<a name="l01038"></a>01038     result.root = x;
+<a name="l01039"></a>01039 
+<a name="l01040"></a>01040     <span class="keywordflow">return</span> result;
+<a name="l01041"></a>01041 }
+<a name="l01042"></a>01042 
+<a name="l01043"></a>01043 
+<a name="l01120"></a>01120 <span class="keyword">template</span> &lt;<span class="keyword">class</span> Function, <span class="keyword">class</span> ValueType&gt;
+<a name="l01121"></a>01121 Result&lt;ValueType&gt; <a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a6d832dd2eede65349208f27bd12f1115" title="This function solves for the root (zero) of a given function.">solveNewtonRaphsonMethod</a>(Function function, <span class="keyword">const</span> Coordinate&lt;ValueType&gt; &amp; start_value, Options&lt;ValueType&gt; options = Options&lt;ValueType&gt;())
+<a name="l01122"></a>01122 {
+<a name="l01123"></a>01123     <span class="keyword">using namespace </span>Eigen;
 <a name="l01124"></a>01124 
-<a name="l01125"></a>01125     <span class="keyword">typedef</span> <a class="code" href="class_t_r_t_k_1_1_coordinate.html">TRTK::Coordinate&lt;ValueType&gt;</a> Coordinate;
+<a name="l01125"></a>01125     <span class="keyword">using</span> <a class="code" href="namespace_t_r_t_k.html#ab6a8c5f73ab8b7638ca1011e6f2c89aa" title="Computes the square root of each element.">std::sqrt</a>;
 <a name="l01126"></a>01126 
-<a name="l01127"></a>01127     <span class="comment">// function : R^n --&gt; R^m</span>
+<a name="l01127"></a>01127     <span class="keyword">typedef</span> <a class="code" href="class_t_r_t_k_1_1_coordinate.html">TRTK::Coordinate&lt;ValueType&gt;</a> Coordinate;
 <a name="l01128"></a>01128 
-<a name="l01129"></a>01129     <span class="comment">// const unsigned n = start_value.size();</span>
-<a name="l01130"></a>01130     <span class="keyword">const</span> <span class="keywordtype">unsigned</span> m = function(start_value).<a class="code" href="class_t_r_t_k_1_1_coordinate.html#af41309082a015b059fe4f50e2d8b37b5">size</a>();
-<a name="l01131"></a>01131 
-<a name="l01132"></a>01132     Coordinate x = start_value;
+<a name="l01129"></a>01129     <span class="comment">// function : R^n --&gt; R^m</span>
+<a name="l01130"></a>01130 
+<a name="l01131"></a>01131     <span class="comment">// const unsigned n = start_value.size();</span>
+<a name="l01132"></a>01132     <span class="keyword">const</span> <span class="keywordtype">unsigned</span> m = function(start_value).<a class="code" href="class_t_r_t_k_1_1_coordinate.html#af41309082a015b059fe4f50e2d8b37b5">size</a>();
 <a name="l01133"></a>01133 
-<a name="l01134"></a>01134     Matrix&lt;ValueType, Dynamic, Dynamic&gt; <a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a57d46d5b206adc1c3310577f1836524f" title="Computes the Jacobian of f at x.">jacobian</a>;
+<a name="l01134"></a>01134     Coordinate x = start_value;
 <a name="l01135"></a>01135 
-<a name="l01136"></a>01136     ValueType error = 0;
+<a name="l01136"></a>01136     Matrix&lt;ValueType, Dynamic, Dynamic&gt; <a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a57d46d5b206adc1c3310577f1836524f" title="Computes the Jacobian of f at x.">jacobian</a>;
 <a name="l01137"></a>01137 
-<a name="l01138"></a>01138     <span class="keywordtype">unsigned</span> iteration = 0;
+<a name="l01138"></a>01138     ValueType error = 0;
 <a name="l01139"></a>01139 
-<a name="l01140"></a>01140     <span class="keywordflow">for</span> (iteration = 0; iteration &lt; options.max_number_iterations; ++iteration)
-<a name="l01141"></a>01141     {
-<a name="l01142"></a>01142         Coordinate return_value = function(x);
-<a name="l01143"></a>01143 
-<a name="l01144"></a>01144         <span class="comment">// Check whether the error (RMS) is less than the given error</span>
-<a name="l01145"></a>01145         <span class="comment">// tolerance. Should the situation arise, stop the iteration.</span>
-<a name="l01146"></a>01146 
-<a name="l01147"></a>01147         error = return_value.norm() / <a class="code" href="namespace_t_r_t_k.html#ab6a8c5f73ab8b7638ca1011e6f2c89aa" title="Computes the square root of each element.">sqrt</a>(ValueType(m));
+<a name="l01140"></a>01140     <span class="keywordtype">unsigned</span> iteration = 0;
+<a name="l01141"></a>01141 
+<a name="l01142"></a>01142     <span class="keywordflow">for</span> (iteration = 0; iteration &lt; options.max_number_iterations; ++iteration)
+<a name="l01143"></a>01143     {
+<a name="l01144"></a>01144         Coordinate return_value = function(x);
+<a name="l01145"></a>01145 
+<a name="l01146"></a>01146         <span class="comment">// Check whether the error (RMS) is less than the given error</span>
+<a name="l01147"></a>01147         <span class="comment">// tolerance. Should the situation arise, stop the iteration.</span>
 <a name="l01148"></a>01148 
-<a name="l01149"></a>01149         <span class="keywordflow">if</span> (error &lt; options.error_tolerance) <span class="keywordflow">break</span>;
+<a name="l01149"></a>01149         error = return_value.norm() / <a class="code" href="namespace_t_r_t_k.html#ab6a8c5f73ab8b7638ca1011e6f2c89aa" title="Computes the square root of each element.">sqrt</a>(ValueType(m));
 <a name="l01150"></a>01150 
-<a name="l01151"></a>01151         <a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a57d46d5b206adc1c3310577f1836524f" title="Computes the Jacobian of f at x.">jacobian</a> = <a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a57d46d5b206adc1c3310577f1836524f" title="Computes the Jacobian of f at x.">Optimization::jacobian</a>(function, x, options);
+<a name="l01151"></a>01151         <span class="keywordflow">if</span> (error &lt; options.error_tolerance) <span class="keywordflow">break</span>;
 <a name="l01152"></a>01152 
-<a name="l01153"></a>01153         <span class="keywordflow">if</span> (<a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a57d46d5b206adc1c3310577f1836524f" title="Computes the Jacobian of f at x.">jacobian</a>.norm() == 0) <span class="keywordflow">break</span>;
+<a name="l01153"></a>01153         <a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a57d46d5b206adc1c3310577f1836524f" title="Computes the Jacobian of f at x.">jacobian</a> = <a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a57d46d5b206adc1c3310577f1836524f" title="Computes the Jacobian of f at x.">Optimization::jacobian</a>(function, x, options);
 <a name="l01154"></a>01154 
-<a name="l01155"></a>01155         Matrix&lt;ValueType, Dynamic, 1&gt; x_ = x.toArray();
-<a name="l01156"></a>01156         Matrix&lt;ValueType, Dynamic, 1&gt; f_ = function(x).toArray();
-<a name="l01157"></a>01157 
-<a name="l01158"></a>01158         <span class="comment">// Same as &quot;x_ = x_ - Jacobian.inverse() * f_;&quot; but faster and more stable:</span>
+<a name="l01155"></a>01155         <span class="keywordflow">if</span> (<a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a57d46d5b206adc1c3310577f1836524f" title="Computes the Jacobian of f at x.">jacobian</a>.norm() == 0) <span class="keywordflow">break</span>;
+<a name="l01156"></a>01156 
+<a name="l01157"></a>01157         Matrix&lt;ValueType, Dynamic, 1&gt; x_ = x.toArray();
+<a name="l01158"></a>01158         Matrix&lt;ValueType, Dynamic, 1&gt; f_ = function(x).toArray();
 <a name="l01159"></a>01159 
-<a name="l01160"></a>01160         Matrix&lt;ValueType, Dynamic, 1&gt; delta = <a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a57d46d5b206adc1c3310577f1836524f" title="Computes the Jacobian of f at x.">jacobian</a>.fullPivLu().solve(-f_);
-<a name="l01161"></a>01161         x_ = delta + x_;
-<a name="l01162"></a>01162 
-<a name="l01163"></a>01163         x = Coordinate(x_);
-<a name="l01164"></a>01164     }
-<a name="l01165"></a>01165 
-<a name="l01166"></a>01166     Result&lt;ValueType&gt; result;
+<a name="l01160"></a>01160         <span class="comment">// Same as &quot;x_ = x_ - Jacobian.inverse() * f_;&quot; but faster and more stable:</span>
+<a name="l01161"></a>01161 
+<a name="l01162"></a>01162         Matrix&lt;ValueType, Dynamic, 1&gt; delta = <a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a57d46d5b206adc1c3310577f1836524f" title="Computes the Jacobian of f at x.">jacobian</a>.fullPivLu().solve(-f_);
+<a name="l01163"></a>01163         x_ = delta + x_;
+<a name="l01164"></a>01164 
+<a name="l01165"></a>01165         x = Coordinate(x_);
+<a name="l01166"></a>01166     }
 <a name="l01167"></a>01167 
-<a name="l01168"></a>01168     result.error = error;
-<a name="l01169"></a>01169     result.jacobian = <a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a57d46d5b206adc1c3310577f1836524f" title="Computes the Jacobian of f at x.">jacobian</a>;
-<a name="l01170"></a>01170     result.number_of_iterations = iteration;
-<a name="l01171"></a>01171     result.root = x;
-<a name="l01172"></a>01172 
-<a name="l01173"></a>01173     <span class="keywordflow">return</span> result;
-<a name="l01174"></a>01174 }
-<a name="l01175"></a>01175 
-<a name="l01176"></a>01176 
-<a name="l01177"></a>01177 } <span class="comment">// namespace Optimization</span>
+<a name="l01168"></a>01168     Result&lt;ValueType&gt; result;
+<a name="l01169"></a>01169 
+<a name="l01170"></a>01170     result.error = error;
+<a name="l01171"></a>01171     result.jacobian = <a class="code" href="namespace_t_r_t_k_1_1_optimization.html#a57d46d5b206adc1c3310577f1836524f" title="Computes the Jacobian of f at x.">jacobian</a>;
+<a name="l01172"></a>01172     result.number_of_iterations = iteration;
+<a name="l01173"></a>01173     result.root = x;
+<a name="l01174"></a>01174 
+<a name="l01175"></a>01175     <span class="keywordflow">return</span> result;
+<a name="l01176"></a>01176 }
+<a name="l01177"></a>01177 
 <a name="l01178"></a>01178 
-<a name="l01179"></a>01179 
-<a name="l01180"></a>01180 } <span class="comment">// namespace TRTK</span>
+<a name="l01179"></a>01179 } <span class="comment">// namespace Optimization</span>
+<a name="l01180"></a>01180 
 <a name="l01181"></a>01181 
-<a name="l01182"></a>01182 
-<a name="l01183"></a>01183 <span class="preprocessor">#endif // OPTIMIZATION_HPP_4562354833</span>
+<a name="l01182"></a>01182 } <span class="comment">// namespace TRTK</span>
+<a name="l01183"></a>01183 
+<a name="l01184"></a>01184 
+<a name="l01185"></a>01185 <span class="preprocessor">#endif // OPTIMIZATION_HPP_4562354833</span>
 </pre></div></div>
 </div>
 <!--- window showing the filter options -->
