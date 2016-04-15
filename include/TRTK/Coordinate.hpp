@@ -9,7 +9,7 @@
 
     See license.txt for more information.
 
-    Version 0.8.0 (2014-09-02)
+    Version 0.8.1 (2016-04-15)
 */
 
 /** \file Coordinate.hpp
@@ -147,8 +147,8 @@ namespace Tools
   * \see Transform2D and Transform3D
   *
   * \author Christoph Haenisch
-  * \version 0.8.0
-  * \date last changed on 2014-09-02
+  * \version 0.8.1
+  * \date last changed on 2016-04-15
   */
 
 template <class T>

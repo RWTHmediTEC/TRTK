@@ -1,4 +1,4 @@
-# Last changed on 2016-04-13
+# Last changed on 2016-04-15
 
 cmake_minimum_required(VERSION 2.8)
 
@@ -27,7 +27,7 @@ set(TARGET_NAME ${PROJECT_NAME}-${FULL_VERSION})
 
 file(TO_CMAKE_PATH "$ENV{MEDITEC_LIBS}" MEDITEC_LIBS_PATH)
  
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/configure.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/cmake/configure.cmake)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/configure.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/cmake/configure.cmake @ONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Doxyfile.in ${CMAKE_CURRENT_SOURCE_DIR}/src/doc/Doxyfile)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/install.bat.in ${CMAKE_CURRENT_BINARY_DIR}/cmake/install.bat @ONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Version.hpp.in ${CMAKE_CURRENT_SOURCE_DIR}/include/TRTK/Version.hpp)
