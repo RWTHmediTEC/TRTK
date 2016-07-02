@@ -1,6 +1,6 @@
-# Last changed on 2016-04-13
+# Last changed on 2016-07-02
 
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8.)
 
 set(CMAKE_DEBUG_POSTFIX d)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/bin)
@@ -74,7 +74,8 @@ endif(OPENCV_FOUND)
 
 # Project
 
-include_directories(${CMAKE_PROJECT_DIR}/include/${PROJECT_NAME})
+include_directories(${CMAKE_PROJECT_DIR}include)
+include_directories(${CMAKE_PROJECT_DIR}include/${PROJECT_NAME})
 
 set(PUBLIC_HEADERS
     include/TRTK/Circle.hpp
