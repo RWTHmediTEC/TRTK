@@ -1094,7 +1094,7 @@ ValueType RandomSampleIcp3D<ValueType>::compute()
 
         for (unsigned n = 0; n < size; ++n)
         {
-            if (Tools::rand(0, 100) > percentage) continue; // randomly select points
+            if (Tools::rand(0u, 100u) > percentage) continue; // randomly select points
 
             Coordinate<ValueType> source_point = (*this->source_points)[n];
 

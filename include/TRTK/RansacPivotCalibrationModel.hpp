@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2010 - 2014 Christoph Haenisch
+    Copyright (C) 2010 - 2016 Christoph Haenisch
 
     Chair of Medical Engineering (mediTEC)
     RWTH Aachen University
@@ -9,35 +9,40 @@
 
     See license.txt for more information.
 
-    Version 0.1.0 (2012-03-29)
+    Version 0.1.0 (2016-07-06)
 */
 
-/** \file RansacGenericFittingModel.hpp
+/** \file RansacPivotCalibrationModel.hpp
   * \brief This file contains the \ref TRTK::RansacGenericFittingModel "RansacGenericFittingModel" class.
   */
 
-#ifndef RANSAC_GENERIC_FITTING_MODEL_HPP_2437670324
-#define RANSAC_GENERIC_FITTING_MODEL_HPP_2437670324
+#ifndef RANSAC_PIVOT_CALIBRATION_HPP_2432433439
+#define RANSAC_PIVOT_CALIBRATION_HPP_2432433439
 
 
-#include "Fit.hpp"
+#include <list>
+#include <utility>
+
+#include <Eigen/Core>
+
+#include "PivotCalibration.hpp"
 #include "Ransac.hpp"
 
 
 namespace TRTK
 {
 
-/** \tparam T           Scalar type (must be a floating point).
+/** \tparam T Scalar type (must be a floating point).
   *
-  * \brief This class implements the Ransac::Model interface for all fitting classes.
+  * \brief This class implements the Ransac::Model interface for all PivotCalibration classes.
   *
   * Here is an example that shows how to use this class:
   *
   * \code
   * #include <iostream>
   *
-  * #include <TRTK/FitLine.hpp>
-  * #include <TRTK/RansacGenericFittingModel.hpp>
+  * #include <TRTK/PivotCalibration.hpp>
+  * #include <TRTK/RansacPivotCalibrationModel.hpp>
   * #include <TRTK/Tools.hpp>
   *
   * using namespace std;
@@ -115,48 +120,43 @@ namespace TRTK
   * Output:
   *
   * \code
-  * Slope: 0.824709
-  * Y-intercept: -2.97947
-  * Direction Vector: (-0.771483, -0.63625)
-  * Distance from origin: 2.29861
-  * RMS: 2.27904
-  *
-  * Slope: 0.691347
-  * Y-intercept: -3.00877
-  * Direction Vector: (-0.822562, -0.568676)
-  * Distance from origin: 2.4749
-  * Number of samples used: 19
-  * RMS: 0.0712661
+  * RMS: ...
   * \endcode
   *
   * For further information, please have a look at the documentation of the particular
-  * \ref Fit "fitting class" and the \ref Ransac class, respectively.
+  * \ref PivotCalibration "Pivot calibration class" and the \ref Ransac class, respectively.
   *
-  * \see Ransac, Ransac::Model, Fit
+  * \see Ransac, Ransac::Model, PivotCalibration
   *
   * \author Christoph Haenisch
   * \version 0.1.0
-  * \date last changed on 2012-03-23
+  * \date last changed on 2016-07-06
   */
 
+
 template <class T>
-class RansacGenericFittingModel : public Ransac<T>::Model
+class RansacPivotCalibrationModel : public Ransac<T, typename PivotCalibration<T>::DataType>::Model
 {
 public:
 
-    RansacGenericFittingModel(Fit<T> & estimator);
-    virtual ~RansacGenericFittingModel();
+    typedef T value_type;
+    typedef typename PivotCalibration<T>::Vector3T Vector3T;
+    typedef typename PivotCalibration<T>::Matrix3T Matrix3T;
+    typedef typename PivotCalibration<T>::DataType DataType;
+
+    RansacPivotCalibrationModel(PivotCalibration<T> & estimator);
+    virtual ~RansacPivotCalibrationModel();
 
     void compute();                                             ///< Estimates the model parameters.
-    T getDeviation(const Coordinate<T> & datum) const;          ///< Returns the amount of how much a datum deviates from the model.
+    T getDeviation(const DataType & datum) const;               ///< Returns the amount of how much a datum deviates from the model.
     unsigned getMinimumNumberOfItems() const;                   ///< Returns the minimum number of items required to compute the model.
-    T getRMS() const;                                           ///< Returns the root mean square error of the estimated regression model.
-    void setData(const std::vector<Coordinate<T> > & data);     ///< Sets the sample data.
-    void setEstimator(Fit<T> & estimator);                      ///< Sets the \ref Fit "fitting class instance".
+    T getRMSE() const;                                          ///< Returns the root mean square error of the estimated regression model.
+    void setData(const std::vector<DataType> & data);           ///< Sets the sample data.
+    void setEstimator(PivotCalibration<T> & estimator);         ///< Sets the \ref PivotCalibration "pivot calibration instance".
 
 private:
 
-    Fit<T> * estimator;
+    PivotCalibration<T> * estimator;
 };
 
 
@@ -166,54 +166,68 @@ private:
   */
 
 template<class T>
-RansacGenericFittingModel<T>::RansacGenericFittingModel(Fit<T> & estimator) : estimator(&estimator)
+RansacPivotCalibrationModel<T>::RansacPivotCalibrationModel(PivotCalibration<T> & estimator) :
+    estimator(&estimator)
 {
 }
 
 
 template<class T>
-RansacGenericFittingModel<T>::~RansacGenericFittingModel()
+RansacPivotCalibrationModel<T>::~RansacPivotCalibrationModel()
 {
 }
 
 
 template<class T>
-void RansacGenericFittingModel<T>::compute()
+void RansacPivotCalibrationModel<T>::compute()
 {
     estimator->compute();
 }
 
 
 template<class T>
-T RansacGenericFittingModel<T>::getDeviation(const Coordinate<T> & datum) const
+T RansacPivotCalibrationModel<T>::getDeviation(const DataType & datum) const
 {
-    return estimator->getDistanceTo(datum);
+    Vector3T location = datum.first;
+    Matrix3T rotation = datum.second;
+    Vector3T noisy_pivot_point = rotation * estimator->getLocalPivotPoint() + location;
+    return (estimator->getPivotPoint() - noisy_pivot_point).norm();
 }
 
 
 template<class T>
-unsigned RansacGenericFittingModel<T>::getMinimumNumberOfItems() const
+unsigned RansacPivotCalibrationModel<T>::getMinimumNumberOfItems() const
 {
-    return estimator->getNumberPointsRequired();
+    return estimator->getNumberItemsRequired();
 }
 
 
 template<class T>
-T RansacGenericFittingModel<T>::getRMS() const
+T RansacPivotCalibrationModel<T>::getRMSE() const
 {
-    return estimator->getRMS();
+    return estimator->getRMSE();
 }
 
 
 template<class T>
-void RansacGenericFittingModel<T>::setData(const std::vector<Coordinate<T> > & data)
+void RansacPivotCalibrationModel<T>::setData(const std::vector<DataType> & data)
 {
-    estimator->setPoints(data);
+    std::list<DataType::first_type> locations;
+    std::list<DataType::second_type> rotations;
+
+    for (size_t i = 0; i < data.size(); ++i)
+    {
+        locations.push_back(data[i].first);
+        rotations.push_back(data[i].second);
+    }
+
+    estimator->setLocations(make_range(locations));
+    estimator->setRotations(make_range(rotations));
 }
 
 
 template<class T>
-void RansacGenericFittingModel<T>::setFittingModel(Fit<T> & estimator)
+void RansacPivotCalibrationModel<T>::setEstimator(PivotCalibration<T> & estimator)
 {
     this->estimator = &estimator;
 }
@@ -222,4 +236,4 @@ void RansacGenericFittingModel<T>::setFittingModel(Fit<T> & estimator)
 } // namespace TRTK
 
 
-#endif // RANSAC_GENERIC_FITTING_MODEL_HPP_2437670324
+#endif // RANSAC_PIVOT_CALIBRATION_HPP_2432433439

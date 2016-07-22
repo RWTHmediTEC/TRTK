@@ -2,6 +2,9 @@
 
 
 #include <cmath>
+#include <cstdlib>
+#include <utility>
+#include <vector>
 
 #include<Eigen/StdVector>
 
@@ -9,11 +12,13 @@
 #include <TRTK/Tools.hpp>
 #include <TRTK/Transform3D.hpp>
 #include <TRTK/PivotCalibration.hpp>
+#include <TRTK/RansacPivotCalibrationModel.hpp>
 
 #include "unit_test.hpp"
 
 
 using namespace TRTK;
+using namespace TRTK::Tools;
 
 double pi = 3.1415926535;
 
@@ -71,11 +76,7 @@ struct GenerateTestData
                 // Add some noise
 
                 using TRTK::Tools::randn;
-
                 location += sigma * Vector(randn(), randn(), randn());
-                rotation += sigma * (Matrix() << randn(), randn(), randn(),
-                                                 randn(), randn(), randn(),
-                                                 randn(), randn(), randn()).finished();
 
                 // Store the results
 
@@ -108,28 +109,45 @@ void unit_test_PivotCalibration()
             calibration.setLocations(make_range(test_data.locations));
             calibration.setRotations(make_range(test_data.rotations));
             double rmse = calibration.compute();
-            std::cout << std::endl;
-            std::cout << "---------------------------------------" << std::endl;
-            std::cout << "RMSE: " << rmse << std::endl;
-            std::cout << "Translation: " << calibration.getTranslation().transpose() << std::endl;
-            std::cout << "---------------------------------------" << std::endl;
-            assert(calibration.getTranslation().isApprox(Vector(0, 10, 0), 1e-9));
+            assert(calibration.getLocalPivotPoint().isApprox(Vector(0, 10, 0), 1e-9));
         }
         STOP_TEST
 
+
         START_TEST
         {
-            GenerateTestData test_data(0.2);
+            srand(0);
+            GenerateTestData test_data(0.1);
             PivotCalibrationTwoStep<double> calibration;
             calibration.setLocations(make_range(test_data.locations));
             calibration.setRotations(make_range(test_data.rotations));
             double rmse = calibration.compute();
-            std::cout << std::endl;
-            std::cout << "---------------------------------------" << std::endl;
-            std::cout << "RMSE: " << rmse << std::endl;
-            std::cout << "Translation: " << calibration.getTranslation().transpose() << std::endl;
-            std::cout << "---------------------------------------" << std::endl;
-            assert(calibration.getTranslation().isApprox(Vector(0, 10, 0), 1e-9));
+            assert(calibration.getLocalPivotPoint().isApprox(Vector(0, 10, 0), 1e-1));
+        }
+        STOP_TEST
+
+
+        SUBHEADING(RansacPivotCalibrationModel)
+
+
+        START_TEST
+        {
+            srand(0);
+            GenerateTestData test_data(0.1);
+            std::vector<std::pair<Vector, Matrix> > data = zip(test_data.locations, test_data.rotations);
+
+            PivotCalibrationTwoStep<double> calibration;
+            RansacPivotCalibrationModel<double> model(calibration);
+            Ransac<double, PivotCalibration<double>::DataType> ransac;
+
+            ransac.setModel(model);
+            ransac.setData(data);
+            ransac.setErrorTolerance(0.15);
+            ransac.setMinimumSetSize(40);
+            // ransac.setAlgorithm(Ransac<double, PivotCalibration<double>::DataType>::RANSAC_SMALLEST_RMSE);
+
+            unsigned number_of_samples_used = ransac.compute();
+            assert(calibration.getLocalPivotPoint().isApprox(Vector(0, 10, 0), 1e-1));
         }
         STOP_TEST
 }

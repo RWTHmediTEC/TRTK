@@ -9,7 +9,7 @@
 
     See license.txt for more information.
 
-    Version 0.3.1 (2014-07-05)
+    Version 0.3.2 (2016-07-13)
 */
 
 /** \file Tools.hpp
@@ -27,6 +27,7 @@
 #include <list>
 #include <sstream>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "Coordinate.hpp"
@@ -61,6 +62,7 @@ namespace Tools
   *   - \rev standardDeviation()
   *   - \ref variance()
   *   - \ref vectorToList()
+  *   - \ref zip()
   * - Date and Time
   *   - \ref getCurrentDate()
   *   - \ref getCurrentTime()
@@ -559,13 +561,19 @@ TRTK::Coordinate<T> orthogonalMatrixToQuaternion2(const Eigen::Matrix<T, 3, 3> &
   *       \code #include <Eigen/Core> \endcode
   *
   * \author Christoph Haenisch
-  * \version 0.1.0
-  * \date last changed on 2013-08-06
+  * \version 0.1.1
+  * \date last changed on 2016-04-29
   */
 
 template <class T>
 Eigen::Matrix<T, 3, 3> quaternionToOrthogonalMatrix(T q0, T q1, T q2, T q3)
 {
+    // Revised code.
+
+    // Identical to what you can find in the Wikipedia article
+    // https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation
+    // This matrix is a left-handed (post-multiplied) rotation matrix.
+
     assert(abs(q0 * q0 + q1 * q1 + q2 * q2 + q3 * q3 - 1) < 1e-5); // check for unit quaternion
 
     Eigen::Matrix<T, 3, 3> R;
@@ -573,9 +581,11 @@ Eigen::Matrix<T, 3, 3> quaternionToOrthogonalMatrix(T q0, T q1, T q2, T q3)
     R(0, 0) = 1 - 2 * (q2 * q2 + q3 * q3);
     R(0, 1) = 2 * q1 * q2 - 2 * q0 * q3;
     R(0, 2) = 2 * q1 * q3 + 2 * q0 * q2;
+
     R(1, 0) = 2 * q1 * q2 + 2 * q0 * q3;
     R(1, 1) = 1 - 2 * (q1 * q1  + q3 * q3);
     R(1, 2) = 2 * q2 * q3 - 2 * q0 * q1;
+
     R(2, 0) = 2 * q1 * q3 - 2 * q0 * q2;
     R(2, 1) = 2 * q2 * q3 + 2 * q0 * q1;
     R(2, 2) = 1 - 2 * (q1 * q1 + q2 * q2);
@@ -649,8 +659,8 @@ inline T rand()
   * \returns Returns a pseudo-random number in the range \f$ [a; b] \f$.
   *
   * \author Christoph Haenisch
-  * \version 0.1.1
-  * \date last changed on 2011-11-08
+  * \version 0.1.2
+  * \date last changed on 2016-07-13
   */
 
 template <class T>
@@ -665,6 +675,13 @@ inline int rand<int>(int a, int b)
 {
     assert(a <= b);
     return int(rand<double>(a, b));
+}
+
+template <>
+inline unsigned rand<unsigned>(unsigned a, unsigned b)
+{
+    assert(0 <= a && a <= b);
+    return unsigned(rand<double>(a, b));
 }
 
 
@@ -978,6 +995,34 @@ std::list<T> vectorToList(const std::vector<T> & vec)
     }
 
     return lst;
+}
+
+
+/** \brief Zips two STL vectors into a single one.
+*
+* The elements are stored in pairs. Both vectors must have the same size.
+*
+* \author Christoph Haenisch
+* \version 0.1.0
+* \date last changed on 2016-07-13
+*/
+
+template <class T1, class T2>
+std::vector<std::pair<T1, T2> > zip(const std::vector<T1> & v1, const std::vector<T2> & v2)
+{
+    size_t size_v1 = v1.size();
+    size_t size_v2 = v2.size();
+    assert(size_v1 == size_v2);
+
+    std::vector<std::pair<T1, T2> > zipped;
+    zipped.reserve(size_v1);
+
+    for (size_t i = 0; i < size_v1; ++i)
+    {
+        zipped.push_back(std::make_pair(v1[i], v2[i]));
+    }
+
+    return zipped;
 }
 
 
