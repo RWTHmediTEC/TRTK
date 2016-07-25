@@ -1,0 +1,25 @@
+Roadmap
+=======
+
+
+Version 1
+---------
+
+- should be reached soon
+- simplified interfaces
+    - container interface via Range<T> (see e.g. PivotCalibration)
+- harmonized function names (RMSE vs. RMS) [the former is better...]
+- add some litte more missing functionality
+    - e.g. something like Line line(...); double distance = line.distanceTo(Plane(...));
+    
+    
+Version 2
+---------
+
+- get rid of most of the template code
+    - use double as default number type
+    - thus faster compile cycles
+- replace Coordinate<T> with three simpler classes (Point2D, Point3D, and Point4D)
+- avoid Eigen classes in public interfaces (maybe apart from Matrix3d and Matrix4d)
+- update of the doxygen engine (aim: no warnings anymore)
+- usage of C++14 features

@@ -8,6 +8,7 @@
 
 using std::cout;
 using std::endl;
+using std::flush;
 
 
 #define HEADING(text) \
@@ -15,13 +16,13 @@ using std::endl;
          << "*****************************************************************************" \
          << endl << "Testing " #text << endl \
          << "*****************************************************************************" \
-         << endl;
+         << endl << flush;
 
-#define SUBHEADING(text) cout << endl << #text << endl << endl;
+#define SUBHEADING(text) cout << endl << #text << endl << endl << flush;
 
-#define START_TEST cout << "  Testing... ";
+#define START_TEST cout << "  Testing... " << flush;
 
-#define STOP_TEST cout << "Done." << endl;
+#define STOP_TEST cout << "Done." << endl << flush;
 
 
 #endif // UNIT_TEST_H_3129801785
