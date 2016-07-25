@@ -132,7 +132,7 @@ Classes</h2></td></tr>
 Public Types</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_ransac.html#a58eb13e60537ae253f1ba37dadafc8ae">Algorithm</a> { <a class="el" href="class_t_r_t_k_1_1_ransac.html#a58eb13e60537ae253f1ba37dadafc8aeaf68c106ffae357639ba1946f8811cfbe">RANSAC</a>, 
 <a class="el" href="class_t_r_t_k_1_1_ransac.html#a58eb13e60537ae253f1ba37dadafc8aea06486d694bed15598f6c390823a89af2">RANSAC_BIGGEST_CONSESUS_SET</a>, 
-<a class="el" href="class_t_r_t_k_1_1_ransac.html#a58eb13e60537ae253f1ba37dadafc8aeaf99b75bbd50cb368602e8784f5f2bbff">RANSAC_SMALLEST_RMS</a>
+<a class="el" href="class_t_r_t_k_1_1_ransac.html#a58eb13e60537ae253f1ba37dadafc8aeae7b10acb784da9e48074d09c368a91db">RANSAC_SMALLEST_RMSE</a>
  }</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_ransac.html#a7efc0bf54767148aa93cc3ce06bd4504">Error</a> { <br/>
 &#160;&#160;<a class="el" href="class_t_r_t_k_1_1_ransac.html#a7efc0bf54767148aa93cc3ce06bd4504a0f701342ccdbcf4224ab1a378957238d">NO_DATA_AVAILABLE</a>, 
@@ -174,8 +174,8 @@ Protected Member Functions</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">RANSAC algorithm as described by Fischler and Bolles.  <a href="#a7a7399e64e01a41ee8f32453fecda426"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_ransac.html#a45d171e5a83cb32b2c1ec04168fea7b0">algorithmRansacBiggestConsensusSet</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Modified version of the RANSAC algorithm as described by Fischler and Bolles.  <a href="#a45d171e5a83cb32b2c1ec04168fea7b0"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_ransac.html#aa700ccdcaf9fd8182cd45abda03e895b">algorithmRansacSmallestRms</a> ()</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Modified version of the RANSAC algorithm as described by Fischler and Bolles.  <a href="#aa700ccdcaf9fd8182cd45abda03e895b"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_ransac.html#af2d410c8fd87c4dcc9aa14e01e280253">algorithmRansacSmallestRmse</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Modified version of the RANSAC algorithm as described by Fischler and Bolles.  <a href="#af2d410c8fd87c4dcc9aa14e01e280253"></a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a180f79e3c95da2055f93270196ee0d3b"></a><!-- doxytag: member="TRTK::Ransac::data" ref="a180f79e3c95da2055f93270196ee0d3b" args="" -->
@@ -266,7 +266,7 @@ unsigned(Ransac::*&#160;</td><td class="memItemRight" valign="bottom"><b>algorit
      cout &lt;&lt; <span class="stringliteral">&quot;Y-intercept: &quot;</span> &lt;&lt; fitLine.getYIntercept() &lt;&lt; endl;
      cout &lt;&lt; <span class="stringliteral">&quot;Direction Vector: &quot;</span> &lt;&lt; fitLine.getDirectionVector() &lt;&lt; endl;
      cout &lt;&lt; <span class="stringliteral">&quot;Distance from origin: &quot;</span> &lt;&lt; fitLine.getDistanceFromOrigin() &lt;&lt; endl;
-     cout &lt;&lt; <span class="stringliteral">&quot;RMS: &quot;</span> &lt;&lt; fitLine.getRMS() &lt;&lt; endl &lt;&lt; endl;
+     cout &lt;&lt; <span class="stringliteral">&quot;RMSE: &quot;</span> &lt;&lt; fitLine.getRMS() &lt;&lt; endl &lt;&lt; endl;
 
      <span class="comment">// Estimate the line parameters using RANSAC.</span>
 
@@ -284,7 +284,7 @@ unsigned(Ransac::*&#160;</td><td class="memItemRight" valign="bottom"><b>algorit
      cout &lt;&lt; <span class="stringliteral">&quot;Direction Vector: &quot;</span> &lt;&lt; model.getDirectionVector() &lt;&lt; endl;
      cout &lt;&lt; <span class="stringliteral">&quot;Distance from origin: &quot;</span> &lt;&lt; model.getDistanceFromOrigin() &lt;&lt; endl;
      cout &lt;&lt; <span class="stringliteral">&quot;Number of samples used: &quot;</span> &lt;&lt; number_of_samples_used &lt;&lt; endl;
-     cout &lt;&lt; <span class="stringliteral">&quot;RMS: &quot;</span> &lt;&lt; model.getRMS() &lt;&lt; endl;
+     cout &lt;&lt; <span class="stringliteral">&quot;RMSE: &quot;</span> &lt;&lt; model.getRMS() &lt;&lt; endl;
 
      <span class="keywordflow">return</span> 0;
  }
@@ -293,14 +293,14 @@ unsigned(Ransac::*&#160;</td><td class="memItemRight" valign="bottom"><b>algorit
  Y-intercept: -2.97947
  Direction Vector: (-0.771483, -0.63625)
  Distance from origin: 2.29861
- RMS: 2.27904
+ RMSE: 2.27904
 
  Slope: 0.691347
  Y-intercept: -3.00877
  Direction Vector: (-0.822562, -0.568676)
  Distance from origin: 2.4749
  Number of samples used: 19
- RMS: 0.0712661
+ RMSE: 0.0712661
 </pre></div><dl class="user"><dt><b>References:</b></dt><dd></dd></dl>
 <p>"Random Sample Consensus: A Paradigm for Model Fitting with Applications
  to Image Analysis and Automated Cartography", Fischler and Bolles, 1981, Communications of the ACM</p>
@@ -330,8 +330,8 @@ template&lt;class T , class DataType  = Coordinate&lt;T&gt;&gt; </div>
 <tr><td valign="top"><em><a class="anchor" id="a58eb13e60537ae253f1ba37dadafc8aea06486d694bed15598f6c390823a89af2"></a><!-- doxytag: member="RANSAC_BIGGEST_CONSESUS_SET" ref="a58eb13e60537ae253f1ba37dadafc8aea06486d694bed15598f6c390823a89af2" args="" -->RANSAC_BIGGEST_CONSESUS_SET</em>&nbsp;</td><td>
 <p>A new model is always computed from the biggest consensus set. </p>
 </td></tr>
-<tr><td valign="top"><em><a class="anchor" id="a58eb13e60537ae253f1ba37dadafc8aeaf99b75bbd50cb368602e8784f5f2bbff"></a><!-- doxytag: member="RANSAC_SMALLEST_RMS" ref="a58eb13e60537ae253f1ba37dadafc8aeaf99b75bbd50cb368602e8784f5f2bbff" args="" -->RANSAC_SMALLEST_RMS</em>&nbsp;</td><td>
-<p>The model with the smallest RMS is taken. </p>
+<tr><td valign="top"><em><a class="anchor" id="a58eb13e60537ae253f1ba37dadafc8aeae7b10acb784da9e48074d09c368a91db"></a><!-- doxytag: member="RANSAC_SMALLEST_RMSE" ref="a58eb13e60537ae253f1ba37dadafc8aeae7b10acb784da9e48074d09c368a91db" args="" -->RANSAC_SMALLEST_RMSE</em>&nbsp;</td><td>
+<p>The model with the smallest RMSE is taken. </p>
 </td></tr>
 </table>
 </dd>
@@ -426,14 +426,14 @@ template&lt;class T , class DataType &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="aa700ccdcaf9fd8182cd45abda03e895b"></a><!-- doxytag: member="TRTK::Ransac::algorithmRansacSmallestRms" ref="aa700ccdcaf9fd8182cd45abda03e895b" args="()" -->
+<a class="anchor" id="af2d410c8fd87c4dcc9aa14e01e280253"></a><!-- doxytag: member="TRTK::Ransac::algorithmRansacSmallestRmse" ref="af2d410c8fd87c4dcc9aa14e01e280253" args="()" -->
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;class T , class DataType &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">unsigned <a class="el" href="class_t_r_t_k_1_1_ransac.html">TRTK::Ransac</a>&lt; T, DataType &gt;::algorithmRansacSmallestRms </td>
+          <td class="memname">unsigned <a class="el" href="class_t_r_t_k_1_1_ransac.html">TRTK::Ransac</a>&lt; T, DataType &gt;::algorithmRansacSmallestRmse </td>
           <td>(</td>
           <td class="paramname">&#160;)</td>
           <td><code> [protected]</code></td>
@@ -443,7 +443,7 @@ template&lt;class T , class DataType &gt; </div>
 <div class="memdoc">
 
 <p>Modified version of the RANSAC algorithm as described by Fischler and Bolles. </p>
-<p>The model with the smallest RMS is taken. The consensus set must be bigger than a given threshold (see <a class="el" href="class_t_r_t_k_1_1_ransac.html#a0de13bf843710820cf0075e61fef9fee">setMinimumSetSize()</a>), otherwise no model is estimated (i.e. the algorithm returns 0).</p>
+<p>The model with the smallest RMSE is taken. The consensus set must be bigger than a given threshold (see <a class="el" href="class_t_r_t_k_1_1_ransac.html#a0de13bf843710820cf0075e61fef9fee">setMinimumSetSize()</a>), otherwise no model is estimated (i.e. the algorithm returns 0).</p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Returns the number of items used to compute the model. </dd></dl>
 
 <p>Definition at line <a class="el" href="_ransac_8hpp_source.html#l00477">477</a> of file <a class="el" href="_ransac_8hpp_source.html">Ransac.hpp</a>.</p>

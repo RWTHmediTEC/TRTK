@@ -1,8 +1,8 @@
 <map id="G" name="G">
-<area shape="rect" id="node4" href="$_correlation_circle_8hpp.html" title="This file contains the declaration of the CorrelationCircle class." alt="" coords="579,80,758,107"/>
-<area shape="rect" id="node8" href="$_error_obj_8hpp.html" title="This file contains the declaration of the ErrorObj class." alt="" coords="101,379,197,405"/>
+<area shape="rect" id="node4" href="$_correlation_circle_8hpp.html" title="This file contains the declaration of the CorrelationCircle class." alt="" coords="879,80,1058,107"/>
+<area shape="rect" id="node8" href="$_error_obj_8hpp.html" title="This file contains the declaration of the ErrorObj class." alt="" coords="1034,379,1130,405"/>
 <area shape="rect" id="node17" href="$_tools_8hpp.html" title="This file contains various helper functions." alt="" coords="523,229,601,256"/>
-<area shape="rect" id="node7" href="$_circle_8hpp.html" title="This file contains the declaration of the Circle structure." alt="" coords="747,155,825,181"/>
-<area shape="rect" id="node11" href="$_signals_8hpp.html" title="This file contains all classes and function related to the signal and slot concept." alt="" coords="850,155,938,181"/>
-<area shape="rect" id="node22" href="$_coordinate_8hpp.html" title="This file contains the Coordinate class and related functions." alt="" coords="631,304,741,331"/>
+<area shape="rect" id="node7" href="$_circle_8hpp.html" title="This file contains the declaration of the Circle structure." alt="" coords="949,155,1028,181"/>
+<area shape="rect" id="node11" href="$_signals_8hpp.html" title="This file contains all classes and function related to the signal and slot concept." alt="" coords="717,155,805,181"/>
+<area shape="rect" id="node22" href="$_coordinate_8hpp.html" title="This file contains the Coordinate class and related functions." alt="" coords="507,304,617,331"/>
 </map>

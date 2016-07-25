@@ -97,7 +97,7 @@ function toggleVisibility(linkObj) {
 <a name="l00002"></a>00002 <span class="comment">    This class performs a pivot calibration providing a defined translation</span>
 <a name="l00003"></a>00003 <span class="comment">    between a tool tip and its sensor system.</span>
 <a name="l00004"></a>00004 <span class="comment"></span>
-<a name="l00005"></a>00005 <span class="comment">    Copyright (C) 2010 - 2014 Christoph Haenisch</span>
+<a name="l00005"></a>00005 <span class="comment">    Copyright (C) 2010 - 2016 Christoph Haenisch</span>
 <a name="l00006"></a>00006 <span class="comment"></span>
 <a name="l00007"></a>00007 <span class="comment">    Chair of Medical Engineering (mediTEC)</span>
 <a name="l00008"></a>00008 <span class="comment">    RWTH Aachen University</span>
@@ -111,388 +111,690 @@ function toggleVisibility(linkObj) {
 <a name="l00022"></a>00022 <span class="preprocessor">#ifndef PIVOTCALIBRATION_HPP_3123933941</span>
 <a name="l00023"></a>00023 <span class="preprocessor"></span><span class="preprocessor">#define PIVOTCALIBRATION_HPP_3123933941</span>
 <a name="l00024"></a>00024 <span class="preprocessor"></span>
-<a name="l00025"></a>00025 <span class="preprocessor">#include &lt;vector&gt;</span>
-<a name="l00026"></a>00026 
-<a name="l00027"></a>00027 <span class="preprocessor">#include&lt;Eigen/StdVector&gt;</span>
-<a name="l00028"></a>00028 
-<a name="l00029"></a>00029 <span class="preprocessor">#include &quot;<a class="code" href="_error_obj_8hpp.html" title="This file contains the declaration of the ErrorObj class.">ErrorObj.hpp</a>&quot;</span>
-<a name="l00030"></a>00030 <span class="preprocessor">#include &quot;<a class="code" href="_coordinate_8hpp.html" title="This file contains the Coordinate class and related functions.">Coordinate.hpp</a>&quot;</span>
-<a name="l00031"></a>00031 <span class="preprocessor">#include &quot;<a class="code" href="_fit_sphere_8hpp.html" title="This file contains the FitSphere class.">FitSphere.hpp</a>&quot;</span>
-<a name="l00032"></a>00032 <span class="preprocessor">#include &quot;<a class="code" href="_transform3_d_8hpp.html" title="This file contains the Transform3D class.">Transform3D.hpp</a>&quot;</span>
-<a name="l00033"></a>00033 
-<a name="l00034"></a>00034 
-<a name="l00035"></a>00035 <span class="keyword">namespace </span>TRTK
-<a name="l00036"></a><a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#aafd94055dea59ad197e2399aaaccf222">00036</a> {
+<a name="l00025"></a>00025 <span class="preprocessor">#include &lt;utility&gt;</span>
+<a name="l00026"></a>00026 <span class="preprocessor">#include &lt;vector&gt;</span>
+<a name="l00027"></a>00027 
+<a name="l00028"></a>00028 <span class="preprocessor">#include &lt;Eigen/Dense&gt;</span>
+<a name="l00029"></a>00029 <span class="preprocessor">#include &lt;Eigen/Eigenvalues&gt;</span>
+<a name="l00030"></a>00030 
+<a name="l00031"></a>00031 <span class="preprocessor">#include &quot;<a class="code" href="_error_obj_8hpp.html" title="This file contains the declaration of the ErrorObj class.">ErrorObj.hpp</a>&quot;</span>
+<a name="l00032"></a>00032 <span class="preprocessor">#include &quot;<a class="code" href="_coordinate_8hpp.html" title="This file contains the Coordinate class and related functions.">Coordinate.hpp</a>&quot;</span>
+<a name="l00033"></a>00033 <span class="preprocessor">#include &quot;<a class="code" href="_fit_sphere_8hpp.html" title="This file contains the FitSphere class.">FitSphere.hpp</a>&quot;</span>
+<a name="l00034"></a>00034 <span class="preprocessor">#include &quot;<a class="code" href="_range_8hpp.html" title="This file contains the Range class as well as some helper functions.">Range.hpp</a>&quot;</span>
+<a name="l00035"></a>00035 <span class="preprocessor">#include &quot;<a class="code" href="_transform3_d_8hpp.html" title="This file contains the Transform3D class.">Transform3D.hpp</a>&quot;</span>
+<a name="l00036"></a>00036 
 <a name="l00037"></a>00037 
-<a name="l00038"></a><a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#aafd94055dea59ad197e2399aaaccf222abf785482ddfc5b933df0f832c1ce1354">00038</a> 
-<a name="l00117"></a>00117 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
-<a name="l00118"></a>00118 <span class="keyword">class </span><a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html" title="This class performs a pivot calibration providing a defined translation between a tool tip and its se...">PivotCalibration</a>
-<a name="l00119"></a>00119 {
-<a name="l00120"></a>00120 <span class="keyword">public</span>:
-<a name="l00121"></a>00121     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-<a name="l00122"></a>00122 
-<a name="l00123"></a>00123     <span class="keyword">enum</span> <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#aafd94055dea59ad197e2399aaaccf222">Algorithm</a> {
-<a name="l00124"></a>00124         <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#aafd94055dea59ad197e2399aaaccf222abf785482ddfc5b933df0f832c1ce1354" title="First, estimate the pivot point in global coordinates. Second, estimate the sought translation by com...">TWO_STEP_PROCEDURE</a>,         
-<a name="l00125"></a>00125         <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#aafd94055dea59ad197e2399aaaccf222a6f19f405786f9a761772447b1ed33748" title="Setup n equations that yield the pivot point from a single measurement using the sought (but unknown)...">COMBINATORICAL_APPROACH</a>     
-<a name="l00126"></a>00126     };
-<a name="l00127"></a>00127 
-<a name="l00128"></a>00128     <span class="keyword">enum</span> Error {
-<a name="l00129"></a>00129         NOT_ENOUGH_INPUT_DATA,
-<a name="l00130"></a>00130         UNEQUAL_CARDINALITY_OF_SETS,
-<a name="l00131"></a>00131         UNKNOWN_ALGORITHM,
-<a name="l00132"></a>00132         UNKNOWN_ERROR,
-<a name="l00133"></a>00133         WRONG_VECTOR_SIZE
-<a name="l00134"></a>00134     };
-<a name="l00135"></a>00135 
-<a name="l00136"></a>00136     <span class="keyword">typedef</span> T value_type;
-<a name="l00137"></a>00137     <span class="keyword">typedef</span> Eigen::Matrix&lt;T, 3, 1&gt; Vector3T;
-<a name="l00138"></a>00138     <span class="keyword">typedef</span> Eigen::Matrix&lt;T, 4, 1&gt; Vector4T;
-<a name="l00139"></a>00139     <span class="keyword">typedef</span> Eigen::Matrix&lt;T, Eigen::Dynamic, 1&gt; VectorXT;
-<a name="l00140"></a>00140     <span class="keyword">typedef</span> Eigen::Matrix&lt;T, 3, 3&gt; Matrix3T;
-<a name="l00141"></a>00141     <span class="keyword">typedef</span> Eigen::Matrix&lt;T, Eigen::Dynamic, Eigen::Dynamic&gt; MatrixXT;
-<a name="l00142"></a>00142 
-<a name="l00143"></a>00143     <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#af608fc87fb716538710c134ad9ea3c38">PivotCalibration</a>();
-<a name="l00144"></a>00144     <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#af608fc87fb716538710c134ad9ea3c38">PivotCalibration</a>(<span class="keyword">const</span> std::vector&lt;Matrix3T&gt; &amp; rotations, <span class="keyword">const</span> std::vector&lt;Vector3T&gt; &amp; locations);
-<a name="l00145"></a>00145     <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#af608fc87fb716538710c134ad9ea3c38">PivotCalibration</a>(<span class="keyword">const</span> std::vector&lt;<a class="code" href="class_t_r_t_k_1_1_transform3_d.html" title="Affine or projective transformation in 3D.">Transform3D&lt;T&gt;</a>, Eigen::aligned_allocator&lt;<a class="code" href="class_t_r_t_k_1_1_transform3_d.html" title="Affine or projective transformation in 3D.">Transform3D&lt;T&gt;</a> &gt; &gt; &amp; transformations);
-<a name="l00146"></a>00146 
-<a name="l00147"></a>00147     <span class="keyword">virtual</span> <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#a13599ac40f9e00d1c32ca57a245b78a3">~PivotCalibration</a>();
+<a name="l00038"></a>00038 <span class="keyword">namespace </span>TRTK
+<a name="l00039"></a>00039 {
+<a name="l00040"></a>00040 
+<a name="l00041"></a>00041 
+<a name="l00043"></a>00043 <span class="comment">//                                 Interface                                  //</span>
+<a name="l00045"></a>00045 <span class="comment"></span>
+<a name="l00046"></a>00046 
+<a name="l00139"></a>00139 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l00140"></a>00140 <span class="keyword">class </span>PivotCalibration
+<a name="l00141"></a>00141 {
+<a name="l00142"></a>00142 <span class="keyword">public</span>:
+<a name="l00143"></a>00143     <span class="keyword">enum</span> Error {
+<a name="l00144"></a>00144         NOT_ENOUGH_INPUT_DATA,
+<a name="l00145"></a>00145         UNEQUAL_CARDINALITY_OF_INPUT_SETS,
+<a name="l00146"></a>00146         UNKNOWN_ERROR
+<a name="l00147"></a>00147     };
 <a name="l00148"></a>00148 
-<a name="l00149"></a>00149     <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#a81e3afb9a35a7c47f7d88effccdd83a6">compute</a>();
-<a name="l00150"></a>00150 
-<a name="l00151"></a>00151     <span class="keyword">const</span> Vector3T &amp; <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#ab00b3a0c534b3034c78dcebc3b4bddc9">getTranslation</a>() <span class="keyword">const</span>;
-<a name="l00152"></a>00152 
-<a name="l00153"></a>00153     <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#ab945e3625f0ccacf27f18f41c6692c40">setAlgorithm</a>(<a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#aafd94055dea59ad197e2399aaaccf222">Algorithm</a> algorithm);
-<a name="l00154"></a>00154 
-<a name="l00155"></a>00155     <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#a6c8a7f233d66ec99cfae3fd8e79135a6">setLocations</a>(<span class="keyword">const</span> std::vector&lt;<a class="code" href="class_t_r_t_k_1_1_coordinate.html" title="A generic coordinate class.">Coordinate&lt;T&gt;</a> &gt; &amp; locations);
-<a name="l00156"></a>00156     <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#a6c8a7f233d66ec99cfae3fd8e79135a6">setLocations</a>(<span class="keyword">const</span> std::vector&lt;Vector3T&gt; &amp; locations);
-<a name="l00157"></a>00157     <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#a6c8a7f233d66ec99cfae3fd8e79135a6">setLocations</a>(<span class="keyword">const</span> std::vector&lt;Vector4T, Eigen::aligned_allocator&lt;Vector4T&gt; &gt; &amp; locations);
+<a name="l00149"></a>00149     <span class="keyword">typedef</span> T value_type;
+<a name="l00150"></a>00150     <span class="keyword">typedef</span> Eigen::Matrix&lt;T, 3, 1&gt; Vector3T;
+<a name="l00151"></a>00151     <span class="keyword">typedef</span> Eigen::Matrix&lt;T, 4, 1&gt; Vector4T;
+<a name="l00152"></a>00152     <span class="keyword">typedef</span> Eigen::Matrix&lt;T, Eigen::Dynamic, 1&gt; VectorXT;
+<a name="l00153"></a>00153     <span class="keyword">typedef</span> Eigen::Matrix&lt;T, 3, 3&gt; Matrix3T;
+<a name="l00154"></a>00154     <span class="keyword">typedef</span> Eigen::Matrix&lt;T, 4, 4&gt; Matrix4T;
+<a name="l00155"></a>00155     <span class="keyword">typedef</span> Eigen::Matrix&lt;T, Eigen::Dynamic, Eigen::Dynamic&gt; MatrixXT;
+<a name="l00156"></a>00156     <span class="keyword">typedef</span> Coordinate&lt;T&gt; Point;
+<a name="l00157"></a>00157     <span class="keyword">typedef</span> std::pair&lt;Vector3T, Matrix3T&gt; DataType;
 <a name="l00158"></a>00158 
-<a name="l00159"></a>00159     <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#afcef06f8c19dff3d27b5fdea5b06898d">setRotations</a>(<span class="keyword">const</span> std::vector&lt;Matrix3T&gt; &amp; matrices);
-<a name="l00160"></a>00160 
-<a name="l00161"></a>00161     <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#a34e797416570eb1c0143f98d110ca873">setTransformations</a>(<span class="keyword">const</span> std::vector&lt;<a class="code" href="class_t_r_t_k_1_1_transform3_d.html" title="Affine or projective transformation in 3D.">Transform3D&lt;T&gt;</a>, Eigen::aligned_allocator&lt;<a class="code" href="class_t_r_t_k_1_1_transform3_d.html" title="Affine or projective transformation in 3D.">Transform3D&lt;T&gt;</a> &gt; &gt; &amp; transformations);
+<a name="l00159"></a>00159 
+<a name="l00160"></a>00160     PivotCalibration() {};
+<a name="l00161"></a>00161     <span class="keyword">virtual</span> ~PivotCalibration() {};
 <a name="l00162"></a>00162 
-<a name="l00163"></a>00163 <span class="keyword">private</span>:
-<a name="l00164"></a>00164     <span class="keywordtype">void</span> compute_two_step_procedure();
-<a name="l00165"></a>00165     <span class="keywordtype">void</span> compute_combinatorical_approach();
-<a name="l00166"></a>00166 
-<a name="l00167"></a>00167     Vector3T translation;
-<a name="l00168"></a>00168     std::vector&lt;Matrix3T&gt; rotations;
-<a name="l00169"></a>00169     std::vector&lt;Vector3T&gt; locations;
-<a name="l00170"></a>00170     <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#aafd94055dea59ad197e2399aaaccf222">Algorithm</a> algorithm;
-<a name="l00171"></a>00171 };
+<a name="l00163"></a>00163     <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#a1c4c89a3789479a07a400c4ea6b9517d" title="Returns the minimum number of locations and rotations needed for the algorithm.">getNumberItemsRequired</a>() <span class="keyword">const</span> = 0;              
+<a name="l00164"></a>00164     <span class="keyword">virtual</span> <span class="keywordtype">void</span> setLocations(Range&lt;Vector3T&gt; locations) = 0;
+<a name="l00165"></a>00165     <span class="keyword">virtual</span> <span class="keywordtype">void</span> setRotations(Range&lt;Matrix3T&gt; rotations) = 0;
+<a name="l00166"></a>00166     <span class="keyword">virtual</span> T <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#a3f744354bf447bd1dc306c81f5e2de8e" title="Returns the RMSE.">compute</a>() = 0;                                        
+<a name="l00167"></a>00167     <span class="keyword">virtual</span> T <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#a6a1e16588595314bdde3fda27f018782" title="Returns the RMSE of the last computation.">getRMSE</a>() <span class="keyword">const</span> = 0;                                  
+<a name="l00168"></a>00168     <span class="keyword">virtual</span> <span class="keyword">const</span> Vector3T &amp; <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#a6d2b3dfbd5e29b4a1210d8867120b988" title="Returns the pivot point (or tool tip) in local coordinates.">getLocalPivotPoint</a>() <span class="keyword">const</span> = 0;        
+<a name="l00169"></a>00169     <span class="keyword">virtual</span> <span class="keyword">const</span> Vector3T &amp; <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#ace6d2823b1b2233cb0a40abce859ffb8" title="Returns the pivot point (or tool tip) in world coordinates.">getPivotPoint</a>() <span class="keyword">const</span> = 0;             
+<a name="l00170"></a>00170 };
+<a name="l00171"></a>00171 
 <a name="l00172"></a>00172 
-<a name="l00173"></a>00173 
-<a name="l00179"></a>00179 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
-<a name="l00180"></a>00180 <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#af608fc87fb716538710c134ad9ea3c38">PivotCalibration&lt;T&gt;::PivotCalibration</a>() :
-<a name="l00181"></a>00181     algorithm(TWO_STEP_PROCEDURE)
-<a name="l00182"></a>00182 {
-<a name="l00183"></a>00183 }
-<a name="l00184"></a>00184 
-<a name="l00185"></a>00185 
-<a name="l00196"></a>00196 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
-<a name="l00197"></a>00197 <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#af608fc87fb716538710c134ad9ea3c38">PivotCalibration&lt;T&gt;::PivotCalibration</a>(<span class="keyword">const</span> std::vector&lt;Matrix3T&gt; &amp; rotations,
-<a name="l00198"></a>00198                                       <span class="keyword">const</span> std::vector&lt;Vector3T&gt; &amp; locations) :
-<a name="l00199"></a>00199     algorithm(TWO_STEP_PROCEDURE)
-<a name="l00200"></a>00200 {
-<a name="l00201"></a>00201     this-&gt;rotations = rotations;
-<a name="l00202"></a>00202     this-&gt;locations = locations;
-<a name="l00203"></a>00203 }
-<a name="l00204"></a>00204 
-<a name="l00205"></a>00205 
-<a name="l00215"></a>00215 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
-<a name="l00216"></a>00216 <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#af608fc87fb716538710c134ad9ea3c38">PivotCalibration&lt;T&gt;::PivotCalibration</a>(<span class="keyword">const</span> std::vector&lt;Transform3D&lt;T&gt;, Eigen::aligned_allocator&lt;Transform3D&lt;T&gt; &gt; &gt; &amp; transformations) :
-<a name="l00217"></a>00217     algorithm(TWO_STEP_PROCEDURE)
-<a name="l00218"></a>00218 {
-<a name="l00219"></a>00219     rotations.clear();
-<a name="l00220"></a>00220     locations.clear();
-<a name="l00221"></a>00221 
-<a name="l00222"></a>00222     <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> i = 0; i &lt; transformations.size(); ++i)
-<a name="l00223"></a>00223     {
-<a name="l00224"></a>00224         Matrix3T m = transformations[i].getTransformationMatrix().block(0, 0, 3, 3);
-<a name="l00225"></a>00225         Vector3T v = transformations[i].getTransformationMatrix().block(0, 3, 3, 1);
-<a name="l00226"></a>00226 
-<a name="l00227"></a>00227         rotations.push_back(m);
-<a name="l00228"></a>00228         locations.push_back(v);
-<a name="l00229"></a>00229     }
-<a name="l00230"></a>00230 }
-<a name="l00231"></a>00231 
-<a name="l00232"></a>00232 
-<a name="l00238"></a>00238 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
-<a name="l00239"></a>00239 <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#a13599ac40f9e00d1c32ca57a245b78a3">PivotCalibration&lt;T&gt;::~PivotCalibration</a>()
-<a name="l00240"></a>00240 {
-<a name="l00241"></a>00241 }
-<a name="l00242"></a>00242 
-<a name="l00243"></a>00243 
-<a name="l00256"></a>00256 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
-<a name="l00257"></a>00257 <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#a81e3afb9a35a7c47f7d88effccdd83a6">PivotCalibration&lt;T&gt;::compute</a>()
-<a name="l00258"></a>00258 {
-<a name="l00259"></a>00259     <span class="comment">// check for valid input data</span>
-<a name="l00260"></a>00260 
-<a name="l00261"></a>00261     <span class="keywordflow">if</span> (locations.size() != rotations.size())
-<a name="l00262"></a>00262     {
-<a name="l00263"></a>00263         ErrorObj error;
-<a name="l00264"></a>00264         error.setErrorMessage(<span class="stringliteral">&quot;The number of rotations is different to the number of locations.&quot;</span>);
-<a name="l00265"></a>00265         error.setClassName(<span class="stringliteral">&quot;PivotCalibration&quot;</span>);
-<a name="l00266"></a>00266         error.setFunctionName(<span class="stringliteral">&quot;compute()&quot;</span>);
-<a name="l00267"></a>00267         error.setErrorCode(UNEQUAL_CARDINALITY_OF_SETS);
-<a name="l00268"></a>00268         <span class="keywordflow">throw</span> error;
-<a name="l00269"></a>00269     }
-<a name="l00270"></a>00270 
-<a name="l00271"></a>00271     <span class="keywordflow">switch</span> (algorithm)
-<a name="l00272"></a>00272     {
-<a name="l00273"></a>00273         <span class="keywordflow">case</span> TWO_STEP_PROCEDURE:
-<a name="l00274"></a>00274             compute_two_step_procedure();
-<a name="l00275"></a>00275             <span class="keywordflow">break</span>;
-<a name="l00276"></a>00276 
-<a name="l00277"></a>00277         <span class="keywordflow">case</span> COMBINATORICAL_APPROACH:
-<a name="l00278"></a>00278             compute_combinatorical_approach();
-<a name="l00279"></a>00279             <span class="keywordflow">break</span>;
-<a name="l00280"></a>00280 
-<a name="l00281"></a>00281         <span class="keywordflow">default</span>:
-<a name="l00282"></a>00282             <span class="keywordflow">return</span>;
-<a name="l00283"></a>00283     }
-<a name="l00284"></a>00284 }
-<a name="l00285"></a>00285 
+<a name="l00174"></a>00174 <span class="comment">//                    PivotCalibrationCombinatorialApproach                   //</span>
+<a name="l00176"></a>00176 <span class="comment"></span>
+<a name="l00177"></a>00177 
+<a name="l00267"></a>00267 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l00268"></a>00268 <span class="keyword">class </span>PivotCalibrationCombinatorialApproach : <span class="keyword">public</span> PivotCalibration&lt;T&gt;
+<a name="l00269"></a>00269 {
+<a name="l00270"></a>00270 <span class="keyword">private</span>:
+<a name="l00271"></a>00271     <span class="keyword">typedef</span> PivotCalibration&lt;T&gt; super;
+<a name="l00272"></a>00272 
+<a name="l00273"></a>00273 <span class="keyword">public</span>:
+<a name="l00274"></a>00274     <span class="keyword">typedef</span> T value_type;
+<a name="l00275"></a>00275     <span class="keyword">typedef</span> <span class="keyword">typename</span> super::Vector3T Vector3T;
+<a name="l00276"></a>00276     <span class="keyword">typedef</span> <span class="keyword">typename</span> super::Vector4T Vector4T;
+<a name="l00277"></a>00277     <span class="keyword">typedef</span> <span class="keyword">typename</span> super::VectorXT VectorXT;
+<a name="l00278"></a>00278     <span class="keyword">typedef</span> <span class="keyword">typename</span> super::Matrix3T Matrix3T;
+<a name="l00279"></a>00279     <span class="keyword">typedef</span> <span class="keyword">typename</span> super::Matrix4T Matrix4T;
+<a name="l00280"></a>00280     <span class="keyword">typedef</span> <span class="keyword">typename</span> super::MatrixXT MatrixXT;
+<a name="l00281"></a>00281     <span class="keyword">typedef</span> <span class="keyword">typename</span> super::Point Point;
+<a name="l00282"></a>00282     <span class="keyword">typedef</span> <span class="keyword">typename</span> super::DataType DataType;
+<a name="l00283"></a>00283 
+<a name="l00284"></a>00284     PivotCalibrationCombinatorialApproach();
+<a name="l00285"></a>00285     ~PivotCalibrationCombinatorialApproach();
 <a name="l00286"></a>00286 
-<a name="l00287"></a>00287 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
-<a name="l00288"></a>00288 <span class="keywordtype">void</span> PivotCalibration&lt;T&gt;::compute_two_step_procedure()
-<a name="l00289"></a>00289 {
-<a name="l00290"></a>00290     <span class="comment">/*</span>
-<a name="l00291"></a>00291 <span class="comment"></span>
-<a name="l00292"></a>00292 <span class="comment">    Explanation of the algorithm</span>
-<a name="l00293"></a>00293 <span class="comment"></span>
-<a name="l00294"></a>00294 <span class="comment">    As described in the details section, during the calibration procedure,</span>
-<a name="l00295"></a>00295 <span class="comment">    the tool is moved around its tip. In doing so, the tool tip always resides</span>
-<a name="l00296"></a>00296 <span class="comment">    a the same point, namely the pivot point. At the same time the tool&#39;s</span>
-<a name="l00297"></a>00297 <span class="comment">    sensor moves along the surface of a fictive sphere. Now, in a first step,</span>
-<a name="l00298"></a>00298 <span class="comment">    the center point (= pivot point) as well as the radius of this sphere are</span>
-<a name="l00299"></a>00299 <span class="comment">    estimated by a simple least square scheme (in global coordinates).</span>
-<a name="l00300"></a>00300 <span class="comment"></span>
-<a name="l00301"></a>00301 <span class="comment">    Now, the location of the tip in the local sensor coordinate system can</span>
-<a name="l00302"></a>00302 <span class="comment">    be easily computed from a single measurement (step two). It holds, that a</span>
-<a name="l00303"></a>00303 <span class="comment">    point p in the local sensor coordinate system corresponds to the point p&#39;</span>
-<a name="l00304"></a>00304 <span class="comment">    in global coordinates by</span>
-<a name="l00305"></a>00305 <span class="comment"></span>
-<a name="l00306"></a>00306 <span class="comment">        p&#39; = R * p + t</span>
-<a name="l00307"></a>00307 <span class="comment"></span>
-<a name="l00308"></a>00308 <span class="comment">    where R is the rotation and t the location of the sensor in the global</span>
-<a name="l00309"></a>00309 <span class="comment">    coordinate system. Since the pivot point is known in global coordinates</span>
-<a name="l00310"></a>00310 <span class="comment">    (let it be p&#39;) and the tool tip resides at this location, the location</span>
-<a name="l00311"></a>00311 <span class="comment">    of the tip in local coordinates is</span>
-<a name="l00312"></a>00312 <span class="comment"></span>
-<a name="l00313"></a>00313 <span class="comment">        p = R^(-1) * (p&#39; - t)</span>
-<a name="l00314"></a>00314 <span class="comment">    </span>
-<a name="l00315"></a>00315 <span class="comment">    Using a single measurement (R_i, t_i) and computing the sought translation,</span>
-<a name="l00316"></a>00316 <span class="comment">    we were actually done. But due to noise, we should take the mean of several</span>
-<a name="l00317"></a>00317 <span class="comment">    estimated translations.</span>
-<a name="l00318"></a>00318 <span class="comment"></span>
-<a name="l00319"></a>00319 <span class="comment">    */</span>
-<a name="l00320"></a>00320 
-<a name="l00321"></a>00321     <span class="comment">// estimate sphere parameters</span>
-<a name="l00322"></a>00322 
-<a name="l00323"></a>00323     FitSphere&lt;T&gt; fitSphere(locations);
-<a name="l00324"></a>00324 
-<a name="l00325"></a>00325     fitSphere.compute();
-<a name="l00326"></a>00326 
-<a name="l00327"></a>00327     Vector3T centerPoint = fitSphere.getCenterPoint().toArray();
-<a name="l00328"></a>00328 
-<a name="l00329"></a>00329     <span class="comment">// compute the difference vector, transform it into the sensor system and average it</span>
-<a name="l00330"></a>00330 
-<a name="l00331"></a>00331     translation = Vector3T(0, 0, 0);
-<a name="l00332"></a>00332 
-<a name="l00333"></a>00333     <span class="keyword">const</span> <span class="keywordtype">int</span> n = rotations.size();
-<a name="l00334"></a>00334 
-<a name="l00335"></a>00335     <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; ++i)
-<a name="l00336"></a>00336     {
-<a name="l00337"></a>00337         Vector3T differenceVectorGlobal = centerPoint - locations[i];
-<a name="l00338"></a>00338 
-<a name="l00339"></a>00339         <span class="comment">// transform the vector into the local sensor coordinate system</span>
-<a name="l00340"></a>00340 
-<a name="l00341"></a>00341         Vector3T differenceVectorLocal = rotations[i].inverse() * differenceVectorGlobal;
-<a name="l00342"></a>00342 
-<a name="l00343"></a>00343         <span class="comment">// average the found translation vector (part 1)</span>
-<a name="l00344"></a>00344 
-<a name="l00345"></a>00345         translation += differenceVectorLocal;
-<a name="l00346"></a>00346     }
-<a name="l00347"></a>00347 
-<a name="l00348"></a>00348     <span class="comment">// average the found translation vector (part 2)</span>
-<a name="l00349"></a>00349 
-<a name="l00350"></a>00350     translation = translation / n;
-<a name="l00351"></a>00351 }
-<a name="l00352"></a>00352 
-<a name="l00353"></a>00353 
-<a name="l00354"></a>00354 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
-<a name="l00355"></a>00355 <span class="keywordtype">void</span> PivotCalibration&lt;T&gt;::compute_combinatorical_approach()
-<a name="l00356"></a>00356 {
-<a name="l00357"></a>00357     <span class="comment">/*</span>
-<a name="l00358"></a>00358 <span class="comment"></span>
-<a name="l00359"></a>00359 <span class="comment">    Explanation of the algorithm</span>
-<a name="l00360"></a>00360 <span class="comment"></span>
-<a name="l00361"></a>00361 <span class="comment">    If a tool touches the pivot point with its tip, the pivot point&#39;s location M</span>
-<a name="l00362"></a>00362 <span class="comment">    in global coordinates is</span>
-<a name="l00363"></a>00363 <span class="comment"></span>
-<a name="l00364"></a>00364 <span class="comment">        M = R_i * t + t_i</span>
-<a name="l00365"></a>00365 <span class="comment"></span>
-<a name="l00366"></a>00366 <span class="comment">    where &#39;R_i&#39; is the rotation and &#39;t_i&#39; the location of the tool sensor in the world or</span>
-<a name="l00367"></a>00367 <span class="comment">    tracking coordinate system. &#39;t&#39; is the sought location of the tool tip in the sensor&#39;s</span>
-<a name="l00368"></a>00368 <span class="comment">    local coordinate system. Note, that &#39;t&#39; remains the same for all measurements! Now,</span>
-<a name="l00369"></a>00369 <span class="comment">    using two different measurements, the pivot point M can be eliminated</span>
-<a name="l00370"></a>00370 <span class="comment"></span>
-<a name="l00371"></a>00371 <span class="comment">        R_i * t + t_i = R_j * t + t_j</span>
-<a name="l00372"></a>00372 <span class="comment"></span>
-<a name="l00373"></a>00373 <span class="comment">    This can be rearranged to</span>
-<a name="l00374"></a>00374 <span class="comment"></span>
-<a name="l00375"></a>00375 <span class="comment">        (R_i - R_j) * t = (t_j - t_i)</span>
-<a name="l00376"></a>00376 <span class="comment"></span>
-<a name="l00377"></a>00377 <span class="comment">    Doing this for all combinations of all measurements yields a system of equations</span>
-<a name="l00378"></a>00378 <span class="comment">    Ax = b (with x = t) which can be solved for the sought translation &#39;t&#39;.</span>
-<a name="l00379"></a>00379 <span class="comment"></span>
-<a name="l00380"></a>00380 <span class="comment">    | R1 - R2   |         | t2   - t1 |</span>
-<a name="l00381"></a>00381 <span class="comment">    | R1 - R3   |         | t3   - t1 |</span>
-<a name="l00382"></a>00382 <span class="comment">    | R1 - R4   | * t  =  | t4   - t1 |      &lt;==&gt;    At = b</span>
-<a name="l00383"></a>00383 <span class="comment">    |   ...     |         |     ...   |</span>
-<a name="l00384"></a>00384 <span class="comment">    | Rn - Rn-1 |         | tn-1 - tn |</span>
-<a name="l00385"></a>00385 <span class="comment">    </span>
-<a name="l00386"></a>00386 <span class="comment">    t = [A^T * A]^(-1) * A^T * B        (Moore–Penrose pseudoinverse)</span>
-<a name="l00387"></a>00387 <span class="comment"></span>
-<a name="l00388"></a>00388 <span class="comment">    Note: Not all combinations are taken into account. For instance, the case i == j</span>
-<a name="l00389"></a>00389 <span class="comment">          is omitted.</span>
-<a name="l00390"></a>00390 <span class="comment"></span>
-<a name="l00391"></a>00391 <span class="comment">    */</span>
-<a name="l00392"></a>00392 
-<a name="l00393"></a>00393     <span class="keyword">const</span> <span class="keywordtype">int</span> n = rotations.size();
-<a name="l00394"></a>00394     <span class="keyword">const</span> <span class="keywordtype">int</span> max_number_of_combinations = n * (n - 1);
-<a name="l00395"></a>00395     <span class="keywordtype">int</span> current_index = 0; <span class="comment">// i-th entry (or &quot;row&quot;) in A and b</span>
+<a name="l00287"></a>00287     <span class="keywordtype">size_t</span> <a class="code" href="class_t_r_t_k_1_1_pivot_calibration_combinatorial_approach.html#a991cac4c690caa29911ac84062ce007c" title="Returns the minimum number of locations and rotations needed for the algorithm.">getNumberItemsRequired</a>() <span class="keyword">const</span>;              
+<a name="l00288"></a>00288     <span class="keywordtype">void</span> setLocations(Range&lt;Vector3T&gt; locations);
+<a name="l00289"></a>00289     <span class="keywordtype">void</span> setRotations(Range&lt;Matrix3T&gt; rotations);
+<a name="l00290"></a>00290     T <a class="code" href="class_t_r_t_k_1_1_pivot_calibration_combinatorial_approach.html#ae6363eddd40f54ce52cca36a5ca979a8" title="Returns the RMSE.">compute</a>();                                        
+<a name="l00291"></a>00291     T <a class="code" href="class_t_r_t_k_1_1_pivot_calibration_combinatorial_approach.html#adb63aa285fc989a7a60181a29e6c3a8c" title="Returns the RMSE of the last computation.">getRMSE</a>() <span class="keyword">const</span>;
+<a name="l00292"></a>00292     <span class="keyword">const</span> Vector3T &amp; <a class="code" href="class_t_r_t_k_1_1_pivot_calibration_combinatorial_approach.html#a285afb1796e3648ee4412b521b3c490e" title="Returns the pivot point (or tool tip) in world coordinates.">getPivotPoint</a>() <span class="keyword">const</span>;             
+<a name="l00293"></a>00293     <span class="keyword">const</span> Vector3T &amp; <a class="code" href="class_t_r_t_k_1_1_pivot_calibration_combinatorial_approach.html#a9f388ff2cf8a25769882bd4e52923130" title="Returns the pivot point (or tool tip) in local coordinates.">getLocalPivotPoint</a>() <span class="keyword">const</span>;        
+<a name="l00294"></a>00294 
+<a name="l00295"></a>00295 <span class="keyword">private</span>:
+<a name="l00296"></a>00296     std::vector&lt;Vector3T&gt; locations;
+<a name="l00297"></a>00297     std::vector&lt;Matrix3T&gt; rotations;
+<a name="l00298"></a>00298     Vector3T global_pivot_point;                        
+<a name="l00299"></a>00299     Vector3T local_pivot_point;                         
+<a name="l00300"></a>00300     T rmse;
+<a name="l00301"></a>00301 };
+<a name="l00302"></a>00302 
+<a name="l00303"></a>00303 
+<a name="l00304"></a>00304 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l00305"></a>00305 PivotCalibrationCombinatorialApproach&lt;T&gt;::PivotCalibrationCombinatorialApproach() : rmse(T(0))
+<a name="l00306"></a>00306 {
+<a name="l00307"></a>00307 }
+<a name="l00308"></a>00308 
+<a name="l00309"></a>00309 
+<a name="l00310"></a>00310 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l00311"></a>00311 PivotCalibrationCombinatorialApproach&lt;T&gt;::~PivotCalibrationCombinatorialApproach()
+<a name="l00312"></a><a class="code" href="class_t_r_t_k_1_1_pivot_calibration_combinatorial_approach.html#ae6363eddd40f54ce52cca36a5ca979a8">00312</a> {
+<a name="l00313"></a>00313 }
+<a name="l00314"></a>00314 
+<a name="l00315"></a>00315 
+<a name="l00316"></a>00316 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l00317"></a>00317 T <a class="code" href="class_t_r_t_k_1_1_pivot_calibration_combinatorial_approach.html" title="Pivot point calibration.">PivotCalibrationCombinatorialApproach&lt;T&gt;::compute</a>()
+<a name="l00318"></a>00318 {
+<a name="l00319"></a>00319     <span class="comment">/*</span>
+<a name="l00320"></a>00320 <span class="comment"></span>
+<a name="l00321"></a>00321 <span class="comment">    Explanation of the algorithm</span>
+<a name="l00322"></a>00322 <span class="comment"></span>
+<a name="l00323"></a>00323 <span class="comment">    If a tool touches the pivot point with its tip, the pivot point&#39;s location M</span>
+<a name="l00324"></a>00324 <span class="comment">    in global coordinates is</span>
+<a name="l00325"></a>00325 <span class="comment"></span>
+<a name="l00326"></a>00326 <span class="comment">    M = R_i * t + t_i</span>
+<a name="l00327"></a>00327 <span class="comment"></span>
+<a name="l00328"></a>00328 <span class="comment">    where &#39;R_i&#39; is the rotation and &#39;t_i&#39; the location of the tool sensor in the world or</span>
+<a name="l00329"></a>00329 <span class="comment">    tracking coordinate system. &#39;t&#39; is the sought location of the tool tip in the sensor&#39;s</span>
+<a name="l00330"></a>00330 <span class="comment">    local coordinate system. Note, that &#39;t&#39; remains the same for all measurements! Now,</span>
+<a name="l00331"></a>00331 <span class="comment">    using two different measurements, the pivot point M can be eliminated</span>
+<a name="l00332"></a>00332 <span class="comment"></span>
+<a name="l00333"></a>00333 <span class="comment">    R_i * t + t_i = R_j * t + t_j</span>
+<a name="l00334"></a>00334 <span class="comment"></span>
+<a name="l00335"></a>00335 <span class="comment">    This can be rearranged to</span>
+<a name="l00336"></a>00336 <span class="comment"></span>
+<a name="l00337"></a>00337 <span class="comment">    (R_i - R_j) * t = (t_j - t_i)</span>
+<a name="l00338"></a>00338 <span class="comment"></span>
+<a name="l00339"></a>00339 <span class="comment">    Doing this for all combinations of all measurements yields a system of equations</span>
+<a name="l00340"></a>00340 <span class="comment">    Ax = b (with x = t) which can be solved for the sought translation &#39;t&#39;.</span>
+<a name="l00341"></a>00341 <span class="comment"></span>
+<a name="l00342"></a>00342 <span class="comment">    | R1 - R2   |         | t2   - t1 |</span>
+<a name="l00343"></a>00343 <span class="comment">    | R1 - R3   |         | t3   - t1 |</span>
+<a name="l00344"></a>00344 <span class="comment">    | R1 - R4   | * t  =  | t4   - t1 |      &lt;==&gt;    At = b</span>
+<a name="l00345"></a>00345 <span class="comment">    |   ...     |         |     ...   |</span>
+<a name="l00346"></a>00346 <span class="comment">    | Rn - Rn-1 |         | tn-1 - tn |</span>
+<a name="l00347"></a>00347 <span class="comment"></span>
+<a name="l00348"></a>00348 <span class="comment">    t = [A^T * A]^(-1) * A^T * B        (Moore-Penrose pseudoinverse)</span>
+<a name="l00349"></a>00349 <span class="comment"></span>
+<a name="l00350"></a>00350 <span class="comment">    Note: Not all combinations are taken into account. For instance, the case i == j</span>
+<a name="l00351"></a>00351 <span class="comment">    is omitted.</span>
+<a name="l00352"></a>00352 <span class="comment"></span>
+<a name="l00353"></a>00353 <span class="comment">    */</span>
+<a name="l00354"></a>00354 
+<a name="l00355"></a>00355     <span class="keyword">const</span> <span class="keywordtype">int</span> n = rotations.size();
+<a name="l00356"></a>00356     <span class="keyword">const</span> <span class="keywordtype">int</span> max_number_of_combinations = n * (n - 1);
+<a name="l00357"></a>00357     <span class="keywordtype">int</span> current_index = 0; <span class="comment">// i-th entry (or &quot;row&quot;) in A and b</span>
+<a name="l00358"></a>00358 
+<a name="l00359"></a>00359     <span class="comment">// Build up A and b and solve the system of equations</span>
+<a name="l00360"></a>00360 
+<a name="l00361"></a>00361     MatrixXT A(3 * max_number_of_combinations, 3);
+<a name="l00362"></a>00362     MatrixXT b(3 * max_number_of_combinations, 1);
+<a name="l00363"></a>00363 
+<a name="l00364"></a>00364     <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; ++i)
+<a name="l00365"></a>00365     {
+<a name="l00366"></a>00366         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; n; j++)
+<a name="l00367"></a>00367         {
+<a name="l00368"></a>00368             <span class="keywordflow">if</span> (i == j || rotations[i].isApprox(rotations[j]))
+<a name="l00369"></a>00369             {
+<a name="l00370"></a>00370                 <span class="keywordflow">continue</span>;
+<a name="l00371"></a>00371             }
+<a name="l00372"></a>00372 
+<a name="l00373"></a>00373             A.block(current_index * 3, 0, 3, 3) = rotations[i] - rotations[j];
+<a name="l00374"></a>00374             b.block(current_index * 3, 0, 3, 1) = locations[j] - locations[i];
+<a name="l00375"></a>00375 
+<a name="l00376"></a>00376             ++current_index;
+<a name="l00377"></a>00377         }
+<a name="l00378"></a>00378 
+<a name="l00379"></a>00379     }
+<a name="l00380"></a>00380 
+<a name="l00381"></a>00381     A.resize(current_index * 3, 3);
+<a name="l00382"></a>00382     b.resize(current_index * 3, 1);
+<a name="l00383"></a>00383 
+<a name="l00384"></a>00384     local_pivot_point = (A.transpose() * A).inverse() * (A.transpose() * b);
+<a name="l00385"></a>00385 
+<a name="l00386"></a>00386     <span class="comment">// Compute an averaged global pivot point</span>
+<a name="l00387"></a>00387 
+<a name="l00388"></a>00388     global_pivot_point = Vector3T(0, 0, 0);
+<a name="l00389"></a>00389 
+<a name="l00390"></a>00390     <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; ++i)
+<a name="l00391"></a>00391     {
+<a name="l00392"></a>00392         global_pivot_point += rotations[i] * local_pivot_point + locations[i];
+<a name="l00393"></a>00393     }
+<a name="l00394"></a>00394 
+<a name="l00395"></a>00395     global_pivot_point /= n;
 <a name="l00396"></a>00396 
-<a name="l00397"></a>00397     <span class="comment">// Build up A and b.</span>
+<a name="l00397"></a>00397     <span class="comment">// Compute the RMSE</span>
 <a name="l00398"></a>00398 
-<a name="l00399"></a>00399     MatrixXT A(3 * max_number_of_combinations, 3);
-<a name="l00400"></a>00400     MatrixXT b(3 * max_number_of_combinations, 1);
-<a name="l00401"></a>00401     
+<a name="l00399"></a>00399     <span class="keyword">using</span> <a class="code" href="namespace_t_r_t_k.html#ab6a8c5f73ab8b7638ca1011e6f2c89aa" title="Computes the square root of each element.">std::sqrt</a>;
+<a name="l00400"></a>00400     rmse = T(0);
+<a name="l00401"></a>00401 
 <a name="l00402"></a>00402     <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; ++i)
 <a name="l00403"></a>00403     {
-<a name="l00404"></a>00404         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; n; j++)
-<a name="l00405"></a>00405         {
-<a name="l00406"></a>00406             <span class="keywordflow">if</span> (i == j || rotations[i].isApprox(rotations[j]))
-<a name="l00407"></a>00407             {
-<a name="l00408"></a>00408                 <span class="keywordflow">continue</span>;
-<a name="l00409"></a>00409             }
-<a name="l00410"></a>00410 
-<a name="l00411"></a>00411             A.block(current_index * 3, 0, 3, 3) = rotations[i] - rotations[j];
-<a name="l00412"></a>00412             b.block(current_index * 3, 0, 3, 1) = locations[j] - locations[i];
+<a name="l00404"></a>00404         Vector3T noisy_center_point = rotations[i] * local_pivot_point + locations[i];
+<a name="l00405"></a>00405         rmse += (noisy_center_point - global_pivot_point).squaredNorm();
+<a name="l00406"></a>00406     }
+<a name="l00407"></a>00407 
+<a name="l00408"></a>00408     rmse = <a class="code" href="namespace_t_r_t_k.html#ab6a8c5f73ab8b7638ca1011e6f2c89aa" title="Computes the square root of each element.">sqrt</a>(rmse / n);
+<a name="l00409"></a>00409 
+<a name="l00410"></a><a class="code" href="class_t_r_t_k_1_1_pivot_calibration_combinatorial_approach.html#a9f388ff2cf8a25769882bd4e52923130">00410</a>     <span class="keywordflow">return</span> rmse;
+<a name="l00411"></a>00411 }
+<a name="l00412"></a>00412 
 <a name="l00413"></a>00413 
-<a name="l00414"></a>00414             ++current_index;
-<a name="l00415"></a>00415         }
-<a name="l00416"></a>00416         
-<a name="l00417"></a>00417     }
-<a name="l00418"></a>00418 
-<a name="l00419"></a>00419     A.resize(current_index * 3, 3);
-<a name="l00420"></a>00420     b.resize(current_index * 3, 1);
-<a name="l00421"></a>00421 
-<a name="l00422"></a>00422     <span class="comment">// Solve the system of equations.</span>
-<a name="l00423"></a>00423 
-<a name="l00424"></a>00424     translation = (A.transpose() * A).inverse() * (A.transpose() * b);
+<a name="l00414"></a>00414 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l00415"></a>00415 <span class="keyword">const</span> <span class="keyword">typename</span> PivotCalibrationCombinatorialApproach&lt;T&gt;::Vector3T &amp; <a class="code" href="class_t_r_t_k_1_1_pivot_calibration_combinatorial_approach.html" title="Pivot point calibration.">PivotCalibrationCombinatorialApproach&lt;T&gt;::getLocalPivotPoint</a>()<span class="keyword"> const</span>
+<a name="l00416"></a>00416 <span class="keyword"></span>{
+<a name="l00417"></a><a class="code" href="class_t_r_t_k_1_1_pivot_calibration_combinatorial_approach.html#a991cac4c690caa29911ac84062ce007c">00417</a>     <span class="keywordflow">return</span> local_pivot_point;
+<a name="l00418"></a>00418 }
+<a name="l00419"></a>00419 
+<a name="l00420"></a>00420 
+<a name="l00421"></a>00421 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l00422"></a>00422 <span class="keywordtype">size_t</span> <a class="code" href="class_t_r_t_k_1_1_pivot_calibration_combinatorial_approach.html" title="Pivot point calibration.">PivotCalibrationCombinatorialApproach&lt;T&gt;::getNumberItemsRequired</a>()<span class="keyword"> const</span>
+<a name="l00423"></a>00423 <span class="keyword"></span>{
+<a name="l00424"></a><a class="code" href="class_t_r_t_k_1_1_pivot_calibration_combinatorial_approach.html#a285afb1796e3648ee4412b521b3c490e">00424</a>     <span class="keywordflow">return</span> 4;
 <a name="l00425"></a>00425 }
 <a name="l00426"></a>00426 
 <a name="l00427"></a>00427 
+<a name="l00428"></a>00428 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l00429"></a>00429 <span class="keyword">const</span> <span class="keyword">typename</span> PivotCalibrationCombinatorialApproach&lt;T&gt;::Vector3T &amp; <a class="code" href="class_t_r_t_k_1_1_pivot_calibration_combinatorial_approach.html" title="Pivot point calibration.">PivotCalibrationCombinatorialApproach&lt;T&gt;::getPivotPoint</a>()<span class="keyword"> const</span>
+<a name="l00430"></a>00430 <span class="keyword"></span>{
+<a name="l00431"></a><a class="code" href="class_t_r_t_k_1_1_pivot_calibration_combinatorial_approach.html#adb63aa285fc989a7a60181a29e6c3a8c">00431</a>     <span class="keywordflow">return</span> global_pivot_point;
+<a name="l00432"></a>00432 }
+<a name="l00433"></a>00433 
+<a name="l00434"></a>00434 
 <a name="l00435"></a>00435 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
-<a name="l00436"></a>00436 <span class="keyword">const</span> <span class="keyword">typename</span> PivotCalibration&lt;T&gt;::Vector3T &amp; <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#ab00b3a0c534b3034c78dcebc3b4bddc9">PivotCalibration&lt;T&gt;::getTranslation</a>()<span class="keyword"> const</span>
+<a name="l00436"></a>00436 T <a class="code" href="class_t_r_t_k_1_1_pivot_calibration_combinatorial_approach.html" title="Pivot point calibration.">PivotCalibrationCombinatorialApproach&lt;T&gt;::getRMSE</a>()<span class="keyword"> const</span>
 <a name="l00437"></a>00437 <span class="keyword"></span>{
-<a name="l00438"></a>00438     <span class="keywordflow">return</span> translation;
+<a name="l00438"></a>00438     <span class="keywordflow">return</span> rmse;
 <a name="l00439"></a>00439 }
 <a name="l00440"></a>00440 
 <a name="l00441"></a>00441 
-<a name="l00451"></a>00451 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
-<a name="l00452"></a>00452 <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#ab945e3625f0ccacf27f18f41c6692c40">PivotCalibration&lt;T&gt;::setAlgorithm</a>(Algorithm algorithm)
-<a name="l00453"></a>00453 {
-<a name="l00454"></a>00454     <span class="keywordflow">switch</span> (algorithm)
-<a name="l00455"></a>00455     {
-<a name="l00456"></a>00456         <span class="keywordflow">case</span> TWO_STEP_PROCEDURE:
-<a name="l00457"></a>00457         <span class="keywordflow">case</span> COMBINATORICAL_APPROACH:
-<a name="l00458"></a>00458             this-&gt;algorithm = algorithm;
-<a name="l00459"></a>00459             <span class="keywordflow">return</span>;
-<a name="l00460"></a>00460 
-<a name="l00461"></a>00461         <span class="keywordflow">default</span>:
-<a name="l00462"></a>00462             ErrorObj error;
-<a name="l00463"></a>00463             error.setClassName(<span class="stringliteral">&quot;PivotCalibration&lt;T&gt;&quot;</span>);
-<a name="l00464"></a>00464             error.setFunctionName(<span class="stringliteral">&quot;setAlgorithm()&quot;</span>);
-<a name="l00465"></a>00465             error.setErrorMessage(<span class="stringliteral">&quot;Unknown pivot calibration algorithm.&quot;</span>);
-<a name="l00466"></a>00466             error.setErrorCode(UNKNOWN_ALGORITHM);
-<a name="l00467"></a>00467             <span class="keywordflow">throw</span> error;
-<a name="l00468"></a>00468     }
-<a name="l00469"></a>00469 }
-<a name="l00470"></a>00470 
-<a name="l00471"></a>00471 
-<a name="l00486"></a>00486 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
-<a name="l00487"></a>00487 <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#a6c8a7f233d66ec99cfae3fd8e79135a6">PivotCalibration&lt;T&gt;::setLocations</a>(<span class="keyword">const</span> std::vector&lt;Coordinate&lt;T&gt; &gt; &amp; locations)
-<a name="l00488"></a>00488 {
-<a name="l00489"></a>00489     <span class="keyword">const</span> <span class="keywordtype">int</span> n = locations.size();
-<a name="l00490"></a>00490 
-<a name="l00491"></a>00491     this-&gt;locations.clear();
-<a name="l00492"></a>00492 
-<a name="l00493"></a>00493     <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; ++i)
-<a name="l00494"></a>00494     {
-<a name="l00495"></a>00495         <span class="keywordflow">if</span> (!(locations[i].size() == 3 || locations[i].size() == 4))
-<a name="l00496"></a>00496         {
-<a name="l00497"></a>00497             ErrorObj error;
-<a name="l00498"></a>00498             error.setClassName(<span class="stringliteral">&quot;PivotCalibration&lt;T&gt;&quot;</span>);
-<a name="l00499"></a>00499             error.setFunctionName(<span class="stringliteral">&quot;setLocations(...)&quot;</span>);
-<a name="l00500"></a>00500             error.setErrorMessage(<span class="stringliteral">&quot;One or more translation vectors are of wrong size.&quot;</span>);
-<a name="l00501"></a>00501             error.setErrorCode(WRONG_VECTOR_SIZE);
-<a name="l00502"></a>00502             <span class="keywordflow">throw</span> error;
-<a name="l00503"></a>00503         }
-<a name="l00504"></a>00504 
-<a name="l00505"></a>00505         this-&gt;locations.push_back(locations[i].toArray().head(3));
-<a name="l00506"></a>00506     }
-<a name="l00507"></a>00507 }
-<a name="l00508"></a>00508 
-<a name="l00509"></a>00509 
-<a name="l00519"></a>00519 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
-<a name="l00520"></a>00520 <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#a6c8a7f233d66ec99cfae3fd8e79135a6">PivotCalibration&lt;T&gt;::setLocations</a>(<span class="keyword">const</span> std::vector&lt;Vector3T&gt; &amp; locations)
-<a name="l00521"></a>00521 {
-<a name="l00522"></a>00522     this-&gt;locations = locations;
-<a name="l00523"></a>00523 }
-<a name="l00524"></a>00524 
-<a name="l00525"></a>00525 
-<a name="l00536"></a>00536 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
-<a name="l00537"></a>00537 <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#a6c8a7f233d66ec99cfae3fd8e79135a6">PivotCalibration&lt;T&gt;::setLocations</a>(<span class="keyword">const</span> std::vector&lt;Vector4T, Eigen::aligned_allocator&lt;Vector4T&gt; &gt; &amp; locations)
-<a name="l00538"></a>00538 {
-<a name="l00539"></a>00539     <span class="keyword">const</span> <span class="keywordtype">int</span> n = locations.size();
-<a name="l00540"></a>00540 
-<a name="l00541"></a>00541     <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; ++i)
-<a name="l00542"></a>00542     {
-<a name="l00543"></a>00543         this-&gt;locations.push_back(locations[i].head(3));
-<a name="l00544"></a>00544     }
-<a name="l00545"></a>00545 }
-<a name="l00546"></a>00546 
-<a name="l00547"></a>00547 
-<a name="l00557"></a>00557 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
-<a name="l00558"></a>00558 <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#afcef06f8c19dff3d27b5fdea5b06898d">PivotCalibration&lt;T&gt;::setRotations</a>(<span class="keyword">const</span> std::vector&lt;Matrix3T&gt; &amp; matrices)
-<a name="l00559"></a>00559 {
-<a name="l00560"></a>00560     rotations = matrices;
-<a name="l00561"></a>00561 }
-<a name="l00562"></a>00562 
-<a name="l00563"></a>00563 
-<a name="l00582"></a>00582 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
-<a name="l00583"></a>00583 <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html#a34e797416570eb1c0143f98d110ca873">PivotCalibration&lt;T&gt;::setTransformations</a>(<span class="keyword">const</span> std::vector&lt;Transform3D&lt;T&gt;, Eigen::aligned_allocator&lt;Transform3D&lt;T&gt; &gt; &gt; &amp; transformations)
-<a name="l00584"></a>00584 {
-<a name="l00585"></a>00585     <span class="keyword">const</span> <span class="keywordtype">int</span> n = transformations.size();
-<a name="l00586"></a>00586 
-<a name="l00587"></a>00587     rotations.clear();
-<a name="l00588"></a>00588     locations.clear();
-<a name="l00589"></a>00589 
-<a name="l00590"></a>00590     <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; ++i)
-<a name="l00591"></a>00591     {
-<a name="l00592"></a>00592         rotations.push_back(transformations[i].getTransformationMatrix().block(0, 0, 3, 3));
-<a name="l00593"></a>00593         locations.push_back(transformations[i].getTransformationMatrix().block(0, 3, 3, 1));
-<a name="l00594"></a>00594     }
-<a name="l00595"></a>00595 }
-<a name="l00596"></a>00596 
-<a name="l00597"></a>00597 
-<a name="l00598"></a>00598 } <span class="comment">// namespace TRTK</span>
-<a name="l00599"></a>00599 
+<a name="l00442"></a>00442 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l00443"></a>00443 <span class="keywordtype">void</span> PivotCalibrationCombinatorialApproach&lt;T&gt;::setLocations(Range&lt;Vector3T&gt; locations)
+<a name="l00444"></a>00444 {
+<a name="l00445"></a>00445     this-&gt;locations.resize(locations.size());
+<a name="l00446"></a>00446     <span class="keywordtype">size_t</span> i = 0;
+<a name="l00447"></a>00447 
+<a name="l00448"></a>00448     <span class="keywordflow">while</span> (!locations.isDone())
+<a name="l00449"></a>00449     {
+<a name="l00450"></a>00450         this-&gt;locations[i++] = locations.currentItem();
+<a name="l00451"></a>00451         locations.next();
+<a name="l00452"></a>00452     }
+<a name="l00453"></a>00453 }
+<a name="l00454"></a>00454 
+<a name="l00455"></a>00455 
+<a name="l00456"></a>00456 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l00457"></a>00457 <span class="keywordtype">void</span> PivotCalibrationCombinatorialApproach&lt;T&gt;::setRotations(Range&lt;Matrix3T&gt; rotations)
+<a name="l00458"></a>00458 {
+<a name="l00459"></a>00459     this-&gt;rotations.resize(rotations.size());
+<a name="l00460"></a>00460     <span class="keywordtype">size_t</span> i = 0;
+<a name="l00461"></a>00461 
+<a name="l00462"></a>00462     <span class="keywordflow">while</span> (!rotations.isDone())
+<a name="l00463"></a>00463     {
+<a name="l00464"></a>00464         this-&gt;rotations[i++] = rotations.currentItem();
+<a name="l00465"></a>00465         rotations.next();
+<a name="l00466"></a>00466     }
+<a name="l00467"></a>00467 }
+<a name="l00468"></a>00468 
+<a name="l00469"></a>00469 
+<a name="l00471"></a>00471 <span class="comment">//                            PivotCalibrationPATM                            //</span>
+<a name="l00473"></a>00473 <span class="comment"></span>
+<a name="l00474"></a>00474 
+<a name="l00554"></a>00554 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l00555"></a>00555 <span class="keyword">class </span>PivotCalibrationPATM : <span class="keyword">public</span> PivotCalibration&lt;T&gt;
+<a name="l00556"></a>00556 {
+<a name="l00557"></a>00557 <span class="keyword">private</span>:
+<a name="l00558"></a>00558     <span class="keyword">typedef</span> PivotCalibration&lt;T&gt; super;
+<a name="l00559"></a>00559 
+<a name="l00560"></a>00560 <span class="keyword">public</span>:
+<a name="l00561"></a>00561     <span class="keyword">typedef</span> T value_type;
+<a name="l00562"></a>00562     <span class="keyword">typedef</span> <span class="keyword">typename</span> super::Vector3T Vector3T;
+<a name="l00563"></a>00563     <span class="keyword">typedef</span> <span class="keyword">typename</span> super::Vector4T Vector4T;
+<a name="l00564"></a>00564     <span class="keyword">typedef</span> <span class="keyword">typename</span> super::VectorXT VectorXT;
+<a name="l00565"></a>00565     <span class="keyword">typedef</span> <span class="keyword">typename</span> super::Matrix3T Matrix3T;
+<a name="l00566"></a>00566     <span class="keyword">typedef</span> <span class="keyword">typename</span> super::Matrix4T Matrix4T;
+<a name="l00567"></a>00567     <span class="keyword">typedef</span> <span class="keyword">typename</span> super::MatrixXT MatrixXT;
+<a name="l00568"></a>00568     <span class="keyword">typedef</span> <span class="keyword">typename</span> super::Point Point;
+<a name="l00569"></a>00569     <span class="keyword">typedef</span> <span class="keyword">typename</span> super::DataType DataType;
+<a name="l00570"></a>00570 
+<a name="l00571"></a>00571     <span class="keyword">typedef</span> Eigen::Matrix&lt;std::complex&lt;T&gt;, 3, 3&gt; Matrix3cT;
+<a name="l00572"></a>00572     <span class="keyword">typedef</span> Eigen::Matrix&lt;std::complex&lt;T&gt;, 4, 4&gt; Matrix4cT;
+<a name="l00573"></a>00573 
+<a name="l00574"></a>00574     PivotCalibrationPATM();
+<a name="l00575"></a>00575     ~PivotCalibrationPATM();
+<a name="l00576"></a>00576 
+<a name="l00577"></a>00577     <span class="keywordtype">size_t</span> getNumberItemsRequired() <span class="keyword">const</span>;              
+<a name="l00578"></a>00578     <span class="keywordtype">void</span> setLocations(Range&lt;Vector3T&gt; locations);
+<a name="l00579"></a>00579     <span class="keywordtype">void</span> setRotations(Range&lt;Matrix3T&gt; rotations);
+<a name="l00580"></a>00580     <span class="keywordtype">void</span> setNumberIterations(<span class="keywordtype">int</span> count);                
+<a name="l00581"></a>00581     T compute();                                        
+<a name="l00582"></a>00582     T getRMSE() <span class="keyword">const</span>;
+<a name="l00583"></a>00583     <span class="keyword">const</span> Vector3T &amp; getPivotPoint() <span class="keyword">const</span>;             
+<a name="l00584"></a>00584     <span class="keyword">const</span> Vector3T &amp; getLocalPivotPoint() <span class="keyword">const</span>;        
+<a name="l00585"></a>00585 
+<a name="l00586"></a>00586 <span class="keyword">private</span>:
+<a name="l00587"></a>00587     <span class="keywordtype">unsigned</span> number_of_iterations;
+<a name="l00588"></a>00588     std::vector&lt;Vector3T&gt; locations;
+<a name="l00589"></a>00589     std::vector&lt;Matrix3T&gt; rotations;
+<a name="l00590"></a>00590     Vector3T global_pivot_point;                        
+<a name="l00591"></a>00591     Vector3T local_pivot_point;                         
+<a name="l00592"></a>00592     T rmse;
+<a name="l00593"></a>00593 };
+<a name="l00594"></a>00594 
+<a name="l00595"></a>00595 
+<a name="l00596"></a>00596 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l00597"></a>00597 PivotCalibrationPATM&lt;T&gt;::PivotCalibrationPATM() : number_of_iterations(500), rmse(T(0))
+<a name="l00598"></a>00598 {
+<a name="l00599"></a>00599 }
 <a name="l00600"></a>00600 
-<a name="l00601"></a>00601 <span class="preprocessor">#endif // PIVOTCALIBRATION_HPP_3123933941</span>
+<a name="l00601"></a>00601 
+<a name="l00602"></a>00602 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l00603"></a>00603 PivotCalibrationPATM&lt;T&gt;::~PivotCalibrationPATM()
+<a name="l00604"></a><a class="code" href="class_t_r_t_k_1_1_pivot_calibration_p_a_t_m.html#a0297d5e7100a8e14b01ea30b24abc9d8">00604</a> {
+<a name="l00605"></a>00605 }
+<a name="l00606"></a>00606 
+<a name="l00607"></a>00607 
+<a name="l00608"></a>00608 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l00609"></a>00609 T <a class="code" href="class_t_r_t_k_1_1_pivot_calibration_p_a_t_m.html#a0297d5e7100a8e14b01ea30b24abc9d8" title="Returns the RMSE.">PivotCalibrationPATM&lt;T&gt;::compute</a>()
+<a name="l00610"></a>00610 {
+<a name="l00611"></a>00611     <span class="comment">/*</span>
+<a name="l00612"></a>00612 <span class="comment"></span>
+<a name="l00613"></a>00613 <span class="comment">    Explanation of the algorithm</span>
+<a name="l00614"></a>00614 <span class="comment"></span>
+<a name="l00615"></a>00615 <span class="comment">    If a tool touches the pivot point with its tip, the pivot point&#39;s location M</span>
+<a name="l00616"></a>00616 <span class="comment">    in global coordinates is</span>
+<a name="l00617"></a>00617 <span class="comment"></span>
+<a name="l00618"></a>00618 <span class="comment">    M = R_i * t + t_i</span>
+<a name="l00619"></a>00619 <span class="comment"></span>
+<a name="l00620"></a>00620 <span class="comment">    where &#39;R_i&#39; is the rotation and &#39;t_i&#39; the location of the tool sensor in the world or</span>
+<a name="l00621"></a>00621 <span class="comment">    tracking coordinate system. &#39;t&#39; is the sought location of the tool tip in the sensor&#39;s</span>
+<a name="l00622"></a>00622 <span class="comment">    local coordinate system. Note, that &#39;t&#39; remains the same for all measurements! Now,</span>
+<a name="l00623"></a>00623 <span class="comment">    using two different measurements, the pivot point M can be eliminated</span>
+<a name="l00624"></a>00624 <span class="comment"></span>
+<a name="l00625"></a>00625 <span class="comment">    R_i * t + t_i = R_j * t + t_j</span>
+<a name="l00626"></a>00626 <span class="comment"></span>
+<a name="l00627"></a>00627 <span class="comment">    This can be rearranged to</span>
+<a name="l00628"></a>00628 <span class="comment"></span>
+<a name="l00629"></a>00629 <span class="comment">    t = R_i^T * R_j * t + R_i^T * (t_j - t_i) =: phi(t)                               (*)</span>
+<a name="l00630"></a>00630 <span class="comment"></span>
+<a name="l00631"></a>00631 <span class="comment">    This is actually the form of a fixed-point iteration, i.e. t_i+1 = phi(t_i). However,</span>
+<a name="l00632"></a>00632 <span class="comment">    in this form phi is not a contraction mapping since the Lipschitz constant L is not</span>
+<a name="l00633"></a>00633 <span class="comment">    strictly less than 1:</span>
+<a name="l00634"></a>00634 <span class="comment"></span>
+<a name="l00635"></a>00635 <span class="comment">    || phi(x) - phi(y) || = || R_i^T * R_j * (x - y) || = L * || x - y||,   L = 1</span>
+<a name="l00636"></a>00636 <span class="comment"></span>
+<a name="l00637"></a>00637 <span class="comment">    This can be changed by averaging at least two equations (*) with different</span>
+<a name="l00638"></a>00638 <span class="comment">    measurements. Thus we construct phi(t) as follows</span>
+<a name="l00639"></a>00639 <span class="comment"></span>
+<a name="l00640"></a>00640 <span class="comment">    phi(t) := R * t + p                                                              (**)</span>
+<a name="l00641"></a>00641 <span class="comment"></span>
+<a name="l00642"></a>00642 <span class="comment">    where R := 1/n * sum_i R_i^T * R_(i+1),   p := 1/n * sum_i R_i^T * (t_(i+1) - t_i),</span>
+<a name="l00643"></a>00643 <span class="comment">    and n is the number of measurements. Since the sum goes up to n, R_(n+1) and t_(n1+1)</span>
+<a name="l00644"></a>00644 <span class="comment">    are set to R_1 and t_1, respectively.</span>
+<a name="l00645"></a>00645 <span class="comment"></span>
+<a name="l00646"></a>00646 <span class="comment">    The equation (**) can also rewritten as</span>
+<a name="l00647"></a>00647 <span class="comment"></span>
+<a name="l00648"></a>00648 <span class="comment">             | R  p |</span>
+<a name="l00649"></a>00649 <span class="comment">    phi(t) = |      | * t = A * t</span>
+<a name="l00650"></a>00650 <span class="comment">             | 0  1 |</span>
+<a name="l00651"></a>00651 <span class="comment"></span>
+<a name="l00652"></a>00652 <span class="comment">    and thus t_i+1 = phi(t_i) = A * t_i = A^i * t0.</span>
+<a name="l00653"></a>00653 <span class="comment"></span>
+<a name="l00654"></a>00654 <span class="comment">    */</span>
+<a name="l00655"></a>00655 
+<a name="l00656"></a>00656     <span class="comment">// Build up R and p</span>
+<a name="l00657"></a>00657 
+<a name="l00658"></a>00658     Matrix3T R = Matrix3T::Zero();
+<a name="l00659"></a>00659     Vector3T p = Vector3T::Zero();
+<a name="l00660"></a>00660 
+<a name="l00661"></a>00661     <span class="keyword">const</span> <span class="keywordtype">int</span> n = rotations.size();
+<a name="l00662"></a>00662 
+<a name="l00663"></a>00663     <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; ++i)
+<a name="l00664"></a>00664     {
+<a name="l00665"></a>00665         <span class="keywordtype">int</span> k = i % n; <span class="comment">// 0, 1, 2, ..., n-1, n</span>
+<a name="l00666"></a>00666         <span class="keywordtype">int</span> l = (i + 1) % n; <span class="comment">// 1, 2, 3, ..., n, 0</span>
+<a name="l00667"></a>00667 
+<a name="l00668"></a>00668         R += rotations[k].transpose() * rotations[l];
+<a name="l00669"></a>00669         p += rotations[k].transpose() * (locations[l] - locations[k]);
+<a name="l00670"></a>00670     }
+<a name="l00671"></a>00671 
+<a name="l00672"></a>00672     R /= n;
+<a name="l00673"></a>00673     p /= n;
+<a name="l00674"></a>00674 
+<a name="l00675"></a>00675     Matrix4T A = Matrix4T::Identity();
+<a name="l00676"></a>00676     A.block&lt;3, 3&gt;(0, 0) = R;
+<a name="l00677"></a>00677     A.block&lt;3, 1&gt;(0, 3) = p;
+<a name="l00678"></a>00678 
+<a name="l00679"></a>00679     <span class="comment">// Carry out the fixed-point iterations</span>
+<a name="l00680"></a>00680 
+<a name="l00681"></a>00681     Vector4T t = Vector4T(1, 1, 1, 1);
+<a name="l00682"></a>00682 
+<a name="l00683"></a>00683     <span class="keywordflow">if</span> (number_of_iterations &gt; 10)
+<a name="l00684"></a>00684     {
+<a name="l00685"></a>00685         <span class="comment">// Compute the power of A</span>
+<a name="l00686"></a>00686         Eigen::EigenSolver&lt;MatrixXT&gt; solver(A);
+<a name="l00687"></a>00687         Matrix4cT D = solver.eigenvalues().asDiagonal();
+<a name="l00688"></a>00688         Matrix4cT V = solver.eigenvectors();
+<a name="l00689"></a>00689         A = (V * D.array().pow(number_of_iterations).matrix() * V.inverse()).real();
+<a name="l00690"></a>00690         t = A * t;
+<a name="l00691"></a>00691     }
+<a name="l00692"></a>00692     <span class="keywordflow">else</span>
+<a name="l00693"></a>00693     {
+<a name="l00694"></a>00694         <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> i = 0; i &lt; number_of_iterations; ++i)
+<a name="l00695"></a>00695         {
+<a name="l00696"></a>00696             t = A * t;
+<a name="l00697"></a>00697         }
+<a name="l00698"></a>00698     }
+<a name="l00699"></a>00699 
+<a name="l00700"></a>00700     local_pivot_point = t.head&lt;3&gt;();
+<a name="l00701"></a>00701 
+<a name="l00702"></a>00702     <span class="comment">// Compute an averaged global pivot point</span>
+<a name="l00703"></a>00703 
+<a name="l00704"></a>00704     global_pivot_point = Vector3T(0, 0, 0);
+<a name="l00705"></a>00705 
+<a name="l00706"></a>00706     <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; ++i)
+<a name="l00707"></a>00707     {
+<a name="l00708"></a>00708         global_pivot_point += rotations[i] * local_pivot_point + locations[i];
+<a name="l00709"></a>00709     }
+<a name="l00710"></a>00710 
+<a name="l00711"></a>00711     global_pivot_point /= n;
+<a name="l00712"></a>00712 
+<a name="l00713"></a>00713     <span class="comment">// Compute the RMSE</span>
+<a name="l00714"></a>00714 
+<a name="l00715"></a>00715     <span class="keyword">using</span> <a class="code" href="namespace_t_r_t_k.html#ab6a8c5f73ab8b7638ca1011e6f2c89aa" title="Computes the square root of each element.">std::sqrt</a>;
+<a name="l00716"></a>00716     rmse = T(0);
+<a name="l00717"></a>00717 
+<a name="l00718"></a>00718     <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; ++i)
+<a name="l00719"></a>00719     {
+<a name="l00720"></a>00720         Vector3T noisy_center_point = rotations[i] * local_pivot_point + locations[i];
+<a name="l00721"></a>00721         rmse += (noisy_center_point - global_pivot_point).squaredNorm();
+<a name="l00722"></a>00722     }
+<a name="l00723"></a>00723 
+<a name="l00724"></a>00724     rmse = <a class="code" href="namespace_t_r_t_k.html#ab6a8c5f73ab8b7638ca1011e6f2c89aa" title="Computes the square root of each element.">sqrt</a>(rmse / n);
+<a name="l00725"></a>00725 
+<a name="l00726"></a><a class="code" href="class_t_r_t_k_1_1_pivot_calibration_p_a_t_m.html#ade52b577dfacbf2f5ae68928c5639007">00726</a>     <span class="keywordflow">return</span> rmse;
+<a name="l00727"></a>00727 }
+<a name="l00728"></a>00728 
+<a name="l00729"></a>00729 
+<a name="l00730"></a>00730 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l00731"></a>00731 <span class="keyword">const</span> <span class="keyword">typename</span> PivotCalibrationPATM&lt;T&gt;::Vector3T &amp; <a class="code" href="class_t_r_t_k_1_1_pivot_calibration_p_a_t_m.html#ade52b577dfacbf2f5ae68928c5639007" title="Returns the pivot point (or tool tip) in local coordinates.">PivotCalibrationPATM&lt;T&gt;::getLocalPivotPoint</a>()<span class="keyword"> const</span>
+<a name="l00732"></a>00732 <span class="keyword"></span>{
+<a name="l00733"></a><a class="code" href="class_t_r_t_k_1_1_pivot_calibration_p_a_t_m.html#a2e6f7d242c4891a4160e705f8fdd66fb">00733</a>     <span class="keywordflow">return</span> local_pivot_point;
+<a name="l00734"></a>00734 }
+<a name="l00735"></a>00735 
+<a name="l00736"></a>00736 
+<a name="l00737"></a>00737 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l00738"></a>00738 <span class="keywordtype">size_t</span> <a class="code" href="class_t_r_t_k_1_1_pivot_calibration_p_a_t_m.html#a2e6f7d242c4891a4160e705f8fdd66fb" title="Returns the minimum number of locations and rotations needed for the algorithm.">PivotCalibrationPATM&lt;T&gt;::getNumberItemsRequired</a>()<span class="keyword"> const</span>
+<a name="l00739"></a>00739 <span class="keyword"></span>{
+<a name="l00740"></a><a class="code" href="class_t_r_t_k_1_1_pivot_calibration_p_a_t_m.html#a643e0270acd433c20e5b60c85e20cb18">00740</a>     <span class="keywordflow">return</span> 3;
+<a name="l00741"></a>00741 }
+<a name="l00742"></a>00742 
+<a name="l00743"></a>00743 
+<a name="l00744"></a>00744 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l00745"></a>00745 <span class="keyword">const</span> <span class="keyword">typename</span> PivotCalibrationPATM&lt;T&gt;::Vector3T &amp; <a class="code" href="class_t_r_t_k_1_1_pivot_calibration_p_a_t_m.html#a643e0270acd433c20e5b60c85e20cb18" title="Returns the pivot point (or tool tip) in world coordinates.">PivotCalibrationPATM&lt;T&gt;::getPivotPoint</a>()<span class="keyword"> const</span>
+<a name="l00746"></a>00746 <span class="keyword"></span>{
+<a name="l00747"></a><a class="code" href="class_t_r_t_k_1_1_pivot_calibration_p_a_t_m.html#a40a080d8536f8443e42999992db80a1c">00747</a>     <span class="keywordflow">return</span> global_pivot_point;
+<a name="l00748"></a>00748 }
+<a name="l00749"></a>00749 
+<a name="l00750"></a>00750 
+<a name="l00751"></a>00751 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l00752"></a>00752 T <a class="code" href="class_t_r_t_k_1_1_pivot_calibration_p_a_t_m.html#a40a080d8536f8443e42999992db80a1c" title="Returns the RMSE of the last computation.">PivotCalibrationPATM&lt;T&gt;::getRMSE</a>()<span class="keyword"> const</span>
+<a name="l00753"></a>00753 <span class="keyword"></span>{
+<a name="l00754"></a>00754     <span class="keywordflow">return</span> rmse;
+<a name="l00755"></a>00755 }
+<a name="l00756"></a>00756 
+<a name="l00757"></a>00757 
+<a name="l00758"></a>00758 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l00759"></a>00759 <span class="keywordtype">void</span> PivotCalibrationPATM&lt;T&gt;::setLocations(Range&lt;Vector3T&gt; locations)
+<a name="l00760"></a>00760 {
+<a name="l00761"></a>00761     this-&gt;locations.resize(locations.size());
+<a name="l00762"></a>00762     <span class="keywordtype">size_t</span> i = 0;
+<a name="l00763"></a>00763 
+<a name="l00764"></a>00764     <span class="keywordflow">while</span> (!locations.isDone())
+<a name="l00765"></a>00765     {
+<a name="l00766"></a>00766         this-&gt;locations[i++] = locations.currentItem();
+<a name="l00767"></a>00767         locations.next();
+<a name="l00768"></a><a class="code" href="class_t_r_t_k_1_1_pivot_calibration_p_a_t_m.html#a50fb3fe84df5a0ddbf48315b6456c2ee">00768</a>     }
+<a name="l00769"></a>00769 }
+<a name="l00770"></a>00770 
+<a name="l00771"></a>00771 
+<a name="l00772"></a>00772 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l00773"></a>00773 <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_pivot_calibration_p_a_t_m.html#a50fb3fe84df5a0ddbf48315b6456c2ee" title="Sets the number of fixed-point iterations. the default value is 500.">PivotCalibrationPATM&lt;T&gt;::setNumberIterations</a>(<span class="keywordtype">int</span> count)
+<a name="l00774"></a>00774 {
+<a name="l00775"></a>00775     number_of_iterations = count;
+<a name="l00776"></a>00776 }
+<a name="l00777"></a>00777 
+<a name="l00778"></a>00778 
+<a name="l00779"></a>00779 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l00780"></a>00780 <span class="keywordtype">void</span> PivotCalibrationPATM&lt;T&gt;::setRotations(Range&lt;Matrix3T&gt; rotations)
+<a name="l00781"></a>00781 {
+<a name="l00782"></a>00782     this-&gt;rotations.resize(rotations.size());
+<a name="l00783"></a>00783     <span class="keywordtype">size_t</span> i = 0;
+<a name="l00784"></a>00784 
+<a name="l00785"></a>00785     <span class="keywordflow">while</span> (!rotations.isDone())
+<a name="l00786"></a>00786     {
+<a name="l00787"></a>00787         this-&gt;rotations[i++] = rotations.currentItem();
+<a name="l00788"></a>00788         rotations.next();
+<a name="l00789"></a>00789     }
+<a name="l00790"></a>00790 }
+<a name="l00791"></a>00791 
+<a name="l00792"></a>00792 
+<a name="l00794"></a>00794 <span class="comment">//                          PivotCalibrationTwoStep                           //</span>
+<a name="l00796"></a>00796 <span class="comment"></span>
+<a name="l00797"></a>00797 
+<a name="l00863"></a>00863 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l00864"></a>00864 <span class="keyword">class </span>PivotCalibrationTwoStep : <span class="keyword">public</span> PivotCalibration&lt;T&gt;
+<a name="l00865"></a>00865 {
+<a name="l00866"></a>00866 <span class="keyword">private</span>:
+<a name="l00867"></a>00867     <span class="keyword">typedef</span> PivotCalibration&lt;T&gt; super;
+<a name="l00868"></a>00868 
+<a name="l00869"></a>00869 <span class="keyword">public</span>:
+<a name="l00870"></a>00870     <span class="keyword">typedef</span> T value_type;
+<a name="l00871"></a>00871     <span class="keyword">typedef</span> <span class="keyword">typename</span> super::Vector3T Vector3T;
+<a name="l00872"></a>00872     <span class="keyword">typedef</span> <span class="keyword">typename</span> super::Vector4T Vector4T;
+<a name="l00873"></a>00873     <span class="keyword">typedef</span> <span class="keyword">typename</span> super::VectorXT VectorXT;
+<a name="l00874"></a>00874     <span class="keyword">typedef</span> <span class="keyword">typename</span> super::Matrix3T Matrix3T;
+<a name="l00875"></a>00875     <span class="keyword">typedef</span> <span class="keyword">typename</span> super::MatrixXT MatrixXT;
+<a name="l00876"></a>00876     <span class="keyword">typedef</span> <span class="keyword">typename</span> super::Point Point;
+<a name="l00877"></a>00877     <span class="keyword">typedef</span> <span class="keyword">typename</span> super::DataType DataType;
+<a name="l00878"></a>00878 
+<a name="l00879"></a>00879     PivotCalibrationTwoStep();
+<a name="l00880"></a>00880     ~PivotCalibrationTwoStep();
+<a name="l00881"></a>00881 
+<a name="l00882"></a>00882     <span class="keywordtype">size_t</span> <a class="code" href="class_t_r_t_k_1_1_pivot_calibration_two_step.html#ad41f0b0f6e714a335c8cf41d429c9339" title="Returns the minimum number of locations and rotations needed for the algorithm.">getNumberItemsRequired</a>() <span class="keyword">const</span>;              
+<a name="l00883"></a>00883     <span class="keywordtype">void</span> setLocations(Range&lt;Vector3T&gt; locations);
+<a name="l00884"></a>00884     <span class="keywordtype">void</span> setRotations(Range&lt;Matrix3T&gt; rotations);
+<a name="l00885"></a>00885     T <a class="code" href="class_t_r_t_k_1_1_pivot_calibration_two_step.html#a279a64566976dbc8cab293c699c5792a" title="Returns the RMSE.">compute</a>();                                        
+<a name="l00886"></a>00886     T <a class="code" href="class_t_r_t_k_1_1_pivot_calibration_two_step.html#a92068e347bf3601d5e4903143a77911a" title="Returns the RMSE of the last computation.">getRMSE</a>() <span class="keyword">const</span>;
+<a name="l00887"></a>00887     <span class="keyword">const</span> Vector3T &amp; <a class="code" href="class_t_r_t_k_1_1_pivot_calibration_two_step.html#a240f8578711bee045f4a9616d949d993" title="Returns the pivot point (or tool tip) in world coordinates.">getPivotPoint</a>() <span class="keyword">const</span>;             
+<a name="l00888"></a>00888     <span class="keyword">const</span> Vector3T &amp; <a class="code" href="class_t_r_t_k_1_1_pivot_calibration_two_step.html#a230155e74b23fb86c4ee27899a215d1e" title="Returns the pivot point (or tool tip) in local coordinates.">getLocalPivotPoint</a>() <span class="keyword">const</span>;        
+<a name="l00889"></a>00889 
+<a name="l00890"></a>00890 <span class="keyword">private</span>:
+<a name="l00891"></a>00891     std::vector&lt;Vector3T&gt; locations;
+<a name="l00892"></a>00892     std::vector&lt;Matrix3T&gt; rotations;
+<a name="l00893"></a>00893     Vector3T global_pivot_point;                        
+<a name="l00894"></a>00894     Vector3T local_pivot_point;                         
+<a name="l00895"></a>00895     T rmse;
+<a name="l00896"></a>00896 };
+<a name="l00897"></a>00897 
+<a name="l00898"></a>00898 
+<a name="l00899"></a>00899 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l00900"></a>00900 PivotCalibrationTwoStep&lt;T&gt;::PivotCalibrationTwoStep() : rmse(T(0))
+<a name="l00901"></a>00901 {
+<a name="l00902"></a>00902 }
+<a name="l00903"></a>00903 
+<a name="l00904"></a>00904 
+<a name="l00905"></a>00905 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l00906"></a>00906 PivotCalibrationTwoStep&lt;T&gt;::~PivotCalibrationTwoStep()
+<a name="l00907"></a><a class="code" href="class_t_r_t_k_1_1_pivot_calibration_two_step.html#a279a64566976dbc8cab293c699c5792a">00907</a> {
+<a name="l00908"></a>00908 }
+<a name="l00909"></a>00909 
+<a name="l00910"></a>00910 
+<a name="l00911"></a>00911 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l00912"></a>00912 T <a class="code" href="class_t_r_t_k_1_1_pivot_calibration_two_step.html#a279a64566976dbc8cab293c699c5792a" title="Returns the RMSE.">PivotCalibrationTwoStep&lt;T&gt;::compute</a>()
+<a name="l00913"></a>00913 {
+<a name="l00914"></a>00914     <span class="comment">/*</span>
+<a name="l00915"></a>00915 <span class="comment"></span>
+<a name="l00916"></a>00916 <span class="comment">    Explanation of the algorithm</span>
+<a name="l00917"></a>00917 <span class="comment"></span>
+<a name="l00918"></a>00918 <span class="comment">    As described in the details section, during the calibration procedure,</span>
+<a name="l00919"></a>00919 <span class="comment">    an object is moved around a pivot point. For example a tool is moved in</span>
+<a name="l00920"></a>00920 <span class="comment">    such a way that the tool tip remains stationary at a particular position</span>
+<a name="l00921"></a>00921 <span class="comment">    (which is the pivot point). While moving the object (e.g. the tool) the</span>
+<a name="l00922"></a>00922 <span class="comment">    object&#39;s sensor moves along a circular arc (or in three dimensions on a</span>
+<a name="l00923"></a>00923 <span class="comment">    calotte of a sphere). Now, in a first step, the center point (= pivot</span>
+<a name="l00924"></a>00924 <span class="comment">    point) as well as the radius of this sphere are estimated by a simple</span>
+<a name="l00925"></a>00925 <span class="comment">    least square scheme (that&#39;s done in global coordinates).</span>
+<a name="l00926"></a>00926 <span class="comment"></span>
+<a name="l00927"></a>00927 <span class="comment">    Provided the object is still positioned as described above (e.g. the tool</span>
+<a name="l00928"></a>00928 <span class="comment">    tip still is stationary), using a single measurement (R_i, t_i) the</span>
+<a name="l00929"></a>00929 <span class="comment">    global pivot point p&#39; can be easily transformed into a local coordinate</span>
+<a name="l00930"></a>00930 <span class="comment">    p via the relation</span>
+<a name="l00931"></a>00931 <span class="comment"></span>
+<a name="l00932"></a>00932 <span class="comment">        p&#39; = R * p + t    ==&gt;    p = R^(-1) * (p&#39; - t)</span>
+<a name="l00933"></a>00933 <span class="comment"></span>
+<a name="l00934"></a>00934 <span class="comment">    where R is the rotation and t the location of the sensor in the global</span>
+<a name="l00935"></a>00935 <span class="comment">    coordinate system. However, due to noise, various results for p should</span>
+<a name="l00936"></a>00936 <span class="comment">    be averaged.</span>
+<a name="l00937"></a>00937 <span class="comment"></span>
+<a name="l00938"></a>00938 <span class="comment">    Implementation details:</span>
+<a name="l00939"></a>00939 <span class="comment"></span>
+<a name="l00940"></a>00940 <span class="comment">    Instead of recording a new set of pairs of (R_i, t_i) after having</span>
+<a name="l00941"></a>00941 <span class="comment">    determined the virtual sphere, the former measurement is used.</span>
+<a name="l00942"></a>00942 <span class="comment"></span>
+<a name="l00943"></a>00943 <span class="comment">    */</span>
+<a name="l00944"></a>00944 
+<a name="l00945"></a>00945     <span class="comment">// Estimate sphere parameters</span>
+<a name="l00946"></a>00946 
+<a name="l00947"></a>00947     <a class="code" href="class_t_r_t_k_1_1_fit_sphere.html" title="Estimates the parameters of a 3D sphere from a set of points lying on the surface.">FitSphere&lt;T&gt;</a> fitSphere(locations);
+<a name="l00948"></a>00948     fitSphere.compute();
+<a name="l00949"></a>00949     global_pivot_point = fitSphere.getCenterPoint().toArray();
+<a name="l00950"></a>00950 
+<a name="l00951"></a>00951     <span class="comment">// Compute the local pivot point</span>
+<a name="l00952"></a>00952 
+<a name="l00953"></a>00953     local_pivot_point = Vector3T(0, 0, 0);
+<a name="l00954"></a>00954 
+<a name="l00955"></a>00955     <span class="keyword">const</span> <span class="keywordtype">int</span> n = rotations.size();
+<a name="l00956"></a>00956 
+<a name="l00957"></a>00957     <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; ++i)
+<a name="l00958"></a>00958     {
+<a name="l00959"></a>00959         Vector3T differenceVectorLocal = rotations[i].inverse() * (global_pivot_point - locations[i]);
+<a name="l00960"></a>00960         local_pivot_point += differenceVectorLocal; <span class="comment">// average (part 1)</span>
+<a name="l00961"></a>00961     }
+<a name="l00962"></a>00962 
+<a name="l00963"></a>00963     local_pivot_point = local_pivot_point / n; <span class="comment">// average (part 2)</span>
+<a name="l00964"></a>00964 
+<a name="l00965"></a>00965     <span class="comment">// Compute the RMSE</span>
+<a name="l00966"></a>00966 
+<a name="l00967"></a>00967     <span class="keyword">using</span> <a class="code" href="namespace_t_r_t_k.html#ab6a8c5f73ab8b7638ca1011e6f2c89aa" title="Computes the square root of each element.">std::sqrt</a>;
+<a name="l00968"></a>00968     rmse = T(0);
+<a name="l00969"></a>00969 
+<a name="l00970"></a>00970     <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; ++i)
+<a name="l00971"></a>00971     {
+<a name="l00972"></a>00972         Vector3T noisy_center_point = rotations[i] * local_pivot_point + locations[i];
+<a name="l00973"></a>00973         rmse += (noisy_center_point - global_pivot_point).squaredNorm();
+<a name="l00974"></a>00974     }
+<a name="l00975"></a>00975 
+<a name="l00976"></a>00976     rmse = <a class="code" href="namespace_t_r_t_k.html#ab6a8c5f73ab8b7638ca1011e6f2c89aa" title="Computes the square root of each element.">sqrt</a>(rmse / n);
+<a name="l00977"></a>00977 
+<a name="l00978"></a><a class="code" href="class_t_r_t_k_1_1_pivot_calibration_two_step.html#a230155e74b23fb86c4ee27899a215d1e">00978</a>     <span class="keywordflow">return</span> rmse;
+<a name="l00979"></a>00979 }
+<a name="l00980"></a>00980 
+<a name="l00981"></a>00981 
+<a name="l00982"></a>00982 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l00983"></a>00983 <span class="keyword">const</span> <span class="keyword">typename</span> PivotCalibrationTwoStep&lt;T&gt;::Vector3T &amp; <a class="code" href="class_t_r_t_k_1_1_pivot_calibration_two_step.html#a230155e74b23fb86c4ee27899a215d1e" title="Returns the pivot point (or tool tip) in local coordinates.">PivotCalibrationTwoStep&lt;T&gt;::getLocalPivotPoint</a>()<span class="keyword"> const</span>
+<a name="l00984"></a>00984 <span class="keyword"></span>{
+<a name="l00985"></a><a class="code" href="class_t_r_t_k_1_1_pivot_calibration_two_step.html#ad41f0b0f6e714a335c8cf41d429c9339">00985</a>     <span class="keywordflow">return</span> local_pivot_point;
+<a name="l00986"></a>00986 }
+<a name="l00987"></a>00987 
+<a name="l00988"></a>00988 
+<a name="l00989"></a>00989 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l00990"></a>00990 <span class="keywordtype">size_t</span> <a class="code" href="class_t_r_t_k_1_1_pivot_calibration_two_step.html#ad41f0b0f6e714a335c8cf41d429c9339" title="Returns the minimum number of locations and rotations needed for the algorithm.">PivotCalibrationTwoStep&lt;T&gt;::getNumberItemsRequired</a>()<span class="keyword"> const</span>
+<a name="l00991"></a>00991 <span class="keyword"></span>{
+<a name="l00992"></a><a class="code" href="class_t_r_t_k_1_1_pivot_calibration_two_step.html#a240f8578711bee045f4a9616d949d993">00992</a>     <span class="keywordflow">return</span> 4;
+<a name="l00993"></a>00993 }
+<a name="l00994"></a>00994 
+<a name="l00995"></a>00995 
+<a name="l00996"></a>00996 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l00997"></a>00997 <span class="keyword">const</span> <span class="keyword">typename</span> PivotCalibrationTwoStep&lt;T&gt;::Vector3T &amp; <a class="code" href="class_t_r_t_k_1_1_pivot_calibration_two_step.html#a240f8578711bee045f4a9616d949d993" title="Returns the pivot point (or tool tip) in world coordinates.">PivotCalibrationTwoStep&lt;T&gt;::getPivotPoint</a>()<span class="keyword"> const</span>
+<a name="l00998"></a>00998 <span class="keyword"></span>{
+<a name="l00999"></a><a class="code" href="class_t_r_t_k_1_1_pivot_calibration_two_step.html#a92068e347bf3601d5e4903143a77911a">00999</a>     <span class="keywordflow">return</span> global_pivot_point;
+<a name="l01000"></a>01000 }
+<a name="l01001"></a>01001 
+<a name="l01002"></a>01002 
+<a name="l01003"></a>01003 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l01004"></a>01004 T <a class="code" href="class_t_r_t_k_1_1_pivot_calibration_two_step.html#a92068e347bf3601d5e4903143a77911a" title="Returns the RMSE of the last computation.">PivotCalibrationTwoStep&lt;T&gt;::getRMSE</a>()<span class="keyword"> const</span>
+<a name="l01005"></a>01005 <span class="keyword"></span>{
+<a name="l01006"></a>01006     <span class="keywordflow">return</span> rmse;
+<a name="l01007"></a>01007 }
+<a name="l01008"></a>01008 
+<a name="l01009"></a>01009 
+<a name="l01010"></a>01010 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l01011"></a>01011 <span class="keywordtype">void</span> PivotCalibrationTwoStep&lt;T&gt;::setLocations(Range&lt;Vector3T&gt; locations)
+<a name="l01012"></a>01012 {
+<a name="l01013"></a>01013     this-&gt;locations.resize(locations.size());
+<a name="l01014"></a>01014     <span class="keywordtype">size_t</span> i = 0;
+<a name="l01015"></a>01015 
+<a name="l01016"></a>01016     <span class="keywordflow">while</span>(!locations.isDone())
+<a name="l01017"></a>01017     {
+<a name="l01018"></a>01018         this-&gt;locations[i++] = locations.currentItem();
+<a name="l01019"></a>01019         locations.next();
+<a name="l01020"></a>01020     }
+<a name="l01021"></a>01021 }
+<a name="l01022"></a>01022 
+<a name="l01023"></a>01023 
+<a name="l01024"></a>01024 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
+<a name="l01025"></a>01025 <span class="keywordtype">void</span> PivotCalibrationTwoStep&lt;T&gt;::setRotations(Range&lt;Matrix3T&gt; rotations)
+<a name="l01026"></a>01026 {
+<a name="l01027"></a>01027     this-&gt;rotations.resize(rotations.size());
+<a name="l01028"></a>01028     <span class="keywordtype">size_t</span> i = 0;
+<a name="l01029"></a>01029 
+<a name="l01030"></a>01030     <span class="keywordflow">while</span>(!rotations.isDone())
+<a name="l01031"></a>01031     {
+<a name="l01032"></a>01032         this-&gt;rotations[i++] = rotations.currentItem();
+<a name="l01033"></a>01033         rotations.next();
+<a name="l01034"></a>01034     }
+<a name="l01035"></a>01035 }
+<a name="l01036"></a>01036 
+<a name="l01037"></a>01037 
+<a name="l01038"></a>01038 } <span class="comment">// namespace TRTK</span>
+<a name="l01039"></a>01039 
+<a name="l01040"></a>01040 
+<a name="l01041"></a>01041 <span class="preprocessor">#endif // PIVOTCALIBRATION_HPP_3123933941</span>
 </pre></div></div>
 </div>
 <!--- window showing the filter options -->

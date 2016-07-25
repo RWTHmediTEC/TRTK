@@ -1,6 +1,6 @@
 <map id="G" name="G">
 <area shape="rect" id="node2" href="$_signals_8hpp.html" title="This file contains all classes and function related to the signal and slot concept." alt="" coords="185,80,309,107"/>
-<area shape="rect" id="node9" href="$_tools_8hpp.html" title="This file contains various helper functions." alt="" coords="521,155,600,181"/>
-<area shape="rect" id="node17" href="$_coordinate_8hpp.html" title="This file contains the Coordinate class and related functions." alt="" coords="718,229,827,256"/>
-<area shape="rect" id="node21" href="$_error_obj_8hpp.html" title="This file contains the declaration of the ErrorObj class." alt="" coords="725,304,821,331"/>
+<area shape="rect" id="node9" href="$_tools_8hpp.html" title="This file contains various helper functions." alt="" coords="531,155,609,181"/>
+<area shape="rect" id="node17" href="$_coordinate_8hpp.html" title="This file contains the Coordinate class and related functions." alt="" coords="367,229,477,256"/>
+<area shape="rect" id="node21" href="$_error_obj_8hpp.html" title="This file contains the declaration of the ErrorObj class." alt="" coords="253,304,349,331"/>
 </map>

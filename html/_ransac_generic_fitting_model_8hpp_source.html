@@ -123,81 +123,80 @@ function toggleVisibility(linkObj) {
 <a name="l00144"></a>00144 {
 <a name="l00145"></a>00145 <span class="keyword">public</span>:
 <a name="l00146"></a>00146 
-<a name="l00147"></a>00147     <a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#a926b14dda6f6cdabac710d241295c8c1" title="Constructs an instance of RansacGenericFittingModel.">RansacGenericFittingModel</a>(Fit&lt;T&gt; &amp; model);
-<a name="l00148"></a>00148     <span class="keyword">virtual</span> ~<a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#a926b14dda6f6cdabac710d241295c8c1" title="Constructs an instance of RansacGenericFittingModel.">RansacGenericFittingModel</a>();
+<a name="l00147"></a>00147     <a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#a6021100e82c69883aa836fb122101327" title="Constructs an instance of RansacGenericFittingModel.">RansacGenericFittingModel</a>(Fit&lt;T&gt; &amp; estimator);
+<a name="l00148"></a>00148     <span class="keyword">virtual</span> ~<a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#a6021100e82c69883aa836fb122101327" title="Constructs an instance of RansacGenericFittingModel.">RansacGenericFittingModel</a>();
 <a name="l00149"></a>00149 
 <a name="l00150"></a>00150     <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#abeea641dc6c72b3c3865eba92334abcf" title="Estimates the model parameters.">compute</a>();                                             
 <a name="l00151"></a>00151     T <a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#a75b697a63d501ed85081a1d6d9d8c04c" title="Returns the amount of how much a datum deviates from the model.">getDeviation</a>(<span class="keyword">const</span> Coordinate&lt;T&gt; &amp; datum) <span class="keyword">const</span>;          
 <a name="l00152"></a>00152     <span class="keywordtype">unsigned</span> <a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#a5ebaaef06ed87b2b7f60ed56d5762aa4" title="Returns the minimum number of items required to compute the model.">getMinimumNumberOfItems</a>() <span class="keyword">const</span>;                   
 <a name="l00153"></a>00153     T <a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#a9ffb55116b241cf75f2731abfa9a673f" title="Returns the root mean square error of the estimated regression model.">getRMS</a>() <span class="keyword">const</span>;                                           
 <a name="l00154"></a>00154     <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#aeffc76b927df8c1e5dcfd992d0983da8" title="Sets the sample data.">setData</a>(<span class="keyword">const</span> std::vector&lt;Coordinate&lt;T&gt; &gt; &amp; data);     
-<a name="l00155"></a>00155     <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#a95b2a6b9daab02c0bed1b2079989b45e" title="Sets the fitting model.">setFittingModel</a>(Fit&lt;T&gt; &amp; model);                       
+<a name="l00155"></a>00155     <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#a4fae46857ed823784394cc176e0afb0b" title="Sets the fitting class instance.">setEstimator</a>(Fit&lt;T&gt; &amp; estimator);                      
 <a name="l00156"></a>00156 
 <a name="l00157"></a>00157 <span class="keyword">private</span>:
 <a name="l00158"></a>00158 
-<a name="l00159"></a>00159     Fit&lt;T&gt; * model;
+<a name="l00159"></a>00159     Fit&lt;T&gt; * estimator;
 <a name="l00160"></a>00160 };
 <a name="l00161"></a>00161 
 <a name="l00162"></a>00162 
 <a name="l00168"></a>00168 <span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;
-<a name="l00169"></a>00169 <a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#a926b14dda6f6cdabac710d241295c8c1" title="Constructs an instance of RansacGenericFittingModel.">RansacGenericFittingModel&lt;T&gt;::RansacGenericFittingModel</a>(Fit&lt;T&gt; &amp; model) :
-<a name="l00170"></a>00170     model(&amp;model)
-<a name="l00171"></a>00171 {
-<a name="l00172"></a>00172 }
+<a name="l00169"></a>00169 <a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#a6021100e82c69883aa836fb122101327" title="Constructs an instance of RansacGenericFittingModel.">RansacGenericFittingModel&lt;T&gt;::RansacGenericFittingModel</a>(Fit&lt;T&gt; &amp; estimator) : estimator(&amp;estimator)
+<a name="l00170"></a>00170 {
+<a name="l00171"></a>00171 }
+<a name="l00172"></a>00172 
 <a name="l00173"></a>00173 
-<a name="l00174"></a>00174 
-<a name="l00175"></a>00175 <span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;
-<a name="l00176"></a>00176 RansacGenericFittingModel&lt;T&gt;::~RansacGenericFittingModel()
-<a name="l00177"></a>00177 {
-<a name="l00178"></a>00178 }
-<a name="l00179"></a><a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#abeea641dc6c72b3c3865eba92334abcf">00179</a> 
-<a name="l00180"></a>00180 
-<a name="l00181"></a>00181 <span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;
-<a name="l00182"></a>00182 <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#abeea641dc6c72b3c3865eba92334abcf" title="Estimates the model parameters.">RansacGenericFittingModel&lt;T&gt;::compute</a>()
-<a name="l00183"></a>00183 {
-<a name="l00184"></a>00184     model-&gt;compute();
-<a name="l00185"></a>00185 }
-<a name="l00186"></a><a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#a75b697a63d501ed85081a1d6d9d8c04c">00186</a> 
-<a name="l00187"></a>00187 
-<a name="l00188"></a>00188 <span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;
-<a name="l00189"></a>00189 T <a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#a75b697a63d501ed85081a1d6d9d8c04c" title="Returns the amount of how much a datum deviates from the model.">RansacGenericFittingModel&lt;T&gt;::getDeviation</a>(<span class="keyword">const</span> <a class="code" href="class_t_r_t_k_1_1_coordinate.html" title="A generic coordinate class.">Coordinate&lt;T&gt;</a> &amp; datum)<span class="keyword"> const</span>
-<a name="l00190"></a>00190 <span class="keyword"></span>{
-<a name="l00191"></a>00191     <span class="keywordflow">return</span> model-&gt;getDistanceTo(datum);
-<a name="l00192"></a>00192 }
-<a name="l00193"></a><a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#a5ebaaef06ed87b2b7f60ed56d5762aa4">00193</a> 
-<a name="l00194"></a>00194 
-<a name="l00195"></a>00195 <span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;
-<a name="l00196"></a>00196 <span class="keywordtype">unsigned</span> <a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#a5ebaaef06ed87b2b7f60ed56d5762aa4" title="Returns the minimum number of items required to compute the model.">RansacGenericFittingModel&lt;T&gt;::getMinimumNumberOfItems</a>()<span class="keyword"> const</span>
-<a name="l00197"></a>00197 <span class="keyword"></span>{
-<a name="l00198"></a>00198     <span class="keywordflow">return</span> model-&gt;getNumberPointsRequired();
-<a name="l00199"></a>00199 }
-<a name="l00200"></a><a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#a9ffb55116b241cf75f2731abfa9a673f">00200</a> 
-<a name="l00201"></a>00201 
-<a name="l00202"></a>00202 <span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;
-<a name="l00203"></a>00203 T <a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#a9ffb55116b241cf75f2731abfa9a673f" title="Returns the root mean square error of the estimated regression model.">RansacGenericFittingModel&lt;T&gt;::getRMS</a>()<span class="keyword"> const</span>
-<a name="l00204"></a>00204 <span class="keyword"></span>{
-<a name="l00205"></a>00205     <span class="keywordflow">return</span> model-&gt;getRMS();
-<a name="l00206"></a>00206 }
-<a name="l00207"></a><a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#aeffc76b927df8c1e5dcfd992d0983da8">00207</a> 
-<a name="l00208"></a>00208 
-<a name="l00209"></a>00209 <span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;
-<a name="l00210"></a>00210 <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#aeffc76b927df8c1e5dcfd992d0983da8" title="Sets the sample data.">RansacGenericFittingModel&lt;T&gt;::setData</a>(<span class="keyword">const</span> std::vector&lt;<a class="code" href="class_t_r_t_k_1_1_coordinate.html" title="A generic coordinate class.">Coordinate&lt;T&gt;</a> &gt; &amp; data)
-<a name="l00211"></a>00211 {
-<a name="l00212"></a>00212     model-&gt;setPoints(data);
-<a name="l00213"></a>00213 }
-<a name="l00214"></a><a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#a95b2a6b9daab02c0bed1b2079989b45e">00214</a> 
-<a name="l00215"></a>00215 
-<a name="l00216"></a>00216 <span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;
-<a name="l00217"></a>00217 <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#a95b2a6b9daab02c0bed1b2079989b45e" title="Sets the fitting model.">RansacGenericFittingModel&lt;T&gt;::setFittingModel</a>(<a class="code" href="class_t_r_t_k_1_1_fit.html" title="Base class for all fitting classes.">Fit&lt;T&gt;</a> &amp; model)
-<a name="l00218"></a>00218 {
-<a name="l00219"></a>00219     this-&gt;model = &amp;model;
-<a name="l00220"></a>00220 }
+<a name="l00174"></a>00174 <span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;
+<a name="l00175"></a>00175 RansacGenericFittingModel&lt;T&gt;::~RansacGenericFittingModel()
+<a name="l00176"></a>00176 {
+<a name="l00177"></a>00177 }
+<a name="l00178"></a><a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#abeea641dc6c72b3c3865eba92334abcf">00178</a> 
+<a name="l00179"></a>00179 
+<a name="l00180"></a>00180 <span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;
+<a name="l00181"></a>00181 <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#abeea641dc6c72b3c3865eba92334abcf" title="Estimates the model parameters.">RansacGenericFittingModel&lt;T&gt;::compute</a>()
+<a name="l00182"></a>00182 {
+<a name="l00183"></a>00183     estimator-&gt;compute();
+<a name="l00184"></a>00184 }
+<a name="l00185"></a><a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#a75b697a63d501ed85081a1d6d9d8c04c">00185</a> 
+<a name="l00186"></a>00186 
+<a name="l00187"></a>00187 <span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;
+<a name="l00188"></a>00188 T <a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#a75b697a63d501ed85081a1d6d9d8c04c" title="Returns the amount of how much a datum deviates from the model.">RansacGenericFittingModel&lt;T&gt;::getDeviation</a>(<span class="keyword">const</span> <a class="code" href="class_t_r_t_k_1_1_coordinate.html" title="A generic coordinate class.">Coordinate&lt;T&gt;</a> &amp; datum)<span class="keyword"> const</span>
+<a name="l00189"></a>00189 <span class="keyword"></span>{
+<a name="l00190"></a>00190     <span class="keywordflow">return</span> estimator-&gt;getDistanceTo(datum);
+<a name="l00191"></a>00191 }
+<a name="l00192"></a><a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#a5ebaaef06ed87b2b7f60ed56d5762aa4">00192</a> 
+<a name="l00193"></a>00193 
+<a name="l00194"></a>00194 <span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;
+<a name="l00195"></a>00195 <span class="keywordtype">unsigned</span> <a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#a5ebaaef06ed87b2b7f60ed56d5762aa4" title="Returns the minimum number of items required to compute the model.">RansacGenericFittingModel&lt;T&gt;::getMinimumNumberOfItems</a>()<span class="keyword"> const</span>
+<a name="l00196"></a>00196 <span class="keyword"></span>{
+<a name="l00197"></a>00197     <span class="keywordflow">return</span> estimator-&gt;getNumberPointsRequired();
+<a name="l00198"></a>00198 }
+<a name="l00199"></a><a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#a9ffb55116b241cf75f2731abfa9a673f">00199</a> 
+<a name="l00200"></a>00200 
+<a name="l00201"></a>00201 <span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;
+<a name="l00202"></a>00202 T <a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#a9ffb55116b241cf75f2731abfa9a673f" title="Returns the root mean square error of the estimated regression model.">RansacGenericFittingModel&lt;T&gt;::getRMS</a>()<span class="keyword"> const</span>
+<a name="l00203"></a>00203 <span class="keyword"></span>{
+<a name="l00204"></a>00204     <span class="keywordflow">return</span> estimator-&gt;getRMS();
+<a name="l00205"></a>00205 }
+<a name="l00206"></a><a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#aeffc76b927df8c1e5dcfd992d0983da8">00206</a> 
+<a name="l00207"></a>00207 
+<a name="l00208"></a>00208 <span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;
+<a name="l00209"></a>00209 <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#aeffc76b927df8c1e5dcfd992d0983da8" title="Sets the sample data.">RansacGenericFittingModel&lt;T&gt;::setData</a>(<span class="keyword">const</span> std::vector&lt;<a class="code" href="class_t_r_t_k_1_1_coordinate.html" title="A generic coordinate class.">Coordinate&lt;T&gt;</a> &gt; &amp; data)
+<a name="l00210"></a>00210 {
+<a name="l00211"></a>00211     estimator-&gt;setPoints(data);
+<a name="l00212"></a>00212 }
+<a name="l00213"></a>00213 
+<a name="l00214"></a>00214 
+<a name="l00215"></a>00215 <span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;
+<a name="l00216"></a>00216 <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html" title="This class implements the Ransac::Model interface for all fitting classes.">RansacGenericFittingModel&lt;T&gt;::setFittingModel</a>(<a class="code" href="class_t_r_t_k_1_1_fit.html" title="Base class for all fitting classes.">Fit&lt;T&gt;</a> &amp; estimator)
+<a name="l00217"></a>00217 {
+<a name="l00218"></a>00218     this-&gt;estimator = &amp;estimator;
+<a name="l00219"></a>00219 }
+<a name="l00220"></a>00220 
 <a name="l00221"></a>00221 
-<a name="l00222"></a>00222 
-<a name="l00223"></a>00223 } <span class="comment">// namespace TRTK</span>
+<a name="l00222"></a>00222 } <span class="comment">// namespace TRTK</span>
+<a name="l00223"></a>00223 
 <a name="l00224"></a>00224 
-<a name="l00225"></a>00225 
-<a name="l00226"></a>00226 <span class="preprocessor">#endif // RANSAC_GENERIC_FITTING_MODEL_HPP_2437670324</span>
+<a name="l00225"></a>00225 <span class="preprocessor">#endif // RANSAC_GENERIC_FITTING_MODEL_HPP_2437670324</span>
 </pre></div></div>
 </div>
 <!--- window showing the filter options -->

@@ -115,9 +115,9 @@ function toggleVisibility(linkObj) {
 Defines</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_version_8hpp.html#a74f5a6b6a93117163b98e700c4bc1990">TRTK_MAJOR_VERSION</a>&#160;&#160;&#160;0</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">TRTK Major Version Number  <a href="#a74f5a6b6a93117163b98e700c4bc1990"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_version_8hpp.html#af7fa3780c72379bef0d8cf70b89d9afa">TRTK_MINOR_VERSION</a>&#160;&#160;&#160;15</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_version_8hpp.html#af7fa3780c72379bef0d8cf70b89d9afa">TRTK_MINOR_VERSION</a>&#160;&#160;&#160;16</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">TRTK Minor Version Number  <a href="#af7fa3780c72379bef0d8cf70b89d9afa"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_version_8hpp.html#a269bceca719f23c1870f0f59b558e841">TRTK_PATCH_LEVEL</a>&#160;&#160;&#160;2</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_version_8hpp.html#a269bceca719f23c1870f0f59b558e841">TRTK_PATCH_LEVEL</a>&#160;&#160;&#160;0</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">TRTK Patch Level  <a href="#a269bceca719f23c1870f0f59b558e841"></a><br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
@@ -133,6 +133,7 @@ Defines</h2></td></tr>
 <span class="preprocessor"></span><span class="preprocessor"> #  error &quot;TRTK VERSION 1.4 REQUIRED!&quot;</span>
 <span class="preprocessor"> #endif</span>
 </pre></div><p>This code requires a major version of 1 and a minor version of 4. The patch level is ignored (which makes sense, since this is only intended for bug-fix releases).</p>
+<p>So the version numbering scheme is X.Y.Z (Major.Minor.Patch). Bug fixes that do not affect the API increment the patch version, backwards compatible API additions/changes increment the minor version, and backwards incompatible API changes increment the major version. See also "Semantic Versioning" on <a href="http://semver.org/.">http://semver.org/.</a></p>
 <dl class="author"><dt><b>Author:</b></dt><dd>Christoph Haenisch </dd></dl>
 <dl class="version"><dt><b>Version:</b></dt><dd>0.2.0 </dd></dl>
 <dl class="date"><dt><b>Date:</b></dt><dd>last changed on 2014-07-02 </dd></dl>
@@ -153,7 +154,7 @@ Defines</h2></td></tr>
 <p>TRTK Major Version Number </p>
 <p>This version number is only increased if some fundamental changes to the code base are made (e.g. a complete code rewrite, API changes, etc.). </p>
 
-<p>Definition at line <a class="el" href="_version_8hpp_source.html#l00058">58</a> of file <a class="el" href="_version_8hpp_source.html">Version.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_version_8hpp_source.html#l00064">64</a> of file <a class="el" href="_version_8hpp_source.html">Version.hpp</a>.</p>
 
 </div>
 </div>
@@ -162,7 +163,7 @@ Defines</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define TRTK_MINOR_VERSION&#160;&#160;&#160;15</td>
+          <td class="memname">#define TRTK_MINOR_VERSION&#160;&#160;&#160;16</td>
         </tr>
       </table>
 </div>
@@ -171,7 +172,7 @@ Defines</h2></td></tr>
 <p>TRTK Minor Version Number </p>
 <p>This version number is increased each time one or more new features are added. </p>
 
-<p>Definition at line <a class="el" href="_version_8hpp_source.html#l00067">67</a> of file <a class="el" href="_version_8hpp_source.html">Version.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_version_8hpp_source.html#l00073">73</a> of file <a class="el" href="_version_8hpp_source.html">Version.hpp</a>.</p>
 
 </div>
 </div>
@@ -180,7 +181,7 @@ Defines</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define TRTK_PATCH_LEVEL&#160;&#160;&#160;2</td>
+          <td class="memname">#define TRTK_PATCH_LEVEL&#160;&#160;&#160;0</td>
         </tr>
       </table>
 </div>
@@ -189,7 +190,7 @@ Defines</h2></td></tr>
 <p>TRTK Patch Level </p>
 <p>This version number is intended for bug-fix releases, only. </p>
 
-<p>Definition at line <a class="el" href="_version_8hpp_source.html#l00076">76</a> of file <a class="el" href="_version_8hpp_source.html">Version.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_version_8hpp_source.html#l00082">82</a> of file <a class="el" href="_version_8hpp_source.html">Version.hpp</a>.</p>
 
 </div>
 </div>

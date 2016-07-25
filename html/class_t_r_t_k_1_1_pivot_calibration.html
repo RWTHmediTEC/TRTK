@@ -105,26 +105,27 @@ function toggleVisibility(linkObj) {
 </div>
 <div class="contents">
 <!-- doxytag: class="TRTK::PivotCalibration" -->
-<p>This class performs a pivot calibration providing a defined translation between a tool tip and its sensor system.  
+<p>This is the common interface for all pivot-point-calibration classes.  
 <a href="#_details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_pivot_calibration_8hpp_source.html">PivotCalibration.hpp</a>&gt;</code></p>
+<!-- startSectionHeader --><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png"/> Inheritance diagram for TRTK::PivotCalibration&lt; T &gt;:<!-- endSectionHeader --></div>
+<!-- startSectionSummary --><div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+<!-- endSectionSummary --></div>
+<!-- startSectionContent --><div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="class_t_r_t_k_1_1_pivot_calibration__inherit__graph.png" border="0" usemap="#_t_r_t_k_1_1_pivot_calibration_3_01_t_01_4_inherit__map" alt="Inheritance graph"/></div>
+<map name="_t_r_t_k_1_1_pivot_calibration_3_01_t_01_4_inherit__map" id="_t_r_t_k_1_1_pivot_calibration_3_01_t_01_4_inherit__map">
+<area shape="rect" id="node2" href="class_t_r_t_k_1_1_pivot_calibration_combinatorial_approach.html" title="Pivot point calibration." alt="" coords="239,5,557,32"/><area shape="rect" id="node3" href="class_t_r_t_k_1_1_pivot_calibration_p_a_t_m.html" title="Pivot point calibration." alt="" coords="289,56,507,83"/><area shape="rect" id="node4" href="class_t_r_t_k_1_1_pivot_calibration_two_step.html" title="Pivot point calibration." alt="" coords="280,107,516,133"/></map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center><!-- endSectionContent --></div>
 
 <p><a href="class_t_r_t_k_1_1_pivot_calibration-members.html">List of all members.</a></p>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#aafd94055dea59ad197e2399aaaccf222">Algorithm</a> { <a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#aafd94055dea59ad197e2399aaaccf222abf785482ddfc5b933df0f832c1ce1354">TWO_STEP_PROCEDURE</a>, 
-<a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#aafd94055dea59ad197e2399aaaccf222a6f19f405786f9a761772447b1ed33748">COMBINATORICAL_APPROACH</a>
- }</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><b>Error</b> { <br/>
-&#160;&#160;<b>NOT_ENOUGH_INPUT_DATA</b>, 
-<b>UNEQUAL_CARDINALITY_OF_SETS</b>, 
-<b>UNKNOWN_ALGORITHM</b>, 
-<b>UNKNOWN_ERROR</b>, 
-<br/>
-&#160;&#160;<b>WRONG_VECTOR_SIZE</b>
-<br/>
+<tr><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><b>Error</b> { <b>NOT_ENOUGH_INPUT_DATA</b>, 
+<b>UNEQUAL_CARDINALITY_OF_INPUT_SETS</b>, 
+<b>UNKNOWN_ERROR</b>
  }</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3eaea513ab53913d7af7a5aab245ae1d"></a><!-- doxytag: member="TRTK::PivotCalibration::value_type" ref="a3eaea513ab53913d7af7a5aab245ae1d" args="" -->
 typedef T&#160;</td><td class="memItemRight" valign="bottom"><b>value_type</b></td></tr>
@@ -137,47 +138,62 @@ typedef Eigen::Matrix&lt; T, <br class="typebreak"/>
 Eigen::Dynamic, 1 &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>VectorXT</b></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9103b7242bd5ac0a4e5b1eba36edf201"></a><!-- doxytag: member="TRTK::PivotCalibration::Matrix3T" ref="a9103b7242bd5ac0a4e5b1eba36edf201" args="" -->
 typedef Eigen::Matrix&lt; T, 3, 3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Matrix3T</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a970418cc066d3c55d0779c5396d5883e"></a><!-- doxytag: member="TRTK::PivotCalibration::Matrix4T" ref="a970418cc066d3c55d0779c5396d5883e" args="" -->
+typedef Eigen::Matrix&lt; T, 4, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Matrix4T</b></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aca444003309ff39345e793f59df1c2b0"></a><!-- doxytag: member="TRTK::PivotCalibration::MatrixXT" ref="aca444003309ff39345e793f59df1c2b0" args="" -->
 typedef Eigen::Matrix&lt; T, <br class="typebreak"/>
 Eigen::Dynamic, Eigen::Dynamic &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>MatrixXT</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aebb8864eb23dc85578a7557da97c0a20"></a><!-- doxytag: member="TRTK::PivotCalibration::Point" ref="aebb8864eb23dc85578a7557da97c0a20" args="" -->
+typedef <a class="el" href="class_t_r_t_k_1_1_coordinate.html">Coordinate</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Point</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a451162a0d29309b4b6e194fd5a9d9b87"></a><!-- doxytag: member="TRTK::PivotCalibration::DataType" ref="a451162a0d29309b4b6e194fd5a9d9b87" args="" -->
+typedef std::pair&lt; Vector3T, <br class="typebreak"/>
+Matrix3T &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>DataType</b></td></tr>
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#af608fc87fb716538710c134ad9ea3c38">PivotCalibration</a> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#a5d30ecf599ee320c58e2863413f34f28">PivotCalibration</a> (const std::vector&lt; Matrix3T &gt; &amp;rotations, const std::vector&lt; Vector3T &gt; &amp;locations)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#aa796ac8d28c39d5471b6ea366070d30e">PivotCalibration</a> (const std::vector&lt; <a class="el" href="class_t_r_t_k_1_1_transform3_d.html">Transform3D</a>&lt; T &gt;, Eigen::aligned_allocator&lt; <a class="el" href="class_t_r_t_k_1_1_transform3_d.html">Transform3D</a>&lt; T &gt; &gt; &gt; &amp;transformations)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#a13599ac40f9e00d1c32ca57a245b78a3">~PivotCalibration</a> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#a81e3afb9a35a7c47f7d88effccdd83a6">compute</a> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">const Vector3T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#ab00b3a0c534b3034c78dcebc3b4bddc9">getTranslation</a> () const </td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#ab945e3625f0ccacf27f18f41c6692c40">setAlgorithm</a> (<a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#aafd94055dea59ad197e2399aaaccf222">Algorithm</a> algorithm)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#a6c8a7f233d66ec99cfae3fd8e79135a6">setLocations</a> (const std::vector&lt; <a class="el" href="class_t_r_t_k_1_1_coordinate.html">Coordinate</a>&lt; T &gt; &gt; &amp;locations)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#a6ebbfcd92b16a31a4e993a81afe471bb">setLocations</a> (const std::vector&lt; Vector3T &gt; &amp;locations)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#acb8701669a158e955db0eee380c45ebc">setLocations</a> (const std::vector&lt; Vector4T, Eigen::aligned_allocator&lt; Vector4T &gt; &gt; &amp;locations)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#afcef06f8c19dff3d27b5fdea5b06898d">setRotations</a> (const std::vector&lt; Matrix3T &gt; &amp;matrices)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#a34e797416570eb1c0143f98d110ca873">setTransformations</a> (const std::vector&lt; <a class="el" href="class_t_r_t_k_1_1_transform3_d.html">Transform3D</a>&lt; T &gt;, Eigen::aligned_allocator&lt; <a class="el" href="class_t_r_t_k_1_1_transform3_d.html">Transform3D</a>&lt; T &gt; &gt; &gt; &amp;transformations)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1c4c89a3789479a07a400c4ea6b9517d"></a><!-- doxytag: member="TRTK::PivotCalibration::getNumberItemsRequired" ref="a1c4c89a3789479a07a400c4ea6b9517d" args="() const =0" -->
+virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#a1c4c89a3789479a07a400c4ea6b9517d">getNumberItemsRequired</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the minimum number of locations and rotations needed for the algorithm. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a197218dd7d8022f83afa88546fdfbf46"></a><!-- doxytag: member="TRTK::PivotCalibration::setLocations" ref="a197218dd7d8022f83afa88546fdfbf46" args="(Range&lt; Vector3T &gt; locations)=0" -->
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>setLocations</b> (<a class="el" href="class_t_r_t_k_1_1_range.html">Range</a>&lt; Vector3T &gt; locations)=0</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3a4090b0b701b050e0094aff5c074f0f"></a><!-- doxytag: member="TRTK::PivotCalibration::setRotations" ref="a3a4090b0b701b050e0094aff5c074f0f" args="(Range&lt; Matrix3T &gt; rotations)=0" -->
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>setRotations</b> (<a class="el" href="class_t_r_t_k_1_1_range.html">Range</a>&lt; Matrix3T &gt; rotations)=0</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3f744354bf447bd1dc306c81f5e2de8e"></a><!-- doxytag: member="TRTK::PivotCalibration::compute" ref="a3f744354bf447bd1dc306c81f5e2de8e" args="()=0" -->
+virtual T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#a3f744354bf447bd1dc306c81f5e2de8e">compute</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the RMSE. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6a1e16588595314bdde3fda27f018782"></a><!-- doxytag: member="TRTK::PivotCalibration::getRMSE" ref="a6a1e16588595314bdde3fda27f018782" args="() const =0" -->
+virtual T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#a6a1e16588595314bdde3fda27f018782">getRMSE</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the RMSE of the last computation. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6d2b3dfbd5e29b4a1210d8867120b988"></a><!-- doxytag: member="TRTK::PivotCalibration::getLocalPivotPoint" ref="a6d2b3dfbd5e29b4a1210d8867120b988" args="() const =0" -->
+virtual const Vector3T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#a6d2b3dfbd5e29b4a1210d8867120b988">getLocalPivotPoint</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the pivot point (or tool tip) in local coordinates. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ace6d2823b1b2233cb0a40abce859ffb8"></a><!-- doxytag: member="TRTK::PivotCalibration::getPivotPoint" ref="ace6d2823b1b2233cb0a40abce859ffb8" args="() const =0" -->
+virtual const Vector3T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#ace6d2823b1b2233cb0a40abce859ffb8">getPivotPoint</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the pivot point (or tool tip) in world coordinates. <br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <h3>template&lt;class T&gt;<br/>
  class TRTK::PivotCalibration&lt; T &gt;</h3>
 
-<p>This class performs a pivot calibration providing a defined translation between a tool tip and its sensor system. </p>
+<p>This is the common interface for all pivot-point-calibration classes. </p>
 <dl><dt><b>Template Parameters:</b></dt><dd>
   <table class="">
-    <tr><td class="paramname">T</td><td>scalar type</td></tr>
+    <tr><td class="paramname">T</td><td>scalar (floating point) type</td></tr>
   </table>
   </dd>
 </dl>
-<p>This class provides means to determine the location of a tool tip within the instrument's local sensor coordinate system. The calibration procedure to obtain the location is as follows: The tool is rotated around a pivot point always touching this point with its tip. The location as well as the rotation of the sensor system is saved for each sampling instance. Then this list is given to <a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html" title="This class performs a pivot calibration providing a defined translation between a tool tip and its se...">PivotCalibration</a> and the sought location/translation is computed.</p>
+<p>A pivot-point-calibration is a procedure that aims at finding a global and local pivot point of a rigid structure whose motion is constrained in such a way that it moves around a pivot point. If the structure is equipped with a localization sensor (i.e. if it is tracked) the pivot point can be determined in the global tracker coordinate system and the local structure's coordinate system. Typical examples of application include the tool tip calibration or the hip center determination.</p>
+<p>The calibration procedure to obtain a tool tip location is as follows: The tool tip is placed in a divot and the tool is moved around this pivot point while always touching the divot with its tip. The location as well as the rotation of the sensor system is saved for each sampling instance. Then this list is passed to one of the pivot calibration algorithms and the sought location/translation is computed.</p>
+<div align="center">
+<img src="Tool Tip Calibration (small).png" alt="Tool Tip Calibration (small).png"/>
+<p><strong>Movement of a tool while recording data for the tool tip calibration.</strong></p></div>
+<p> Given a new measurement of the tracker (which comprises the position \( t_i \) and orientation \( R_i \) of the sensor in the global coordinate system) the pivot point the tool tip location in global coordinates can be easily computed as \( p_{global} = R_i * p_{local} + * t_i \).</p>
 <dl class="note"><dt><b>Note:</b></dt><dd>We always assume, that the transformations map from a local coordinate system to the global coordinate system. That is, given a rotation matrix \( R \) and a translation vector \( t \) describing the orientation and the location of a sensor system, respectively, the vector \( p&#39; \) in global coordinates corresponds to the vector \( p \) in local coordinates by this relation: <p class="formulaDsp">
 \[ p&#39; = Rp + t \]
 </p>
 </dd></dl>
-<p>The following two <a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#aafd94055dea59ad197e2399aaaccf222">algorithms</a> are available:</p>
-<ul>
-<li><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#aafd94055dea59ad197e2399aaaccf222abf785482ddfc5b933df0f832c1ce1354">TWO_STEP_PROCEDURE</a> (default)</li>
-<li><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#aafd94055dea59ad197e2399aaaccf222a6f19f405786f9a761772447b1ed33748">COMBINATORICAL_APPROACH</a></li>
-</ul>
-<p>Here is an example of how to use the class:</p>
-<div class="fragment"><pre class="fragment"> <span class="keyword">typedef</span> <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html" title="This class performs a pivot calibration providing a defined translation between a tool tip and its se...">TRTK::PivotCalibration&lt;double&gt;</a> Calibration;
+<dl class="user"><dt><b>Example:</b></dt><dd></dd></dl>
+<p>Here is an example of how to perform a pivot calibration:</p>
+<div class="fragment"><pre class="fragment"> <span class="keyword">typedef</span> <a class="code" href="class_t_r_t_k_1_1_pivot_calibration.html" title="This is the common interface for all pivot-point-calibration classes.">TRTK::PivotCalibration&lt;double&gt;</a> Calibration;
  <span class="keyword">typedef</span> TRTK::Calibration::Matrix3T Matrix;
  <span class="keyword">typedef</span> TRTK::Calibration::Vector3T Vector;
 
@@ -204,471 +220,24 @@ Public Member Functions</h2></td></tr>
      locations.push_back(t);
  }
 
- Calibration pivotCalibration(rotations, locations);
+ PivotCalibrationTwoStep&lt;double&gt; calibration;
+ calibration.setRotations(make_range(test_data.rotations));
+ calibration.setLocations(make_range(test_data.locations));
+ <span class="keywordtype">double</span> rmse = calibration.compute();
 
- pivotCalibration.compute();
-
- Vector translation = pivotCalibration.getTranslation(); <span class="comment">// in local coordinates</span>
+ Vector local_pivot_point = calibration.getLocalPivotPoint();
 
  <span class="comment">// ...</span>
 
  <span class="comment">// Determinte the current tool tip position in global coordinates.</span>
- Vector tool_tip_position = current_rotation * translation + current_position;
+ Vector tool_tip_position = current_rotation * local_pivot_point + current_position;
 </pre></div><dl class="note"><dt><b>Note:</b></dt><dd>See <a href="http://eigen.tuxfamily.org/">http://eigen.tuxfamily.org/</a> for how to use the Matrix class.</dd></dl>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_coordinate.html" title="A generic coordinate class.">Coordinate</a> and <a class="el" href="class_t_r_t_k_1_1_transform3_d.html" title="Affine or projective transformation in 3D.">Transform3D</a></dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_pivot_calibration_combinatorial_approach.html" title="Pivot point calibration.">TRTK::PivotCalibrationCombinatorialApproach</a>, <a class="el" href="class_t_r_t_k_1_1_pivot_calibration_p_a_t_m.html" title="Pivot point calibration.">TRTK::PivotCalibrationPATM</a>, <a class="el" href="class_t_r_t_k_1_1_pivot_calibration_two_step.html" title="Pivot point calibration.">TRTK::PivotCalibrationTwoStep</a>, <a class="el" href="class_t_r_t_k_1_1_ransac_pivot_calibration_model.html" title="This class implements the Ransac::Model interface for all PivotCalibration classes.">TRTK::RansacPivotCalibrationModel</a>, <a class="el" href="class_t_r_t_k_1_1_coordinate.html" title="A generic coordinate class.">TRTK::Coordinate</a> and <a class="el" href="class_t_r_t_k_1_1_transform3_d.html" title="Affine or projective transformation in 3D.">TRTK::Transform3D</a></dd></dl>
 <dl class="author"><dt><b>Author:</b></dt><dd>Christoph Haenisch </dd></dl>
-<dl class="version"><dt><b>Version:</b></dt><dd>0.2.0 </dd></dl>
-<dl class="date"><dt><b>Date:</b></dt><dd>last changed on 2012-02-03 </dd></dl>
+<dl class="version"><dt><b>Version:</b></dt><dd>1.0.0 </dd></dl>
+<dl class="date"><dt><b>Date:</b></dt><dd>last changed on 2016-07-25 </dd></dl>
 
-<p>Definition at line <a class="el" href="_pivot_calibration_8hpp_source.html#l00114">114</a> of file <a class="el" href="_pivot_calibration_8hpp_source.html">PivotCalibration.hpp</a>.</p>
-<hr/><h2>Member Enumeration Documentation</h2>
-<a class="anchor" id="aafd94055dea59ad197e2399aaaccf222"></a><!-- doxytag: member="TRTK::PivotCalibration::Algorithm" ref="aafd94055dea59ad197e2399aaaccf222" args="" -->
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class T &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#aafd94055dea59ad197e2399aaaccf222">TRTK::PivotCalibration::Algorithm</a></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<dl><dt><b>Enumerator: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
-<tr><td valign="top"><em><a class="anchor" id="aafd94055dea59ad197e2399aaaccf222abf785482ddfc5b933df0f832c1ce1354"></a><!-- doxytag: member="TWO_STEP_PROCEDURE" ref="aafd94055dea59ad197e2399aaaccf222abf785482ddfc5b933df0f832c1ce1354" args="" -->TWO_STEP_PROCEDURE</em>&nbsp;</td><td>
-<p>First, estimate the pivot point in global coordinates. Second, estimate the sought translation by computing the difference vector between the pivot point and the center of the sensor system; then take the mean.<br/>
- This algorithm is advantageous in the case of zero-mean noise. </p>
-</td></tr>
-<tr><td valign="top"><em><a class="anchor" id="aafd94055dea59ad197e2399aaaccf222a6f19f405786f9a761772447b1ed33748"></a><!-- doxytag: member="COMBINATORICAL_APPROACH" ref="aafd94055dea59ad197e2399aaaccf222a6f19f405786f9a761772447b1ed33748" args="" -->COMBINATORICAL_APPROACH</em>&nbsp;</td><td>
-<p>Setup n equations that yield the pivot point from a single measurement using the sought (but unknown) translation. Eliminate the pivot point in the system of equations and finally solve for the sought translation. <br/>
- This algorithm is advantageous in the case of non-zero-mean noise (e.g. a systematic error). </p>
-</td></tr>
-</table>
-</dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_pivot_calibration_8hpp_source.html#l00036">36</a> of file <a class="el" href="_pivot_calibration_8hpp_source.html">PivotCalibration.hpp</a>.</p>
-
-</div>
-</div>
-<hr/><h2>Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="af608fc87fb716538710c134ad9ea3c38"></a><!-- doxytag: member="TRTK::PivotCalibration::PivotCalibration" ref="af608fc87fb716538710c134ad9ea3c38" args="()" -->
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class T &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html">TRTK::PivotCalibration</a>&lt; T &gt;::<a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html">PivotCalibration</a> </td>
-          <td>(</td>
-          <td class="paramname">&#160;)</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<dl><dt><b>Template Parameters:</b></dt><dd>
-  <table class="">
-    <tr><td class="paramname">T</td><td>scalar type</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Constructs an empty <a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html" title="This class performs a pivot calibration providing a defined translation between a tool tip and its se...">PivotCalibration</a> object. </p>
-
-<p>Definition at line <a class="el" href="_pivot_calibration_8hpp_source.html#l00176">176</a> of file <a class="el" href="_pivot_calibration_8hpp_source.html">PivotCalibration.hpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a5d30ecf599ee320c58e2863413f34f28"></a><!-- doxytag: member="TRTK::PivotCalibration::PivotCalibration" ref="a5d30ecf599ee320c58e2863413f34f28" args="(const std::vector&lt; Matrix3T &gt; &amp;rotations, const std::vector&lt; Vector3T &gt; &amp;locations)" -->
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class T &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html">TRTK::PivotCalibration</a>&lt; T &gt;::<a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html">PivotCalibration</a> </td>
-          <td>(</td>
-          <td class="paramtype">const std::vector&lt; Matrix3T &gt; &amp;&#160;</td>
-          <td class="paramname"> <em>rotations</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; Vector3T &gt; &amp;&#160;</td>
-          <td class="paramname"> <em>locations</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<dl><dt><b>Template Parameters:</b></dt><dd>
-  <table class="">
-    <tr><td class="paramname">T</td><td>scalar type</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">rotations</td><td>rotations of the sensor systems </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">locations</td><td>locations of the sensor systems</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Constructs a <a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html" title="This class performs a pivot calibration providing a defined translation between a tool tip and its se...">PivotCalibration</a> object.</p>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#afcef06f8c19dff3d27b5fdea5b06898d">setRotations()</a> and <a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#a6c8a7f233d66ec99cfae3fd8e79135a6">setLocations</a> </dd></dl>
-
-<p>Definition at line <a class="el" href="_pivot_calibration_8hpp_source.html#l00193">193</a> of file <a class="el" href="_pivot_calibration_8hpp_source.html">PivotCalibration.hpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aa796ac8d28c39d5471b6ea366070d30e"></a><!-- doxytag: member="TRTK::PivotCalibration::PivotCalibration" ref="aa796ac8d28c39d5471b6ea366070d30e" args="(const std::vector&lt; Transform3D&lt; T &gt;, Eigen::aligned_allocator&lt; Transform3D&lt; T &gt; &gt; &gt; &amp;transformations)" -->
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class T &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html">TRTK::PivotCalibration</a>&lt; T &gt;::<a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html">PivotCalibration</a> </td>
-          <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="class_t_r_t_k_1_1_transform3_d.html">Transform3D</a>&lt; T &gt;, Eigen::aligned_allocator&lt; <a class="el" href="class_t_r_t_k_1_1_transform3_d.html">Transform3D</a>&lt; T &gt; &gt; &gt; &amp;&#160;</td>
-          <td class="paramname"> <em>transformations</em>&#160;)</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<dl><dt><b>Template Parameters:</b></dt><dd>
-  <table class="">
-    <tr><td class="paramname">T</td><td>scalar type</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">transformations</td><td>rotations and locations of the sensor systems</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Constructs a <a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html" title="This class performs a pivot calibration providing a defined translation between a tool tip and its se...">PivotCalibration</a> object.</p>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#a34e797416570eb1c0143f98d110ca873">setTransformations()</a> </dd></dl>
-
-<p>Definition at line <a class="el" href="_pivot_calibration_8hpp_source.html#l00212">212</a> of file <a class="el" href="_pivot_calibration_8hpp_source.html">PivotCalibration.hpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a13599ac40f9e00d1c32ca57a245b78a3"></a><!-- doxytag: member="TRTK::PivotCalibration::~PivotCalibration" ref="a13599ac40f9e00d1c32ca57a245b78a3" args="()" -->
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class T &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html">TRTK::PivotCalibration</a>&lt; T &gt;::~<a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html">PivotCalibration</a> </td>
-          <td>(</td>
-          <td class="paramname">&#160;)</td>
-          <td><code> [virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<dl><dt><b>Template Parameters:</b></dt><dd>
-  <table class="">
-    <tr><td class="paramname">T</td><td>scalar type</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Destructs the <a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html" title="This class performs a pivot calibration providing a defined translation between a tool tip and its se...">PivotCalibration</a> object. </p>
-
-<p>Definition at line <a class="el" href="_pivot_calibration_8hpp_source.html#l00235">235</a> of file <a class="el" href="_pivot_calibration_8hpp_source.html">PivotCalibration.hpp</a>.</p>
-
-</div>
-</div>
-<hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="a81e3afb9a35a7c47f7d88effccdd83a6"></a><!-- doxytag: member="TRTK::PivotCalibration::compute" ref="a81e3afb9a35a7c47f7d88effccdd83a6" args="()" -->
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class T &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html">TRTK::PivotCalibration</a>&lt; T &gt;::compute </td>
-          <td>(</td>
-          <td class="paramname">&#160;)</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<dl><dt><b>Template Parameters:</b></dt><dd>
-  <table class="">
-    <tr><td class="paramname">T</td><td>scalar type</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Computes the sought translation vector.</p>
-<dl><dt><b>Exceptions:</b></dt><dd>
-  <table class="exception">
-    <tr><td class="paramname"><a class="el" href="class_t_r_t_k_1_1_error_obj.html" title="Error class that incorporates additional information.">ErrorObj</a></td><td>If the number of rotations set by <code><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#afcef06f8c19dff3d27b5fdea5b06898d">setRotations()</a></code> diverges from the number of locations set by <code><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#a6c8a7f233d66ec99cfae3fd8e79135a6">setLocations()</a></code>, an error object is thrown and its error code is set to <code>UNEQUAL_CARDINALITY_OF_SETS</code>.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#ab00b3a0c534b3034c78dcebc3b4bddc9">getTranslation()</a> </dd></dl>
-
-<p>Definition at line <a class="el" href="_pivot_calibration_8hpp_source.html#l00253">253</a> of file <a class="el" href="_pivot_calibration_8hpp_source.html">PivotCalibration.hpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ab00b3a0c534b3034c78dcebc3b4bddc9"></a><!-- doxytag: member="TRTK::PivotCalibration::getTranslation" ref="ab00b3a0c534b3034c78dcebc3b4bddc9" args="() const " -->
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class T &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html">PivotCalibration</a>&lt; T &gt;::Vector3T &amp; <a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html">TRTK::PivotCalibration</a>&lt; T &gt;::getTranslation </td>
-          <td>(</td>
-          <td class="paramname">&#160;)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<dl><dt><b>Template Parameters:</b></dt><dd>
-  <table class="">
-    <tr><td class="paramname">T</td><td>scalar type</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>returns the sought translation vector (in local/tool coordinates)</dd></dl>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#a81e3afb9a35a7c47f7d88effccdd83a6">compute()</a> </dd></dl>
-
-<p>Definition at line <a class="el" href="_pivot_calibration_8hpp_source.html#l00432">432</a> of file <a class="el" href="_pivot_calibration_8hpp_source.html">PivotCalibration.hpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ab945e3625f0ccacf27f18f41c6692c40"></a><!-- doxytag: member="TRTK::PivotCalibration::setAlgorithm" ref="ab945e3625f0ccacf27f18f41c6692c40" args="(Algorithm algorithm)" -->
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class T &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html">TRTK::PivotCalibration</a>&lt; T &gt;::setAlgorithm </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#aafd94055dea59ad197e2399aaaccf222">Algorithm</a>&#160;</td>
-          <td class="paramname"> <em>algorithm</em>&#160;)</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<dl><dt><b>Template Parameters:</b></dt><dd>
-  <table class="">
-    <tr><td class="paramname">T</td><td>scalar type</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">algorithm</td><td>Sets the algorithm used to compute the sought tool tip location.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#aafd94055dea59ad197e2399aaaccf222">Algorithm</a> </dd></dl>
-
-<p>Definition at line <a class="el" href="_pivot_calibration_8hpp_source.html#l00448">448</a> of file <a class="el" href="_pivot_calibration_8hpp_source.html">PivotCalibration.hpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a6c8a7f233d66ec99cfae3fd8e79135a6"></a><!-- doxytag: member="TRTK::PivotCalibration::setLocations" ref="a6c8a7f233d66ec99cfae3fd8e79135a6" args="(const std::vector&lt; Coordinate&lt; T &gt; &gt; &amp;locations)" -->
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class T &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html">TRTK::PivotCalibration</a>&lt; T &gt;::setLocations </td>
-          <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="class_t_r_t_k_1_1_coordinate.html">Coordinate</a>&lt; T &gt; &gt; &amp;&#160;</td>
-          <td class="paramname"> <em>locations</em>&#160;)</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<dl><dt><b>Template Parameters:</b></dt><dd>
-  <table class="">
-    <tr><td class="paramname">T</td><td>scalar type</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">locations</td><td>locations of the sensor systems</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Sets the sampled locations of the sensor system. The translation vectors can either be plain 3D or (normalized) 4D homogeneous coordinates.</p>
-<dl><dt><b>Exceptions:</b></dt><dd>
-  <table class="exception">
-    <tr><td class="paramname"><a class="el" href="class_t_r_t_k_1_1_error_obj.html" title="Error class that incorporates additional information.">ErrorObj</a></td><td>If the dimension of the translation vectors diverges from three or four, an error object is thrown and its error code is set to <code>WRONG_VECTOR_SIZE</code>.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#afcef06f8c19dff3d27b5fdea5b06898d">setRotations()</a> and <a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#a34e797416570eb1c0143f98d110ca873">setTransformations()</a> </dd></dl>
-
-<p>Definition at line <a class="el" href="_pivot_calibration_8hpp_source.html#l00483">483</a> of file <a class="el" href="_pivot_calibration_8hpp_source.html">PivotCalibration.hpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a6ebbfcd92b16a31a4e993a81afe471bb"></a><!-- doxytag: member="TRTK::PivotCalibration::setLocations" ref="a6ebbfcd92b16a31a4e993a81afe471bb" args="(const std::vector&lt; Vector3T &gt; &amp;locations)" -->
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class T &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html">TRTK::PivotCalibration</a>&lt; T &gt;::setLocations </td>
-          <td>(</td>
-          <td class="paramtype">const std::vector&lt; Vector3T &gt; &amp;&#160;</td>
-          <td class="paramname"> <em>locations</em>&#160;)</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<dl><dt><b>Template Parameters:</b></dt><dd>
-  <table class="">
-    <tr><td class="paramname">T</td><td>scalar type</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">locations</td><td>locations of the sensor systems</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Sets the sampled locations of the sensor system.</p>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#afcef06f8c19dff3d27b5fdea5b06898d">setRotations()</a> and <a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#a34e797416570eb1c0143f98d110ca873">setTransformations()</a> </dd></dl>
-
-<p>Definition at line <a class="el" href="_pivot_calibration_8hpp_source.html#l00516">516</a> of file <a class="el" href="_pivot_calibration_8hpp_source.html">PivotCalibration.hpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="acb8701669a158e955db0eee380c45ebc"></a><!-- doxytag: member="TRTK::PivotCalibration::setLocations" ref="acb8701669a158e955db0eee380c45ebc" args="(const std::vector&lt; Vector4T, Eigen::aligned_allocator&lt; Vector4T &gt; &gt; &amp;locations)" -->
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class T &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html">TRTK::PivotCalibration</a>&lt; T &gt;::setLocations </td>
-          <td>(</td>
-          <td class="paramtype">const std::vector&lt; Vector4T, Eigen::aligned_allocator&lt; Vector4T &gt; &gt; &amp;&#160;</td>
-          <td class="paramname"> <em>locations</em>&#160;)</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<dl><dt><b>Template Parameters:</b></dt><dd>
-  <table class="">
-    <tr><td class="paramname">T</td><td>scalar type</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">locations</td><td>locations of the sensor systems</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Sets the sampled locations of the sensor system. The translation vectors are assumed to be normalized 4D homogeneous coordinates.</p>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#afcef06f8c19dff3d27b5fdea5b06898d">setRotations()</a> and <a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#a34e797416570eb1c0143f98d110ca873">setTransformations()</a> </dd></dl>
-
-<p>Definition at line <a class="el" href="_pivot_calibration_8hpp_source.html#l00533">533</a> of file <a class="el" href="_pivot_calibration_8hpp_source.html">PivotCalibration.hpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="afcef06f8c19dff3d27b5fdea5b06898d"></a><!-- doxytag: member="TRTK::PivotCalibration::setRotations" ref="afcef06f8c19dff3d27b5fdea5b06898d" args="(const std::vector&lt; Matrix3T &gt; &amp;matrices)" -->
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class T &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html">TRTK::PivotCalibration</a>&lt; T &gt;::setRotations </td>
-          <td>(</td>
-          <td class="paramtype">const std::vector&lt; Matrix3T &gt; &amp;&#160;</td>
-          <td class="paramname"> <em>matrices</em>&#160;)</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<dl><dt><b>Template Parameters:</b></dt><dd>
-  <table class="">
-    <tr><td class="paramname">T</td><td>scalar type</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">matrices</td><td>rotation matrices of the sensor systems</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Sets the sampled rotation matrices of the sensor system.</p>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#a6c8a7f233d66ec99cfae3fd8e79135a6">setLocations()</a> and <a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#a34e797416570eb1c0143f98d110ca873">setTransformations()</a> </dd></dl>
-
-<p>Definition at line <a class="el" href="_pivot_calibration_8hpp_source.html#l00554">554</a> of file <a class="el" href="_pivot_calibration_8hpp_source.html">PivotCalibration.hpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a34e797416570eb1c0143f98d110ca873"></a><!-- doxytag: member="TRTK::PivotCalibration::setTransformations" ref="a34e797416570eb1c0143f98d110ca873" args="(const std::vector&lt; Transform3D&lt; T &gt;, Eigen::aligned_allocator&lt; Transform3D&lt; T &gt; &gt; &gt; &amp;transformations)" -->
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class T &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html">TRTK::PivotCalibration</a>&lt; T &gt;::setTransformations </td>
-          <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="class_t_r_t_k_1_1_transform3_d.html">Transform3D</a>&lt; T &gt;, Eigen::aligned_allocator&lt; <a class="el" href="class_t_r_t_k_1_1_transform3_d.html">Transform3D</a>&lt; T &gt; &gt; &gt; &amp;&#160;</td>
-          <td class="paramname"> <em>transformations</em>&#160;)</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<dl><dt><b>Template Parameters:</b></dt><dd>
-  <table class="">
-    <tr><td class="paramname">T</td><td>scalar type</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">transformations</td><td>rotation and location of the sensor systems</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Sets the sampled transformations of the sensor system. The rotation as well as the location of the sensor system are stored in a matrix of the form </p>
-<p class="formulaDsp">
-\[ \begin{pmatrix} R &amp; t \\ 0 &amp; 1 \end{pmatrix} \]
-</p>
-<p> where \( R \) denotes the rotation of the system and \( t \) its location.</p>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#afcef06f8c19dff3d27b5fdea5b06898d">setRotations()</a> and <a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html#a6c8a7f233d66ec99cfae3fd8e79135a6">setLocations()</a> </dd></dl>
-
-<p>Definition at line <a class="el" href="_pivot_calibration_8hpp_source.html#l00579">579</a> of file <a class="el" href="_pivot_calibration_8hpp_source.html">PivotCalibration.hpp</a>.</p>
-
-</div>
-</div>
+<p>Definition at line <a class="el" href="_pivot_calibration_8hpp_source.html#l00135">135</a> of file <a class="el" href="_pivot_calibration_8hpp_source.html">PivotCalibration.hpp</a>.</p>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>D:/Users/haenisch/Programmierung/C++/TRTK/include/TRTK/<a class="el" href="_pivot_calibration_8hpp_source.html">PivotCalibration.hpp</a></li>
 </ul>

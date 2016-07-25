@@ -136,15 +136,15 @@ function toggleVisibility(linkObj) {
 <a name="l00193"></a>00193         <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_ransac_1_1_model.html#a03160c5eea14d1dcf3aaf06b9530e904" title="Estimate the model parameters.">compute</a>() = 0;                                     
 <a name="l00194"></a>00194         <span class="keyword">virtual</span> T <a class="code" href="class_t_r_t_k_1_1_ransac_1_1_model.html#a88657477c11b6b2bfe0d075f5d607357" title="Return the amount of how much a datum deviates from the model.">getDeviation</a>(<span class="keyword">const</span> DataType &amp; datum) <span class="keyword">const</span> = 0;       
 <a name="l00195"></a>00195         <span class="keyword">virtual</span> <span class="keywordtype">unsigned</span> <a class="code" href="class_t_r_t_k_1_1_ransac_1_1_model.html#a5594c16171e813b146e00140a10d69b4" title="Return the minimum number of items required to compute the model.">getMinimumNumberOfItems</a>() <span class="keyword">const</span> = 0;           
-<a name="l00196"></a>00196         <span class="keyword">virtual</span> T <a class="code" href="class_t_r_t_k_1_1_ransac_1_1_model.html#ae7356b079ac2534b4c1710b0e921847b" title="Return the root mean square error of the estimated regression model.">getRMS</a>() <span class="keyword">const</span> = 0;                                   
-<a name="l00197"></a>00197         <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_ransac_1_1_model.html#aa4218f92329329dcfae6b95cdc9ac5a6" title="Set the sample data.">setData</a>(<span class="keyword">const</span> std::vector&lt;DataType&gt; &amp; data) = 0;   
+<a name="l00196"></a>00196         <span class="keyword">virtual</span> T <a class="code" href="class_t_r_t_k_1_1_ransac_1_1_model.html#a81c2c6e38dfbb09b071178325ceaf63a" title="Return the root mean square error of the estimated regression model.">getRMSE</a>() <span class="keyword">const</span> = 0;                                  
+<a name="l00197"></a>00197         <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_ransac_1_1_model.html#aa4218f92329329dcfae6b95cdc9ac5a6" title="Set the sample data. No data is copied but a reference is stored.">setData</a>(<span class="keyword">const</span> std::vector&lt;DataType&gt; &amp; data) = 0;   
 <a name="l00198"></a>00198     };                                                                  
 <a name="l00199"></a>00199 
 <a name="l00200"></a><a class="code" href="class_t_r_t_k_1_1_ransac.html#a58eb13e60537ae253f1ba37dadafc8ae">00200</a>     <span class="keyword">enum</span> <a class="code" href="class_t_r_t_k_1_1_ransac.html#a58eb13e60537ae253f1ba37dadafc8ae">Algorithm</a>
 <a name="l00201"></a>00201     {
 <a name="l00202"></a><a class="code" href="class_t_r_t_k_1_1_ransac.html#a58eb13e60537ae253f1ba37dadafc8aeaf68c106ffae357639ba1946f8811cfbe">00202</a>         <a class="code" href="class_t_r_t_k_1_1_ransac.html#a58eb13e60537ae253f1ba37dadafc8aeaf68c106ffae357639ba1946f8811cfbe" title="RANSAC algorithm as described by Fischler and Bolles. If a consensus set is found whose size is great...">RANSAC</a>,                             
 <a name="l00203"></a><a class="code" href="class_t_r_t_k_1_1_ransac.html#a58eb13e60537ae253f1ba37dadafc8aea06486d694bed15598f6c390823a89af2">00203</a>         <a class="code" href="class_t_r_t_k_1_1_ransac.html#a58eb13e60537ae253f1ba37dadafc8aea06486d694bed15598f6c390823a89af2" title="A new model is always computed from the biggest consensus set.">RANSAC_BIGGEST_CONSESUS_SET</a>,        
-<a name="l00204"></a><a class="code" href="class_t_r_t_k_1_1_ransac.html#a58eb13e60537ae253f1ba37dadafc8aeaf99b75bbd50cb368602e8784f5f2bbff">00204</a>         <a class="code" href="class_t_r_t_k_1_1_ransac.html#a58eb13e60537ae253f1ba37dadafc8aeaf99b75bbd50cb368602e8784f5f2bbff" title="The model with the smallest RMS is taken.">RANSAC_SMALLEST_RMS</a>                 
+<a name="l00204"></a><a class="code" href="class_t_r_t_k_1_1_ransac.html#a58eb13e60537ae253f1ba37dadafc8aeae7b10acb784da9e48074d09c368a91db">00204</a>         <a class="code" href="class_t_r_t_k_1_1_ransac.html#a58eb13e60537ae253f1ba37dadafc8aeae7b10acb784da9e48074d09c368a91db" title="The model with the smallest RMSE is taken.">RANSAC_SMALLEST_RMSE</a>                
 <a name="l00205"></a>00205     };
 <a name="l00206"></a>00206 
 <a name="l00207"></a><a class="code" href="class_t_r_t_k_1_1_ransac.html#a7efc0bf54767148aa93cc3ce06bd4504">00207</a>     <span class="keyword">enum</span> <a class="code" href="class_t_r_t_k_1_1_ransac.html#a7efc0bf54767148aa93cc3ce06bd4504">Error</a>
@@ -184,7 +184,7 @@ function toggleVisibility(linkObj) {
 <a name="l00241"></a>00241 
 <a name="l00242"></a>00242     <span class="keywordtype">unsigned</span> <a class="code" href="class_t_r_t_k_1_1_ransac.html#a7a7399e64e01a41ee8f32453fecda426" title="RANSAC algorithm as described by Fischler and Bolles.">algorithmRansac</a>();
 <a name="l00243"></a>00243     <span class="keywordtype">unsigned</span> <a class="code" href="class_t_r_t_k_1_1_ransac.html#a45d171e5a83cb32b2c1ec04168fea7b0" title="Modified version of the RANSAC algorithm as described by Fischler and Bolles.">algorithmRansacBiggestConsensusSet</a>();
-<a name="l00244"></a>00244     <span class="keywordtype">unsigned</span> <a class="code" href="class_t_r_t_k_1_1_ransac.html#aa700ccdcaf9fd8182cd45abda03e895b" title="Modified version of the RANSAC algorithm as described by Fischler and Bolles.">algorithmRansacSmallestRms</a>();
+<a name="l00244"></a>00244     <span class="keywordtype">unsigned</span> <a class="code" href="class_t_r_t_k_1_1_ransac.html#af2d410c8fd87c4dcc9aa14e01e280253" title="Modified version of the RANSAC algorithm as described by Fischler and Bolles.">algorithmRansacSmallestRmse</a>();
 <a name="l00245"></a>00245 };
 <a name="l00246"></a>00246 
 <a name="l00247"></a>00247 
@@ -214,8 +214,8 @@ function toggleVisibility(linkObj) {
 <a name="l00281"></a>00281     <span class="keyword">using namespace </span>std;
 <a name="l00282"></a>00282     <span class="keyword">using namespace </span>Tools;
 <a name="l00283"></a>00283 
-<a name="l00284"></a>00284     <span class="keyword">const</span> <span class="keywordtype">int</span> maximum_number_of_items = data-&gt;size();
-<a name="l00285"></a>00285     <span class="keyword">const</span> <span class="keywordtype">int</span> minimum_number_of_items = model-&gt;getMinimumNumberOfItems();
+<a name="l00284"></a>00284     <span class="keyword">const</span> <span class="keywordtype">unsigned</span> maximum_number_of_items = data-&gt;size();
+<a name="l00285"></a>00285     <span class="keyword">const</span> <span class="keywordtype">unsigned</span> minimum_number_of_items = model-&gt;getMinimumNumberOfItems();
 <a name="l00286"></a>00286 
 <a name="l00287"></a>00287     vector&lt;DataType&gt; initial_data_set(minimum_number_of_items);
 <a name="l00288"></a>00288     vector&lt;DataType&gt; consensus_set;
@@ -223,22 +223,22 @@ function toggleVisibility(linkObj) {
 <a name="l00290"></a>00290 
 <a name="l00291"></a>00291     <span class="comment">// For each trial...</span>
 <a name="l00292"></a>00292 
-<a name="l00293"></a>00293     <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; trials; ++i)
+<a name="l00293"></a>00293     <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> i = 0; i &lt; trials; ++i)
 <a name="l00294"></a>00294     {
 <a name="l00295"></a>00295         <span class="comment">// Randomly select items from the data set and use them</span>
 <a name="l00296"></a>00296         <span class="comment">// as an initial data set for the model fitting.</span>
 <a name="l00297"></a>00297 
 <a name="l00298"></a>00298         set&lt;int&gt; indices;
 <a name="l00299"></a>00299 
-<a name="l00300"></a>00300         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; minimum_number_of_items; ++j)
+<a name="l00300"></a>00300         <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> j = 0; j &lt; minimum_number_of_items; ++j)
 <a name="l00301"></a>00301         {
 <a name="l00302"></a>00302             <span class="comment">// Avoid using the same data point several times.</span>
 <a name="l00303"></a>00303 
-<a name="l00304"></a>00304             <span class="keywordtype">int</span> index = <a class="code" href="namespace_t_r_t_k_1_1_tools.html#a906509578c3f4dec953fa41ed8e06ec9" title="Random sample of the standard uniform distribution.">rand</a>(0, maximum_number_of_items - 1);;
+<a name="l00304"></a>00304             <span class="keywordtype">unsigned</span> index = <a class="code" href="namespace_t_r_t_k_1_1_tools.html#a906509578c3f4dec953fa41ed8e06ec9" title="Random sample of the standard uniform distribution.">rand</a>(0u, maximum_number_of_items - 1);;
 <a name="l00305"></a>00305 
 <a name="l00306"></a>00306             <span class="keywordflow">while</span> (indices.find(index) != indices.end())
 <a name="l00307"></a>00307             {
-<a name="l00308"></a>00308                 index = <a class="code" href="namespace_t_r_t_k_1_1_tools.html#a906509578c3f4dec953fa41ed8e06ec9" title="Random sample of the standard uniform distribution.">rand</a>(0, maximum_number_of_items - 1);
+<a name="l00308"></a>00308                 index = <a class="code" href="namespace_t_r_t_k_1_1_tools.html#a906509578c3f4dec953fa41ed8e06ec9" title="Random sample of the standard uniform distribution.">rand</a>(0u, maximum_number_of_items - 1);
 <a name="l00309"></a>00309             }
 <a name="l00310"></a>00310 
 <a name="l00311"></a>00311             indices.insert(index);
@@ -259,7 +259,7 @@ function toggleVisibility(linkObj) {
 <a name="l00326"></a>00326         consensus_set.clear();
 <a name="l00327"></a>00327         consensus_set.reserve(maximum_number_of_items);
 <a name="l00328"></a>00328 
-<a name="l00329"></a>00329         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; maximum_number_of_items; ++j)
+<a name="l00329"></a>00329         <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> j = 0; j &lt; maximum_number_of_items; ++j)
 <a name="l00330"></a>00330         {
 <a name="l00331"></a>00331             <span class="keywordflow">if</span> (model-&gt;getDeviation((*data)[j]) &lt; error_tolerance)
 <a name="l00332"></a>00332             {
@@ -311,8 +311,8 @@ function toggleVisibility(linkObj) {
 <a name="l00385"></a>00385     <span class="keyword">using namespace </span>std;
 <a name="l00386"></a>00386     <span class="keyword">using namespace </span>Tools;
 <a name="l00387"></a>00387 
-<a name="l00388"></a>00388     <span class="keyword">const</span> <span class="keywordtype">int</span> maximum_number_of_items = data-&gt;size();
-<a name="l00389"></a>00389     <span class="keyword">const</span> <span class="keywordtype">int</span> minimum_number_of_items = model-&gt;getMinimumNumberOfItems();
+<a name="l00388"></a>00388     <span class="keyword">const</span> <span class="keywordtype">unsigned</span> maximum_number_of_items = data-&gt;size();
+<a name="l00389"></a>00389     <span class="keyword">const</span> <span class="keywordtype">unsigned</span> minimum_number_of_items = model-&gt;getMinimumNumberOfItems();
 <a name="l00390"></a>00390 
 <a name="l00391"></a>00391     vector&lt;DataType&gt; initial_data_set(minimum_number_of_items);
 <a name="l00392"></a>00392     vector&lt;DataType&gt; consensus_set;
@@ -320,22 +320,22 @@ function toggleVisibility(linkObj) {
 <a name="l00394"></a>00394 
 <a name="l00395"></a>00395     <span class="comment">// For each trial...</span>
 <a name="l00396"></a>00396 
-<a name="l00397"></a>00397     <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; trials; ++i)
+<a name="l00397"></a>00397     <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> i = 0; i &lt; trials; ++i)
 <a name="l00398"></a>00398     {
 <a name="l00399"></a>00399         <span class="comment">// Randomly select items from the data set and use them</span>
 <a name="l00400"></a>00400         <span class="comment">// as an initial data set for the model fitting.</span>
 <a name="l00401"></a>00401 
 <a name="l00402"></a>00402         set&lt;int&gt; indices;
 <a name="l00403"></a>00403 
-<a name="l00404"></a>00404         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; minimum_number_of_items; ++j)
+<a name="l00404"></a>00404         <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> j = 0; j &lt; minimum_number_of_items; ++j)
 <a name="l00405"></a>00405         {
 <a name="l00406"></a>00406             <span class="comment">// Avoid using the same data point several times.</span>
 <a name="l00407"></a>00407 
-<a name="l00408"></a>00408             <span class="keywordtype">int</span> index = <a class="code" href="namespace_t_r_t_k_1_1_tools.html#a906509578c3f4dec953fa41ed8e06ec9" title="Random sample of the standard uniform distribution.">rand</a>(0, maximum_number_of_items - 1);;
+<a name="l00408"></a>00408             <span class="keywordtype">unsigned</span> index = <a class="code" href="namespace_t_r_t_k_1_1_tools.html#a906509578c3f4dec953fa41ed8e06ec9" title="Random sample of the standard uniform distribution.">rand</a>(0u, maximum_number_of_items - 1);;
 <a name="l00409"></a>00409 
 <a name="l00410"></a>00410             <span class="keywordflow">while</span> (indices.find(index) != indices.end())
 <a name="l00411"></a>00411             {
-<a name="l00412"></a>00412                 index = <a class="code" href="namespace_t_r_t_k_1_1_tools.html#a906509578c3f4dec953fa41ed8e06ec9" title="Random sample of the standard uniform distribution.">rand</a>(0, maximum_number_of_items - 1);
+<a name="l00412"></a>00412                 index = <a class="code" href="namespace_t_r_t_k_1_1_tools.html#a906509578c3f4dec953fa41ed8e06ec9" title="Random sample of the standard uniform distribution.">rand</a>(0u, maximum_number_of_items - 1);
 <a name="l00413"></a>00413             }
 <a name="l00414"></a>00414 
 <a name="l00415"></a>00415             indices.insert(index);
@@ -356,7 +356,7 @@ function toggleVisibility(linkObj) {
 <a name="l00430"></a>00430         consensus_set.clear();
 <a name="l00431"></a>00431         consensus_set.reserve(maximum_number_of_items);
 <a name="l00432"></a>00432 
-<a name="l00433"></a>00433         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; maximum_number_of_items; ++j)
+<a name="l00433"></a>00433         <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> j = 0; j &lt; maximum_number_of_items; ++j)
 <a name="l00434"></a>00434         {
 <a name="l00435"></a>00435             <span class="keywordflow">if</span> (model-&gt;getDeviation((*data)[j]) &lt; error_tolerance)
 <a name="l00436"></a>00436             {
@@ -391,38 +391,38 @@ function toggleVisibility(linkObj) {
 <a name="l00465"></a>00465 
 <a name="l00466"></a>00466 
 <a name="l00476"></a>00476 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T, <span class="keyword">class</span> DataType&gt;
-<a name="l00477"></a><a class="code" href="class_t_r_t_k_1_1_ransac.html#aa700ccdcaf9fd8182cd45abda03e895b">00477</a> <span class="keywordtype">unsigned</span> <a class="code" href="class_t_r_t_k_1_1_ransac.html" title="Robust model fitting.">Ransac&lt;T, DataType&gt;::algorithmRansacSmallestRms</a>()
+<a name="l00477"></a><a class="code" href="class_t_r_t_k_1_1_ransac.html#af2d410c8fd87c4dcc9aa14e01e280253">00477</a> <span class="keywordtype">unsigned</span> <a class="code" href="class_t_r_t_k_1_1_ransac.html" title="Robust model fitting.">Ransac&lt;T, DataType&gt;::algorithmRansacSmallestRmse</a>()
 <a name="l00478"></a>00478 {
 <a name="l00479"></a>00479     <span class="keyword">using namespace </span>std;
 <a name="l00480"></a>00480     <span class="keyword">using namespace </span>Tools;
 <a name="l00481"></a>00481 
-<a name="l00482"></a>00482     <span class="keyword">const</span> <span class="keywordtype">int</span> maximum_number_of_items = data-&gt;size();
-<a name="l00483"></a>00483     <span class="keyword">const</span> <span class="keywordtype">int</span> minimum_number_of_items = model-&gt;getMinimumNumberOfItems();
+<a name="l00482"></a>00482     <span class="keyword">const</span> <span class="keywordtype">unsigned</span> maximum_number_of_items = data-&gt;size();
+<a name="l00483"></a>00483     <span class="keyword">const</span> <span class="keywordtype">unsigned</span> minimum_number_of_items = model-&gt;getMinimumNumberOfItems();
 <a name="l00484"></a>00484 
 <a name="l00485"></a>00485     vector&lt;DataType&gt; initial_data_set(minimum_number_of_items);
 <a name="l00486"></a>00486     vector&lt;DataType&gt; consensus_set;
 <a name="l00487"></a>00487     vector&lt;DataType&gt; best_consensus_set;
 <a name="l00488"></a>00488 
-<a name="l00489"></a>00489     T rms = numeric_limits&lt;T&gt;::max();
+<a name="l00489"></a>00489     T rmse = numeric_limits&lt;T&gt;::max();
 <a name="l00490"></a>00490 
 <a name="l00491"></a>00491     <span class="comment">// For each trial...</span>
 <a name="l00492"></a>00492 
-<a name="l00493"></a>00493     <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; trials; ++i)
+<a name="l00493"></a>00493     <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> i = 0; i &lt; trials; ++i)
 <a name="l00494"></a>00494     {
 <a name="l00495"></a>00495         <span class="comment">// Randomly select items from the data set and use them</span>
 <a name="l00496"></a>00496         <span class="comment">// as an initial data set for the model fitting.</span>
 <a name="l00497"></a>00497 
 <a name="l00498"></a>00498         set&lt;int&gt; indices;
 <a name="l00499"></a>00499 
-<a name="l00500"></a>00500         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; minimum_number_of_items; ++j)
+<a name="l00500"></a>00500         <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> j = 0; j &lt; minimum_number_of_items; ++j)
 <a name="l00501"></a>00501         {
 <a name="l00502"></a>00502             <span class="comment">// Avoid using the same data point several times.</span>
 <a name="l00503"></a>00503 
-<a name="l00504"></a>00504             <span class="keywordtype">int</span> index = <a class="code" href="namespace_t_r_t_k_1_1_tools.html#a906509578c3f4dec953fa41ed8e06ec9" title="Random sample of the standard uniform distribution.">rand</a>(0, maximum_number_of_items - 1);;
+<a name="l00504"></a>00504             <span class="keywordtype">unsigned</span> index = <a class="code" href="namespace_t_r_t_k_1_1_tools.html#a906509578c3f4dec953fa41ed8e06ec9" title="Random sample of the standard uniform distribution.">rand</a>(0u, maximum_number_of_items - 1);;
 <a name="l00505"></a>00505 
 <a name="l00506"></a>00506             <span class="keywordflow">while</span> (indices.find(index) != indices.end())
 <a name="l00507"></a>00507             {
-<a name="l00508"></a>00508                 index = <a class="code" href="namespace_t_r_t_k_1_1_tools.html#a906509578c3f4dec953fa41ed8e06ec9" title="Random sample of the standard uniform distribution.">rand</a>(0, maximum_number_of_items - 1);
+<a name="l00508"></a>00508                 index = <a class="code" href="namespace_t_r_t_k_1_1_tools.html#a906509578c3f4dec953fa41ed8e06ec9" title="Random sample of the standard uniform distribution.">rand</a>(0u, maximum_number_of_items - 1);
 <a name="l00509"></a>00509             }
 <a name="l00510"></a>00510 
 <a name="l00511"></a>00511             indices.insert(index);
@@ -443,7 +443,7 @@ function toggleVisibility(linkObj) {
 <a name="l00526"></a>00526         consensus_set.clear();
 <a name="l00527"></a>00527         consensus_set.reserve(maximum_number_of_items);
 <a name="l00528"></a>00528 
-<a name="l00529"></a>00529         <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; maximum_number_of_items; ++j)
+<a name="l00529"></a>00529         <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> j = 0; j &lt; maximum_number_of_items; ++j)
 <a name="l00530"></a>00530         {
 <a name="l00531"></a>00531             <span class="keywordflow">if</span> (model-&gt;getDeviation((*data)[j]) &lt; error_tolerance)
 <a name="l00532"></a>00532             {
@@ -464,12 +464,12 @@ function toggleVisibility(linkObj) {
 <a name="l00547"></a>00547         model-&gt;setData(consensus_set);
 <a name="l00548"></a>00548         model-&gt;compute();
 <a name="l00549"></a>00549 
-<a name="l00550"></a>00550         T rms_current_model = model-&gt;getRMS();
+<a name="l00550"></a>00550         T rmse_current_model = model-&gt;getRMSE();
 <a name="l00551"></a>00551 
 <a name="l00552"></a>00552         <span class="comment">// Randomly select a new subset. Save the old consensus set</span>
 <a name="l00553"></a>00553         <span class="comment">// in case no better one is found.</span>
 <a name="l00554"></a>00554 
-<a name="l00555"></a>00555         <span class="keywordflow">if</span> (rms_current_model &lt; rms &amp;&amp; consensus_set.size() &gt;= minimumSetSize)
+<a name="l00555"></a>00555         <span class="keywordflow">if</span> (rmse_current_model &lt; rmse &amp;&amp; consensus_set.size() &gt;= minimumSetSize)
 <a name="l00556"></a>00556         {
 <a name="l00557"></a>00557             best_consensus_set = consensus_set;
 <a name="l00558"></a>00558         }
@@ -536,7 +536,7 @@ function toggleVisibility(linkObj) {
 <a name="l00644"></a>00644     <span class="keywordflow">if</span> (trials == 0)
 <a name="l00645"></a>00645     {
 <a name="l00646"></a>00646         <span class="keywordtype">int</span> n = model-&gt;getMinimumNumberOfItems();
-<a name="l00647"></a>00647         trials = ceil(3.0 * pow(probability, -T(n)));
+<a name="l00647"></a>00647         trials = unsigned(ceil(3.0 * pow(probability, -T(n))));
 <a name="l00648"></a>00648     }
 <a name="l00649"></a>00649 
 <a name="l00650"></a>00650     <span class="comment">// If no threshold is given, set it to 8/10 of the size of &quot;data&quot;.</span>
@@ -545,7 +545,7 @@ function toggleVisibility(linkObj) {
 <a name="l00653"></a>00653 
 <a name="l00654"></a>00654     <span class="keywordflow">if</span> (threshold == 0)
 <a name="l00655"></a>00655     {
-<a name="l00656"></a>00656         threshold = ceil(0.8 * data-&gt;size());
+<a name="l00656"></a>00656         threshold = unsigned(ceil(0.8 * data-&gt;size()));
 <a name="l00657"></a>00657     }
 <a name="l00658"></a>00658 
 <a name="l00659"></a>00659     <span class="comment">// If the minimum set size is greater than the size of &quot;data&quot; shrink</span>
@@ -589,9 +589,9 @@ function toggleVisibility(linkObj) {
 <a name="l00699"></a>00699             <span class="keywordflow">break</span>;
 <a name="l00700"></a>00700         }
 <a name="l00701"></a>00701 
-<a name="l00702"></a>00702         <span class="keywordflow">case</span> RANSAC_SMALLEST_RMS:
+<a name="l00702"></a>00702         <span class="keywordflow">case</span> RANSAC_SMALLEST_RMSE:
 <a name="l00703"></a>00703         {
-<a name="l00704"></a>00704             this-&gt;algorithm = &amp;<a class="code" href="class_t_r_t_k_1_1_ransac.html#aa700ccdcaf9fd8182cd45abda03e895b" title="Modified version of the RANSAC algorithm as described by Fischler and Bolles.">Ransac::algorithmRansacSmallestRms</a>;
+<a name="l00704"></a>00704             this-&gt;algorithm = &amp;<a class="code" href="class_t_r_t_k_1_1_ransac.html#af2d410c8fd87c4dcc9aa14e01e280253" title="Modified version of the RANSAC algorithm as described by Fischler and Bolles.">Ransac::algorithmRansacSmallestRmse</a>;
 <a name="l00705"></a>00705             <span class="keywordflow">break</span>;
 <a name="l00706"></a>00706         }
 <a name="l00707"></a>00707 

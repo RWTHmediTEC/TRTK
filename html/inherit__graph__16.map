@@ -1,3 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node1" href="$class_t_r_t_k_1_1_pivot_calibration.html" title="This class performs a pivot calibration providing a defined translation between a tool tip and its se..." alt="" coords="5,5,191,32"/>
+<area shape="rect" id="node1" href="$class_t_r_t_k_1_1_pivot_calibration.html" title="This is the common interface for all pivot&#45;point&#45;calibration classes." alt="" coords="5,56,191,83"/>
+<area shape="rect" id="node2" href="$class_t_r_t_k_1_1_pivot_calibration_combinatorial_approach.html" title="Pivot point calibration." alt="" coords="239,5,557,32"/>
+<area shape="rect" id="node3" href="$class_t_r_t_k_1_1_pivot_calibration_p_a_t_m.html" title="Pivot point calibration." alt="" coords="289,56,507,83"/>
+<area shape="rect" id="node4" href="$class_t_r_t_k_1_1_pivot_calibration_two_step.html" title="Pivot point calibration." alt="" coords="280,107,516,133"/>
 </map>

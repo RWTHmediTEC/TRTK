@@ -179,16 +179,6 @@ Public Member Functions</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets the transformation.  <a href="#a3532321fbca9d324c323e6390ec637a4"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3d19ccc3fe491cc2d39b259bad7ee184"></a><!-- doxytag: member="TRTK::GenericPolynomial::setDegree" ref="a3d19ccc3fe491cc2d39b259bad7ee184" args="(unsigned degree)" -->
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setDegree</b> (unsigned degree)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_polynomial.html#a14afaa2f9837346fc0516ec195aff29b">estimate</a> (<a class="el" href="class_t_r_t_k_1_1_range.html">Range</a>&lt; <a class="el" href="class_t_r_t_k_1_1_coordinate.html">Point</a> &gt; source_points, <a class="el" href="class_t_r_t_k_1_1_range.html">Range</a>&lt; <a class="el" href="class_t_r_t_k_1_1_coordinate.html">Point</a> &gt; target_points, <a class="el" href="class_t_r_t_k_1_1_range.html">Range</a>&lt; T &gt; weights=<a class="el" href="class_t_r_t_k_1_1_range.html">Range</a>&lt; T &gt;())=0</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Estimates the polynomial function from two corresponding point sets; points can be weighted.  <a href="#a14afaa2f9837346fc0516ec195aff29b"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_polynomial.html#a3db6ca2be19b1d47645a38cd0c4bac8a">estimate</a> (<a class="el" href="class_t_r_t_k_1_1_iterator.html">Iterator</a>&lt; <a class="el" href="class_t_r_t_k_1_1_coordinate.html">Point</a> &gt; source_points_first, <a class="el" href="class_t_r_t_k_1_1_iterator.html">Iterator</a>&lt; <a class="el" href="class_t_r_t_k_1_1_coordinate.html">Point</a> &gt; source_points_last, <a class="el" href="class_t_r_t_k_1_1_iterator.html">Iterator</a>&lt; <a class="el" href="class_t_r_t_k_1_1_coordinate.html">Point</a> &gt; target_points_first, <a class="el" href="class_t_r_t_k_1_1_iterator.html">Iterator</a>&lt; <a class="el" href="class_t_r_t_k_1_1_coordinate.html">Point</a> &gt; target_points_last, <a class="el" href="class_t_r_t_k_1_1_iterator.html">Iterator</a>&lt; T &gt; weights_first=<a class="el" href="class_t_r_t_k_1_1_iterator.html">Iterator</a>&lt; T &gt;(), <a class="el" href="class_t_r_t_k_1_1_iterator.html">Iterator</a>&lt; T &gt; weights_last=<a class="el" href="class_t_r_t_k_1_1_iterator.html">Iterator</a>&lt; T &gt;())=0</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Estimates the polynomial function from two corresponding point sets; points can be weighted.  <a href="#a3db6ca2be19b1d47645a38cd0c4bac8a"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5d3ae73a98df380a41678f3d623b8f9d"></a><!-- doxytag: member="TRTK::GenericPolynomial::operator*" ref="a5d3ae73a98df380a41678f3d623b8f9d" args="(const Point &amp;) const =0" -->
-virtual <a class="el" href="class_t_r_t_k_1_1_coordinate.html">Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_polynomial.html#a5d3ae73a98df380a41678f3d623b8f9d">operator*</a> (const <a class="el" href="class_t_r_t_k_1_1_coordinate.html">Point</a> &amp;) const =0</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Transforms a point with the internally saved transformation. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a640bf2f4a3c172ecd3c913a3a193de3b"></a><!-- doxytag: member="TRTK::GenericPolynomial::transform" ref="a640bf2f4a3c172ecd3c913a3a193de3b" args="(const Point &amp;) const =0" -->
-virtual <a class="el" href="class_t_r_t_k_1_1_coordinate.html">Point</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_polynomial.html#a640bf2f4a3c172ecd3c913a3a193de3b">transform</a> (const <a class="el" href="class_t_r_t_k_1_1_coordinate.html">Point</a> &amp;) const =0</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Transforms a point with the internally saved transformation. <br/></td></tr>
 <tr><td colspan="2"><h2><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeb1a615a6ee2220eddfb9772c5b05193"></a><!-- doxytag: member="TRTK::GenericPolynomial::value_type" ref="aeb1a615a6ee2220eddfb9772c5b05193" args="" -->
@@ -603,7 +593,7 @@ template&lt;class T&gt; </div>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td><code> [virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -626,6 +616,8 @@ template&lt;class T&gt; </div>
   </table>
   </dd>
 </dl>
+
+<p>Implements <a class="el" href="class_t_r_t_k_1_1_polynomial.html#a14afaa2f9837346fc0516ec195aff29b">TRTK::Polynomial&lt; T &gt;</a>.</p>
 
 <p>Definition at line <a class="el" href="_generic_polynomial_8hpp_source.html#l00649">649</a> of file <a class="el" href="_generic_polynomial_8hpp_source.html">GenericPolynomial.hpp</a>.</p>
 
@@ -676,7 +668,7 @@ template&lt;class T&gt; </div>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td><code> [virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -700,146 +692,9 @@ template&lt;class T&gt; </div>
   </dd>
 </dl>
 
+<p>Implements <a class="el" href="class_t_r_t_k_1_1_polynomial.html#a3db6ca2be19b1d47645a38cd0c4bac8a">TRTK::Polynomial&lt; T &gt;</a>.</p>
+
 <p>Definition at line <a class="el" href="_generic_polynomial_8hpp_source.html#l00681">681</a> of file <a class="el" href="_generic_polynomial_8hpp_source.html">GenericPolynomial.hpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a14afaa2f9837346fc0516ec195aff29b"></a><!-- doxytag: member="TRTK::GenericPolynomial::estimate" ref="a14afaa2f9837346fc0516ec195aff29b" args="(Range&lt; Point &gt; source_points, Range&lt; Point &gt; target_points, Range&lt; T &gt; weights=Range&lt; T &gt;())=0" -->
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class T&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">T <a class="el" href="class_t_r_t_k_1_1_polynomial.html">TRTK::Polynomial</a>&lt; T &gt;::estimate </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_t_r_t_k_1_1_range.html">Range</a>&lt; <a class="el" href="class_t_r_t_k_1_1_coordinate.html">Point</a> &gt;&#160;</td>
-          <td class="paramname"> <em>source_points</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_t_r_t_k_1_1_range.html">Range</a>&lt; <a class="el" href="class_t_r_t_k_1_1_coordinate.html">Point</a> &gt;&#160;</td>
-          <td class="paramname"> <em>target_points</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_t_r_t_k_1_1_range.html">Range</a>&lt; T &gt;&#160;</td>
-          <td class="paramname"> <em>weights</em> = <code><a class="el" href="class_t_r_t_k_1_1_range.html">Range</a>&lt;T&gt;()</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td><code> [pure virtual, inherited]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Estimates the polynomial function from two corresponding point sets; points can be weighted. </p>
-<dl><dt><b>Template Parameters:</b></dt><dd>
-  <table class="">
-    <tr><td class="paramname">T</td><td>scalar type</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>The input parameters are ranges <code>[first, last)</code> of a sequence (e.g. a STL container like <code>vector</code>). The last elements are not included in the ranges which coincides with the convention in the STL.</p>
-<p>Source and target points as well as weights must correspond to each other. If no weights are given the weights are assumed to be equal to one.</p>
-<p>Example:</p>
-<div class="fragment"><pre class="fragment"> <span class="keyword">typedef</span> Polynomial&lt;double&gt;::Point Point;
-
- vector&lt;Point&gt; source_points;
- vector&lt;Point&gt; target_points;
-
- <span class="comment">// ...</span>
-
- Polynomial&lt;double&gt; * polynomial = <span class="keyword">new</span> ConcretePolynomial&lt;double&gt;;
-
- polynomial-&gt;estimate(make_range(source_points), make_range(target_points));
-</pre></div><dl class="return"><dt><b>Returns:</b></dt><dd>Returns the RMSE of the estimated transformation. </dd></dl>
-
-<p>Implemented in <a class="el" href="class_t_r_t_k_1_1_trivariate_quadratic_polynomial.html#a684e24ee38e2b91120101a7f3383cbc0">TRTK::TrivariateQuadraticPolynomial&lt; T &gt;</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a3db6ca2be19b1d47645a38cd0c4bac8a"></a><!-- doxytag: member="TRTK::GenericPolynomial::estimate" ref="a3db6ca2be19b1d47645a38cd0c4bac8a" args="(Iterator&lt; Point &gt; source_points_first, Iterator&lt; Point &gt; source_points_last, Iterator&lt; Point &gt; target_points_first, Iterator&lt; Point &gt; target_points_last, Iterator&lt; T &gt; weights_first=Iterator&lt; T &gt;(), Iterator&lt; T &gt; weights_last=Iterator&lt; T &gt;())=0" -->
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class T&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">T <a class="el" href="class_t_r_t_k_1_1_polynomial.html">TRTK::Polynomial</a>&lt; T &gt;::estimate </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_t_r_t_k_1_1_iterator.html">Iterator</a>&lt; <a class="el" href="class_t_r_t_k_1_1_coordinate.html">Point</a> &gt;&#160;</td>
-          <td class="paramname"> <em>source_points_first</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_t_r_t_k_1_1_iterator.html">Iterator</a>&lt; <a class="el" href="class_t_r_t_k_1_1_coordinate.html">Point</a> &gt;&#160;</td>
-          <td class="paramname"> <em>source_points_last</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_t_r_t_k_1_1_iterator.html">Iterator</a>&lt; <a class="el" href="class_t_r_t_k_1_1_coordinate.html">Point</a> &gt;&#160;</td>
-          <td class="paramname"> <em>target_points_first</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_t_r_t_k_1_1_iterator.html">Iterator</a>&lt; <a class="el" href="class_t_r_t_k_1_1_coordinate.html">Point</a> &gt;&#160;</td>
-          <td class="paramname"> <em>target_points_last</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_t_r_t_k_1_1_iterator.html">Iterator</a>&lt; T &gt;&#160;</td>
-          <td class="paramname"> <em>weights_first</em> = <code><a class="el" href="class_t_r_t_k_1_1_iterator.html">Iterator</a>&lt;T&gt;()</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_t_r_t_k_1_1_iterator.html">Iterator</a>&lt; T &gt;&#160;</td>
-          <td class="paramname"> <em>weights_last</em> = <code><a class="el" href="class_t_r_t_k_1_1_iterator.html">Iterator</a>&lt;T&gt;()</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td><code> [pure virtual, inherited]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Estimates the polynomial function from two corresponding point sets; points can be weighted. </p>
-<dl><dt><b>Template Parameters:</b></dt><dd>
-  <table class="">
-    <tr><td class="paramname">T</td><td>scalar type</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>The input parameters are ranges <code>[first, last)</code> of a sequence (e.g. a STL container like <code>vector</code>). The last elements are not included in the ranges which coincides with the convention in the STL.</p>
-<p>Source and target points as well as weights must correspond to each other. If no weights are given the weights are assumed to be equal to one.</p>
-<p>Example:</p>
-<div class="fragment"><pre class="fragment"> <span class="keyword">typedef</span> Polynomial&lt;double&gt;::Point Point;
-
- vector&lt;Point&gt; source_points;
- vector&lt;Point&gt; target_points;
-
- <span class="comment">// ...</span>
-
- Polynomial&lt;double&gt; * polynomial = <span class="keyword">new</span> ConcretePolynomial&lt;double&gt;;
-
- polynomial-&gt;estimate(make_iterator(source_points.begin()),
-                      make_iterator(source_points.end()),
-                      make_iterator(target_points.begin()),
-                      make_iterator(target_points.end()));
-</pre></div><dl class="return"><dt><b>Returns:</b></dt><dd>Returns the RMSE of the estimated transformation. </dd></dl>
-
-<p>Implemented in <a class="el" href="class_t_r_t_k_1_1_trivariate_quadratic_polynomial.html#ab1d742c93fec7181637e2af53600bb9e">TRTK::TrivariateQuadraticPolynomial&lt; T &gt;</a>.</p>
 
 </div>
 </div>
@@ -914,7 +769,7 @@ template&lt;class T &gt; </div>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="class_t_r_t_k_1_1_coordinate.html">Point</a> &amp;&#160;</td>
           <td class="paramname"> <em>point</em>&#160;)</td>
-          <td> const</td>
+          <td> const<code> [virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -934,6 +789,8 @@ template&lt;class T &gt; </div>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Transformed point. </dd></dl>
+
+<p>Implements <a class="el" href="class_t_r_t_k_1_1_polynomial.html#a5d3ae73a98df380a41678f3d623b8f9d">TRTK::Polynomial&lt; T &gt;</a>.</p>
 
 <p>Definition at line <a class="el" href="_generic_polynomial_8hpp_source.html#l00864">864</a> of file <a class="el" href="_generic_polynomial_8hpp_source.html">GenericPolynomial.hpp</a>.</p>
 
@@ -987,7 +844,7 @@ template&lt;class T &gt; </div>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="class_t_r_t_k_1_1_coordinate.html">Point</a> &amp;&#160;</td>
           <td class="paramname"> <em>point</em>&#160;)</td>
-          <td> const</td>
+          <td> const<code> [virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -1007,6 +864,8 @@ template&lt;class T &gt; </div>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Transformed point. </dd></dl>
+
+<p>Implements <a class="el" href="class_t_r_t_k_1_1_polynomial.html#a640bf2f4a3c172ecd3c913a3a193de3b">TRTK::Polynomial&lt; T &gt;</a>.</p>
 
 <p>Definition at line <a class="el" href="_generic_polynomial_8hpp_source.html#l00914">914</a> of file <a class="el" href="_generic_polynomial_8hpp_source.html">GenericPolynomial.hpp</a>.</p>
 

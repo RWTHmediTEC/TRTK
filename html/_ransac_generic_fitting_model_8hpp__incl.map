@@ -1,7 +1,7 @@
 <map id="G" name="G">
-<area shape="rect" id="node2" href="$_fit_8hpp.html" title="This file contains the base class for all fitting classes." alt="" coords="344,80,405,107"/>
-<area shape="rect" id="node21" href="$_ransac_8hpp.html" title="This file contains the Ransac class." alt="" coords="769,80,857,107"/>
-<area shape="rect" id="node5" href="$_coordinate_8hpp.html" title="This file contains the Coordinate class and related functions." alt="" coords="404,155,513,181"/>
+<area shape="rect" id="node2" href="$_fit_8hpp.html" title="This file contains the base class for all fitting classes." alt="" coords="361,80,423,107"/>
+<area shape="rect" id="node22" href="$_ransac_8hpp.html" title="This file contains the Ransac class." alt="" coords="668,80,756,107"/>
+<area shape="rect" id="node5" href="$_coordinate_8hpp.html" title="This file contains the Coordinate class and related functions." alt="" coords="421,155,531,181"/>
 <area shape="rect" id="node10" href="$_tools_8hpp.html" title="This file contains various helper functions." alt="" coords="233,229,311,256"/>
-<area shape="rect" id="node18" href="$_error_obj_8hpp.html" title="This file contains the declaration of the ErrorObj class." alt="" coords="775,229,871,256"/>
+<area shape="rect" id="node19" href="$_error_obj_8hpp.html" title="This file contains the declaration of the ErrorObj class." alt="" coords="927,229,1023,256"/>
 </map>

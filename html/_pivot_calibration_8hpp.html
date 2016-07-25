@@ -100,11 +100,14 @@ function toggleVisibility(linkObj) {
 
 <p>This file contains the <a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html">PivotCalibration</a> class.  
 <a href="#_details">More...</a></p>
+<code>#include &lt;utility&gt;</code><br/>
 <code>#include &lt;vector&gt;</code><br/>
-<code>#include &lt;Eigen/StdVector&gt;</code><br/>
+<code>#include &lt;Eigen/Dense&gt;</code><br/>
+<code>#include &lt;Eigen/Eigenvalues&gt;</code><br/>
 <code>#include &quot;<a class="el" href="_error_obj_8hpp_source.html">ErrorObj.hpp</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_coordinate_8hpp_source.html">Coordinate.hpp</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_fit_sphere_8hpp_source.html">FitSphere.hpp</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_range_8hpp_source.html">Range.hpp</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_transform3_d_8hpp_source.html">Transform3D.hpp</a>&quot;</code><br/>
 <!-- startSectionHeader --><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png"/> Include dependency graph for PivotCalibration.hpp:<!-- endSectionHeader --></div>
@@ -113,7 +116,16 @@ function toggleVisibility(linkObj) {
 <!-- startSectionContent --><div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="_pivot_calibration_8hpp__incl.png" border="0" usemap="#_d_1_2_users_2haenisch_2_programmierung_2_c_09_09_2_t_r_t_k_2include_2_t_r_t_k_2_pivot_calibration_8hpp" alt=""/></div>
 <map name="_d_1_2_users_2haenisch_2_programmierung_2_c_09_09_2_t_r_t_k_2include_2_t_r_t_k_2_pivot_calibration_8hpp" id="_d_1_2_users_2haenisch_2_programmierung_2_c_09_09_2_t_r_t_k_2include_2_t_r_t_k_2_pivot_calibration_8hpp">
-<area shape="rect" id="node4" href="_error_obj_8hpp.html" title="This file contains the declaration of the ErrorObj class." alt="" coords="1137,379,1233,405"/><area shape="rect" id="node7" href="_coordinate_8hpp.html" title="This file contains the Coordinate class and related functions." alt="" coords="705,304,814,331"/><area shape="rect" id="node21" href="_fit_sphere_8hpp.html" title="This file contains the FitSphere class." alt="" coords="315,80,417,107"/><area shape="rect" id="node24" href="_transform3_d_8hpp.html" title="This file contains the Transform3D class." alt="" coords="809,229,931,256"/><area shape="rect" id="node13" href="_tools_8hpp.html" title="This file contains various helper functions." alt="" coords="831,379,909,405"/><area shape="rect" id="node23" href="_fit3_d_8hpp.html" title="This file contains the base class for all 3D fitting classes." alt="" coords="576,155,652,181"/><area shape="rect" id="node25" href="_fit_8hpp.html" title="This file contains the base class for all fitting classes." alt="" coords="618,229,679,256"/></map>
+<area shape="rect" id="node6" href="_error_obj_8hpp.html" title="This file contains the declaration of the ErrorObj class." alt="" coords="43,379,139,405"/><area shape="rect" id="node9" href="_coordinate_8hpp.html" title="This file contains the Coordinate class and related functions." alt="" coords="467,304,577,331"/><area shape="rect" id="node22" href="_fit_sphere_8hpp.html" title="This file contains the FitSphere class." alt="" coords="605,80,708,107"/><area shape="rect" id="node26" href="_transform3_d_8hpp.html" title="This file contains the Transform3D class." alt="" coords="645,229,767,256"/><area shape="rect" id="node28" href="_range_8hpp.html" title="This file contains the Range class as well as some helper functions." alt="" coords="1337,80,1419,107"/><area shape="rect" id="node14" href="_tools_8hpp.html" title="This file contains various helper functions." alt="" coords="568,379,647,405"/><area shape="rect" id="node25" href="_fit3_d_8hpp.html" title="This file contains the base class for all 3D fitting classes." alt="" coords="668,155,744,181"/><area shape="rect" id="node27" href="_fit_8hpp.html" title="This file contains the base class for all fitting classes." alt="" coords="559,229,621,256"/><area shape="rect" id="node29" href="_iterator_8hpp.html" title="This file contains the Iterator and IteratorAdapterclasses." alt="" coords="1335,155,1426,181"/></map>
+<!-- endSectionContent --></div>
+<!-- startSectionHeader --><div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="closed.png"/> This graph shows which files directly or indirectly include this file:<!-- endSectionHeader --></div>
+<!-- startSectionSummary --><div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+<!-- endSectionSummary --></div>
+<!-- startSectionContent --><div id="dynsection-1-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="_pivot_calibration_8hpp__dep__incl.png" border="0" usemap="#_d_1_2_users_2haenisch_2_programmierung_2_c_09_09_2_t_r_t_k_2include_2_t_r_t_k_2_pivot_calibration_8hppdep" alt=""/></div>
+<map name="_d_1_2_users_2haenisch_2_programmierung_2_c_09_09_2_t_r_t_k_2include_2_t_r_t_k_2_pivot_calibration_8hppdep" id="_d_1_2_users_2haenisch_2_programmierung_2_c_09_09_2_t_r_t_k_2include_2_t_r_t_k_2_pivot_calibration_8hppdep">
+<area shape="rect" id="node2" href="_ransac_pivot_calibration_model_8hpp.html" title="This file contains the RansacPivotCalibrationModel class." alt="" coords="5,80,572,107"/></map>
 <!-- endSectionContent --></div>
 
 <p><a href="_pivot_calibration_8hpp_source.html">Go to the source code of this file.</a></p>
@@ -121,7 +133,13 @@ function toggleVisibility(linkObj) {
 <tr><td colspan="2"><h2><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html">TRTK::PivotCalibration&lt; T &gt;</a></td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">This class performs a pivot calibration providing a defined translation between a tool tip and its sensor system.  <a href="class_t_r_t_k_1_1_pivot_calibration.html#_details">More...</a><br/></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">This is the common interface for all pivot-point-calibration classes.  <a href="class_t_r_t_k_1_1_pivot_calibration.html#_details">More...</a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration_combinatorial_approach.html">TRTK::PivotCalibrationCombinatorialApproach&lt; T &gt;</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Pivot point calibration.  <a href="class_t_r_t_k_1_1_pivot_calibration_combinatorial_approach.html#_details">More...</a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration_p_a_t_m.html">TRTK::PivotCalibrationPATM&lt; T &gt;</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Pivot point calibration.  <a href="class_t_r_t_k_1_1_pivot_calibration_p_a_t_m.html#_details">More...</a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration_two_step.html">TRTK::PivotCalibrationTwoStep&lt; T &gt;</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Pivot point calibration.  <a href="class_t_r_t_k_1_1_pivot_calibration_two_step.html#_details">More...</a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_t_r_t_k.html">TRTK</a></td></tr>

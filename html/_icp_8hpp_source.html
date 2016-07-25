@@ -872,7 +872,7 @@ function toggleVisibility(linkObj) {
 <a name="l01094"></a>01094 
 <a name="l01095"></a>01095         <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> n = 0; n &lt; size; ++n)
 <a name="l01096"></a>01096         {
-<a name="l01097"></a>01097             <span class="keywordflow">if</span> (<a class="code" href="namespace_t_r_t_k_1_1_tools.html#a906509578c3f4dec953fa41ed8e06ec9" title="Random sample of the standard uniform distribution.">Tools::rand</a>(0, 100) &gt; percentage) <span class="keywordflow">continue</span>; <span class="comment">// randomly select points</span>
+<a name="l01097"></a>01097             <span class="keywordflow">if</span> (<a class="code" href="namespace_t_r_t_k_1_1_tools.html#a906509578c3f4dec953fa41ed8e06ec9" title="Random sample of the standard uniform distribution.">Tools::rand</a>(0u, 100u) &gt; percentage) <span class="keywordflow">continue</span>; <span class="comment">// randomly select points</span>
 <a name="l01098"></a>01098 
 <a name="l01099"></a>01099             <a class="code" href="class_t_r_t_k_1_1_coordinate.html">Coordinate&lt;ValueType&gt;</a> source_point = (*this-&gt;source_points)[n];
 <a name="l01100"></a>01100 

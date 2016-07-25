@@ -116,7 +116,7 @@ function toggleVisibility(linkObj) {
 <!-- startSectionContent --><div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="class_t_r_t_k_1_1_ransac_1_1_model__inherit__graph.png" border="0" usemap="#_t_r_t_k_1_1_ransac_3_01_t_00_01_data_type_01_4_1_1_model_inherit__map" alt="Inheritance graph"/></div>
 <map name="_t_r_t_k_1_1_ransac_3_01_t_00_01_data_type_01_4_1_1_model_inherit__map" id="_t_r_t_k_1_1_ransac_3_01_t_00_01_data_type_01_4_1_1_model_inherit__map">
-<area shape="rect" id="node2" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html" title="This class implements the Ransac::Model interface for all fitting classes." alt="" coords="5,80,256,107"/></map>
+<area shape="rect" id="node2" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html" title="This class implements the Ransac::Model interface for all fitting classes." alt="" coords="5,80,256,107"/><area shape="rect" id="node3" href="class_t_r_t_k_1_1_ransac_pivot_calibration_model.html" title="This class implements the Ransac::Model interface for all PivotCalibration classes." alt="" coords="281,80,541,107"/></map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center><!-- endSectionContent --></div>
 
 <p><a href="class_t_r_t_k_1_1_ransac_1_1_model-members.html">List of all members.</a></p>
@@ -132,12 +132,12 @@ virtual T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5594c16171e813b146e00140a10d69b4"></a><!-- doxytag: member="TRTK::Ransac::Model::getMinimumNumberOfItems" ref="a5594c16171e813b146e00140a10d69b4" args="() const =0" -->
 virtual unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_ransac_1_1_model.html#a5594c16171e813b146e00140a10d69b4">getMinimumNumberOfItems</a> () const =0</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the minimum number of items required to compute the model. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae7356b079ac2534b4c1710b0e921847b"></a><!-- doxytag: member="TRTK::Ransac::Model::getRMS" ref="ae7356b079ac2534b4c1710b0e921847b" args="() const =0" -->
-virtual T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_ransac_1_1_model.html#ae7356b079ac2534b4c1710b0e921847b">getRMS</a> () const =0</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a81c2c6e38dfbb09b071178325ceaf63a"></a><!-- doxytag: member="TRTK::Ransac::Model::getRMSE" ref="a81c2c6e38dfbb09b071178325ceaf63a" args="() const =0" -->
+virtual T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_ransac_1_1_model.html#a81c2c6e38dfbb09b071178325ceaf63a">getRMSE</a> () const =0</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the root mean square error of the estimated regression model. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa4218f92329329dcfae6b95cdc9ac5a6"></a><!-- doxytag: member="TRTK::Ransac::Model::setData" ref="aa4218f92329329dcfae6b95cdc9ac5a6" args="(const std::vector&lt; DataType &gt; &amp;data)=0" -->
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_ransac_1_1_model.html#aa4218f92329329dcfae6b95cdc9ac5a6">setData</a> (const std::vector&lt; DataType &gt; &amp;data)=0</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the sample data. <br/></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the sample data. No data is copied but a reference is stored. <br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <h3>template&lt;class T, class DataType = Coordinate&lt;T&gt;&gt;<br/>

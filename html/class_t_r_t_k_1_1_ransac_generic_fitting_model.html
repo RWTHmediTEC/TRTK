@@ -131,8 +131,8 @@ function toggleVisibility(linkObj) {
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#a926b14dda6f6cdabac710d241295c8c1">RansacGenericFittingModel</a> (<a class="el" href="class_t_r_t_k_1_1_fit.html">Fit</a>&lt; T &gt; &amp;model)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an instance of <a class="el" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html" title="This class implements the Ransac::Model interface for all fitting classes.">RansacGenericFittingModel</a>.  <a href="#a926b14dda6f6cdabac710d241295c8c1"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#a6021100e82c69883aa836fb122101327">RansacGenericFittingModel</a> (<a class="el" href="class_t_r_t_k_1_1_fit.html">Fit</a>&lt; T &gt; &amp;estimator)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an instance of <a class="el" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html" title="This class implements the Ransac::Model interface for all fitting classes.">RansacGenericFittingModel</a>.  <a href="#a6021100e82c69883aa836fb122101327"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abeea641dc6c72b3c3865eba92334abcf"></a><!-- doxytag: member="TRTK::RansacGenericFittingModel::compute" ref="abeea641dc6c72b3c3865eba92334abcf" args="()" -->
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#abeea641dc6c72b3c3865eba92334abcf">compute</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Estimates the model parameters. <br/></td></tr>
@@ -148,15 +148,18 @@ T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeffc76b927df8c1e5dcfd992d0983da8"></a><!-- doxytag: member="TRTK::RansacGenericFittingModel::setData" ref="aeffc76b927df8c1e5dcfd992d0983da8" args="(const std::vector&lt; Coordinate&lt; T &gt; &gt; &amp;data)" -->
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#aeffc76b927df8c1e5dcfd992d0983da8">setData</a> (const std::vector&lt; <a class="el" href="class_t_r_t_k_1_1_coordinate.html">Coordinate</a>&lt; T &gt; &gt; &amp;data)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the sample data. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a95b2a6b9daab02c0bed1b2079989b45e"></a><!-- doxytag: member="TRTK::RansacGenericFittingModel::setFittingModel" ref="a95b2a6b9daab02c0bed1b2079989b45e" args="(Fit&lt; T &gt; &amp;model)" -->
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#a95b2a6b9daab02c0bed1b2079989b45e">setFittingModel</a> (<a class="el" href="class_t_r_t_k_1_1_fit.html">Fit</a>&lt; T &gt; &amp;model)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the <a class="el" href="class_t_r_t_k_1_1_fit.html">fitting model</a>. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4fae46857ed823784394cc176e0afb0b"></a><!-- doxytag: member="TRTK::RansacGenericFittingModel::setEstimator" ref="a4fae46857ed823784394cc176e0afb0b" args="(Fit&lt; T &gt; &amp;estimator)" -->
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html#a4fae46857ed823784394cc176e0afb0b">setEstimator</a> (<a class="el" href="class_t_r_t_k_1_1_fit.html">Fit</a>&lt; T &gt; &amp;estimator)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the <a class="el" href="class_t_r_t_k_1_1_fit.html">fitting class instance</a>. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a88657477c11b6b2bfe0d075f5d607357"></a><!-- doxytag: member="TRTK::RansacGenericFittingModel::getDeviation" ref="a88657477c11b6b2bfe0d075f5d607357" args="(const DataType &amp;datum) const =0" -->
 virtual T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_ransac_1_1_model.html#a88657477c11b6b2bfe0d075f5d607357">getDeviation</a> (const DataType &amp;datum) const =0</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the amount of how much a datum deviates from the model. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a81c2c6e38dfbb09b071178325ceaf63a"></a><!-- doxytag: member="TRTK::RansacGenericFittingModel::getRMSE" ref="a81c2c6e38dfbb09b071178325ceaf63a" args="() const =0" -->
+virtual T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_ransac_1_1_model.html#a81c2c6e38dfbb09b071178325ceaf63a">getRMSE</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the root mean square error of the estimated regression model. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa4218f92329329dcfae6b95cdc9ac5a6"></a><!-- doxytag: member="TRTK::RansacGenericFittingModel::setData" ref="aa4218f92329329dcfae6b95cdc9ac5a6" args="(const std::vector&lt; DataType &gt; &amp;data)=0" -->
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_ransac_1_1_model.html#aa4218f92329329dcfae6b95cdc9ac5a6">setData</a> (const std::vector&lt; DataType &gt; &amp;data)=0</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the sample data. <br/></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the sample data. No data is copied but a reference is stored. <br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <h3>template&lt;class T&gt;<br/>
@@ -267,7 +270,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 
 <p>Definition at line <a class="el" href="_ransac_generic_fitting_model_8hpp_source.html#l00140">140</a> of file <a class="el" href="_ransac_generic_fitting_model_8hpp_source.html">RansacGenericFittingModel.hpp</a>.</p>
 <hr/><h2>Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a926b14dda6f6cdabac710d241295c8c1"></a><!-- doxytag: member="TRTK::RansacGenericFittingModel::RansacGenericFittingModel" ref="a926b14dda6f6cdabac710d241295c8c1" args="(Fit&lt; T &gt; &amp;model)" -->
+<a class="anchor" id="a6021100e82c69883aa836fb122101327"></a><!-- doxytag: member="TRTK::RansacGenericFittingModel::RansacGenericFittingModel" ref="a6021100e82c69883aa836fb122101327" args="(Fit&lt; T &gt; &amp;estimator)" -->
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -277,7 +280,7 @@ template&lt;class T &gt; </div>
           <td class="memname"><a class="el" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html">TRTK::RansacGenericFittingModel</a>&lt; T &gt;::<a class="el" href="class_t_r_t_k_1_1_ransac_generic_fitting_model.html">RansacGenericFittingModel</a> </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_t_r_t_k_1_1_fit.html">Fit</a>&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"> <em>model</em>&#160;)</td>
+          <td class="paramname"> <em>estimator</em>&#160;)</td>
           <td></td>
         </tr>
       </table>
