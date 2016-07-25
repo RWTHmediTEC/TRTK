@@ -144,7 +144,7 @@ class RansacGenericFittingModel : public Ransac<T>::Model
 {
 public:
 
-    RansacGenericFittingModel(Fit<T> & model);
+    RansacGenericFittingModel(Fit<T> & estimator);
     virtual ~RansacGenericFittingModel();
 
     void compute();                                             ///< Estimates the model parameters.
@@ -152,11 +152,11 @@ public:
     unsigned getMinimumNumberOfItems() const;                   ///< Returns the minimum number of items required to compute the model.
     T getRMS() const;                                           ///< Returns the root mean square error of the estimated regression model.
     void setData(const std::vector<Coordinate<T> > & data);     ///< Sets the sample data.
-    void setFittingModel(Fit<T> & model);                       ///< Sets the \ref Fit "fitting model".
+    void setEstimator(Fit<T> & estimator);                      ///< Sets the \ref Fit "fitting class instance".
 
 private:
 
-    Fit<T> * model;
+    Fit<T> * estimator;
 };
 
 
@@ -166,8 +166,7 @@ private:
   */
 
 template<class T>
-RansacGenericFittingModel<T>::RansacGenericFittingModel(Fit<T> & model) :
-    model(&model)
+RansacGenericFittingModel<T>::RansacGenericFittingModel(Fit<T> & estimator) : estimator(&estimator)
 {
 }
 
@@ -181,42 +180,42 @@ RansacGenericFittingModel<T>::~RansacGenericFittingModel()
 template<class T>
 void RansacGenericFittingModel<T>::compute()
 {
-    model->compute();
+    estimator->compute();
 }
 
 
 template<class T>
 T RansacGenericFittingModel<T>::getDeviation(const Coordinate<T> & datum) const
 {
-    return model->getDistanceTo(datum);
+    return estimator->getDistanceTo(datum);
 }
 
 
 template<class T>
 unsigned RansacGenericFittingModel<T>::getMinimumNumberOfItems() const
 {
-    return model->getNumberPointsRequired();
+    return estimator->getNumberPointsRequired();
 }
 
 
 template<class T>
 T RansacGenericFittingModel<T>::getRMS() const
 {
-    return model->getRMS();
+    return estimator->getRMS();
 }
 
 
 template<class T>
 void RansacGenericFittingModel<T>::setData(const std::vector<Coordinate<T> > & data)
 {
-    model->setPoints(data);
+    estimator->setPoints(data);
 }
 
 
 template<class T>
-void RansacGenericFittingModel<T>::setFittingModel(Fit<T> & model)
+void RansacGenericFittingModel<T>::setFittingModel(Fit<T> & estimator)
 {
-    this->model = &model;
+    this->estimator = &estimator;
 }
 
 

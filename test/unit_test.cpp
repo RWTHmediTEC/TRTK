@@ -1,4 +1,10 @@
-// Last changed on 2014-07-02.
+// Last changed on 2016-07-16.
+
+
+/******************************************************************
+ *   Please have a look at unit_test_PivotCalibration() or        *
+ *   unit_test_Coordinate() to see how to implement test cases.   *
+ ******************************************************************/
 
 
 #include <TRTK/ErrorObj.hpp>

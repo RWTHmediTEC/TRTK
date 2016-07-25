@@ -1,10 +1,11 @@
-# Last changed on 2014-07-14
+# Last changed on 2016-07-14
 
 cmake_minimum_required(VERSION 2.8)
 
 set(CMAKE_DEBUG_POSTFIX d)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/bin)
+
 
 #####################################################################
 # Library name
@@ -19,16 +20,17 @@ project(TRTK)
 #####################################################################
 
 set(MAJOR_VERSION  0)
-set(MINOR_VERSION 15)
-set(PATCH_VERSION  1)
-
+set(MINOR_VERSION 16)
+set(PATCH_VERSION  0)
 set(FULL_VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION})
-
 set(TARGET_NAME ${PROJECT_NAME}-${FULL_VERSION})
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/misc/configure.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/misc/configure.cmake @ONLY)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/misc/install.bat.in ${CMAKE_CURRENT_BINARY_DIR}/misc/install.bat @ONLY)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/misc/Doxyfile.in ${CMAKE_CURRENT_SOURCE_DIR}/src/doc/Doxyfile)
+file(TO_CMAKE_PATH "$ENV{MEDITEC_LIBS}" MEDITEC_LIBS_PATH)
+ 
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/configure.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/cmake/configure.cmake @ONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Doxyfile.in ${CMAKE_CURRENT_SOURCE_DIR}/src/doc/Doxyfile)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/install.bat.in ${CMAKE_CURRENT_BINARY_DIR}/cmake/install.bat @ONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Version.hpp.in ${CMAKE_CURRENT_SOURCE_DIR}/include/TRTK/Version.hpp)
 
 
 #####################################################################
@@ -38,27 +40,31 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/misc/Doxyfile.in ${CMAKE_CURRENT_SOUR
 
 option(BUILD_DOC "Build and install the API documentation" OFF)
 option(BUILD_TEST "Build the unit tests" OFF)
+option(BUILD_EXAMPLES "Build examples" OFF)
 
 
 #####################################################################
 # Find dependencies and add them later to the linker (see below)
 #####################################################################
 
+# If you change the version numbers of the included libraries, do not
+# forget to adapt the configure.cmake.in file in the cmake folder.
+
 # Eigen
 
-include($ENV{MEDITEC_LIBS}/Eigen/3.2.0/configure.cmake)
+include(${MEDITEC_LIBS_PATH}/Eigen/3.2.8/configure.cmake)
 
 # OpenCV
 
-include($ENV{MEDITEC_LIBS}/opencv2.4/2.4.1/configure.cmake)
+include(${MEDITEC_LIBS_PATH}/opencv2.4/2.4.1/configure.cmake)
 
 # FLANN
 
-include($ENV{MEDITEC_LIBS}/FLANN/1.7.1/configure.cmake)
+include(${MEDITEC_LIBS_PATH}/FLANN/1.7.1/configure.cmake)
 
 # Project
 
-include_directories(${CMAKE_PROJECT_DIR}include/${PROJECT_NAME})
+include_directories(${CMAKE_PROJECT_DIR}include)
 
 set(PUBLIC_HEADERS
     include/TRTK/Circle.hpp
@@ -102,6 +108,7 @@ set(PUBLIC_HEADERS
     include/TRTK/Range.hpp
     include/TRTK/Ransac.hpp
     include/TRTK/RansacGenericFittingModel.hpp
+    include/TRTK/RansacPivotCalibrationModel.hpp
     include/TRTK/RegionGrowing2D.hpp
     include/TRTK/RegionGrowing3D.hpp
     include/TRTK/Signals.hpp
@@ -150,7 +157,7 @@ target_link_libraries(
 ##vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 #vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
-string(REGEX REPLACE "\\\\" "/" INSTALL_DIR $ENV{MEDITEC_LIBS}/${PROJECT_NAME}/${FULL_VERSION})
+string(REGEX REPLACE "\\\\" "/" INSTALL_DIR ${MEDITEC_LIBS_PATH}/${PROJECT_NAME}/${FULL_VERSION})
 
 install(
     TARGETS ${TARGET_NAME}
@@ -160,7 +167,7 @@ install(
 )
 
 install(
-    FILES ${CMAKE_CURRENT_BINARY_DIR}/misc/configure.cmake ${CMAKE_CURRENT_BINARY_DIR}/misc/install.bat
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/cmake/configure.cmake ${CMAKE_CURRENT_BINARY_DIR}/cmake/install.bat
     DESTINATION ${INSTALL_DIR}
 )
 
@@ -172,7 +179,7 @@ install(
 if (WIN32)
     install(
         FILES ${CMAKE_CURRENT_BINARY_DIR}/bin/${TARGET_NAME}${CMAKE_DEBUG_POSTFIX}.pdb
-        DESTINATION $ENV{MEDITEC_LIBS}/bin
+        DESTINATION ${MEDITEC_LIBS_PATH}/bin
         OPTIONAL
     )
     install(
@@ -194,6 +201,15 @@ endif()
 
 
 #####################################################################
+# Examples
+#####################################################################
+
+if(BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif()
+
+
+#####################################################################
 # Doxygen API documentation
 #####################################################################
 
@@ -207,7 +223,7 @@ if(BUILD_DOC)
                         COMMENT "Generating API documentation with Doxygen" VERBATIM
         )
         install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc
-                DESTINATION $ENV{MEDITEC_LIBS}/${PROJECT_NAME}/tags/${MAJOR_VERSION}.${MINOR_VERSION}
+                DESTINATION ${MEDITEC_LIBS_PATH}/${PROJECT_NAME}/tags/${MAJOR_VERSION}.${MINOR_VERSION}
         )
     endif(DOXYGEN_FOUND)
 endif()

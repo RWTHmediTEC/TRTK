@@ -9,7 +9,7 @@
 
     See license.txt for more information.
 
-    Version 0.6.0 (2012-07-31)
+    Version 0.8.1 (2016-04-15)
 */
 
 /** \file Coordinate.cpp
@@ -18,7 +18,7 @@
   */
 
 
-#include <Coordinate.hpp>
+#include "TRTK/Coordinate.hpp"
 
 
 namespace TRTK

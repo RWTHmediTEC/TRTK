@@ -128,7 +128,7 @@ namespace TRTK
   *     cout << "Y-intercept: " << fitLine.getYIntercept() << endl;
   *     cout << "Direction Vector: " << fitLine.getDirectionVector() << endl;
   *     cout << "Distance from origin: " << fitLine.getDistanceFromOrigin() << endl;
-  *     cout << "RMS: " << fitLine.getRMS() << endl << endl;
+  *     cout << "RMSE: " << fitLine.getRMS() << endl << endl;
   *
   *     // Estimate the line parameters using RANSAC.
   *
@@ -146,7 +146,7 @@ namespace TRTK
   *     cout << "Direction Vector: " << model.getDirectionVector() << endl;
   *     cout << "Distance from origin: " << model.getDistanceFromOrigin() << endl;
   *     cout << "Number of samples used: " << number_of_samples_used << endl;
-  *     cout << "RMS: " << model.getRMS() << endl;
+  *     cout << "RMSE: " << model.getRMS() << endl;
   *
   *     return 0;
   * }
@@ -159,14 +159,14 @@ namespace TRTK
   * Y-intercept: -2.97947
   * Direction Vector: (-0.771483, -0.63625)
   * Distance from origin: 2.29861
-  * RMS: 2.27904
+  * RMSE: 2.27904
   *
   * Slope: 0.691347
   * Y-intercept: -3.00877
   * Direction Vector: (-0.822562, -0.568676)
   * Distance from origin: 2.4749
   * Number of samples used: 19
-  * RMS: 0.0712661
+  * RMSE: 0.0712661
   * \endcode
   *
   * \references
@@ -193,15 +193,15 @@ public:
         virtual void compute() = 0;                                     ///< Estimate the model parameters.
         virtual T getDeviation(const DataType & datum) const = 0;       ///< Return the amount of how much a datum deviates from the model.
         virtual unsigned getMinimumNumberOfItems() const = 0;           ///< Return the minimum number of items required to compute the model.
-        virtual T getRMS() const = 0;                                   ///< Return the root mean square error of the estimated regression model.
-        virtual void setData(const std::vector<DataType> & data) = 0;   ///< Set the sample data.
+        virtual T getRMSE() const = 0;                                  ///< Return the root mean square error of the estimated regression model.
+        virtual void setData(const std::vector<DataType> & data) = 0;   ///< Set the sample data. No data is copied but a reference is stored.
     };                                                                  ///< Interface class for models to be used with the Ransac class.
 
     enum Algorithm
     {
         RANSAC,                             ///< RANSAC algorithm as described by Fischler and Bolles. If a consensus set is found whose size is greater than \p threshold then this set is taken to compute a new model and the algorithm is terminated. Otherwise a new model is computed from the biggest consensus set found.
         RANSAC_BIGGEST_CONSESUS_SET,        ///< A new model is always computed from the biggest consensus set.
-        RANSAC_SMALLEST_RMS                 ///< The model with the smallest RMS is taken.
+        RANSAC_SMALLEST_RMSE                ///< The model with the smallest RMSE is taken.
     };
 
     enum Error
@@ -241,7 +241,7 @@ protected:
 
     unsigned algorithmRansac();
     unsigned algorithmRansacBiggestConsensusSet();
-    unsigned algorithmRansacSmallestRms();
+    unsigned algorithmRansacSmallestRmse();
 };
 
 
@@ -281,8 +281,8 @@ unsigned Ransac<T, DataType>::algorithmRansac()
     using namespace std;
     using namespace Tools;
 
-    const int maximum_number_of_items = data->size();
-    const int minimum_number_of_items = model->getMinimumNumberOfItems();
+    const unsigned maximum_number_of_items = data->size();
+    const unsigned minimum_number_of_items = model->getMinimumNumberOfItems();
 
     vector<DataType> initial_data_set(minimum_number_of_items);
     vector<DataType> consensus_set;
@@ -290,22 +290,22 @@ unsigned Ransac<T, DataType>::algorithmRansac()
 
     // For each trial...
 
-    for (int i = 0; i < trials; ++i)
+    for (unsigned i = 0; i < trials; ++i)
     {
         // Randomly select items from the data set and use them
         // as an initial data set for the model fitting.
 
         set<int> indices;
 
-        for (int j = 0; j < minimum_number_of_items; ++j)
+        for (unsigned j = 0; j < minimum_number_of_items; ++j)
         {
             // Avoid using the same data point several times.
 
-            int index = rand(0, maximum_number_of_items - 1);;
+            unsigned index = rand(0u, maximum_number_of_items - 1);;
 
             while (indices.find(index) != indices.end())
             {
-                index = rand(0, maximum_number_of_items - 1);
+                index = rand(0u, maximum_number_of_items - 1);
             }
 
             indices.insert(index);
@@ -326,7 +326,7 @@ unsigned Ransac<T, DataType>::algorithmRansac()
         consensus_set.clear();
         consensus_set.reserve(maximum_number_of_items);
 
-        for (int j = 0; j < maximum_number_of_items; ++j)
+        for (unsigned j = 0; j < maximum_number_of_items; ++j)
         {
             if (model->getDeviation((*data)[j]) < error_tolerance)
             {
@@ -385,8 +385,8 @@ unsigned Ransac<T, DataType>::algorithmRansacBiggestConsensusSet()
     using namespace std;
     using namespace Tools;
 
-    const int maximum_number_of_items = data->size();
-    const int minimum_number_of_items = model->getMinimumNumberOfItems();
+    const unsigned maximum_number_of_items = data->size();
+    const unsigned minimum_number_of_items = model->getMinimumNumberOfItems();
 
     vector<DataType> initial_data_set(minimum_number_of_items);
     vector<DataType> consensus_set;
@@ -394,22 +394,22 @@ unsigned Ransac<T, DataType>::algorithmRansacBiggestConsensusSet()
 
     // For each trial...
 
-    for (int i = 0; i < trials; ++i)
+    for (unsigned i = 0; i < trials; ++i)
     {
         // Randomly select items from the data set and use them
         // as an initial data set for the model fitting.
 
         set<int> indices;
 
-        for (int j = 0; j < minimum_number_of_items; ++j)
+        for (unsigned j = 0; j < minimum_number_of_items; ++j)
         {
             // Avoid using the same data point several times.
 
-            int index = rand(0, maximum_number_of_items - 1);;
+            unsigned index = rand(0u, maximum_number_of_items - 1);;
 
             while (indices.find(index) != indices.end())
             {
-                index = rand(0, maximum_number_of_items - 1);
+                index = rand(0u, maximum_number_of_items - 1);
             }
 
             indices.insert(index);
@@ -430,7 +430,7 @@ unsigned Ransac<T, DataType>::algorithmRansacBiggestConsensusSet()
         consensus_set.clear();
         consensus_set.reserve(maximum_number_of_items);
 
-        for (int j = 0; j < maximum_number_of_items; ++j)
+        for (unsigned j = 0; j < maximum_number_of_items; ++j)
         {
             if (model->getDeviation((*data)[j]) < error_tolerance)
             {
@@ -466,7 +466,7 @@ unsigned Ransac<T, DataType>::algorithmRansacBiggestConsensusSet()
 
 /** \brief Modified version of the RANSAC algorithm as described by Fischler and Bolles.
   *
-  * The model with the smallest RMS is taken. The consensus set must be bigger
+  * The model with the smallest RMSE is taken. The consensus set must be bigger
   * than a given threshold (see \ref setMinimumSetSize()), otherwise no model
   * is estimated (i.e. the algorithm returns 0).
   *
@@ -474,38 +474,38 @@ unsigned Ransac<T, DataType>::algorithmRansacBiggestConsensusSet()
   */
 
 template <class T, class DataType>
-unsigned Ransac<T, DataType>::algorithmRansacSmallestRms()
+unsigned Ransac<T, DataType>::algorithmRansacSmallestRmse()
 {
     using namespace std;
     using namespace Tools;
 
-    const int maximum_number_of_items = data->size();
-    const int minimum_number_of_items = model->getMinimumNumberOfItems();
+    const unsigned maximum_number_of_items = data->size();
+    const unsigned minimum_number_of_items = model->getMinimumNumberOfItems();
 
     vector<DataType> initial_data_set(minimum_number_of_items);
     vector<DataType> consensus_set;
     vector<DataType> best_consensus_set;
 
-    T rms = numeric_limits<T>::max();
+    T rmse = numeric_limits<T>::max();
 
     // For each trial...
 
-    for (int i = 0; i < trials; ++i)
+    for (unsigned i = 0; i < trials; ++i)
     {
         // Randomly select items from the data set and use them
         // as an initial data set for the model fitting.
 
         set<int> indices;
 
-        for (int j = 0; j < minimum_number_of_items; ++j)
+        for (unsigned j = 0; j < minimum_number_of_items; ++j)
         {
             // Avoid using the same data point several times.
 
-            int index = rand(0, maximum_number_of_items - 1);;
+            unsigned index = rand(0u, maximum_number_of_items - 1);;
 
             while (indices.find(index) != indices.end())
             {
-                index = rand(0, maximum_number_of_items - 1);
+                index = rand(0u, maximum_number_of_items - 1);
             }
 
             indices.insert(index);
@@ -526,7 +526,7 @@ unsigned Ransac<T, DataType>::algorithmRansacSmallestRms()
         consensus_set.clear();
         consensus_set.reserve(maximum_number_of_items);
 
-        for (int j = 0; j < maximum_number_of_items; ++j)
+        for (unsigned j = 0; j < maximum_number_of_items; ++j)
         {
             if (model->getDeviation((*data)[j]) < error_tolerance)
             {
@@ -547,12 +547,12 @@ unsigned Ransac<T, DataType>::algorithmRansacSmallestRms()
         model->setData(consensus_set);
         model->compute();
 
-        T rms_current_model = model->getRMS();
+        T rmse_current_model = model->getRMSE();
 
         // Randomly select a new subset. Save the old consensus set
         // in case no better one is found.
 
-        if (rms_current_model < rms && consensus_set.size() >= minimumSetSize)
+        if (rmse_current_model < rmse && consensus_set.size() >= minimumSetSize)
         {
             best_consensus_set = consensus_set;
         }
@@ -644,7 +644,7 @@ unsigned Ransac<T, DataType>::compute()
     if (trials == 0)
     {
         int n = model->getMinimumNumberOfItems();
-        trials = ceil(3.0 * pow(probability, -T(n)));
+        trials = unsigned(ceil(3.0 * pow(probability, -T(n))));
     }
 
     // If no threshold is given, set it to 8/10 of the size of "data".
@@ -653,7 +653,7 @@ unsigned Ransac<T, DataType>::compute()
 
     if (threshold == 0)
     {
-        threshold = ceil(0.8 * data->size());
+        threshold = unsigned(ceil(0.8 * data->size()));
     }
 
     // If the minimum set size is greater than the size of "data" shrink
@@ -699,9 +699,9 @@ void Ransac<T, DataType>::setAlgorithm(Algorithm algorithm)
             break;
         }
 
-        case RANSAC_SMALLEST_RMS:
+        case RANSAC_SMALLEST_RMSE:
         {
-            this->algorithm = &Ransac::algorithmRansacSmallestRms;
+            this->algorithm = &Ransac::algorithmRansacSmallestRmse;
             break;
         }
 

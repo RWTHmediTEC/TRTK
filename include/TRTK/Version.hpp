@@ -38,6 +38,12 @@
   * patch level is ignored (which makes sense, since this is only intended
   * for bug-fix releases).
   *
+  * So the version numbering scheme is X.Y.Z (Major.Minor.Patch). Bug fixes
+  * that do not affect the API increment the patch version, backwards
+  * compatible API additions/changes increment the minor version, and
+  * backwards incompatible API changes increment the major version. See also
+  * "Semantic Versioning" on http://semver.org/.
+  *
   * \author Christoph Haenisch
   * \version 0.2.0
   * \date last changed on 2014-07-02
@@ -55,7 +61,7 @@
   *
   */
 
-#define TRTK_MAJOR_VERSION ${MAJOR_VERSION}
+#define TRTK_MAJOR_VERSION 0
 
 
 /** \brief %TRTK Minor Version Number
@@ -64,7 +70,7 @@
   *
   */
 
-#define TRTK_MINOR_VERSION ${MINOR_VERSION}
+#define TRTK_MINOR_VERSION 16
 
 
 /** \brief %TRTK Patch Level
@@ -73,7 +79,7 @@
   *
   */
 
-#define TRTK_PATCH_LEVEL ${PATCH_VERSION}
+#define TRTK_PATCH_LEVEL 0
 
 
 #endif // VERSION_HPP_8641455825

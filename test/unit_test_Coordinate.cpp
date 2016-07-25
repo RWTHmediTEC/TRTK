@@ -1,4 +1,4 @@
-// Last changed on 2014-07-05.
+// Last changed on 2014-08-02.
 
 
 #include <TRTK/Coordinate.hpp>
@@ -700,6 +700,16 @@ void unit_test_Coordinate()
 
         START_TEST
             assert(Coordinate<double>(1, 2).toMatrix().rows() == 2);
+        STOP_TEST
+
+
+    SUBHEADING(toString())
+
+
+        START_TEST
+            assert(Coordinate<double>().toString() == "()");
+            assert(Coordinate<double>(1).toString() == "(1)");
+            assert(Coordinate<double>(1, 2, 3, 4).toString() == "(1, 2, 3, 4)");
         STOP_TEST
 
 

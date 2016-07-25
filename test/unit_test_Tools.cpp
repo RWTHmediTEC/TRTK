@@ -512,7 +512,7 @@ void unit_test_Tools()
 
         START_TEST
             c = 1;
-            assert(isEqual(round(c), 1));
+            assert(isEqual(Tools::round(c), 1));
         STOP_TEST
 
 
@@ -580,6 +580,28 @@ void unit_test_Tools()
             assert(lst.back() == 6); lst.pop_back();
             assert(lst.back() == 5); lst.pop_back();
             assert(lst.back() == 4);
+        STOP_TEST
+
+
+    SUBHEADING(zip())
+
+        START_TEST
+        {
+            std::vector<int> v1;
+            v1.push_back(1);
+            v1.push_back(3);
+
+            std::vector<double> v2;
+            v2.push_back(1.5);
+            v2.push_back(3.14);
+
+            std::vector<std::pair<int, double> > zipped = zip(v1, v2);
+
+            assert(isEqual(zipped[0].first, 1));
+            assert(isEqual(zipped[0].second, 1.5));
+            assert(isEqual(zipped[1].first, 3));
+            assert(isEqual(zipped[1].second, 3.14));
+        }
         STOP_TEST
 }
 

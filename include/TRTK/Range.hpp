@@ -9,7 +9,7 @@
 
     See license.txt for more information.
 
-    Version 0.1.0 (2013-04-02)
+    Version 0.1.1 (2014-08-31)
 */
 
 /** \file Range.hpp
@@ -82,8 +82,8 @@ namespace TRTK
   * \endcode
   *
   * \author Christoph Haenisch
-  * \version 0.1.0
-  * \date last changed on 2013-04-02
+  * \version 0.1.1
+  * \date last changed on 2014-08-31
   */
 
 template <class T>
@@ -118,6 +118,8 @@ public:
     T currentItem() const;
 
     size_t size() const;
+    
+    typedef Iterator<T> const_iterator;
 
 private:
 

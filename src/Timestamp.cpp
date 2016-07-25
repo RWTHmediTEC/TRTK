@@ -21,7 +21,7 @@
 #include <cstddef>
 #include <queue>
 
-#include "Timestamp.hpp"
+#include "TRTK/Timestamp.hpp"
 
 
 using std::queue;
