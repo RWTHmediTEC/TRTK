@@ -88,7 +88,8 @@ To get started, please have a look a the \ref Tutorial.
         - <a name=RANSAC> RANSAC </a>
             - \ref TRTK::Ransac "Ransac Class"
             - \ref TRTK::Ransac::Model "Model Interface"
-            - \ref TRTK::RansacGenericFittingModel "Model For Use With Fitting Classes."
+            - \ref TRTK::RansacGenericFittingModel "Model For Use With Fitting Classes"
+            - \ref TRTK::RansacPivotCalibrationModel "Model For Use With Pivot Calibration Classes"
         - <a name=ICP> Iterative Closest Point (ICP) </a>
             - \ref TRTK::IcpInterface "ICP Interface Class"
             - \ref TRTK::Icp3D "ICP in 3D Space"
@@ -109,7 +110,11 @@ To get started, please have a look a the \ref Tutorial.
                 - \ref TRTK::CorrelationCircle "Automatic Circle Detection"
                 - \ref TRTK::CorrelationCircle "Cross-Correlation between Circle and Image Data"
         - <a name=Calibration> Calibration </a>
-            - \ref TRTK::PivotCalibration "Pivot Calibration"
+            - \ref TRTK::PivotCalibration "Pivot Calibration (Common Interface)"
+                - \ref TRTK::RansacPivotCalibrationModel "Pivot Calibration + RANSAC"
+                - \ref TRTK::PivotCalibrationCombinatorialApproach "PivotCalibrationCombinatorialApproach"
+                - \ref TRTK::PivotCalibrationPATM "PivotCalibrationPATM"
+                - \ref TRTK::PivotCalibrationTwoStep "PivotCalibrationTwoStep"
         - <a name=DataEnhancement> Data Enhancement </a>
             - \ref TRTK::Diffusion "Diffusion Module"
                 - \ref TRTK::Diffusion::firstDerivative "Computation of the 1st Derivative of a Signal"

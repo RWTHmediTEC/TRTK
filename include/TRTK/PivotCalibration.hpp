@@ -44,6 +44,98 @@ namespace TRTK
 ////////////////////////////////////////////////////////////////////////////////
 
 
+/** \tparam T scalar (floating point) type
+  *
+  * \brief This is the common interface for all pivot-point-calibration classes.
+  *
+  * A pivot-point-calibration is a procedure that aims at finding a global and local
+  * pivot point of a rigid structure whose motion is constrained in such a way that
+  * it moves around a pivot point. If the structure is equipped with a localization
+  * sensor (i.e. if it is tracked) the pivot point can be determined in the global
+  * tracker coordinate system and the local structure's coordinate system. Typical
+  * examples of application include the tool tip calibration or the hip center
+  * determination.
+  *
+  * The calibration procedure to obtain a tool tip location is as follows: The tool
+  * tip is placed in a divot and the tool is moved around this pivot point while
+  * always touching the divot with its tip. The location as well as the rotation of
+  * the sensor system is saved for each sampling instance. Then this list is passed
+  * to one of the pivot calibration algorithms and the sought location/translation
+  * is computed.
+  *
+  * \image html "Tool Tip Calibration (small).png" "Movement of a tool while recording data for the tool tip calibration."
+  *
+  * Given a new measurement of the tracker (which comprises the position \f$ t_i \f$
+  * and orientation \f$ R_i \f$ of the sensor in the global coordinate system) the
+  * pivot point the tool tip location in global coordinates can be easily computed
+  * as \f$ p_{global} = R_i * p_{local} + * t_i \f$. 
+  *
+  * \note We always assume, that the transformations map from a local coordinate
+  *       system to the global coordinate system. That is, given a rotation matrix
+  *       \f$  R \f$  and a translation vector \f$ t \f$ describing the orientation
+  *       and the location of a sensor system, respectively, the vector \f$ p' \f$
+  *       in global coordinates corresponds to the vector \f$ p \f$ in local
+  *       coordinates by this relation:
+  *       \f[
+  *       p' = Rp + t
+  *       \f]
+  *
+  * \par Example:
+  *
+  * Here is an example of how to perform a pivot calibration:
+  *
+  * \code
+  * typedef TRTK::PivotCalibration<double> Calibration;
+  * typedef TRTK::Calibration::Matrix3T Matrix;
+  * typedef TRTK::Calibration::Vector3T Vector;
+  *
+  * // These rotation matrices and translation vectors describe the local
+  * // sensor coordinate systems in global coordinates
+  *
+  * std::vector<Matrix> rotations;
+  * std::vector<Vector> locations;
+  *
+  * while (true)
+  * {
+  *     // record the data and break if enough data was collected
+  *
+  *     // ...
+  *
+  *     // save the rotation matrix and the translation vector...
+  *
+  *     Matrix R;
+  *     R << r11, r12, r13, r21, r22, r23, r31, r32, r33;
+  *
+  *     Vector t(t1, t2, t3);
+  *
+  *     rotations.push_back(R);
+  *     locations.push_back(t);
+  * }
+  *
+  * PivotCalibrationTwoStep<double> calibration;
+  * calibration.setRotations(make_range(test_data.rotations));
+  * calibration.setLocations(make_range(test_data.locations));
+  * double rmse = calibration.compute();
+  *
+  * Vector local_pivot_point = calibration.getLocalPivotPoint();
+  *
+  * // ...
+  *
+  * // Determinte the current tool tip position in global coordinates.
+  * Vector tool_tip_position = current_rotation * local_pivot_point + current_position;
+  * \endcode
+  *
+  * \note See http://eigen.tuxfamily.org/ for how to use the Matrix class.
+  *
+  * \see TRTK::PivotCalibrationCombinatorialApproach, TRTK::PivotCalibrationPATM,
+  *      TRTK::PivotCalibrationTwoStep, TRTK::RansacPivotCalibrationModel,
+  *      TRTK::Coordinate and TRTK::Transform3D
+  *
+  * \author Christoph Haenisch
+  * \version 1.0.0
+  * \date last changed on 2016-07-25
+  */
+
 template <class T>
 class PivotCalibration
 {
@@ -72,7 +164,7 @@ public:
     virtual void setLocations(Range<Vector3T> locations) = 0;
     virtual void setRotations(Range<Matrix3T> rotations) = 0;
     virtual T compute() = 0;                                        ///< Returns the RMSE.
-    virtual T getRMSE() const = 0;
+    virtual T getRMSE() const = 0;                                  ///< Returns the RMSE of the last computation.
     virtual const Vector3T & getLocalPivotPoint() const = 0;        ///< Returns the pivot point (or tool tip) in local coordinates.
     virtual const Vector3T & getPivotPoint() const = 0;             ///< Returns the pivot point (or tool tip) in world coordinates.
 };
@@ -82,6 +174,95 @@ public:
 //                    PivotCalibrationCombinatorialApproach                   //
 ////////////////////////////////////////////////////////////////////////////////
 
+
+/** \tparam T scalar (floating point) type
+  *
+  * \brief Pivot point calibration.
+  *
+  * This class estimates the pivot point of a rigid body whose movement is
+  * constraind to rotate around a certain pivot point and whose movement is
+  * tracked via a localization system. Typical examples of application include
+  * the tool tip calibration or the hip center determination.
+  *
+  * The calibration procedure to obtain a tool tip location is as follows: The tool
+  * tip is placed in a divot and the tool is moved around this pivot point while
+  * always touching the divot with its tip. The location as well as the rotation of
+  * the sensor system is saved for each sampling instance. Then this list is passed
+  * to one of the pivot calibration algorithms and the sought location/translation
+  * is computed.
+  *
+  * \image html "Tool Tip Calibration (small).png" "Movement of a tool while recording data for the tool tip calibration."
+  *
+  * Given a new measurement of the tracker (which comprises the position \f$ t_i \f$
+  * and orientation \f$ R_i \f$ of the sensor in the global coordinate system) the
+  * pivot point the tool tip location in global coordinates can be easily computed
+  * as \f$ p_{global} = R_i * p_{local} + * t_i \f$. 
+  *
+  * \par Algorithm:
+  *
+  * If a tool touches the pivot point with its tip, the pivot point's location \f$ M \f$
+  * in global coordinates is
+  *
+  * \f[   M = R_i * t + t_i   \f]
+  *
+  * where \f$ R_i \f$ is the rotation and \f$ t_i \f$ the location of the tool sensor in
+  * the world or tracking coordinate system. \f$ t \f$ is the sought location of the tool
+  * tip in the sensor's local coordinate system. Note, that \f$ t \f$ remains the same for
+  * all measurements. Now, using two different measurements, the pivot point M can be
+  * eliminated
+  *
+  * \f[   R_i * t + t_i = R_j * t + t_j   \f]
+  *
+  * This can be rearranged to
+  *
+  * \f[   (R_i - R_j) * t = (t_j - t_i)   \f]
+  *
+  * Doing this for all combinations of all measurements yields a system of equations
+  * \f$ Ax = b \f$ (with \f$ x = t \f$) which can be solved for the sought translation
+  * \f$ t \f$.
+  *
+  * \f[
+  *     \begin{pmatrix}
+  *         R_1     &  -R2       \\
+  *         R_1     &  -R3       \\
+  *         R_1     &  -R4       \\
+  *         \vdots  &  \vdots    \\
+  *         R_n     &  -R_{n-1}  \\
+  *     \end{pmatrix}
+  *     t
+  *     =
+  *     \begin{pmatrix}
+  *         t_2      &  -t1      \\
+  *         t_3      &  -t1      \\
+  *         t_4      &  -t1      \\
+  *         \vdots   &  \vdots   \\
+  *         t_{n-1}  &  -t_n     \\
+  *     \end{pmatrix}
+  *     \quad\quad
+  *     \Leftrightarrow
+  *     \quad\quad
+  *     At = b
+  * \f]
+  *
+  * \f[
+  *     t = [A^T A]^{-1} A^T B   \quad\quad  \text{(Moore-Penrose pseudoinverse)}
+  * \f]
+  *
+  * Note: Not all combinations are taken into account. For instance, the case
+  * \f$ i == j \f$ is omitted.
+  *
+  * \par Example:
+  *
+  * For some example code please be referred to \ref PivotCalibration.
+  *
+  * \see TRTK::PivotCalibration, TRTK::RansacPivotCalibrationModel,
+  *      TRTK::Coordinate and TRTK::Transform3D
+  *
+  *
+  * \author Christoph Haenisch
+  * \version 1.0.0
+  * \date last changed on 2016-07-25
+  */
 
 template <class T>
 class PivotCalibrationCombinatorialApproach : public PivotCalibration<T>
@@ -164,7 +345,7 @@ T PivotCalibrationCombinatorialApproach<T>::compute()
     |   ...     |         |     ...   |
     | Rn - Rn-1 |         | tn-1 - tn |
 
-    t = [A^T * A]^(-1) * A^T * B        (Moore–Penrose pseudoinverse)
+    t = [A^T * A]^(-1) * A^T * B        (Moore-Penrose pseudoinverse)
 
     Note: Not all combinations are taken into account. For instance, the case i == j
     is omitted.
@@ -290,6 +471,85 @@ void PivotCalibrationCombinatorialApproach<T>::setRotations(Range<Matrix3T> rota
 //                            PivotCalibrationPATM                            //
 ////////////////////////////////////////////////////////////////////////////////
 
+
+/** \tparam T scalar (floating point) type
+  *
+  * \brief Pivot point calibration.
+  *
+  * This class estimates the pivot point of a rigid body whose movement is
+  * constraind to rotate around a certain pivot point and whose movement is
+  * tracked via a localization system. Typical examples of application include
+  * the tool tip calibration or the hip center determination.
+  *
+  * The calibration procedure to obtain a tool tip location is as follows: The tool
+  * tip is placed in a divot and the tool is moved around this pivot point while
+  * always touching the divot with its tip. The location as well as the rotation of
+  * the sensor system is saved for each sampling instance. Then this list is passed
+  * to one of the pivot calibration algorithms and the sought location/translation
+  * is computed.
+  *
+  * \image html "Tool Tip Calibration (small).png" "Movement of a tool while recording data for the tool tip calibration."
+  *
+  * Given a new measurement of the tracker (which comprises the position \f$ t_i \f$
+  * and orientation \f$ R_i \f$ of the sensor in the global coordinate system) the
+  * pivot point the tool tip location in global coordinates can be easily computed
+  * as \f$ p_{global} = R_i * p_{local} + * t_i \f$. 
+  *
+  * \par Algorithm:
+  *
+  * \verbatim
+  *  If a tool touches the pivot point with its tip, the pivot point's location M
+  *  in global coordinates is
+  *
+  *  M = R_i * t + t_i
+  *
+  *  where 'R_i' is the rotation and 't_i' the location of the tool sensor in the world or
+  *  tracking coordinate system. 't' is the sought location of the tool tip in the sensor's
+  *  local coordinate system. Note, that 't' remains the same for all measurements! Now,
+  *  using two different measurements, the pivot point M can be eliminated
+  *
+  *  R_i * t + t_i = R_j * t + t_j
+  *
+  *  This can be rearranged to
+  *
+  *  t = R_i^T * R_j * t + R_i^T * (t_j - t_i) =: phi(t)                               (*)
+  *
+  *  This is actually the form of a fixed-point iteration, i.e. t_i+1 = phi(t_i). However,
+  *  in this form phi is not a contraction mapping since the Lipschitz constant L is not
+  *  strictly less than 1:
+  *
+  *  || phi(x) - phi(y) || = || R_i^T * R_j * (x - y) || = L * || x - y||,   L = 1
+  *
+  *  This can be changed by averaging at least two equations (*) with different
+  *  measurements. Thus we construct phi(t) as follows
+  *
+  *  phi(t) := R * t + p                                                              (**)
+  *
+  *  where R := 1/n * sum_i R_i^T * R_(i+1),   p := 1/n * sum_i R_i^T * (t_(i+1) - t_i),
+  *  and n is the number of measurements. Since the sum goes up to n, R_(n+1) and t_(n1+1)
+  *  are set to R_1 and t_1, respectively.
+  *
+  *  The equation (**) can also rewritten as
+  *
+  *           | R  p |
+  *  phi(t) = |      | * t = A * t
+  *           | 0  1 |
+  *
+  *  and thus t_i+1 = phi(t_i) = A * t_i = A^i * t0.
+  * \endverbatim
+  *
+  * \par Example:
+  *
+  * For some example code please be referred to \ref PivotCalibration.
+  *
+  * \see TRTK::PivotCalibration, TRTK::RansacPivotCalibrationModel,
+  *      TRTK::Coordinate and TRTK::Transform3D
+  *
+  *
+  * \author Christoph Haenisch
+  * \version 1.0.0
+  * \date last changed on 2016-07-25
+  */
 
 template <class T>
 class PivotCalibrationPATM : public PivotCalibration<T>
@@ -534,6 +794,71 @@ void PivotCalibrationPATM<T>::setRotations(Range<Matrix3T> rotations)
 //                          PivotCalibrationTwoStep                           //
 ////////////////////////////////////////////////////////////////////////////////
 
+
+/** \tparam T scalar (floating point) type
+  *
+  * \brief Pivot point calibration.
+  *
+  * This class estimates the pivot point of a rigid body whose movement is
+  * constraind to rotate around a certain pivot point and whose movement is
+  * tracked via a localization system. Typical examples of application include
+  * the tool tip calibration or the hip center determination.
+  *
+  * The calibration procedure to obtain a tool tip location is as follows: The tool
+  * tip is placed in a divot and the tool is moved around this pivot point while
+  * always touching the divot with its tip. The location as well as the rotation of
+  * the sensor system is saved for each sampling instance. Then this list is passed
+  * to one of the pivot calibration algorithms and the sought location/translation
+  * is computed.
+  *
+  * \image html "Tool Tip Calibration (small).png" "Movement of a tool while recording data for the tool tip calibration."
+  *
+  * Given a new measurement of the tracker (which comprises the position \f$ t_i \f$
+  * and orientation \f$ R_i \f$ of the sensor in the global coordinate system) the
+  * pivot point the tool tip location in global coordinates can be easily computed
+  * as \f$ p_{global} = R_i * p_{local} + * t_i \f$. 
+  *
+  * \par Algorithm:
+  *
+  * \verbatim
+  *  As described in the details section, during the calibration procedure,
+  *  an object is moved around a pivot point. For example a tool is moved in
+  *  such a way that the tool tip remains stationary at a particular position
+  *  (which is the pivot point). While moving the object (e.g. the tool) the
+  *  object's sensor moves along a circular arc (or in three dimensions on a
+  *  calotte of a sphere). Now, in a first step, the center point (= pivot
+  *  point) as well as the radius of this sphere are estimated by a simple
+  *  least square scheme (that's done in global coordinates).
+  *
+  *  Provided the object is still positioned as described above (e.g. the tool
+  *  tip still is stationary), using a single measurement (R_i, t_i) the
+  *  global pivot point p' can be easily transformed into a local coordinate
+  *  p via the relation
+  *
+  *      p' = R * p + t    ==>    p = R^(-1) * (p' - t)
+  *
+  *  where R is the rotation and t the location of the sensor in the global
+  *  coordinate system. However, due to noise, various results for p should
+  *  be averaged.
+  *
+  *  Implementation details:
+  *
+  *  Instead of recording a new set of pairs of (R_i, t_i) after having
+  *  determined the virtual sphere, the former measurement is used.
+  * \endverbatim
+  *
+  * \par Example:
+  *
+  * For some example code please be referred to \ref PivotCalibration.
+  *
+  * \see TRTK::PivotCalibration, TRTK::RansacPivotCalibrationModel,
+  *      TRTK::Coordinate and TRTK::Transform3D
+  *
+  *
+  * \author Christoph Haenisch
+  * \version 1.0.0
+  * \date last changed on 2016-07-25
+  */
 
 template <class T>
 class PivotCalibrationTwoStep : public PivotCalibration<T>

@@ -597,10 +597,10 @@ void unit_test_Tools()
 
             std::vector<std::pair<int, double> > zipped = zip(v1, v2);
 
-            assert(isEqual(zipped[1].first, 1));
-            assert(isEqual(zipped[1].second, 1.5));
-            assert(isEqual(zipped[2].first, 3));
-            assert(isEqual(zipped[2].second, 3.14));
+            assert(isEqual(zipped[0].first, 1));
+            assert(isEqual(zipped[0].second, 1.5));
+            assert(isEqual(zipped[1].first, 3));
+            assert(isEqual(zipped[1].second, 3.14));
         }
         STOP_TEST
 }

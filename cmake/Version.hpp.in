@@ -38,6 +38,12 @@
   * patch level is ignored (which makes sense, since this is only intended
   * for bug-fix releases).
   *
+  * So the version numbering scheme is X.Y.Z (Major.Minor.Patch). Bug fixes
+  * that do not affect the API increment the patch version, backwards
+  * compatible API additions/changes increment the minor version, and
+  * backwards incompatible API changes increment the major version. See also
+  * "Semantic Versioning" on http://semver.org/.
+  *
   * \author Christoph Haenisch
   * \version 0.2.0
   * \date last changed on 2014-07-02

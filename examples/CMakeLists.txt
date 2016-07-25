@@ -50,3 +50,6 @@ target_link_libraries(example_pivot_calibration_1 ${TRTK_LIBLIST})
 
 add_executable(example_pivot_calibration_2 pivot_calibration_2.cpp)
 target_link_libraries(example_pivot_calibration_2 ${TRTK_LIBLIST})
+
+add_executable(example_pivot_calibration_ransac pivot_calibration_ransac.cpp)
+target_link_libraries(example_pivot_calibration_ransac ${TRTK_LIBLIST})
