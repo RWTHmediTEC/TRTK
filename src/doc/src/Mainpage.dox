@@ -84,7 +84,7 @@ To get started, please have a look a the \ref Tutorial.
                 - \ref TRTK::TrivariateQuadraticPolynomial "Trivariate Quadratic Polynomial"
                 - \ref TRTK::TrivariateCubicPolynomial "Trivariate Cubic Polynomial"
             - Generic
-                - \ref TRTK::MultivariatePolynomial "Multidimensional Multivariate Polynomial of Arbitrary Degree"
+                - \ref TRTK::GenericPolynomial "Multidimensional Multivariate Polynomial of Arbitrary Degree"
         - <a name=RANSAC> RANSAC </a>
             - \ref TRTK::Ransac "Ransac Class"
             - \ref TRTK::Ransac::Model "Model Interface"
@@ -113,6 +113,7 @@ To get started, please have a look a the \ref Tutorial.
             - \ref TRTK::PivotCalibration "Pivot Calibration (Common Interface)"
                 - \ref TRTK::RansacPivotCalibrationModel "Pivot Calibration + RANSAC"
                 - \ref TRTK::PivotCalibrationCombinatorialApproach "PivotCalibrationCombinatorialApproach"
+                - \ref TRTK::PivotCalibrationLeastSquares "PivotCalibrationLeastSquares"
                 - \ref TRTK::PivotCalibrationPATM "PivotCalibrationPATM"
                 - \ref TRTK::PivotCalibrationTwoStep "PivotCalibrationTwoStep"
         - <a name=DataEnhancement> Data Enhancement </a>

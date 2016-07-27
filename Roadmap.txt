@@ -11,10 +11,10 @@ Version 1
 - harmonized function names (RMSE vs. RMS) [the former is better...]
 - add some litte more missing functionality
     - e.g. something like Line line(...); double distance = line.distanceTo(Plane(...));
+- note, until version 1 is reached the minor version number is changed with any non-compatible API change
     
-    
-Version 2
----------
+Version 2 (or higher)
+---------------------
 
 - get rid of most of the template code
     - use double as default number type

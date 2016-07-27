@@ -1,4 +1,4 @@
-# Last changed on 2016-07-02
+# Last changed on 2016-07-27
 
 cmake_minimum_required(VERSION 2.8.)
 
@@ -20,14 +20,11 @@ project(TRTK)
 #####################################################################
 
 set(MAJOR_VERSION  0)
-set(MINOR_VERSION 15)
-set(PATCH_VERSION  2)
+set(MINOR_VERSION 16)
+set(PATCH_VERSION  1)
 
 set(FULL_VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION})
-
 set(TRTK_VERSION ${FULL_VERSION})
-
-
 
 set(TARGET_NAME ${PROJECT_NAME})
 
@@ -43,6 +40,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Version.hpp.in ${CMAKE_CURRENT_
 
 option(BUILD_DOC "Build and install the API documentation" OFF)
 option(BUILD_TEST "Build the unit tests" OFF)
+option(BUILD_EXAMPLES "Build examples" ON)
 
 
 #####################################################################
@@ -163,6 +161,24 @@ endif()
 target_link_libraries(${TARGET_NAME} INTERFACE ${LIBS})
 
 
+#####################################################################
+# Examples
+#####################################################################
+
+if(BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif()
+
+
+#####################################################################
+# Unit tests
+#####################################################################
+
+if(BUILD_TEST)
+    add_subdirectory(test)
+endif()
+
+
 #vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 ##vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 ### NO CHANGES EVER NECESSARY BELOW THIS POINT!!
@@ -263,14 +279,6 @@ install(
   COMPONENT
     Devel
 )
-
-#####################################################################
-# Unit tests
-#####################################################################
-
-if(BUILD_TEST)
-    add_subdirectory(test)
-endif()
 
 
 #####################################################################

@@ -1,6 +1,6 @@
 # Doxyfile 1.7.2
 
-# Last changed on 2013-12-02 by Christoph Hänisch
+# Last changed on 2016-07-27 by Christoph Hänisch
 
 #---------------------------------------------------------------------------
 # Project related configuration options
@@ -38,6 +38,7 @@ GENERATE_DEPRECATEDLIST= YES
 
 QUIET                  = NO
 WARNINGS               = YES
+WARN_IF_UNDOCUMENTED   = NO
 
 #---------------------------------------------------------------------------
 # Configuration options related to the input files
