@@ -135,6 +135,90 @@ void unit_test_PivotCalibration()
         STOP_TEST
 
 
+    SUBHEADING(PivotCalibrationLeastSquares)
+
+
+        START_TEST
+        {
+            srand(0);
+            GenerateTestData test_data;
+            PivotCalibrationLeastSquares<double> calibration;
+            calibration.setLocations(make_range(test_data.locations));
+            calibration.setRotations(make_range(test_data.rotations));
+            double rmse = calibration.compute();
+            assert(rmse < 1e-7);
+            assert(calibration.getLocalPivotPoint().isApprox(test_data.p_local, 1e-9));
+            assert(calibration.getPivotPoint().isApprox(test_data.p, 1e-9));
+        }
+        STOP_TEST
+
+
+        START_TEST
+        {
+            srand(0);
+            GenerateTestData test_data(0.1);
+            PivotCalibrationLeastSquares<double> calibration;
+            calibration.setLocations(make_range(test_data.locations));
+            calibration.setRotations(make_range(test_data.rotations));
+            double rmse = calibration.compute();
+            assert(rmse < 0.25);
+            assert(calibration.getLocalPivotPoint().isApprox(test_data.p_local, 0.1));
+            assert(calibration.getPivotPoint().isApprox(test_data.p, 0.1));
+        }
+        STOP_TEST
+
+
+        START_TEST
+        {
+            srand(0);
+            GenerateTestData test_data;
+            PivotCalibrationLeastSquares<double> calibration;
+            calibration.setLocations(make_range(test_data.locations));
+            calibration.setRotations(make_range(test_data.rotations));
+            calibration.setRemoveOutliers(true);
+            double rmse = calibration.compute();
+            assert(rmse < 1e-7);
+            assert(calibration.getLocalPivotPoint().isApprox(test_data.p_local, 1e-9));
+            assert(calibration.getPivotPoint().isApprox(test_data.p, 1e-9));
+        }
+        STOP_TEST
+
+
+        START_TEST
+        {
+            // Outlier removal
+            srand(0);
+            GenerateTestData test_data(0.1);
+            PivotCalibrationLeastSquares<double> calibration;
+            calibration.setLocations(make_range(test_data.locations));
+            calibration.setRotations(make_range(test_data.rotations));
+            calibration.setRemoveOutliers(true);
+            double rmse = calibration.compute();
+            assert(rmse < 0.25);
+            assert(calibration.getLocalPivotPoint().isApprox(test_data.p_local, 0.1));
+            assert(calibration.getPivotPoint().isApprox(test_data.p, 0.1));
+        }
+        STOP_TEST
+
+
+        START_TEST
+        {
+            // Outlier removal, noise and gross outlier
+            srand(0);
+            GenerateTestData test_data(0.1);
+            test_data.locations[0] += Vector(-100, 300, 1000);
+            PivotCalibrationLeastSquares<double> calibration;
+            calibration.setLocations(make_range(test_data.locations));
+            calibration.setRotations(make_range(test_data.rotations));
+            calibration.setRemoveOutliers(true);
+            double rmse = calibration.compute();
+            assert(rmse < 0.25);
+            assert(calibration.getLocalPivotPoint().isApprox(test_data.p_local, 0.1));
+            assert(calibration.getPivotPoint().isApprox(test_data.p, 0.1));
+        }
+        STOP_TEST
+
+
     SUBHEADING(PivotCalibrationPATM)
 
 
@@ -208,6 +292,34 @@ void unit_test_PivotCalibration()
         {
             srand(0);
             GenerateTestData test_data(0.1);
+            std::vector<std::pair<Vector, Matrix> > data = zip(test_data.locations, test_data.rotations);
+
+            PivotCalibrationTwoStep<double> calibration;
+            RansacPivotCalibrationModel<double> model(calibration);
+            Ransac<double, PivotCalibration<double>::DataType> ransac;
+
+            ransac.setModel(model);
+            ransac.setData(data);
+            ransac.setErrorTolerance(0.15);
+            // ransac.setMinimumSetSize(40);
+            // ransac.setAlgorithm(Ransac<double, PivotCalibration<double>::DataType>::RANSAC_SMALLEST_RMSE);
+
+            unsigned number_of_samples_used = ransac.compute();
+            double rmse = calibration.getRMSE();
+
+            assert(rmse < 0.25);
+            assert(calibration.getLocalPivotPoint().isApprox(test_data.p_local, 0.1));
+            assert(calibration.getPivotPoint().isApprox(test_data.p, 0.1));
+        }
+        STOP_TEST
+
+
+        START_TEST
+        {
+            // Noise plus gross outlier
+            srand(0);
+            GenerateTestData test_data(0.1);
+            test_data.locations[0] += Vector(-100, 300, 1000);
             std::vector<std::pair<Vector, Matrix> > data = zip(test_data.locations, test_data.rotations);
 
             PivotCalibrationTwoStep<double> calibration;

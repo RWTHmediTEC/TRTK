@@ -1,4 +1,4 @@
-# Last changed on 2016-07-14
+# Last changed on 2016-07-27
 
 cmake_minimum_required(VERSION 2.8)
 
@@ -21,7 +21,7 @@ project(TRTK)
 
 set(MAJOR_VERSION  0)
 set(MINOR_VERSION 16)
-set(PATCH_VERSION  0)
+set(PATCH_VERSION  1)
 set(FULL_VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION})
 set(TARGET_NAME ${PROJECT_NAME}-${FULL_VERSION})
 
@@ -40,7 +40,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Version.hpp.in ${CMAKE_CURRENT_
 
 option(BUILD_DOC "Build and install the API documentation" OFF)
 option(BUILD_TEST "Build the unit tests" OFF)
-option(BUILD_EXAMPLES "Build examples" OFF)
+option(BUILD_EXAMPLES "Build examples" ON)
 
 
 #####################################################################

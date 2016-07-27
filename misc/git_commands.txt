@@ -1,0 +1,32 @@
+Create a new feature branch
+---------------------------
+
+Feature branches should be created if you want to implement a
+complete new feature or need to make bigger code changes. Always
+try to keep the development branch to remain fully functional.
+In general you should branch off from the 'develop' branch.
+
+git checkout -b feature/myfeature develop
+
+
+
+Merge the new feature branch with 'develop'
+-------------------------------------------
+
+New features may/should only be merged if they are fully
+functional and if appropriate unit tests have been written.
+
+git checkout develop
+git merge --no-ff feature/myfeature
+git branch -d feature/myfeature
+git push origin develop
+
+
+
+Merge the new development branch with master
+--------------------------------------------
+
+git checkout master
+git merge --no-ff develop
+git tag -a v0.16.1 -m 'Merged feature XXX'      # or just -m 'Version 0.16.1'
+git push --follow-tags origin master
