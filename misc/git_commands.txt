@@ -28,5 +28,5 @@ Merge the new development branch with master
 
 git checkout master
 git merge --no-ff develop
-git tag -a v0.16.1 -m 'Merged feature XXX'      # or just -m 'Version 0.16.1'
+git tag -a v0.16.1 -m "Merged feature XXX"      # or just -m "Version 0.16.1"
 git push --follow-tags origin master
