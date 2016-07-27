@@ -196,12 +196,12 @@ const Vector3T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class
   </table>
   </dd>
 </dl>
-<p>This class estimates the pivot point of a rigid body whose movement is constraind to rotate around a certain pivot point and whose movement is tracked via a localization system. Typical examples of application include the tool tip calibration or the hip center determination.</p>
+<p>This class estimates the pivot point of a rigid body whose movement is constrained to rotate around a certain pivot point and whose movement is tracked via a localization system. Typical examples of application include the tool tip calibration or the hip center determination.</p>
 <p>The calibration procedure to obtain a tool tip location is as follows: The tool tip is placed in a divot and the tool is moved around this pivot point while always touching the divot with its tip. The location as well as the rotation of the sensor system is saved for each sampling instance. Then this list is passed to one of the pivot calibration algorithms and the sought location/translation is computed.</p>
 <div align="center">
 <img src="Tool Tip Calibration (small).png" alt="Tool Tip Calibration (small).png"/>
 <p><strong>Movement of a tool while recording data for the tool tip calibration.</strong></p></div>
-<p> Given a new measurement of the tracker (which comprises the position \( t_i \) and orientation \( R_i \) of the sensor in the global coordinate system) the pivot point the tool tip location in global coordinates can be easily computed as \( p_{global} = R_i * p_{local} + * t_i \).</p>
+<p> Given a new measurement of the tracker (which comprises the position \( t_i \) and orientation \( R_i \) of the sensor in the global coordinate system) the pivot point the tool tip location in global coordinates can be easily computed as \( p_{global} = R_i p_{local} + t_i \).</p>
 <dl class="user"><dt><b>Algorithm:</b></dt><dd></dd></dl>
 <div class="fragment"><pre class="fragment">
   *  If a tool touches the pivot point with its tip, the pivot point's location M
@@ -249,7 +249,7 @@ const Vector3T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class
 <dl class="version"><dt><b>Version:</b></dt><dd>1.0.0 </dd></dl>
 <dl class="date"><dt><b>Date:</b></dt><dd>last changed on 2016-07-25 </dd></dl>
 
-<p>Definition at line <a class="el" href="_pivot_calibration_8hpp_source.html#l00550">550</a> of file <a class="el" href="_pivot_calibration_8hpp_source.html">PivotCalibration.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_pivot_calibration_8hpp_source.html#l00915">915</a> of file <a class="el" href="_pivot_calibration_8hpp_source.html">PivotCalibration.hpp</a>.</p>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>D:/Users/haenisch/Programmierung/C++/TRTK/include/TRTK/<a class="el" href="_pivot_calibration_8hpp_source.html">PivotCalibration.hpp</a></li>
 </ul>

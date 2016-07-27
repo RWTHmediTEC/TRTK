@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<title>Transformation and Registration Toolkit: TRTK::PivotCalibrationTwoStep&lt; T &gt; Class Template Reference</title>
+<title>Transformation and Registration Toolkit: TRTK::PivotCalibrationLeastSquares&lt; T &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javaScript" src="search/search.js"></script>
@@ -92,7 +92,7 @@ function toggleVisibility(linkObj) {
   <div class="navpath">
     <ul>
       <li><a class="el" href="namespace_t_r_t_k.html">TRTK</a>      </li>
-      <li><a class="el" href="class_t_r_t_k_1_1_pivot_calibration_two_step.html">PivotCalibrationTwoStep</a>      </li>
+      <li><a class="el" href="class_t_r_t_k_1_1_pivot_calibration_least_squares.html">PivotCalibrationLeastSquares</a>      </li>
     </ul>
   </div>
 </div>
@@ -101,84 +101,87 @@ function toggleVisibility(linkObj) {
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a>  </div>
   <div class="headertitle">
-<h1>TRTK::PivotCalibrationTwoStep&lt; T &gt; Class Template Reference</h1>  </div>
+<h1>TRTK::PivotCalibrationLeastSquares&lt; T &gt; Class Template Reference</h1>  </div>
 </div>
 <div class="contents">
-<!-- doxytag: class="TRTK::PivotCalibrationTwoStep" --><!-- doxytag: inherits="TRTK::PivotCalibration" -->
+<!-- doxytag: class="TRTK::PivotCalibrationLeastSquares" --><!-- doxytag: inherits="TRTK::PivotCalibration" -->
 <p>Pivot point calibration.  
 <a href="#_details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_pivot_calibration_8hpp_source.html">PivotCalibration.hpp</a>&gt;</code></p>
 <!-- startSectionHeader --><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-0-trigger" src="closed.png"/> Inheritance diagram for TRTK::PivotCalibrationTwoStep&lt; T &gt;:<!-- endSectionHeader --></div>
+  <img id="dynsection-0-trigger" src="closed.png"/> Inheritance diagram for TRTK::PivotCalibrationLeastSquares&lt; T &gt;:<!-- endSectionHeader --></div>
 <!-- startSectionSummary --><div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 <!-- endSectionSummary --></div>
 <!-- startSectionContent --><div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="class_t_r_t_k_1_1_pivot_calibration_two_step__inherit__graph.png" border="0" usemap="#_t_r_t_k_1_1_pivot_calibration_two_step_3_01_t_01_4_inherit__map" alt="Inheritance graph"/></div>
-<map name="_t_r_t_k_1_1_pivot_calibration_two_step_3_01_t_01_4_inherit__map" id="_t_r_t_k_1_1_pivot_calibration_two_step_3_01_t_01_4_inherit__map">
-<area shape="rect" id="node2" href="class_t_r_t_k_1_1_pivot_calibration.html" title="This is the common interface for all pivot&#45;point&#45;calibration classes." alt="" coords="31,5,216,32"/></map>
+<div class="center"><img src="class_t_r_t_k_1_1_pivot_calibration_least_squares__inherit__graph.png" border="0" usemap="#_t_r_t_k_1_1_pivot_calibration_least_squares_3_01_t_01_4_inherit__map" alt="Inheritance graph"/></div>
+<map name="_t_r_t_k_1_1_pivot_calibration_least_squares_3_01_t_01_4_inherit__map" id="_t_r_t_k_1_1_pivot_calibration_least_squares_3_01_t_01_4_inherit__map">
+<area shape="rect" id="node2" href="class_t_r_t_k_1_1_pivot_calibration.html" title="This is the common interface for all pivot&#45;point&#45;calibration classes." alt="" coords="44,5,229,32"/></map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center><!-- endSectionContent --></div>
 <!-- startSectionHeader --><div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-1-trigger" src="closed.png"/> Collaboration diagram for TRTK::PivotCalibrationTwoStep&lt; T &gt;:<!-- endSectionHeader --></div>
+  <img id="dynsection-1-trigger" src="closed.png"/> Collaboration diagram for TRTK::PivotCalibrationLeastSquares&lt; T &gt;:<!-- endSectionHeader --></div>
 <!-- startSectionSummary --><div id="dynsection-1-summary" class="dynsummary" style="display:block;">
 <!-- endSectionSummary --></div>
 <!-- startSectionContent --><div id="dynsection-1-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="class_t_r_t_k_1_1_pivot_calibration_two_step__coll__graph.png" border="0" usemap="#_t_r_t_k_1_1_pivot_calibration_two_step_3_01_t_01_4_coll__map" alt="Collaboration graph"/></div>
-<map name="_t_r_t_k_1_1_pivot_calibration_two_step_3_01_t_01_4_coll__map" id="_t_r_t_k_1_1_pivot_calibration_two_step_3_01_t_01_4_coll__map">
-<area shape="rect" id="node2" href="class_t_r_t_k_1_1_pivot_calibration.html" title="This is the common interface for all pivot&#45;point&#45;calibration classes." alt="" coords="31,5,216,32"/></map>
+<div class="center"><img src="class_t_r_t_k_1_1_pivot_calibration_least_squares__coll__graph.png" border="0" usemap="#_t_r_t_k_1_1_pivot_calibration_least_squares_3_01_t_01_4_coll__map" alt="Collaboration graph"/></div>
+<map name="_t_r_t_k_1_1_pivot_calibration_least_squares_3_01_t_01_4_coll__map" id="_t_r_t_k_1_1_pivot_calibration_least_squares_3_01_t_01_4_coll__map">
+<area shape="rect" id="node2" href="class_t_r_t_k_1_1_pivot_calibration.html" title="This is the common interface for all pivot&#45;point&#45;calibration classes." alt="" coords="44,5,229,32"/></map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center><!-- endSectionContent --></div>
 
-<p><a href="class_t_r_t_k_1_1_pivot_calibration_two_step-members.html">List of all members.</a></p>
+<p><a href="class_t_r_t_k_1_1_pivot_calibration_least_squares-members.html">List of all members.</a></p>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4258e6a8be4e8e774f40cd6f609d4cc0"></a><!-- doxytag: member="TRTK::PivotCalibrationTwoStep::value_type" ref="a4258e6a8be4e8e774f40cd6f609d4cc0" args="" -->
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa75cd3dd749af374ce71d3bd9b5c758f"></a><!-- doxytag: member="TRTK::PivotCalibrationLeastSquares::value_type" ref="aa75cd3dd749af374ce71d3bd9b5c758f" args="" -->
 typedef T&#160;</td><td class="memItemRight" valign="bottom"><b>value_type</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a27b172cbdb6683c88b2950f971e2bd6e"></a><!-- doxytag: member="TRTK::PivotCalibrationTwoStep::Vector3T" ref="a27b172cbdb6683c88b2950f971e2bd6e" args="" -->
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9764482b338e6debdb305c222a2f67fe"></a><!-- doxytag: member="TRTK::PivotCalibrationLeastSquares::Vector3T" ref="a9764482b338e6debdb305c222a2f67fe" args="" -->
 typedef super::Vector3T&#160;</td><td class="memItemRight" valign="bottom"><b>Vector3T</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0f23e902a67cf7996027e3fbbef181e7"></a><!-- doxytag: member="TRTK::PivotCalibrationTwoStep::Vector4T" ref="a0f23e902a67cf7996027e3fbbef181e7" args="" -->
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af6495af09aa2ebc77ec044327e51741c"></a><!-- doxytag: member="TRTK::PivotCalibrationLeastSquares::Vector4T" ref="af6495af09aa2ebc77ec044327e51741c" args="" -->
 typedef super::Vector4T&#160;</td><td class="memItemRight" valign="bottom"><b>Vector4T</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2aad537f1c016d9d9682d85d9bbad39d"></a><!-- doxytag: member="TRTK::PivotCalibrationTwoStep::VectorXT" ref="a2aad537f1c016d9d9682d85d9bbad39d" args="" -->
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a65f7700d70b73cb4a98c2589889e4f2b"></a><!-- doxytag: member="TRTK::PivotCalibrationLeastSquares::VectorXT" ref="a65f7700d70b73cb4a98c2589889e4f2b" args="" -->
 typedef super::VectorXT&#160;</td><td class="memItemRight" valign="bottom"><b>VectorXT</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac351af37d1898483d3fd6f006c8012be"></a><!-- doxytag: member="TRTK::PivotCalibrationTwoStep::Matrix3T" ref="ac351af37d1898483d3fd6f006c8012be" args="" -->
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad999a7d94e5b9f264562ebc2f0caa07b"></a><!-- doxytag: member="TRTK::PivotCalibrationLeastSquares::Matrix3T" ref="ad999a7d94e5b9f264562ebc2f0caa07b" args="" -->
 typedef super::Matrix3T&#160;</td><td class="memItemRight" valign="bottom"><b>Matrix3T</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad47f932649ebc73431efd2d331651c58"></a><!-- doxytag: member="TRTK::PivotCalibrationTwoStep::MatrixXT" ref="ad47f932649ebc73431efd2d331651c58" args="" -->
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a54e0427bc541a2d15a5db6994044bfc7"></a><!-- doxytag: member="TRTK::PivotCalibrationLeastSquares::Matrix4T" ref="a54e0427bc541a2d15a5db6994044bfc7" args="" -->
+typedef super::Matrix4T&#160;</td><td class="memItemRight" valign="bottom"><b>Matrix4T</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4483b4498abf4c4676367a12eed46075"></a><!-- doxytag: member="TRTK::PivotCalibrationLeastSquares::MatrixXT" ref="a4483b4498abf4c4676367a12eed46075" args="" -->
 typedef super::MatrixXT&#160;</td><td class="memItemRight" valign="bottom"><b>MatrixXT</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a88ba16360692fd5949463a6f3121e610"></a><!-- doxytag: member="TRTK::PivotCalibrationTwoStep::Point" ref="a88ba16360692fd5949463a6f3121e610" args="" -->
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adcaa654644bca8aac6c03365c5a8bd65"></a><!-- doxytag: member="TRTK::PivotCalibrationLeastSquares::Point" ref="adcaa654644bca8aac6c03365c5a8bd65" args="" -->
 typedef <a class="el" href="class_t_r_t_k_1_1_coordinate.html">super::Point</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Point</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a96a44c00042462dfe21ed01cac7247b0"></a><!-- doxytag: member="TRTK::PivotCalibrationTwoStep::DataType" ref="a96a44c00042462dfe21ed01cac7247b0" args="" -->
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4e25f46d05fdb34dde6aeae9a6f9055f"></a><!-- doxytag: member="TRTK::PivotCalibrationLeastSquares::DataType" ref="a4e25f46d05fdb34dde6aeae9a6f9055f" args="" -->
 typedef super::DataType&#160;</td><td class="memItemRight" valign="bottom"><b>DataType</b></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><b>Error</b> { <b>NOT_ENOUGH_INPUT_DATA</b>, 
 <b>UNEQUAL_CARDINALITY_OF_INPUT_SETS</b>, 
 <b>UNKNOWN_ERROR</b>
  }</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a970418cc066d3c55d0779c5396d5883e"></a><!-- doxytag: member="TRTK::PivotCalibrationTwoStep::Matrix4T" ref="a970418cc066d3c55d0779c5396d5883e" args="" -->
-typedef Eigen::Matrix&lt; T, 4, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Matrix4T</b></td></tr>
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad41f0b0f6e714a335c8cf41d429c9339"></a><!-- doxytag: member="TRTK::PivotCalibrationTwoStep::getNumberItemsRequired" ref="ad41f0b0f6e714a335c8cf41d429c9339" args="() const " -->
-size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration_two_step.html#ad41f0b0f6e714a335c8cf41d429c9339">getNumberItemsRequired</a> () const </td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaae2bfc9a9c72b996dd5682a6ab7d0a3"></a><!-- doxytag: member="TRTK::PivotCalibrationLeastSquares::getNumberItemsRequired" ref="aaae2bfc9a9c72b996dd5682a6ab7d0a3" args="() const " -->
+size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration_least_squares.html#aaae2bfc9a9c72b996dd5682a6ab7d0a3">getNumberItemsRequired</a> () const </td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the minimum number of locations and rotations needed for the algorithm. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a46c3d3bbc415f3c1c47b9c9c56c2ca7d"></a><!-- doxytag: member="TRTK::PivotCalibrationTwoStep::setLocations" ref="a46c3d3bbc415f3c1c47b9c9c56c2ca7d" args="(Range&lt; Vector3T &gt; locations)" -->
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5dcab5dad56e12b4ae7a9c4246a2b6af"></a><!-- doxytag: member="TRTK::PivotCalibrationLeastSquares::setLocations" ref="a5dcab5dad56e12b4ae7a9c4246a2b6af" args="(Range&lt; Vector3T &gt; locations)" -->
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setLocations</b> (<a class="el" href="class_t_r_t_k_1_1_range.html">Range</a>&lt; Vector3T &gt; locations)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a67d7e60b2d2212154f27afe1e79a65ce"></a><!-- doxytag: member="TRTK::PivotCalibrationTwoStep::setRotations" ref="a67d7e60b2d2212154f27afe1e79a65ce" args="(Range&lt; Matrix3T &gt; rotations)" -->
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2e8c13637d6c0e8b9004c52b81ada6cb"></a><!-- doxytag: member="TRTK::PivotCalibrationLeastSquares::setRotations" ref="a2e8c13637d6c0e8b9004c52b81ada6cb" args="(Range&lt; Matrix3T &gt; rotations)" -->
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setRotations</b> (<a class="el" href="class_t_r_t_k_1_1_range.html">Range</a>&lt; Matrix3T &gt; rotations)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a279a64566976dbc8cab293c699c5792a"></a><!-- doxytag: member="TRTK::PivotCalibrationTwoStep::compute" ref="a279a64566976dbc8cab293c699c5792a" args="()" -->
-T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration_two_step.html#a279a64566976dbc8cab293c699c5792a">compute</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac337b1bff2a20809344992dc78149aa0"></a><!-- doxytag: member="TRTK::PivotCalibrationLeastSquares::setRemoveOutliers" ref="ac337b1bff2a20809344992dc78149aa0" args="(bool value)" -->
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration_least_squares.html#ac337b1bff2a20809344992dc78149aa0">setRemoveOutliers</a> (bool value)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Specifies whether outliers shall be removed during LS optimization. Defaults to false. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a54f73ce63c3b9af1234b2935d09bd0ca"></a><!-- doxytag: member="TRTK::PivotCalibrationLeastSquares::compute" ref="a54f73ce63c3b9af1234b2935d09bd0ca" args="()" -->
+T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration_least_squares.html#a54f73ce63c3b9af1234b2935d09bd0ca">compute</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the RMSE. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a92068e347bf3601d5e4903143a77911a"></a><!-- doxytag: member="TRTK::PivotCalibrationTwoStep::getRMSE" ref="a92068e347bf3601d5e4903143a77911a" args="() const " -->
-T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration_two_step.html#a92068e347bf3601d5e4903143a77911a">getRMSE</a> () const </td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aca0446ec5bc1a51842832fe74684323b"></a><!-- doxytag: member="TRTK::PivotCalibrationLeastSquares::getRMSE" ref="aca0446ec5bc1a51842832fe74684323b" args="() const " -->
+T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration_least_squares.html#aca0446ec5bc1a51842832fe74684323b">getRMSE</a> () const </td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the RMSE of the last computation. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a240f8578711bee045f4a9616d949d993"></a><!-- doxytag: member="TRTK::PivotCalibrationTwoStep::getPivotPoint" ref="a240f8578711bee045f4a9616d949d993" args="() const " -->
-const Vector3T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration_two_step.html#a240f8578711bee045f4a9616d949d993">getPivotPoint</a> () const </td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a14051566c45de6044fb336135f71f155"></a><!-- doxytag: member="TRTK::PivotCalibrationLeastSquares::getPivotPoint" ref="a14051566c45de6044fb336135f71f155" args="() const " -->
+const Vector3T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration_least_squares.html#a14051566c45de6044fb336135f71f155">getPivotPoint</a> () const </td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the pivot point (or tool tip) in world coordinates. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a230155e74b23fb86c4ee27899a215d1e"></a><!-- doxytag: member="TRTK::PivotCalibrationTwoStep::getLocalPivotPoint" ref="a230155e74b23fb86c4ee27899a215d1e" args="() const " -->
-const Vector3T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration_two_step.html#a230155e74b23fb86c4ee27899a215d1e">getLocalPivotPoint</a> () const </td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a84f011e52b8f964c087f126f15c96d65"></a><!-- doxytag: member="TRTK::PivotCalibrationLeastSquares::getLocalPivotPoint" ref="a84f011e52b8f964c087f126f15c96d65" args="() const " -->
+const Vector3T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration_least_squares.html#a84f011e52b8f964c087f126f15c96d65">getLocalPivotPoint</a> () const </td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the pivot point (or tool tip) in local coordinates. <br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <h3>template&lt;class T&gt;<br/>
- class TRTK::PivotCalibrationTwoStep&lt; T &gt;</h3>
+ class TRTK::PivotCalibrationLeastSquares&lt; T &gt;</h3>
 
 <p>Pivot point calibration. </p>
 <dl><dt><b>Template Parameters:</b></dt><dd>
@@ -193,21 +196,37 @@ const Vector3T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class
 <img src="Tool Tip Calibration (small).png" alt="Tool Tip Calibration (small).png"/>
 <p><strong>Movement of a tool while recording data for the tool tip calibration.</strong></p></div>
 <p> Given a new measurement of the tracker (which comprises the position \( t_i \) and orientation \( R_i \) of the sensor in the global coordinate system) the pivot point the tool tip location in global coordinates can be easily computed as \( p_{global} = R_i p_{local} + t_i \).</p>
+<p>By default no outliers are removed. This behaviour can be changed using the <a class="el" href="class_t_r_t_k_1_1_pivot_calibration_least_squares.html#ac337b1bff2a20809344992dc78149aa0">setRemoveOutliers()</a> method. If the flag is set, a least square solution is computed as before, then all measurements that are outside of three standard deviations are removed, and finally the solution is recomputed.</p>
 <dl class="user"><dt><b>Algorithm:</b></dt><dd></dd></dl>
-<p>During the calibration procedure, the object's sensor moves along a circular arc (or in three dimensions on a calotte of a sphere). In a first step, the center point (= pivot point) as well as the radius of this sphere are estimated by a simple least square scheme (that's done in global coordinates). See <a class="el" href="class_t_r_t_k_1_1_fit_sphere.html">TRTK::FitSphere</a> for more details.</p>
-<p>Provided the object is positioned as described above (e.g. the tool tip is stationary), using a single measurement \( (R_i, t_i) \) the global pivot point \( p&#39; \) can be easily transformed into a local coordinate \( p \) via the relation</p>
+<p>If a tool touches the pivot point with its tip, the pivot point's location \( M \) in global coordinates is</p>
 <p class="formulaDsp">
-\[ p&#39; = R p + t \quad\quad \Leftrightarrow \quad\quad p = R^{-1} (p&#39; - t) \]
+\[ M = R_i t + t_i \]
 </p>
-<p>where \( R \) is the rotation and \( t \) the location of the sensor in the global coordinate system. However, due to noise, various results for \( p \) are averaged. Instead of recording a new set of pairs of \( (R_i, t_i) \) after having determined the virtual sphere, the former measurements are used.</p>
+<p>where \( R_i \) is the rotation and \( t_i \) the location of the tool sensor in the world or tracking coordinate system. \( t \) is the sought location of the tool tip in the sensor's local coordinate system. Note, that \( t \) and \( M \) remain the same for all measurements. The above equation can be rearranged to</p>
+<p class="formulaDsp">
+\[ R_i t - M = -t_i \]
+</p>
+<p>or in matrix notation</p>
+<p class="formulaDsp">
+\[ \begin{pmatrix} R_i &amp; -I \end{pmatrix} \begin{pmatrix} t \\ M \\ \end{pmatrix} = -t_i \]
+</p>
+<p>Combining all measurements this yields</p>
+<p class="formulaDsp">
+\[ \begin{pmatrix} R_1 &amp; -I \\ R_2 &amp; -I \\ \vdots &amp; \vdots \\ R_n &amp; -I \\ \end{pmatrix} \begin{pmatrix} t \\ M \\ \end{pmatrix} = \begin{pmatrix} -t_1 \\ -t_2 \\ \vdots \\ -t_n \\ \end{pmatrix} \quad\quad \Leftrightarrow \quad\quad Ax = b \]
+</p>
+<p>The solution of the least square problem \( x = \arg\min_x || Ax - b ||^2 \) is</p>
+<p class="formulaDsp">
+\[ x = (A^T A)^{-1} A^T b \quad\quad \text{(Moore-Penrose pseudoinverse)} \]
+</p>
+<p>If requested, two passes are run. The first run with all samples and the second run only with those that are within 3 standard deviations. </p>
 <dl class="user"><dt><b>Example:</b></dt><dd></dd></dl>
 <p>For some example code please be referred to <a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html">PivotCalibration</a>.</p>
 <dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html" title="This is the common interface for all pivot-point-calibration classes.">TRTK::PivotCalibration</a>, <a class="el" href="class_t_r_t_k_1_1_ransac_pivot_calibration_model.html" title="This class implements the Ransac::Model interface for all PivotCalibration classes.">TRTK::RansacPivotCalibrationModel</a>, <a class="el" href="class_t_r_t_k_1_1_coordinate.html" title="A generic coordinate class.">TRTK::Coordinate</a> and <a class="el" href="class_t_r_t_k_1_1_transform3_d.html" title="Affine or projective transformation in 3D.">TRTK::Transform3D</a></dd></dl>
 <dl class="author"><dt><b>Author:</b></dt><dd>Christoph Haenisch </dd></dl>
 <dl class="version"><dt><b>Version:</b></dt><dd>1.0.0 </dd></dl>
-<dl class="date"><dt><b>Date:</b></dt><dd>last changed on 2016-07-25 </dd></dl>
+<dl class="date"><dt><b>Date:</b></dt><dd>last changed on 2016-07-26 </dd></dl>
 
-<p>Definition at line <a class="el" href="_pivot_calibration_8hpp_source.html#l01216">1216</a> of file <a class="el" href="_pivot_calibration_8hpp_source.html">PivotCalibration.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_pivot_calibration_8hpp_source.html#l00586">586</a> of file <a class="el" href="_pivot_calibration_8hpp_source.html">PivotCalibration.hpp</a>.</p>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>D:/Users/haenisch/Programmierung/C++/TRTK/include/TRTK/<a class="el" href="_pivot_calibration_8hpp_source.html">PivotCalibration.hpp</a></li>
 </ul>

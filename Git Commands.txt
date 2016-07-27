@@ -1,0 +1,81 @@
+Generate a SSH key.
+
+  ssh-keygen -C "haenisch@hia.rwth-aachen.de" -t rsa
+
+Get any help.
+
+  git help git
+
+Setup Git.
+
+  git config --global user.name "Christoph Haenisch"
+  git config --global user.email "haenisch@hia.rwth-aachen.de"
+
+Setup a new local repository.
+
+  git init
+
+Clone a (remote) repository.
+
+  git clone git@github.com:Haenisch/TRTK.git
+
+What branchs are available?
+
+  git branch
+
+Change the active branch.
+
+  git checkout experimental
+
+Add files to the staging area.
+
+  git add <file(s)>
+  git add -A
+
+  git commit -a
+  git commit -a -m <message>
+
+Undo a "git add" or remove files from the staging area.
+
+  git reset <file>
+  git reset HEAD <file>
+  
+Get the actual status.
+
+  git log
+  git status
+
+Create a new branch from an existing one.
+
+  git checkout -b <new> <existing branch>
+  git checkout -b develop master
+
+Merging and tagging.
+
+  git merge --no-ff release-0.1.0
+  git tag -a 0.1.0
+
+  git clone git@github.com:Haenisch/TRTK.git
+
+Pull from remote repo.
+
+  git pull
+
+Push a new branch to the remote repo.
+
+  git push -u origin <new branch>
+  git push -u origin develop
+
+Create a new "orphan" branch, commit and push it.
+
+  git checkout --orphan gh-pages
+  # remove existing files from the current branch so that they are not commited
+  git rm -rf .
+  # create some files and add them
+  echo "TRTK" > index.html
+  git add index.html
+  git commit -a -m "First pages commit."
+  git push origin gh-pages
+  
+  git pull
+  git branch --set-upstream-to=origin/gh-pages gh-pages
