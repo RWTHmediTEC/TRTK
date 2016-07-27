@@ -182,6 +182,81 @@ int main()
 
 
     cout << endl;
+    cout << "Least Squares" << endl;
+    cout << "-------------" << endl << endl;
+
+    {
+        Clock clock;
+        srand(0);
+        GenerateTestData test_data;
+
+        PivotCalibrationLeastSquares<double> calibration;
+        calibration.setLocations(make_range(test_data.locations));
+        calibration.setRotations(make_range(test_data.rotations));
+        double rmse = calibration.compute();
+
+        cout << "No noise" << endl;
+        cout << "RMSE: " << rmse << endl;
+        cout << "Global pivot point: " << calibration.getPivotPoint().transpose() << "\t";
+        cout << "Error: " << (calibration.getPivotPoint() - test_data.p).norm() << endl;
+        cout << "Local pivot point: " << calibration.getLocalPivotPoint().transpose() << "\t";
+        cout << "Error: " << (calibration.getLocalPivotPoint() - test_data.p_local).norm() << endl;
+        cout << clock << endl;
+    }
+
+    {
+        // Noise plus outlier!
+        Clock clock;
+        srand(0);
+        GenerateTestData test_data(0.1);
+        test_data.locations[0] += Vector(-100, 300, 1000); // gross outlier
+
+        PivotCalibrationLeastSquares<double> calibration;
+        calibration.setLocations(make_range(test_data.locations));
+        calibration.setRotations(make_range(test_data.rotations));
+        calibration.setRemoveOutliers(true); // <--- now important
+        double rmse = calibration.compute();
+
+        cout << "With noise and gross outlier" << endl;
+        cout << "RMSE: " << rmse << endl;
+        cout << "Global pivot point: " << calibration.getPivotPoint().transpose() << "\t";
+        cout << "Error: " << (calibration.getPivotPoint() - test_data.p).norm() << endl;
+        cout << "Local pivot point: " << calibration.getLocalPivotPoint().transpose() << "\t";
+        cout << "Error: " << (calibration.getLocalPivotPoint() - test_data.p_local).norm() << endl;
+        cout << clock << endl;
+    }
+
+    {
+        Clock clock;
+        srand(0);
+        GenerateTestData test_data(0.1);
+        test_data.locations[0] += Vector(-100, 300, 1000);
+        vector<pair<Vector, Matrix> > data = zip(test_data.locations, test_data.rotations);
+
+        PivotCalibrationLeastSquares<double> calibration;
+        calibration.setRemoveOutliers(true);
+
+        RansacPivotCalibrationModel<double> model(calibration);
+        Ransac<double, PivotCalibration<double>::DataType> ransac;
+
+        ransac.setModel(model);
+        ransac.setData(data);
+        ransac.setErrorTolerance(0.2);
+
+        unsigned number_of_samples_used = ransac.compute();
+
+        cout << "RANSAC and noise" << endl;
+        cout << "RMSE: " << model.getRMSE() << endl;
+        cout << "Number of samples used: " << number_of_samples_used << endl;
+        cout << "Global pivot point: " << calibration.getPivotPoint().transpose() << "\t";
+        cout << "Error: " << (calibration.getPivotPoint() - test_data.p).norm() << endl;
+        cout << "Local pivot point: " << calibration.getLocalPivotPoint().transpose() << "\t";
+        cout << "Error: " << (calibration.getLocalPivotPoint() - test_data.p_local).norm() << endl;
+        cout << clock << endl;
+    }
+
+
+    cout << endl;
     cout << "Power of Average Transformation Matrix" << endl;
     cout << "--------------------------------------" << endl << endl;
 

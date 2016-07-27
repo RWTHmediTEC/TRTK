@@ -10,7 +10,7 @@
     52074 Aachen
     Germany
 
-    Version 0.2.0 (2012-02-03)
+    Version 1.0.0 (2016-07-26)
 */
 
 /** \file PivotCalibration.hpp
@@ -68,7 +68,7 @@ namespace TRTK
   * Given a new measurement of the tracker (which comprises the position \f$ t_i \f$
   * and orientation \f$ R_i \f$ of the sensor in the global coordinate system) the
   * pivot point the tool tip location in global coordinates can be easily computed
-  * as \f$ p_{global} = R_i * p_{local} + * t_i \f$. 
+  * as \f$ p_{global} = R_i p_{local} + t_i \f$. 
   *
   * \note We always assume, that the transformations map from a local coordinate
   *       system to the global coordinate system. That is, given a rotation matrix
@@ -80,6 +80,11 @@ namespace TRTK
   *       p' = Rp + t
   *       \f]
   *
+  * \par
+  * \note You might also be interested in the RANSAC interface class
+  *       \ref TRTK::RansacPivotCalibrationModel. Especially, if you expect outliers
+  *       in your measurements.
+  *       
   * \par Example:
   *
   * Here is an example of how to perform a pivot calibration:
@@ -127,9 +132,13 @@ namespace TRTK
   *
   * \note See http://eigen.tuxfamily.org/ for how to use the Matrix class.
   *
-  * \see TRTK::PivotCalibrationCombinatorialApproach, TRTK::PivotCalibrationPATM,
-  *      TRTK::PivotCalibrationTwoStep, TRTK::RansacPivotCalibrationModel,
-  *      TRTK::Coordinate and TRTK::Transform3D
+  * \see TRTK::PivotCalibrationCombinatorialApproach,
+  *      TRTK::PivotCalibrationLeastSquares,
+  *      TRTK::PivotCalibrationPATM,
+  *      TRTK::PivotCalibrationTwoStep,
+  *      TRTK::RansacPivotCalibrationModel,
+  *      TRTK::Coordinate and 
+  *      TRTK::Transform3D
   *
   * \author Christoph Haenisch
   * \version 1.0.0
@@ -180,7 +189,7 @@ public:
   * \brief Pivot point calibration.
   *
   * This class estimates the pivot point of a rigid body whose movement is
-  * constraind to rotate around a certain pivot point and whose movement is
+  * constrained to rotate around a certain pivot point and whose movement is
   * tracked via a localization system. Typical examples of application include
   * the tool tip calibration or the hip center determination.
   *
@@ -196,14 +205,14 @@ public:
   * Given a new measurement of the tracker (which comprises the position \f$ t_i \f$
   * and orientation \f$ R_i \f$ of the sensor in the global coordinate system) the
   * pivot point the tool tip location in global coordinates can be easily computed
-  * as \f$ p_{global} = R_i * p_{local} + * t_i \f$. 
+  * as \f$ p_{global} = R_i p_{local} + t_i \f$. 
   *
   * \par Algorithm:
   *
   * If a tool touches the pivot point with its tip, the pivot point's location \f$ M \f$
   * in global coordinates is
   *
-  * \f[   M = R_i * t + t_i   \f]
+  * \f[   M = R_i t + t_i   \f]
   *
   * where \f$ R_i \f$ is the rotation and \f$ t_i \f$ the location of the tool sensor in
   * the world or tracking coordinate system. \f$ t \f$ is the sought location of the tool
@@ -211,15 +220,15 @@ public:
   * all measurements. Now, using two different measurements, the pivot point M can be
   * eliminated
   *
-  * \f[   R_i * t + t_i = R_j * t + t_j   \f]
+  * \f[   R_i t + t_i = R_j t + t_j   \f]
   *
   * This can be rearranged to
   *
-  * \f[   (R_i - R_j) * t = (t_j - t_i)   \f]
+  * \f[   (R_i - R_j) t = (t_j - t_i)   \f]
   *
-  * Doing this for all combinations of all measurements yields a system of equations
-  * \f$ Ax = b \f$ (with \f$ x = t \f$) which can be solved for the sought translation
-  * \f$ t \f$.
+  * Doing this for all combinations of all measurements yields an over-determined system
+  * of equations \f$ Ax = b \f$ (with \f$ x = t \f$) which can be solved for the sought
+  * translation vector \f$ t \f$ via the method of least squares.
   *
   * \f[
   *     \begin{pmatrix}
@@ -245,7 +254,7 @@ public:
   * \f]
   *
   * \f[
-  *     t = [A^T A]^{-1} A^T B   \quad\quad  \text{(Moore-Penrose pseudoinverse)}
+  *     t = (A^T A)^{-1} A^T B   \quad\quad  \text{(Moore-Penrose pseudoinverse)}
   * \f]
   *
   * Note: Not all combinations are taken into account. For instance, the case
@@ -288,7 +297,7 @@ public:
     void setLocations(Range<Vector3T> locations);
     void setRotations(Range<Matrix3T> rotations);
     T compute();                                        ///< Returns the RMSE.
-    T getRMSE() const;
+    T getRMSE() const;                                  ///< Returns the RMSE of the last computation.
     const Vector3T & getPivotPoint() const;             ///< Returns the pivot point (or tool tip) in world coordinates.
     const Vector3T & getLocalPivotPoint() const;        ///< Returns the pivot point (or tool tip) in local coordinates.
 
@@ -336,8 +345,9 @@ T PivotCalibrationCombinatorialApproach<T>::compute()
 
     (R_i - R_j) * t = (t_j - t_i)
 
-    Doing this for all combinations of all measurements yields a system of equations
-    Ax = b (with x = t) which can be solved for the sought translation 't'.
+    Doing this for all combinations of all measurements yields an over-determined system of
+    equations Ax = b (with x = t) which can be solved for the sought translation vector 't'
+    via the method of least squares.
 
     | R1 - R2   |         | t2   - t1 |
     | R1 - R3   |         | t3   - t1 |
@@ -468,7 +478,7 @@ void PivotCalibrationCombinatorialApproach<T>::setRotations(Range<Matrix3T> rota
 
 
 ////////////////////////////////////////////////////////////////////////////////
-//                            PivotCalibrationPATM                            //
+//                        PivotCalibrationLeastSquares                        //
 ////////////////////////////////////////////////////////////////////////////////
 
 
@@ -477,7 +487,7 @@ void PivotCalibrationCombinatorialApproach<T>::setRotations(Range<Matrix3T> rota
   * \brief Pivot point calibration.
   *
   * This class estimates the pivot point of a rigid body whose movement is
-  * constraind to rotate around a certain pivot point and whose movement is
+  * constrained to rotate around a certain pivot point and whose movement is
   * tracked via a localization system. Typical examples of application include
   * the tool tip calibration or the hip center determination.
   *
@@ -493,7 +503,362 @@ void PivotCalibrationCombinatorialApproach<T>::setRotations(Range<Matrix3T> rota
   * Given a new measurement of the tracker (which comprises the position \f$ t_i \f$
   * and orientation \f$ R_i \f$ of the sensor in the global coordinate system) the
   * pivot point the tool tip location in global coordinates can be easily computed
-  * as \f$ p_{global} = R_i * p_{local} + * t_i \f$. 
+  * as \f$ p_{global} = R_i p_{local} + t_i \f$. 
+  *
+  * By default no outliers are removed. This behaviour can be changed using the
+  * \ref setRemoveOutliers() method. If the flag is set, a least square solution
+  * is computed as before, then all measurements that are outside of three standard
+  * deviations are removed, and finally the solution is recomputed.
+  *
+  * \par Algorithm:
+  *
+  * If a tool touches the pivot point with its tip, the pivot point's location \f$ M \f$
+  * in global coordinates is
+  *
+  * \f[
+  *     M = R_i t + t_i
+  * \f]
+  *
+  * where \f$ R_i \f$ is the rotation and \f$ t_i \f$ the location of the tool sensor in
+  * the world or tracking coordinate system. \f$ t \f$ is the sought location of the tool
+  * tip in the sensor's local coordinate system. Note, that \f$ t \f$ and \f$ M \f$ remain
+  * the same for all measurements. The above equation can be rearranged to
+  *
+  * \f[
+  *     R_i t - M = -t_i
+  * \f]
+  *
+  * or in matrix notation
+  *
+  * \f[
+  *     \begin{pmatrix}
+  *         R_i  &  -I
+  *     \end{pmatrix}
+  *     \begin{pmatrix}
+  *         t  \\
+  *         M  \\
+  *     \end{pmatrix}
+  *     = -t_i
+  * \f]
+  *
+  * Combining all measurements this yields
+  *
+  * \f[
+  *     \begin{pmatrix}
+  *         R_1     &  -I      \\
+  *         R_2     &  -I      \\
+  *         \vdots  &  \vdots  \\
+  *         R_n     &  -I      \\
+  *     \end{pmatrix}
+  *     \begin{pmatrix}
+  *         t  \\
+  *         M  \\
+  *     \end{pmatrix}
+  *     =
+  *     \begin{pmatrix}
+  *         -t_1    \\
+  *         -t_2    \\
+  *         \vdots  \\
+  *         -t_n    \\
+  *     \end{pmatrix}
+  *     \quad\quad  \Leftrightarrow  \quad\quad  Ax = b
+  * \f]
+  *
+  * The solution of the least square problem \f$ x = \arg\min_x || Ax - b ||^2 \f$ is
+  *
+  * \f[
+  *     x = (A^T A)^{-1} A^T b    \quad\quad   \text{(Moore-Penrose pseudoinverse)}
+  * \f]
+  *
+  * If requested, two passes are run. The first run with all samples and the
+  * second run only with those that are within 3 standard deviations.
+  * \endverbatim
+  *
+  * \par Example:
+  *
+  * For some example code please be referred to \ref PivotCalibration.
+  *
+  * \see TRTK::PivotCalibration, TRTK::RansacPivotCalibrationModel,
+  *      TRTK::Coordinate and TRTK::Transform3D
+  *
+  *
+  * \author Christoph Haenisch
+  * \version 1.0.0
+  * \date last changed on 2016-07-26
+  */
+
+template <class T>
+class PivotCalibrationLeastSquares : public PivotCalibration<T>
+{
+private:
+    typedef PivotCalibration<T> super;
+
+public:
+    typedef T value_type;
+    typedef typename super::Vector3T Vector3T;
+    typedef typename super::Vector4T Vector4T;
+    typedef typename super::VectorXT VectorXT;
+    typedef typename super::Matrix3T Matrix3T;
+    typedef typename super::Matrix4T Matrix4T;
+    typedef typename super::MatrixXT MatrixXT;
+    typedef typename super::Point Point;
+    typedef typename super::DataType DataType;
+
+    PivotCalibrationLeastSquares();
+    ~PivotCalibrationLeastSquares();
+
+    size_t getNumberItemsRequired() const;              ///< Returns the minimum number of locations and rotations needed for the algorithm.
+    void setLocations(Range<Vector3T> locations);
+    void setRotations(Range<Matrix3T> rotations);
+    void setRemoveOutliers(bool value);                 ///< Specifies whether outliers shall be removed during LS optimization. Defaults to false.
+    T compute();                                        ///< Returns the RMSE.
+    T getRMSE() const;                                  ///< Returns the RMSE of the last computation.
+    const Vector3T & getPivotPoint() const;             ///< Returns the pivot point (or tool tip) in world coordinates.
+    const Vector3T & getLocalPivotPoint() const;        ///< Returns the pivot point (or tool tip) in local coordinates.
+
+private:
+    std::vector<Vector3T> locations;
+    std::vector<Matrix3T> rotations;
+    bool remove_outliers;
+    Vector3T global_pivot_point;                        ///< Pivot point (or tool tip) in world coordinates.
+    Vector3T local_pivot_point;                         ///< Pivot point (or tool tip) in local coordinates.
+    T rmse;
+};
+
+
+template <class T>
+PivotCalibrationLeastSquares<T>::PivotCalibrationLeastSquares() : remove_outliers(false), rmse(T(0))
+{
+}
+
+
+template <class T>
+PivotCalibrationLeastSquares<T>::~PivotCalibrationLeastSquares()
+{
+}
+
+
+template <class T>
+T PivotCalibrationLeastSquares<T>::compute()
+{
+    /*
+
+    Explanation of the algorithm
+
+    If a tool touches the pivot point with its tip, the pivot point's location M
+    in global coordinates is
+
+    M = R_i * t + t_i
+
+    where 'R_i' is the rotation and 't_i' the location of the tool sensor in the world or
+    tracking coordinate system. 't' is the sought location of the tool tip in the sensor's
+    local coordinate system. Note, that 't' and 'M' remain the same for all measurements.
+    The above equation can be rearranged to
+
+    R_i * t - M = -t_i
+
+    or in matrix notation
+
+    |         |   | t |
+    | R_i  -I | * |   | = -t_i
+    |         |   | M |
+
+    Combining all measurements this yields
+
+    | R_1   -I |           | -t_1 |
+    | R_2   -I | * | t | = | -t_2 |      <==>    Ax = b
+    | ...  ... |   | M |   |  ... |
+    | R_n   -I |           | -t_n |
+
+    The solution of the least square problem x = argmin_x | Ax - b |^2 is
+
+    x = [A^T * A]^(-1) * A^T * b        (Moore-Penrose pseudoinverse)
+
+    If requested, two passes are run. The first run with all samples and the
+    second run only with those that are within 3 standard deviations.
+
+    */
+
+    // Build up A and b and solve the system of equations
+
+    using std::sqrt;
+
+    const int n = rotations.size();
+
+    MatrixXT A(3 * n, 6);
+    MatrixXT b(3 * n, 1);
+    Matrix3T negative_identity = -Matrix3T::Identity();
+
+    for (int i = 0; i < n; ++i)
+    {
+        A.block(i * 3, 0, 3, 3) = rotations[i];
+        A.block(i * 3, 3, 3, 3) = negative_identity;
+        b.block(i * 3, 0, 3, 1) = - locations[i];
+    }
+
+    VectorXT x = (A.transpose() * A).inverse() * (A.transpose() * b);
+
+    local_pivot_point = x.head(3);
+    global_pivot_point = x.tail(3);
+
+    // Remove outliers and recompute the solution
+
+    VectorXT inlier_mask = VectorXT::Constant(n, 1);
+
+    if (remove_outliers)
+    {
+        // Consider all measurements that lie within three standard deviations
+        // of the distribution of all samples as inliers. Disregard outliers
+        // by solving weighted least squares and setting the weights for outliers
+        // to zero.
+
+        typedef Eigen::Array<T, Eigen::Dynamic, 1> ArrayXT;
+
+        VectorXT residuals = (A * x - b);
+        ArrayXT deviations(n);
+
+        for (int i = 0; i < n; ++i)
+        {
+            deviations(i) = residuals.block(3*i, 0, 3, 1).norm();
+        }
+
+        T mean = deviations.mean();
+        T sd = sqrt((deviations - mean).square().matrix().sum() / (n - 1)); // standard deviation
+
+        VectorXT weights(3 * n);
+
+        for (int i = 0; i < n; ++i)
+        {
+            if (abs(deviations[i] - mean) < 3 * sd)
+            {
+                weights(3 * i + 0) = 1; // inliers
+                weights(3 * i + 1) = 1; // inliers
+                weights(3 * i + 2) = 1; // inliers
+            }
+            else
+            {
+                weights(3 * i + 0) = 0; // outliers
+                weights(3 * i + 1) = 0; // outliers
+                weights(3 * i + 2) = 0; // outliers
+
+                inlier_mask(i) = 0;
+            }
+        }
+
+        // Recompute the solution
+
+        VectorXT x = (A.transpose() * weights.asDiagonal() * A).inverse() * (A.transpose() * (weights.asDiagonal() * b));
+
+        local_pivot_point = x.head(3);
+        global_pivot_point = x.tail(3);
+    }
+
+    // Compute the RMSE
+
+    rmse = T(0);
+
+    for (int i = 0; i < n; ++i)
+    {
+        Vector3T noisy_center_point = rotations[i] * local_pivot_point + locations[i];
+        rmse += (noisy_center_point - global_pivot_point).squaredNorm() * inlier_mask(i);
+    }
+
+    rmse = sqrt(rmse / inlier_mask.sum()); // inlier_mask.sum() == n if outliers are not removed
+
+    return rmse;
+}
+
+
+template <class T>
+const typename PivotCalibrationLeastSquares<T>::Vector3T & PivotCalibrationLeastSquares<T>::getLocalPivotPoint() const
+{
+    return local_pivot_point;
+}
+
+
+template <class T>
+size_t PivotCalibrationLeastSquares<T>::getNumberItemsRequired() const
+{
+    return 3;
+}
+
+
+template <class T>
+const typename PivotCalibrationLeastSquares<T>::Vector3T & PivotCalibrationLeastSquares<T>::getPivotPoint() const
+{
+    return global_pivot_point;
+}
+
+
+template <class T>
+T PivotCalibrationLeastSquares<T>::getRMSE() const
+{
+    return rmse;
+}
+
+
+template <class T>
+void PivotCalibrationLeastSquares<T>::setLocations(Range<Vector3T> locations)
+{
+    this->locations.resize(locations.size());
+    size_t i = 0;
+
+    while (!locations.isDone())
+    {
+        this->locations[i++] = locations.currentItem();
+        locations.next();
+    }
+}
+
+
+template <class T>
+void PivotCalibrationLeastSquares<T>::setRemoveOutliers(bool value)
+{
+    remove_outliers = value;
+}
+
+
+template <class T>
+void PivotCalibrationLeastSquares<T>::setRotations(Range<Matrix3T> rotations)
+{
+    this->rotations.resize(rotations.size());
+    size_t i = 0;
+
+    while (!rotations.isDone())
+    {
+        this->rotations[i++] = rotations.currentItem();
+        rotations.next();
+    }
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+//                            PivotCalibrationPATM                            //
+////////////////////////////////////////////////////////////////////////////////
+
+
+/** \tparam T scalar (floating point) type
+  *
+  * \brief Pivot point calibration.
+  *
+  * This class estimates the pivot point of a rigid body whose movement is
+  * constrained to rotate around a certain pivot point and whose movement is
+  * tracked via a localization system. Typical examples of application include
+  * the tool tip calibration or the hip center determination.
+  *
+  * The calibration procedure to obtain a tool tip location is as follows: The tool
+  * tip is placed in a divot and the tool is moved around this pivot point while
+  * always touching the divot with its tip. The location as well as the rotation of
+  * the sensor system is saved for each sampling instance. Then this list is passed
+  * to one of the pivot calibration algorithms and the sought location/translation
+  * is computed.
+  *
+  * \image html "Tool Tip Calibration (small).png" "Movement of a tool while recording data for the tool tip calibration."
+  *
+  * Given a new measurement of the tracker (which comprises the position \f$ t_i \f$
+  * and orientation \f$ R_i \f$ of the sensor in the global coordinate system) the
+  * pivot point the tool tip location in global coordinates can be easily computed
+  * as \f$ p_{global} = R_i p_{local} + t_i \f$. 
   *
   * \par Algorithm:
   *
@@ -579,7 +944,7 @@ public:
     void setRotations(Range<Matrix3T> rotations);
     void setNumberIterations(int count);                ///< Sets the number of fixed-point iterations. the default value is 500.
     T compute();                                        ///< Returns the RMSE.
-    T getRMSE() const;
+    T getRMSE() const;                                  ///< Returns the RMSE of the last computation.
     const Vector3T & getPivotPoint() const;             ///< Returns the pivot point (or tool tip) in world coordinates.
     const Vector3T & getLocalPivotPoint() const;        ///< Returns the pivot point (or tool tip) in local coordinates.
 
@@ -800,7 +1165,7 @@ void PivotCalibrationPATM<T>::setRotations(Range<Matrix3T> rotations)
   * \brief Pivot point calibration.
   *
   * This class estimates the pivot point of a rigid body whose movement is
-  * constraind to rotate around a certain pivot point and whose movement is
+  * constrained to rotate around a certain pivot point and whose movement is
   * tracked via a localization system. Typical examples of application include
   * the tool tip calibration or the hip center determination.
   *
@@ -816,36 +1181,28 @@ void PivotCalibrationPATM<T>::setRotations(Range<Matrix3T> rotations)
   * Given a new measurement of the tracker (which comprises the position \f$ t_i \f$
   * and orientation \f$ R_i \f$ of the sensor in the global coordinate system) the
   * pivot point the tool tip location in global coordinates can be easily computed
-  * as \f$ p_{global} = R_i * p_{local} + * t_i \f$. 
+  * as \f$ p_{global} = R_i p_{local} + t_i \f$. 
   *
   * \par Algorithm:
   *
-  * \verbatim
-  *  As described in the details section, during the calibration procedure,
-  *  an object is moved around a pivot point. For example a tool is moved in
-  *  such a way that the tool tip remains stationary at a particular position
-  *  (which is the pivot point). While moving the object (e.g. the tool) the
-  *  object's sensor moves along a circular arc (or in three dimensions on a
-  *  calotte of a sphere). Now, in a first step, the center point (= pivot
-  *  point) as well as the radius of this sphere are estimated by a simple
-  *  least square scheme (that's done in global coordinates).
+  * During the calibration procedure, the object's sensor moves along a circular arc
+  * (or in three dimensions on a calotte of a sphere). In a first step, the center
+  * point (= pivot point) as well as the radius of this sphere are estimated by a simple
+  * least square scheme (that's done in global coordinates). See \ref TRTK::FitSphere
+  * for more details.
   *
-  *  Provided the object is still positioned as described above (e.g. the tool
-  *  tip still is stationary), using a single measurement (R_i, t_i) the
-  *  global pivot point p' can be easily transformed into a local coordinate
-  *  p via the relation
+  * Provided the object is positioned as described above (e.g. the tool tip is stationary),
+  * using a single measurement \f$ (R_i, t_i) \f$ the global pivot point \f$ p' \f$ can be
+  * easily transformed into a local coordinate \f$ p \f$ via the relation
   *
-  *      p' = R * p + t    ==>    p = R^(-1) * (p' - t)
+  * \f[
+  *     p' = R p + t   \quad\quad   \Leftrightarrow   \quad\quad   p = R^{-1} (p' - t)
+  * \f]
   *
-  *  where R is the rotation and t the location of the sensor in the global
-  *  coordinate system. However, due to noise, various results for p should
-  *  be averaged.
-  *
-  *  Implementation details:
-  *
-  *  Instead of recording a new set of pairs of (R_i, t_i) after having
-  *  determined the virtual sphere, the former measurement is used.
-  * \endverbatim
+  * where \f$ R \f$ is the rotation and \f$ t \f$ the location of the sensor in the global
+  * coordinate system. However, due to noise, various results for \f$ p \f$ are averaged.
+  * Instead of recording a new set of pairs of \f$ (R_i, t_i) \f$ after having determined the
+  * virtual sphere, the former measurements are used.
   *
   * \par Example:
   *
@@ -883,7 +1240,7 @@ public:
     void setLocations(Range<Vector3T> locations);
     void setRotations(Range<Matrix3T> rotations);
     T compute();                                        ///< Returns the RMSE.
-    T getRMSE() const;
+    T getRMSE() const;                                  ///< Returns the RMSE of the last computation.
     const Vector3T & getPivotPoint() const;             ///< Returns the pivot point (or tool tip) in world coordinates.
     const Vector3T & getLocalPivotPoint() const;        ///< Returns the pivot point (or tool tip) in local coordinates.
 
