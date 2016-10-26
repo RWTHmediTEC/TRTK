@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 2.8.)
 set(CMAKE_DEBUG_POSTFIX d)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/bin)
-
+cmake_policy(SET CMP0022 NEW)
 
 #####################################################################
 # Library name
@@ -71,9 +71,6 @@ if(OPENCV_FOUND)
 endif(OPENCV_FOUND)
 
 # Project
-
-include_directories(${CMAKE_PROJECT_DIR}include)
-include_directories(${CMAKE_PROJECT_DIR}include/${PROJECT_NAME})
 
 set(PUBLIC_HEADERS
     include/TRTK/Circle.hpp
@@ -144,8 +141,8 @@ set(SRC
 )
 
 add_library(${TARGET_NAME} STATIC ${SRC} ${PUBLIC_HEADERS} ${PRIVATE_HEADERS} ${CV_HEADERS} ${CV_SRC})
-target_include_directories(${TARGET_NAME} INTERFACE "$<INSTALL_INTERFACE:${FLANN_INCLUDE_DIR};${EIGEN3_INCLUDE_DIR}>" )
-target_include_directories(${TARGET_NAME} INTERFACE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>" "$<INSTALL_INTERFACE:include/${TARGET_NAME}>")
+target_include_directories(${TARGET_NAME} BEFORE PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>" "$<INSTALL_INTERFACE:include/${TARGET_NAME}>")
+target_include_directories(${TARGET_NAME} PUBLIC "$<INSTALL_INTERFACE:${FLANN_INCLUDE_DIR};${EIGEN3_INCLUDE_DIR}>" )
 
 
 if(OPENCV_FOUND)

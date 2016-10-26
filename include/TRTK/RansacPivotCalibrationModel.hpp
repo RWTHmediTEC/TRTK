@@ -337,8 +337,8 @@ T RansacPivotCalibrationModel<T>::getRMSE() const
 template<class T>
 void RansacPivotCalibrationModel<T>::setData(const std::vector<DataType> & data)
 {
-    std::list<DataType::first_type> locations;
-    std::list<DataType::second_type> rotations;
+    std::list<typename DataType::first_type> locations;
+    std::list<typename DataType::second_type> rotations;
 
     for (size_t i = 0; i < data.size(); ++i)
     {

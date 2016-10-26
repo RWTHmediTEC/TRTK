@@ -249,12 +249,12 @@ template <class T, class DataType>
 Ransac<T, DataType>::Ransac() :
     data(NULL),
     model(NULL),
-    algorithm(&Ransac::algorithmRansac),
     error_tolerance(0),
     threshold(0),
     trials(0),
     probability(0.2),
-    minimumSetSize(0)
+    minimumSetSize(0),
+    algorithm(&Ransac::algorithmRansac)
 {
 }
 
