@@ -184,7 +184,7 @@ endif()
 
 
 include(GenerateExportHeader)
-generate_export_header(${TARGET_NAME})
+generate_export_header(${TARGET_NAME} EXPORT_FILE_NAME ${TARGET_NAME}_export.h)
 set_property(TARGET ${TARGET_NAME} PROPERTY VERSION ${TRTK_VERSION})
 set_property(TARGET ${TARGET_NAME} PROPERTY SOVERSION ${MAJOR_VERSION})
 set_property(TARGET ${TARGET_NAME} PROPERTY
