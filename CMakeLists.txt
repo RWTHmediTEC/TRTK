@@ -141,7 +141,7 @@ set(SRC
 )
 
 add_library(${TARGET_NAME} STATIC ${SRC} ${PUBLIC_HEADERS} ${PRIVATE_HEADERS} ${CV_HEADERS} ${CV_SRC})
-target_include_directories(${TARGET_NAME} BEFORE PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>" "$<INSTALL_INTERFACE:include/${TARGET_NAME}>")
+target_include_directories(${TARGET_NAME} BEFORE PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>" "$<INSTALL_INTERFACE:include>")
 target_include_directories(${TARGET_NAME} PUBLIC "$<INSTALL_INTERFACE:${FLANN_INCLUDE_DIR};${EIGEN3_INCLUDE_DIR}>" )
 
 
@@ -181,7 +181,7 @@ endif()
 ### NO CHANGES EVER NECESSARY BELOW THIS POINT!!
 ##vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 #vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-
+set(INCLUDE_INSTALL_DESTINATION "include/${TARGET_NAME}")
 
 include(GenerateExportHeader)
 generate_export_header(${TARGET_NAME} EXPORT_FILE_NAME ${TARGET_NAME}_export.h)
@@ -205,7 +205,7 @@ install(
     ${PUBLIC_HEADERS}
     "${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}_export.h"
   DESTINATION
-    include
+    ${INCLUDE_INSTALL_DESTINATION}
   COMPONENT
     Devel
 )
