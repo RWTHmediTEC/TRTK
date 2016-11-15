@@ -1784,7 +1784,7 @@ template <class T>
 Transform3D<T> & Transform3D<T>::rotateAxis(const double angle, const Vector3T & axis, const Unit unit)
 {
     coordinate_type coord(axis);
-    this->rotateAxis(angle, coord, unit);
+    return this->rotateAxis(angle, coord, unit);
 }
 
 
@@ -1803,7 +1803,7 @@ template <class T>
 Transform3D<T> & Transform3D<T>::rotateAxis(const double angle, const Vector4T & axis, const Unit unit)
 {
     coordinate_type coord(axis);
-    this->rotateAxis(angle, coord, unit);
+    return this->rotateAxis(angle, coord, unit);
 }
 
 
