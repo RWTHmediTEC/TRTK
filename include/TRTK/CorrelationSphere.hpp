@@ -12,10 +12,10 @@ See license.txt for more information.
 Version 0.3.2 (2013-08-20)
 */
 
-/** \file CorrelationCircle.hpp
+/** \file CorrelationSphere.hpp
 *
-* \brief This file contains the declaration of the \ref TRTK::CorrelationCircle
-*        "CorrelationCircle" class.
+* \brief This file contains the declaration of the \ref TRTK::CorrelationSphere
+*        "CorrelationSphere" class.
 */
 
 
@@ -30,8 +30,9 @@ Version 0.3.2 (2013-08-20)
 #include "ErrorObj.hpp"
 #include "Signals.hpp"
 
-// OpenCV does not support volume images, however CImg does
-// If present CImg can use the fftw3 lib for speed up
+// If present, CImg can use the fftw3 lib for speed up.
+// Also note that CImg's native FFT seems to behave differently, thus
+// there is no guarantee this class works properly without fftw3
 #if FFTW3_FOUND
     #define cimg_use_fftw3
 #endif
@@ -57,7 +58,34 @@ namespace TRTK
         double x, y, z, radius;
     };
 
-
+    /** 
+    * This class segment circles [or spheres] in 2D [3D] images. Just instantiate a class object, set your
+    * image and the radius range of the sought circles/spheres. After calling compute() the highest-weighted
+    * circle/sphere can be found either by calling findSingleSphere() or by searching the parameter space yourself.
+    * For the latter, getCorrelations() provides the vector of 2D [3D] images.
+    *
+    * Computation time is linear in delta_r and dimensions d and superlinear [n*log(n)] in the number of pixels per dimension n.
+    *
+    * Code Example (2D):
+    *   \code
+    *    // Construct a sample image & segment sphere out of it
+    *    CImg<unsigned char> * im = new CImg<unsigned char>(128, 128, 1, 1, 15);
+    *    cimg_forXYZ(*im, x, y, z){
+    *        float dist = std::sqrt((x - 30)*(x - 30) + (y - 30)*(y - 30));
+    *        if ((dist > 9.5) && (dist < 10.5))
+    *            (*im)(x, y, z) = 255;
+    *    }
+    *    TRTK::CorrelationSphere<unsigned char> correlation = TRTK::CorrelationSphere<unsigned char>(im);
+    *    delete im;
+    *    correlation.compute();
+    *    TRTK::Sphere sphere = correlation.findSingleSphere();
+    *    std::cout << QString::number(sphere.x).toStdString() << " " << QString::number(sphere.y).toStdString() << " " << QString::number(sphere.z).toStdString() << " " << QString::number(sphere.radius).toStdString() << " " << std::endl;
+    *   \endcode
+    *
+    * Expected output:
+    *
+    *   30 30 0 10
+    */
 
     template<typename T>
     class CorrelationSphere
@@ -80,7 +108,7 @@ namespace TRTK
         void compute();
 
         // Find the best matching parameters
-        Sphere findSingleSphere() const;
+        Sphere & findSingleSphere() const;
 
         // Setter & Getter
         std::vector<CImg<double> *> & getCorrelations();
@@ -210,17 +238,16 @@ namespace TRTK
 
         // compute correlation
 
-        // Precompute FFT of original image as its used multiple times
+        // Precompute FFT of original image as it is used multiple times
         CImg<double> * imReal = new CImg<double>(*image);
         CImg<double> * imImag = new CImg<double>(image->width(), image->height(), image->depth(), 1, 0);
-
-        imReal->display();
 
         CImg<double>::FFT(*imReal, *imImag);
 
         for (int r = 0; r < deltaRadius + 1; ++r)
         {
             const int radius = minRadius + r;
+            int weight = 0;
 
             // Initialize kernel and result images
             CImg<double> * resultReal = new CImg<double>(image->width(), image->height(), image->depth(), 1, 0);
@@ -234,15 +261,27 @@ namespace TRTK
             double w = kernelReal->width() / 2.0;
             double h = kernelReal->height() / 2.0;
             double d = kernelReal->depth() / 2.0;
-            cimg_forXYZ(*kernelReal, x, y, z){
-                float dist = std::sqrt((x - w)*(x - w) + (y - h)*(y - h) + (z - d)*(z - d));
-                if ((dist > radius - 0.5 * thickness) && (dist < radius + 0.5 * thickness))
-                    (*kernelReal)(x, y, z) = 1;
+
+            if (kernelReal->depth() > 1){
+                // 3D Case
+                cimg_forXYZ(*kernelReal, x, y, z){
+                    float dist = std::sqrt((x - w)*(x - w) + (y - h)*(y - h) + (z - d)*(z - d));
+                    if ((dist > radius - 0.5 * thickness) && (dist < radius + 0.5 * thickness)){
+                        (*kernelReal)(x, y, z) = 1;
+                        weight++;
+                    }
+                }
             }
-            //// Debug
-            //(*kernelReal)(64, 64, 64) = 1;
-            //kernelReal->display();
-            kernelReal->display();
+            else {
+                // 2D Case
+                cimg_forXY(*kernelReal, x, y){
+                    float dist = std::sqrt((x - w)*(x - w) + (y - h)*(y - h));
+                    if ((dist > radius - 0.5 * thickness) && (dist < radius + 0.5 * thickness)){
+                        (*kernelReal)(x, y) = 1;
+                        weight++;
+                    }
+                }
+            }
 
             // Apply FFT on image (done outside of loop) & kernel
             CImg<double>::FFT(*kernelReal, *kernelImag);
@@ -263,10 +302,14 @@ namespace TRTK
             // Apply Inverse FFT 
             CImg<double>::FFT(*resultReal, *resultImag, true);
 
+            // Normalize result 
+            cimg_forXYZ(*resultReal, x, y, z){
+                (*resultReal)(x, y, z) /= weight;
+            }
+
             // save result; 'correlations' forms a 4D parameter space whose
             // local maxima denote the sought circles
             correlations[r] = resultReal;
-            resultReal->display();
 
             // release resources
             // do not release resultReal as we want to keep it in correlations
@@ -288,7 +331,7 @@ namespace TRTK
 
 
     template <typename T>
-    Sphere CorrelationSphere<T>::findSingleSphere() const
+    Sphere & CorrelationSphere<T>::findSingleSphere() const
     {
         int progress = 0;
 
@@ -328,7 +371,6 @@ namespace TRTK
     template<typename T>
     void CorrelationSphere<T>::setImage(const CImg<T> * image)
     {
-        if (image) delete image;
         this->image = ConvertToGrayScaleDouble(image);
     }
 
@@ -349,6 +391,13 @@ namespace TRTK
     void CorrelationSphere<T>::setThickness(int thickness)
     {
         this->thickness = thickness;
+    }
+
+
+    template<typename T>
+    std::vector<CImg<double> *> & CorrelationSphere<T>::getCorrelations()
+    {
+        return this->correlations;
     }
 
 } // namespace TRTK

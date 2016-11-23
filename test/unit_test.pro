@@ -1,4 +1,4 @@
-# Last changed on 2013-06-06
+# Last changed on 2016-11-23
 
 TEMPLATE = app
 
@@ -15,20 +15,16 @@ INCLUDEPATH += ../include
 INCLUDEPATH += "$(MEDITEC_LIBS)/Eigen/tags/3.0.5/include"
 
 win32:INCLUDEPATH += "$(MEDITEC_LIBS)/FLANN/tags/1.7.1/include"
-win32:INCLUDEPATH += "$(MEDITEC_LIBS)/OpenCV2.4/tags/2.4.1/include"
-win32:INCLUDEPATH += "$(MEDITEC_LIBS)/OpenCV2.4/tags/2.4.1/include/opencv"
 
 unix:INCLUDEPATH += "/usr/include"
-unix:INCLUDEPATH += "/usr/include/opencv"
 
 LIBS += -L"$(MEDITEC_LIBS)/bin/debug"
 
 win32:LIBS += -L"$(MEDITEC_LIBS)/FLANN/tags/1.7.1/bin/debug"
-win32:LIBS += -L"$(MEDITEC_LIBS)/OpenCV2.4/tags/2.4.1/bin/debug"
-win32:LIBS += TRTKd.lib flann.lib opencv_core241d.lib opencv_highgui241d.lib opencv_imgproc241d.lib
+win32:LIBS += TRTKd.lib flann.lib 
 
 unix:QMAKE_LIBDIR += "/usr/lib"
-unix:LIBS += -lTRTK -lflann -lopencv_core -lopencv_highgui -lopencv_imgproc
+unix:LIBS += -lTRTK -lflann 
 
 HEADERS = unit_test.hpp
 
@@ -36,7 +32,7 @@ SOURCES = unit_test.cpp \
           unit_test_Circle.cpp \
           unit_test_Clock.cpp \
           unit_test_Coordinate.cpp \
-          unit_test_CorrelationCircle.cpp \
+          unit_test_CorrelationSphere.cpp \
           unit_test_Diffusion.cpp \
           unit_test_ErrorObj.cpp \
           unit_test_EstimateAffineTransformation2D.cpp \
