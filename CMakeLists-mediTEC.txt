@@ -54,24 +54,39 @@ option(BUILD_EXAMPLES "Build examples" ON)
 
 include(${MEDITEC_LIBS_PATH}/Eigen/3.2.8/configure.cmake)
 
-# OpenCV
-
-include(${MEDITEC_LIBS_PATH}/opencv2.4/2.4.1/configure.cmake)
-
 # FLANN
 
 include(${MEDITEC_LIBS_PATH}/FLANN/1.7.1/configure.cmake)
+
+# Optional: FFTW3
+
+set(FFTW3_FOUND 0)
+set(FFTW3_CONFIGURE_PATH $ENV{MEDITEC_LIBS}/FFTW3/3.3.5/configure.cmake)
+
+if(EXISTS ${FFTW3_CONFIGURE_PATH})
+	set(FFTW3_FOUND 1)
+	include(${FFTW3_CONFIGURE_PATH})
+	# Enlarge the TRTK liblist with fftw3
+	# TRTK is using the CImg library (a template library) which in turn requires fftw3
+	# As template libraries are not prebuilt we need to add the fftw3 lib to the 
+	# project including TRTK
+	set(TRTK_LIBLIST ${TRTK_LIBLIST} ${FFTW3_LIBLIST})	
+endif()
+
+add_definitions( -DFFTW3_FOUND=${FFTW3_FOUND} )
+
+
 
 # Project
 
 include_directories(${CMAKE_PROJECT_DIR}include)
 
 set(PUBLIC_HEADERS
-    include/TRTK/Circle.hpp
+	include/TRTK/CImg.h
     include/TRTK/ClientServer.hpp
     include/TRTK/Clock.hpp
     include/TRTK/Coordinate.hpp
-    include/TRTK/CorrelationCircle.hpp
+    include/TRTK/CorrelationSphere.hpp
     include/TRTK/Definitions.hpp
     include/TRTK/Diffusion.hpp
     include/TRTK/ErrorObj.hpp
@@ -126,11 +141,9 @@ set(PRIVATE_HEADERS
 )
 
 set(SRC
-    src/Circle.cpp
     src/ClientServer.cpp
     src/Clock.cpp
     src/Coordinate.cpp
-    src/CorrelationCircle.cpp
     src/ErrorObj.cpp
     src/Signals.cpp
     src/Timestamp.cpp
@@ -146,8 +159,8 @@ add_library(${TARGET_NAME} STATIC ${SRC} ${PUBLIC_HEADERS} ${PRIVATE_HEADERS})
 
 target_link_libraries(
     ${TARGET_NAME}
-    ${OPENCV_LIBLIST}
     ${FLANN_LIBLIST}
+    ${FFTW3_LIBLIST}
 )
 
 

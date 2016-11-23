@@ -17,10 +17,9 @@ void unit_test_BivariateCubicPolynomial();
 void unit_test_BivariateQuarticPolynomial();
 void unit_test_BivariateQuinticPolynomial();
 void unit_test_BivariateSexticPolynomial();
-void unit_test_Circle();
 void unit_test_Clock();
 void unit_test_Coordinate();
-void unit_test_CorrelationCircle();
+void unit_test_CorrelationSphere();
 void unit_test_Diffusion();
 void unit_test_ErrorObj();
 void unit_test_EstimateAffineTransformation2D();
@@ -64,9 +63,6 @@ int main()
 {
     try
     {
-        // Data Structures
-
-        unit_test_Circle();
 
 
         // Error Handling and Tools
@@ -140,9 +136,7 @@ int main()
 
         // Correlation
 
-        #ifdef OPENCV_FOUND
-        unit_test_CorrelationCircle();
-        #endif // OPENCV_FOUND
+        unit_test_CorrelationSphere();
 
 
         // Calibration

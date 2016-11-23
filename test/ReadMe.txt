@@ -4,7 +4,7 @@ Last changed on 2011-12-15.
 This ReadMe.txt describes, how to build the TRTK unit tests on various systems
 using the CMake build system.
 
-We assume that Eigen as well as OpenCV are installed via the getLibraries.py
+We assume that Eigen is installed via the getLibraries.py
 script, that is, that the libraries are residing in "../..". We currently also
 assume that Boost is installed.
 
@@ -39,25 +39,6 @@ environment variables. This could look like:
 
 > "C:\Program Files\Microsoft Visual Studio 9.0\VC\vcvarsall.bat"
 
-Building OpenCV:
-
-    Download the sources from http://sourceforge.net/projects/opencvlibrary/files/opencv-win/
-    Create a new build directory, such as "OpenCV-Build" somewhere. 
-    Open a command prompt inside that build directory and invoke the 
-    vcvarsall.bat as described above. Then compile with:
-
-    > cmake -G "NMake Makefiles" -DBUILD_NEW_PYTHON_SUPPORT=OFF <Path_To_OpenCV_Sources> 
-    > nmake
-
-    Of course <Path_To_OpenCV_Sources> needs to be replaced with the actual path 
-    of the downloaded sources. CMake remembers the location it has built OpenCV 
-    and sets the OpenCV_DIR variable accordingly when building the unit tests in 
-    the next step.
-    
-    Notice: Do not build this as a Visual Studio Project, because then library 
-            files are placed in lib/debug instead of plain lib/, causing linker 
-            errors later.
-
 
 Install Eigen3:
 
@@ -77,7 +58,7 @@ Building the TRTK unit tests:
     
     > mkdir build
     > cd build
-    > set PATH=%PATH%;<PATH_TO_EIGEN_SOURCES>;<PATH_TO_OPENCV_SOURCES>
+    > set PATH=%PATH%;<PATH_TO_EIGEN_SOURCES>
     > cmake -G "NMake Makefiles" ..
     > nmake
 
@@ -86,30 +67,26 @@ Building the TRTK unit tests:
 
 
 Running the unit tests:
-
-    You can either
-        copy all *.dll files from the "<Path-To_OpenCV-Build>\bin" directory to 
-        your current unit tests build directory
-    or
-        set the environment variable PATH as follows:
-        > set PATH=%PATH%;<Path_To_OpenCV-Build>\bin
         
     From inside the sources directory of the unit tests run on the command prompt:
    
     > build\unit_tests.exe
-    
-    
-Problems:
-    
-    Linker errors concerning OpenCV while building the unit tests can occur if the 
-    OpenCV_DIR variable in the cache of CMake was not set up correctly. Verify that 
-    the OpenCV_DIR variable inside the CMakeCache.txt file points to the build directory 
-    of OpenCV (not the sources directory!).
-    Also look for the line in the file OpenCVConfig.cmake in the OpenCV build directory 
-    beginning with "LINK_DIRECTORIES" and make sure the proposed link directories really 
-    contain the library files.
 
 
+	
+Windows Alternative
+===================
+
+Instead of building the unit tests separately, they can be built along with TRTK itself.
+To do this switch to the TRTK main directory (the one that contains the 'tests' 
+folder with this readme in it) and run command prompt:
+
+	> cmake-gui .
+	
+The directories of the source code and the build directory should already be set (for example
+to "C:/Users/your_username/TRTK" and "C:/Users/your_username/TRTK/build/VisualStudio2013/").
+BUILD_TEST must be set to true. After configuring & generating, the VisualStudio TRTK project contains
+a unit_tests project that can be built & run.
 
 
 Windows + MSys + MinGW

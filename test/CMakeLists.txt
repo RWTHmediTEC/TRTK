@@ -50,9 +50,9 @@ set(TRTK_LIBLIST optimized ${TARGET_NAME} debug ${TARGET_NAME}${CMAKE_DEBUG_POST
 
 set(SOURCE_FILES
     unit_test.cpp
-    unit_test_Circle.cpp
     unit_test_Clock.cpp
     unit_test_Coordinate.cpp
+	unit_test_CorrelationSphere.cpp
     unit_test_Diffusion.cpp
     unit_test_ErrorObj.cpp
     unit_test_EstimateAffineTransformation2D.cpp
@@ -88,12 +88,7 @@ set(SOURCE_FILES
     unit_test_TrivariateQuadraticPolynomial.cpp
 )
 
-if(OPENCV_FOUND)
-    list(APPEND SOURCE_FILES unit_test_CorrelationCircle.cpp)
-    add_definitions(-DOPENCV_FOUND)
-endif(OPENCV_FOUND)
-
 add_executable(unit_tests ${SOURCE_FILES})
 
 # target_link_libraries(unit_tests ${Boost_LIBS} ${FLANN_LIBLIST} ${OPENCV_LIBLIST} ${TRTK_LIBLIST})
-target_link_libraries(unit_tests ${LIBS} ${TRTK_LIBLIST})
+target_link_libraries(unit_tests ${LIBS} ${TRTK_LIBLIST} ${FFTW3_LIBLIST})
