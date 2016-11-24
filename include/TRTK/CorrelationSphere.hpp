@@ -145,7 +145,7 @@ namespace TRTK
         {
             cimg_forXYZ(*output, x, y, z){
                 // Convert to gray ...
-                double value = 0.299*(*input)(x, y, z, 1) + 0.587*(*input)(x, y, z, 2) + 0.114 * (*input)(x, y, z, 3);
+                double value = 0.299 * (*input->data(x, y, z, 0)) + 0.587 * (*input->data(x, y, z, 1)) + 0.114 * (*input->data(x, y, z, 2));
 
                 // And adjust value range
                 if (std::is_same<T, unsigned char>::value || std::is_same<T, char>::value || std::is_same<T, int>::value)
