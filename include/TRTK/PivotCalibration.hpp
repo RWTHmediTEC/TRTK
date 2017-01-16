@@ -729,7 +729,7 @@ T PivotCalibrationLeastSquares<T>::compute()
 
         for (int i = 0; i < n; ++i)
         {
-            if (abs(deviations[i] - mean) < 3 * sd)
+            if (std::abs(deviations[i] - mean) < 3 * sd)
             {
                 weights(3 * i + 0) = 1; // inliers
                 weights(3 * i + 1) = 1; // inliers
@@ -1038,8 +1038,10 @@ T PivotCalibrationPATM<T>::compute()
     p /= n;
 
     Matrix4T A = Matrix4T::Identity();
-    A.block<3, 3>(0, 0) = R;
-    A.block<3, 1>(0, 3) = p;
+    //A.block<3, 3>(0, 0) = R;
+    A.topLeftCorner(3,3) = R;
+    //A.block<3, 1>(0, 3) = p;
+    A.topRightCorner(3,1) = p;
 
     // Carry out the fixed-point iterations
 
@@ -1062,7 +1064,8 @@ T PivotCalibrationPATM<T>::compute()
         }
     }
 
-    local_pivot_point = t.head<3>();
+    // local_pivot_point = t.head<3>();
+    local_pivot_point << t(0),t(1),t(2);
 
     // Compute an averaged global pivot point
 

@@ -1,8 +1,10 @@
 # Configuration for package "TRTK"
 include(CMakeFindDependencyMacro)
-find_dependency(Eigen) # 3.2.0
-find_dependency(Flann) # 1.7.1
-find_dependency(OpenCV)
+# disabled find_dependency calls for now because these packages don't provide
+# their own imported targets as per https://cmake.org/cmake/help/v3.6/manual/cmake-packages.7.html
+#find_dependency(Eigen) # 3.2.0
+#find_dependency(Flann) # 1.7.1
+#find_dependency(OpenCV)
 
 
 @PACKAGE_INIT@

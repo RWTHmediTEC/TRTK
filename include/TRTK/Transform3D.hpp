@@ -338,7 +338,7 @@ const double Transform3D<T>::pi = 3.14159265358979323846264338327950288419716939
   */
 
 template <class T>
-Transform3D<T>::Transform3D() : m_is_affine(true), m_matrix(new Matrix4T)
+Transform3D<T>::Transform3D() : m_matrix(new Matrix4T), m_is_affine(true)
 {
     m_matrix->setIdentity();
 }

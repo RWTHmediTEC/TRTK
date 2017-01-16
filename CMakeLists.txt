@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 2.8.)
 set(CMAKE_DEBUG_POSTFIX d)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/bin)
-
+cmake_policy(SET CMP0022 NEW)
 
 #####################################################################
 # Library name
@@ -27,6 +27,32 @@ set(FULL_VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION})
 set(TRTK_VERSION ${FULL_VERSION})
 
 set(TARGET_NAME ${PROJECT_NAME})
+
+
+#####################################################################
+# Compilation Flags
+#####################################################################
+
+# Enable C++11
+include(CheckCXXCompilerFlag)
+CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
+CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
+if(COMPILER_SUPPORTS_CXX11)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+elseif(COMPILER_SUPPORTS_CXX0X)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
+else()
+        message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support, or our tests failed to detect it correctly. Please use a different C++ compiler or report this problem to the developers.")
+endif()
+
+if(UNIX AND CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64") 
+	ADD_DEFINITIONS(-fPIC)
+endif(UNIX AND CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64")
+
+
+#####################################################################
+# Config files
+#####################################################################
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Doxyfile.in ${CMAKE_CURRENT_SOURCE_DIR}/src/doc/Doxyfile)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/install.bat.in ${CMAKE_CURRENT_BINARY_DIR}/cmake/install.bat @ONLY)
@@ -71,9 +97,6 @@ if(OPENCV_FOUND)
 endif(OPENCV_FOUND)
 
 # Project
-
-include_directories(${CMAKE_PROJECT_DIR}include)
-include_directories(${CMAKE_PROJECT_DIR}include/${PROJECT_NAME})
 
 set(PUBLIC_HEADERS
     include/TRTK/Circle.hpp
@@ -144,8 +167,8 @@ set(SRC
 )
 
 add_library(${TARGET_NAME} STATIC ${SRC} ${PUBLIC_HEADERS} ${PRIVATE_HEADERS} ${CV_HEADERS} ${CV_SRC})
-target_include_directories(${TARGET_NAME} INTERFACE "$<INSTALL_INTERFACE:${FLANN_INCLUDE_DIR};${EIGEN3_INCLUDE_DIR}>" )
-target_include_directories(${TARGET_NAME} INTERFACE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>" "$<INSTALL_INTERFACE:include/${TARGET_NAME}>")
+target_include_directories(${TARGET_NAME} BEFORE PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>" "$<INSTALL_INTERFACE:include>")
+target_include_directories(${TARGET_NAME} PUBLIC "$<INSTALL_INTERFACE:${FLANN_INCLUDE_DIR};${EIGEN3_INCLUDE_DIR}>" )
 
 
 if(OPENCV_FOUND)
@@ -184,10 +207,10 @@ endif()
 ### NO CHANGES EVER NECESSARY BELOW THIS POINT!!
 ##vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 #vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-
+set(INCLUDE_INSTALL_DESTINATION "include/${TARGET_NAME}")
 
 include(GenerateExportHeader)
-generate_export_header(${TARGET_NAME})
+generate_export_header(${TARGET_NAME} EXPORT_FILE_NAME ${TARGET_NAME}_export.h)
 set_property(TARGET ${TARGET_NAME} PROPERTY VERSION ${TRTK_VERSION})
 set_property(TARGET ${TARGET_NAME} PROPERTY SOVERSION ${MAJOR_VERSION})
 set_property(TARGET ${TARGET_NAME} PROPERTY
@@ -208,7 +231,7 @@ install(
     ${PUBLIC_HEADERS}
     "${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}_export.h"
   DESTINATION
-    include
+    ${INCLUDE_INSTALL_DESTINATION}
   COMPONENT
     Devel
 )
