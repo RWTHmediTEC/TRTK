@@ -99,7 +99,6 @@ endif(OPENCV_FOUND)
 # Project
 
 set(PUBLIC_HEADERS
-    include/TRTK/Circle.hpp
     include/TRTK/ClientServer.hpp
     include/TRTK/Clock.hpp
     include/TRTK/Coordinate.hpp
@@ -156,7 +155,6 @@ set(PRIVATE_HEADERS
 )
 
 set(SRC
-    src/Circle.cpp
     src/ClientServer.cpp
     src/Clock.cpp
     src/Coordinate.cpp
