@@ -157,7 +157,6 @@ class Coordinate
 public:
     typedef T value_type;
     typedef Eigen::Array<T, Eigen::Dynamic, 1> data_type;                   ///< See also http://eigen.tuxfamily.org.
-    typedef const Eigen::Array<T, Eigen::Dynamic, 1> const_data_type;       ///< See also http://eigen.tuxfamily.org.
     typedef Eigen::Matrix<T, Eigen::Dynamic, 1> matrix_type;                ///< See also http://eigen.tuxfamily.org.
 
     Coordinate();               ///< Constructs a zero-dimensional coordinate.
@@ -218,7 +217,7 @@ public:
     Coordinate operator,(T) const;                      ///< Returns a copy of the coordinate, enlarged by one component.
 
     operator data_type();                               ///< Conversion operator; yields an Eigen 3 array.
-    operator const_data_type() const;                   ///< Conversion operator; yields an Eigen 3 array.
+    operator data_type() const;                         ///< Conversion operator; yields an Eigen 3 array.
 
     #ifdef TRTK_SUPPORT_CVECTOR
     operator CVector() const;                           ///< Conversion operator; yields an CVector.
@@ -1086,8 +1085,9 @@ Coordinate<T>::operator data_type()
   * \see http://eigen.tuxfamily.org
   */
 
+
 template <class T>
-Coordinate<T>::operator const_data_type() const
+Coordinate<T>::operator data_type() const
 {
     return m_data;
 }
