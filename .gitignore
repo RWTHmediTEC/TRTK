@@ -29,6 +29,7 @@
 
 # Build Folder
 build/*
+build-x64/*
 xcodebuild/*
 build2/*
 xcodebuild2/*

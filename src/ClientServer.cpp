@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2010 - 2014 Christoph Haenisch
+    Copyright (C) 2010 - 2017 Christoph Haenisch
 
     Chair of Medical Engineering (mediTEC)
     RWTH Aachen University
@@ -9,7 +9,7 @@
 
     See license.txt for more information.
 
-    Version 0.1.1 (2014-07-05)
+    Version 0.1.2 (2017-12-07)
 */
 
 /** \file Timestamp.cpp
@@ -107,12 +107,12 @@ void receive_all(int socket_fd, char * & data, size_t & size)
     // interrupt). In that case recv() has to be called several times until
     // the remaining chunks of data are received.
 
-    int bytes_left = size;
+    size_t bytes_left = size;
     data = new char[size];
 
     while (bytes_left > 0)
     {
-        int received_bytes = recv(socket_fd, &data[size - bytes_left], bytes_left, 0);
+        int received_bytes = recv(socket_fd, &data[size - bytes_left], bytes_left, 0); // bytes_left must be of type 'size_t' according to 'The Single UNIX Specification, Version 2'
 
         if (received_bytes == 0)
         {
@@ -169,11 +169,11 @@ void send_all(int socket_fd, const char * data, size_t size)
     // interrupt). In that case send() has to be invoked several times
     // until the remaining chunks of data are fully transmitted.
 
-    int bytes_left = size;
+    size_t bytes_left = size;
 
     while (bytes_left > 0)
     {
-        int sent_bytes = send(socket_fd, &data[size - bytes_left], bytes_left, 0);
+        int sent_bytes = send(socket_fd, &data[size - bytes_left], bytes_left, 0); // bytes_left must be of type 'size_T' according to 'The Single UNIX Specification, Version 2'
         if (sent_bytes == -1) throw NetworkError("Error while sending data.");
         bytes_left -= sent_bytes;
     }
@@ -273,7 +273,7 @@ void Client::connect(std::string host, short port)
 {
     // Set up a socket.
 
-    socket_fd = socket(AF_INET, SOCK_STREAM, 0);
+    socket_fd = static_cast<int>(socket(AF_INET, SOCK_STREAM, 0)); // returns type 'int' according to 'The Single UNIX Specification, Version 2'
 
     if (socket_fd == -1)
     {
@@ -466,7 +466,7 @@ void Server::startServer(short port)
 {
     // Set up a socket.
 
-    int server_fd = socket(AF_INET, SOCK_STREAM, 0);
+    int server_fd = static_cast<int>(socket(AF_INET, SOCK_STREAM, 0)); // returns type 'int' according to 'The Single UNIX Specification, Version 2'
 
     if (server_fd == -1)
     {
@@ -499,7 +499,7 @@ void Server::startServer(short port)
         // Accecpt a connection.
 
         sockaddr_in client_address;
-        client_fd = accept(server_fd, reinterpret_cast<sockaddr*>(&client_address), &sockaddr_in_size);
+        client_fd = static_cast<int>(accept(server_fd, reinterpret_cast<sockaddr*>(&client_address), &sockaddr_in_size)); // returns type 'int' according to 'The Single UNIX Specification, Version 2'
 
         if (client_fd == -1)
         {
