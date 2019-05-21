@@ -45,7 +45,7 @@ else()
         message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support, or our tests failed to detect it correctly. Please use a different C++ compiler or report this problem to the developers.")
 endif()
 
-if(UNIX AND CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64") 
+if(UNIX AND CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64")
 	ADD_DEFINITIONS(-fPIC)
 endif(UNIX AND CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64")
 
