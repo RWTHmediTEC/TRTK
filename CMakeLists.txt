@@ -11,7 +11,7 @@ cmake_policy(SET CMP0022 NEW)
 # Library name
 #####################################################################
 
-project(TRTK)
+project(TRTK LANGUAGES CXX)
 
 
 #####################################################################
@@ -83,18 +83,6 @@ include_directories(${FLANN_INCLUDE_DIR})
 set(LIBS ${LIBS} ${FLANN_LIBRARY})
 
 FIND_PACKAGE(OpenCV)
-
-if(OPENCV_FOUND)
-
-    list(APPEND CV_HEADERS
-        include/TRTK/CorrelationCircle.hpp
-    )
-
-    list(APPEND CV_SRC
-        src/CorrelationCircle.cpp
-    )
-    
-endif(OPENCV_FOUND)
 
 # Project
 
@@ -252,7 +240,7 @@ write_basic_package_version_file(
   ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}ConfigVersion.cmake
   VERSION ${TRTK_VERSION}
   COMPATIBILITY SameMajorVersion )
-  
+
 export(EXPORT ${TARGET_NAME}Targets
   FILE "${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}/${TARGET_NAME}Targets.cmake"
   NAMESPACE TRTK::
@@ -311,7 +299,7 @@ if(BUILD_DOC)
     if(DOXYGEN_FOUND)
         configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/doc/Doxyfile @ONLY)
         add_custom_target(doc ALL
-                        ${DOXYGEN_EXECUTABLE} 
+                        ${DOXYGEN_EXECUTABLE}
                         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc
                         COMMENT "Generating API documentation with Doxygen" VERBATIM
         )
