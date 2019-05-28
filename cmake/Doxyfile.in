@@ -1,6 +1,6 @@
 # Doxyfile 1.7.2
 
-# Last changed on 2016-07-27 by Christoph Hänisch
+# Last changed on 2019-05-20 by Christoph Hänisch
 
 #---------------------------------------------------------------------------
 # Project related configuration options
@@ -47,7 +47,7 @@ WARN_IF_UNDOCUMENTED   = NO
 INPUT                  = ./src .. ../../include
 FILE_PATTERNS          = *.cpp *.h *.hpp *.dox
 RECURSIVE              = YES
-EXCLUDE                =
+EXCLUDE                = CImg.h ../../include/TRTK/CImg.h
 EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       =
 EXCLUDE_SYMBOLS        =

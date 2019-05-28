@@ -1,6 +1,6 @@
-# Last changed on 2016-07-14
+# Last changed on 2019-05-20
 
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.1)
 
 
 #####################################################################
@@ -13,15 +13,6 @@ project(TRTK_EXAMPLES)
 #####################################################################
 # Setup compiler flags
 #####################################################################
-
-# OpenMP
-
-include(FindOpenMP)
-if(OPENMP_FOUND)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
-endif()
 
 # Object Level Parallelism (parallel builds)
 
@@ -36,20 +27,36 @@ endif()
 
 # TRTK
 
-include_directories(${CMAKE_SOURCE_DIR}/include)
-link_directories(${CMAKE_BINARY_DIR}/bin)
-set(TRTK_LIBLIST optimized ${TARGET_NAME} debug ${TARGET_NAME}${CMAKE_DEBUG_POSTFIX})
+include_directories(${CMAKE_SOURCE_DIR}/include
+                    ${FLANN_INCLUDE_DIRS}
+)
+
+link_directories(${CMAKE_BINARY_DIR}/bin
+                 ${FLANN_LIBRARIES}
+)
+
+# set(TRTK_LIBLIST optimized ${TARGET_NAME} debug ${TARGET_NAME}${CMAKE_DEBUG_POSTFIX})
+set(LIBS ${TARGET_NAME})
+
+if(FLANN_FOUND)
+    include_directories(${FLANN_INCLUDE_DIRS})
+    set(LIBS ${LIBS} ${FLANN_LIBRARIES})
+    add_definitions(-DFLANN_FOUND)
+endif()
 
 
 #####################################################################
 # Examples
 #####################################################################
 
+add_executable(example_pinhole_camera_model_1 pinhole_camera_model_1.cpp)
+target_link_libraries(example_pinhole_camera_model_1 ${LIBS})
+
 add_executable(example_pivot_calibration_1 pivot_calibration_1.cpp)
-target_link_libraries(example_pivot_calibration_1 ${TRTK_LIBLIST})
+target_link_libraries(example_pivot_calibration_1 ${LIBS})
 
 add_executable(example_pivot_calibration_2 pivot_calibration_2.cpp)
-target_link_libraries(example_pivot_calibration_2 ${TRTK_LIBLIST})
+target_link_libraries(example_pivot_calibration_2 ${LIBS})
 
 add_executable(example_pivot_calibration_ransac pivot_calibration_ransac.cpp)
-target_link_libraries(example_pivot_calibration_ransac ${TRTK_LIBLIST})
+target_link_libraries(example_pivot_calibration_ransac ${LIBS})
