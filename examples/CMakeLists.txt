@@ -52,6 +52,9 @@ endif()
 add_executable(example_pinhole_camera_model_1 pinhole_camera_model_1.cpp)
 target_link_libraries(example_pinhole_camera_model_1 ${LIBS})
 
+add_executable(analyze_pinhole_camera_model pinhole_camera_model_2.cpp)
+target_link_libraries(analyze_pinhole_camera_model ${LIBS})
+
 add_executable(example_pivot_calibration_1 pivot_calibration_1.cpp)
 target_link_libraries(example_pivot_calibration_1 ${LIBS})
 
