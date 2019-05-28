@@ -19,7 +19,9 @@ void unit_test_BivariateQuinticPolynomial();
 void unit_test_BivariateSexticPolynomial();
 void unit_test_Clock();
 void unit_test_Coordinate();
+#ifdef FFTW3_FOUND
 void unit_test_CorrelationSphere();
+#endif // FFTW3_FOUND
 void unit_test_Diffusion();
 void unit_test_ErrorObj();
 void unit_test_EstimateAffineTransformation2D();
@@ -39,9 +41,12 @@ void unit_test_FitLine3D();
 void unit_test_FitPlane();
 void unit_test_FitSphere();
 void unit_test_GenericPolynomial();
+#ifdef FLANN_FOUND
 void unit_test_Icp();
+#endif // FLANN_FOUND
 void unit_test_Iterator();
 void unit_test_Optimization();
+void unit_test_PinholeCameraModel();
 void unit_test_PivotCalibration();
 void unit_test_Range();
 void unit_test_RegionGrowing2D();
@@ -50,8 +55,10 @@ void unit_test_SurfaceExtraction3D();
 void unit_test_Signals();
 void unit_test_Timestamp();
 void unit_test_Tools();
+#ifdef FLANN_FOUND
 void unit_test_Transform2D();
 void unit_test_Transform3D();
+#endif // FLANN_FOUND
 void unit_test_TrivariateQuadraticPolynomial();
 void unit_test_TrivariateCubicPolynomial();
 void unit_test_TrivariateQuarticPolynomial();
@@ -63,8 +70,6 @@ int main()
 {
     try
     {
-
-
         // Error Handling and Tools
 
         unit_test_ErrorObj();
@@ -74,8 +79,10 @@ int main()
         // Transformations
 
         unit_test_Coordinate();
-        unit_test_Transform2D();
-        unit_test_Transform3D();
+        #ifdef FLANN_FOUND
+            unit_test_Transform2D();
+            unit_test_Transform3D();
+        #endif // FLANN_FOUND
 
 
         // Transformation Estimation
@@ -119,7 +126,9 @@ int main()
 
         // ICP
 
-        unit_test_Icp();
+        #ifdef FLANN_FOUND
+            unit_test_Icp();
+        #endif // FLANN_FOUND
 
 
         // Optimization
@@ -136,11 +145,14 @@ int main()
 
         // Correlation
 
-        unit_test_CorrelationSphere();
+        #ifdef FFTW3_FOUND
+            unit_test_CorrelationSphere();
+        #endif // FFTW3_FOUND
 
 
         // Calibration
 
+        unit_test_PinholeCameraModel();
         unit_test_PivotCalibration();
 
 

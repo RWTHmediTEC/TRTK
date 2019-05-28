@@ -1,4 +1,4 @@
-# Last changed on 2018-02-21
+# Last changed on 2019-05-23
 
 cmake_minimum_required(VERSION 3.1)
 
@@ -51,6 +51,14 @@ if(UNIX AND CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64")
     add_definitions(-fPIC)
 endif()
 
+if(MSVC)
+    add_definitions(/MP) # Object Level Parallelism (parallel builds)
+    add_definitions(/permissive-) # Standards-conforming compiler behavior
+    add_definitions(-D_ENABLE_EXTENDED_ALIGNED_STORAGE) # standard-compliant aligned storage in MSVC 15.8 and higher
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+    add_definitions(-D_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS)
+endif()
+
 
 #####################################################################
 # Config files
@@ -80,18 +88,32 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 find_package(Eigen3 REQUIRED)
 include_directories(${EIGEN3_INCLUDE_DIR})
 
-find_package(Flann REQUIRED)
-include_directories(${FLANN_INCLUDE_DIR})
-set(LIBS ${LIBS} ${FLANN_LIBRARY})
+find_package(Flann QUIET)
+if(FLANN_FOUND)
+    include_directories(${FLANN_INCLUDE_DIRS})
+    set(LIBS ${LIBS} ${FLANN_LIBRARIES})
+endif()
 
-# Project
+find_library(FFTW_LIBRARY NAMES fftw3 fftw fftw3-3)
+set(FFTW_LIBRARIES "${FFTW_LIBRARY}")
+if(FFTW_LIBRARY)
+    set(FFTW_FOUND3 1)
+    include_directories(${FFTW_LIBRARY}/include)
+    link_directories(${FFTW_LIBRARY}/lib)
+    set(LIBS ${LIBS} libfftw3-3.lib)
+    add_definitions(-DFFTW3_FOUND)
+endif()
+
+
+#####################################################################
+# Project files
+#####################################################################
 
 set(PUBLIC_HEADERS
     include/TRTK/CImg.h
     include/TRTK/ClientServer.hpp
     include/TRTK/Clock.hpp
     include/TRTK/Coordinate.hpp
-    include/TRTK/CorrelationSphere.hpp
     include/TRTK/Definitions.hpp
     include/TRTK/Diffusion.hpp
     include/TRTK/ErrorObj.hpp
@@ -118,11 +140,9 @@ set(PUBLIC_HEADERS
     include/TRTK/FitPlane.hpp
     include/TRTK/FitSphere.hpp
     include/TRTK/GenericPolynomial.hpp
-    include/TRTK/Icp.hpp
-    include/TRTK/Interpolation2D.hpp
-    include/TRTK/Interpolation3D.hpp
     include/TRTK/Iterator.hpp
     include/TRTK/Optimization.hpp
+    include/TRTK/PinholeCameraModel.hpp
     include/TRTK/PivotCalibration.hpp
     include/TRTK/Polynomial.hpp
     include/TRTK/Range.hpp
@@ -140,6 +160,20 @@ set(PUBLIC_HEADERS
     include/TRTK/TrivariateQuadraticPolynomial.hpp
     include/TRTK/Version.hpp
 )
+
+if(FLANN_FOUND)
+    list(APPEND PUBLIC_HEADERS
+        include/TRTK/ICP.hpp
+        include/TRTK/Interpolation2D.hpp
+        include/TRTK/Interpolation3D.hpp
+    )
+endif()
+
+if(FFTW_FOUND3)
+    list(APPEND PUBLIC_HEADERS
+        include/TRTK/CorrelationSphere.hpp
+    )
+endif()
 
 set(PRIVATE_HEADERS
     ""

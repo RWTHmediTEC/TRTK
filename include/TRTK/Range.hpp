@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2010 - 2014 Christoph Haenisch
+    Copyright (C) 2010 - 2014, 2019 Christoph Hänisch
 
     Chair of Medical Engineering (mediTEC)
     RWTH Aachen University
@@ -9,7 +9,7 @@
 
     See license.txt for more information.
 
-    Version 0.1.1 (2014-08-31)
+    Version 0.1.2 (2019-05-21)
 */
 
 /** \file Range.hpp
@@ -112,20 +112,20 @@ public:
     bool isValid() const;
     bool isEmpty() const;
 
-    void first();
+    void first() const;
     bool isDone() const;
-    void next();
+    void next() const;
     T currentItem() const;
 
     size_t size() const;
-    
+
     typedef Iterator<T> const_iterator;
 
 private:
 
     Iterator<T> m_begin;
     Iterator<T> m_end;
-    Iterator<T> m_current;
+    mutable Iterator<T> m_current;
 };
 
 
@@ -298,7 +298,7 @@ Iterator<T> Range<T>::end() const
 /** \brief Sets the internal iterator to the begin of the range. */
 
 template <class T>
-void Range<T>::first()
+void Range<T>::first() const
 {
     m_current = m_begin;
 }
@@ -368,7 +368,7 @@ bool Range<T>::isValid() const
 /** \brief Selects the next element in the range. */
 
 template <class T>
-void Range<T>::next()
+void Range<T>::next() const
 {
     if (m_begin && m_end)
     {
