@@ -61,7 +61,7 @@
   *
   */
 
-#define TRTK_MAJOR_VERSION 0
+#define TRTK_MAJOR_VERSION 1
 
 
 /** \brief %TRTK Minor Version Number
@@ -70,7 +70,7 @@
   *
   */
 
-#define TRTK_MINOR_VERSION 17
+#define TRTK_MINOR_VERSION 1
 
 
 /** \brief %TRTK Patch Level
