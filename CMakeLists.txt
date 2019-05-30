@@ -13,7 +13,7 @@ cmake_policy(SET CMP0022 NEW)
 # Library name
 #####################################################################
 
-project(TRTK)
+project(TRTK LANGUAGES CXX)
 
 
 #####################################################################
@@ -103,7 +103,6 @@ if(FFTW_LIBRARY)
     set(LIBS ${LIBS} libfftw3-3.lib)
     add_definitions(-DFFTW3_FOUND)
 endif()
-
 
 #####################################################################
 # Project files
