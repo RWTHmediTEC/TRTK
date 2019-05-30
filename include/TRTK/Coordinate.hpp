@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2010 - 2014 Christoph Haenisch
+    Copyright (C) 2010 - 2017 Christoph Haenisch
 
     Chair of Medical Engineering (mediTEC)
     RWTH Aachen University
@@ -9,7 +9,7 @@
 
     See license.txt for more information.
 
-    Version 0.8.1 (2016-04-15)
+    Version 0.8.2 (2017-12-08)
 */
 
 /** \file Coordinate.hpp
@@ -1452,7 +1452,7 @@ Coordinate<T> & Coordinate<T>::resize(unsigned int size, T value)
 template <class T>
 inline unsigned int Coordinate<T>::size() const
 {
-    return m_data.size();
+    return static_cast<int>(m_data.size());
 }
 
 

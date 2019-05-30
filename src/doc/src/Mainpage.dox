@@ -23,6 +23,7 @@ To get started, please have a look a the \ref Tutorial.
     - <a href=#ErrorHandling> Error Handling </a>
     - <a href=#Fitting> Fitting </a>
     - <a href=#ICP> Iterative Closest Point (ICP) </a>
+    - <a href=#Camera> Camera Calibration </a>
     - <a href=#Interpolation> Interpolation </a>
     - <a href=#Miscellaneous> Miscellaneous </a>
     - <a href=#Optimization> Optimization</a>
@@ -95,6 +96,8 @@ To get started, please have a look a the \ref Tutorial.
             - \ref TRTK::Icp3D "ICP in 3D Space"
             - \ref TRTK::RandomSampleIcp3D "Random Sample ICP in 3D Space"
             - \ref TRTK::IcpTrimmed3D "Trimmed ICP (TrICP) in 3D Space"
+        - <a name=Camera> Camera Calibration </a>
+            - \ref TRTK::PinholeCameraModel "Pinhole Camera Model and its Parameter Estimation"
         - <a name=Optimization> \ref TRTK::Optimization "Optimization" </a>
             - \ref TRTK::Optimization::Gradient "Functor that Provides the Gradient of a Function"
             - \ref TRTK::Optimization::jacobian "Jacobian of a Function"

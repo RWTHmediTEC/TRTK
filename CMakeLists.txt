@@ -1,11 +1,13 @@
-# Last changed on 2016-07-27
+# Last changed on 2019-05-23
 
-cmake_minimum_required(VERSION 2.8.)
+cmake_minimum_required(VERSION 3.1)
 
 set(CMAKE_DEBUG_POSTFIX d)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/bin)
+
 cmake_policy(SET CMP0022 NEW)
+
 
 #####################################################################
 # Library name
@@ -19,9 +21,9 @@ project(TRTK LANGUAGES CXX)
 # Target file will be named with version suffix
 #####################################################################
 
-set(MAJOR_VERSION  0)
-set(MINOR_VERSION 16)
-set(PATCH_VERSION  1)
+set(MAJOR_VERSION  1)
+set(MINOR_VERSION  1)
+set(PATCH_VERSION  0)
 
 set(FULL_VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION})
 set(TRTK_VERSION ${FULL_VERSION})
@@ -35,8 +37,8 @@ set(TARGET_NAME ${PROJECT_NAME})
 
 # Enable C++11
 include(CheckCXXCompilerFlag)
-CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
-CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
+check_cxx_compiler_flag("-std=c++11" COMPILER_SUPPORTS_CXX11)
+check_cxx_compiler_flag("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
 if(COMPILER_SUPPORTS_CXX11)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 elseif(COMPILER_SUPPORTS_CXX0X)
@@ -46,8 +48,16 @@ else()
 endif()
 
 if(UNIX AND CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64")
-	ADD_DEFINITIONS(-fPIC)
-endif(UNIX AND CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64")
+    add_definitions(-fPIC)
+endif()
+
+if(MSVC)
+    add_definitions(/MP) # Object Level Parallelism (parallel builds)
+    add_definitions(/permissive-) # Standards-conforming compiler behavior
+    add_definitions(-D_ENABLE_EXTENDED_ALIGNED_STORAGE) # standard-compliant aligned storage in MSVC 15.8 and higher
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+    add_definitions(-D_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS)
+endif()
 
 
 #####################################################################
@@ -75,18 +85,31 @@ option(BUILD_EXAMPLES "Build examples" ON)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
-FIND_PACKAGE(Eigen3 REQUIRED)
+find_package(Eigen3 REQUIRED)
 include_directories(${EIGEN3_INCLUDE_DIR})
 
-FIND_PACKAGE(Flann REQUIRED)
-include_directories(${FLANN_INCLUDE_DIR})
-set(LIBS ${LIBS} ${FLANN_LIBRARY})
+find_package(Flann QUIET)
+if(FLANN_FOUND)
+    include_directories(${FLANN_INCLUDE_DIRS})
+    set(LIBS ${LIBS} ${FLANN_LIBRARIES})
+endif()
 
-FIND_PACKAGE(OpenCV)
+find_library(FFTW_LIBRARY NAMES fftw3 fftw fftw3-3)
+set(FFTW_LIBRARIES "${FFTW_LIBRARY}")
+if(FFTW_LIBRARY)
+    set(FFTW_FOUND3 1)
+    include_directories(${FFTW_LIBRARY}/include)
+    link_directories(${FFTW_LIBRARY}/lib)
+    set(LIBS ${LIBS} libfftw3-3.lib)
+    add_definitions(-DFFTW3_FOUND)
+endif()
 
-# Project
+#####################################################################
+# Project files
+#####################################################################
 
 set(PUBLIC_HEADERS
+    include/TRTK/CImg.h
     include/TRTK/ClientServer.hpp
     include/TRTK/Clock.hpp
     include/TRTK/Coordinate.hpp
@@ -116,16 +139,15 @@ set(PUBLIC_HEADERS
     include/TRTK/FitPlane.hpp
     include/TRTK/FitSphere.hpp
     include/TRTK/GenericPolynomial.hpp
-    include/TRTK/Icp.hpp
-    include/TRTK/Interpolation2D.hpp
-    include/TRTK/Interpolation3D.hpp
     include/TRTK/Iterator.hpp
     include/TRTK/Optimization.hpp
+    include/TRTK/PinholeCameraModel.hpp
     include/TRTK/PivotCalibration.hpp
     include/TRTK/Polynomial.hpp
     include/TRTK/Range.hpp
     include/TRTK/Ransac.hpp
     include/TRTK/RansacGenericFittingModel.hpp
+    include/TRTK/RansacPivotCalibrationModel.hpp
     include/TRTK/RegionGrowing2D.hpp
     include/TRTK/RegionGrowing3D.hpp
     include/TRTK/Signals.hpp
@@ -137,6 +159,20 @@ set(PUBLIC_HEADERS
     include/TRTK/TrivariateQuadraticPolynomial.hpp
     include/TRTK/Version.hpp
 )
+
+if(FLANN_FOUND)
+    list(APPEND PUBLIC_HEADERS
+        include/TRTK/ICP.hpp
+        include/TRTK/Interpolation2D.hpp
+        include/TRTK/Interpolation3D.hpp
+    )
+endif()
+
+if(FFTW_FOUND3)
+    list(APPEND PUBLIC_HEADERS
+        include/TRTK/CorrelationSphere.hpp
+    )
+endif()
 
 set(PRIVATE_HEADERS
     ""
@@ -154,13 +190,7 @@ set(SRC
 
 add_library(${TARGET_NAME} STATIC ${SRC} ${PUBLIC_HEADERS} ${PRIVATE_HEADERS} ${CV_HEADERS} ${CV_SRC})
 target_include_directories(${TARGET_NAME} BEFORE PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>" "$<INSTALL_INTERFACE:include>")
-target_include_directories(${TARGET_NAME} PUBLIC "$<INSTALL_INTERFACE:${FLANN_INCLUDE_DIR};${EIGEN3_INCLUDE_DIR}>" )
-
-
-if(OPENCV_FOUND)
-target_include_directories(${TARGET_NAME} INTERFACE "$<INSTALL_INTERFACE:${OpenCV_INCLUDE_DIRS}>" )
-target_link_libraries(${TARGET_NAME} INTERFACE  ${OpenCV_LIBRARIES})
-endif()
+target_include_directories(${TARGET_NAME} PUBLIC "$<INSTALL_INTERFACE:${FLANN_INCLUDE_DIR};${EIGEN3_INCLUDE_DIR}>")
 
 
 #####################################################################
@@ -222,40 +252,29 @@ install(
     Devel
 )
 
-if(OPENCV_FOUND)
-install(
-  FILES
-    ${CV_HEADERS}
-    "${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}_export.h"
-  DESTINATION
-    include
-  COMPONENT
-    CV
-)
-endif()
-
 include(CMakePackageConfigHelpers)
 
 write_basic_package_version_file(
   ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}ConfigVersion.cmake
   VERSION ${TRTK_VERSION}
-  COMPATIBILITY SameMajorVersion )
+  COMPATIBILITY SameMajorVersion
+)
 
 export(EXPORT ${TARGET_NAME}Targets
   FILE "${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}/${TARGET_NAME}Targets.cmake"
   NAMESPACE TRTK::
 )
 
-set(INCLUDE_INSTALL_DIR include CACHE PATH "Install dir for include headers" )
-set(LIB_INSTALL_DIR lib CACHE PATH  "Install dir for libraries" )
+set(INCLUDE_INSTALL_DIR include CACHE PATH "Install dir for include headers")
+set(LIB_INSTALL_DIR lib CACHE PATH  "Install dir for libraries")
 set(SYSCONFIG_INSTALL_DIR /usr/local/ CACHE  PATH  "Install dir for system configuration")
-SET(INSTALL_INCLUDE_DIR include/${PROJECT_NAME} CACHE PATH "Install dir for headers")
-IF(WIN32 AND NOT CYGWIN)
-  SET(DEF_INSTALL_CMAKE_DIR CMake)
-ELSE()
-  SET(DEF_INSTALL_CMAKE_DIR lib/cmake/${PROJECT_NAME})
-ENDIF()
-SET(INSTALL_CMAKE_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH "Install dir for CMake files")
+set(INSTALL_INCLUDE_DIR include/${PROJECT_NAME} CACHE PATH "Install dir for headers")
+if(WIN32 AND NOT CYGWIN)
+  set(DEF_INSTALL_CMAKE_DIR CMake)
+else()
+  set(DEF_INSTALL_CMAKE_DIR lib/cmake/${PROJECT_NAME})
+endif()
+set(INSTALL_CMAKE_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH "Install dir for CMake files")
 
 include(CMakePackageConfigHelpers)
 configure_package_config_file(
@@ -284,7 +303,7 @@ install(
     ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}ConfigVersion.cmake
     ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}Config.cmake
   DESTINATION
-   ${INSTALL_CMAKE_DIR}
+    ${INSTALL_CMAKE_DIR}
   COMPONENT
     Devel
 )
@@ -306,12 +325,12 @@ if(BUILD_DOC)
         install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc
                 DESTINATION $ENV{MEDITEC_LIBS}/${PROJECT_NAME}/tags/${MAJOR_VERSION}.${MINOR_VERSION}
         )
-    endif(DOXYGEN_FOUND)
+    endif()
 endif()
 
 ###################### Add uninstall target ############################
 if("${CMAKE_PROJECT_NAME}" STREQUAL "${PROJECT_NAME}")
-    ADD_CUSTOM_TARGET(uninstall
+    add_custom_target(uninstall
       COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_uninstall.cmake)
 endif()
 

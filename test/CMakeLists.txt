@@ -1,19 +1,10 @@
-# Last changed on 2014-07-04
+# Last changed on 2019-05-23
 
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 3.1)
 
 project(TRTK_UNIT_TESTS)
 
 #####################################################################
-
-# OpenMP
-
-include(FindOpenMP)
-if(OPENMP_FOUND)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
-endif()
 
 # Object Level Parallelism (parallel builds)
 
@@ -33,18 +24,19 @@ endif()
 # Find Dependencies
 #####################################################################
 
-# Boost
-
-find_package(Boost)
-if(Boost_FOUND)
-    include_directories (${Boost_INCLUDE_DIRS})
-endif()
-
 # TRTK
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
 link_directories(${CMAKE_BINARY_DIR}/bin)
 set(TRTK_LIBLIST optimized ${TARGET_NAME} debug ${TARGET_NAME}${CMAKE_DEBUG_POSTFIX})
+
+# FLANN
+
+if(FLANN_FOUND)
+    include_directories(${FLANN_INCLUDE_DIRS})
+    set(LIBS ${LIBS} ${FLANN_LIBRARIES})
+    add_definitions(-DFLANN_FOUND)
+endif()
 
 #####################################################################
 
@@ -52,7 +44,6 @@ set(SOURCE_FILES
     unit_test.cpp
     unit_test_Clock.cpp
     unit_test_Coordinate.cpp
-	unit_test_CorrelationSphere.cpp
     unit_test_Diffusion.cpp
     unit_test_ErrorObj.cpp
     unit_test_EstimateAffineTransformation2D.cpp
@@ -72,9 +63,9 @@ set(SOURCE_FILES
     unit_test_FitPlane.cpp
     unit_test_FitSphere.cpp
     unit_test_GenericPolynomial.cpp
-    unit_test_Icp.cpp
     unit_test_Iterator.cpp
     unit_test_Optimization.cpp
+    unit_test_PinholeCameraModel.cpp
     unit_test_PivotCalibration.cpp
     unit_test_Range.cpp
     unit_test_RegionGrowing2D.cpp
@@ -83,12 +74,24 @@ set(SOURCE_FILES
     unit_test_SurfaceExtraction3D.cpp
     unit_test_Timestamp.cpp
     unit_test_Tools.cpp
-    unit_test_Transform2D.cpp
-    unit_test_Transform3D.cpp
     unit_test_TrivariateQuadraticPolynomial.cpp
 )
 
+if(FLANN_FOUND)
+    list(APPEND SOURCE_FILES
+        unit_test_Icp.hpp
+        unit_test_Transform2D.hpp
+        unit_test_Transform3D.hpp
+    )
+endif()
+
+if(FFTW_FOUND3)
+    list(APPEND SOURCE_FILES
+	unit_test_CorrelationSphere.cpp
+    )
+endif()
+
 add_executable(unit_tests ${SOURCE_FILES})
 
-# target_link_libraries(unit_tests ${Boost_LIBS} ${FLANN_LIBLIST} ${OPENCV_LIBLIST} ${TRTK_LIBLIST})
-target_link_libraries(unit_tests ${LIBS} ${TRTK_LIBLIST} ${FFTW3_LIBLIST})
+target_link_libraries(unit_tests ${LIBS} ${TRTK_LIBLIST} ${FLANN_LIBRARIES} ${FFTW3_LIBLIST})
+set_target_properties(unit_tests PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test/")

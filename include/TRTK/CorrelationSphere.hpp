@@ -58,7 +58,7 @@ namespace TRTK
         double x, y, z, radius;
     };
 
-    /** 
+    /**
     * This class segment circles [or spheres] in 2D [3D] images. Just instantiate a class object, set your
     * image and the radius range of the sought circles/spheres. After calling compute() the highest-weighted
     * circle/sphere can be found either by calling findSingleSphere() or by searching the parameter space yourself.
@@ -108,7 +108,7 @@ namespace TRTK
         void compute();
 
         // Find the best matching parameters
-        Sphere & findSingleSphere() const;
+        Sphere findSingleSphere() const;
 
         // Setter & Getter
         std::vector<CImg<double> *> & getCorrelations();
@@ -257,7 +257,7 @@ namespace TRTK
 
             //Construct kernel
             //This may be optimized. For example the bresenham algorithm for spheres could be used
-            //another optimization: Chunkwise 
+            //another optimization: Chunkwise
             double w = kernelReal->width() / 2.0;
             double h = kernelReal->height() / 2.0;
             double d = kernelReal->depth() / 2.0;
@@ -299,10 +299,10 @@ namespace TRTK
                 (*resultImag)(x, y, z) = (*imReal)(x, y, z) * (*kernelImag)(x, y, z) + (*imImag)(x, y, z) * (*kernelReal)(x, y, z);
             }
 
-            // Apply Inverse FFT 
+            // Apply Inverse FFT
             CImg<double>::FFT(*resultReal, *resultImag, true);
 
-            // Normalize result 
+            // Normalize result
             cimg_forXYZ(*resultReal, x, y, z){
                 (*resultReal)(x, y, z) /= weight;
             }
@@ -331,7 +331,7 @@ namespace TRTK
 
 
     template <typename T>
-    Sphere & CorrelationSphere<T>::findSingleSphere() const
+    Sphere CorrelationSphere<T>::findSingleSphere() const
     {
         int progress = 0;
 
