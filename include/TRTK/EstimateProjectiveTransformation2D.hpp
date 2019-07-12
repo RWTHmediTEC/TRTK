@@ -208,9 +208,14 @@ namespace TRTK
   *
   * \see EstimateRigidTransformation2D, EstimateProjectiveTransformation2D
   *
+  * \bug Depending on the compiler this function may be numerically unstable.
+  *      It has to be investigated what is the reason for it.
+  *
+  * \todo Check the estimation algorithm for numerical issues.
+  *
   * \author Christoph Haenisch
   * \version 0.2.4
-  * \date 2013-08-20
+  * \date 2019-07-12
   */
 
 template <class T>

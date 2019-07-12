@@ -121,6 +121,62 @@ namespace
         MatrixXd T_pose;
     };
 
+
+    struct GenerateTestData3
+    {
+        GenerateTestData3(int number_of_points = 25, double sigma_world = 0, double sigma_display = 0)
+        {
+            // Instantiate a pinhole camera model.
+
+            CameraModel camera_model;
+
+            // Set the intrinsic camera parameters.
+
+            camera_model.setFocalLengths(80, 80);
+            camera_model.setImageCenter(250, 250);
+            camera_model.setSkew(0);
+            T_proj = camera_model.getIntrinsicParameters();
+
+            // Set the extrinsic camera parameters.
+
+            Transform3D<double> T;
+            T.rotateAxis(40, Point3D(1, 2, 3), Transform3D<double>::DEGREES);
+            T.translate(130, 135, 90);
+            camera_model.setExtrinsicParameters(T.getTransformationMatrix());
+            T_pose = camera_model.getExtrinsicParameters();
+            MatrixXd T_camera_to_world = T_pose.inverse();
+
+            // Generate some test data.
+
+            for (int i = 0; i < number_of_points; ++i) // points in the world COS
+            {
+                auto x = randn(0.0, 30.0);    // in the camera COS
+                auto y = randn(0.0, 30.0);    // in the camera COS
+                auto z = randn(600.0, 10.0);  // in the camera COS
+                Point3D p = (T_camera_to_world * Point3D(x, y, z).homogeneous()).hnormalized();
+                points_world.emplace_back(p);
+            }
+
+            for (auto const & p_W : points_world) // points in the display COS; add noise if specified
+            {
+                Point2D p_D = camera_model.transform(p_W) + Point2D(randn(0.0, sigma_display), randn(0.0, sigma_display));
+                points_display.push_back(p_D);
+            }
+
+            // Add noise to the points recorded in the world COS.
+
+            for (auto & p_W : points_world)
+            {
+                p_W += Point3D(randn(0.0, sigma_world), randn(0.0, sigma_world), randn(0.0, sigma_world));
+            }
+        }
+
+        vector<Point3D> points_world;
+        vector<Point2D> points_display; // image plane
+        MatrixXd T_proj;
+        MatrixXd T_pose;
+    };
+
 } // end of anonymous namespace
 
 
@@ -427,6 +483,7 @@ void unit_test_PinholeCameraModel()
             assert((T_proj - test_data.T_proj).norm() < 1e-7);
             assert((T_pose - test_data.T_pose).norm() < 1e-7);
         }
+        STOP_TEST
 
 
         START_TEST
@@ -437,11 +494,81 @@ void unit_test_PinholeCameraModel()
             MatrixXd T_proj = pinhole_camera_model.getIntrinsicParameters();
             MatrixXd T_pose = pinhole_camera_model.getExtrinsicParameters();
             assert((T_proj - test_data.T_proj).norm() < 1e-7);
-            cout << "T_pose:\n" << test_data.T_pose << endl << endl;
-            cout << "T_pose:\n" << T_pose << endl << endl;
-            cout << "error:\n" << (T_pose - test_data.T_pose).norm() << endl;
             assert((T_pose - test_data.T_pose).norm() < 1e-5);
         }
         STOP_TEST
+
+
+        START_TEST
+        {
+            // estimate() does not cope too well with noisy data---at least when decomposing it
+            PinholeCameraModel<double> pinhole_camera_model;
+            GenerateTestData2 test_data(25, 0.001);
+            double rmse = pinhole_camera_model.estimate(make_range(test_data.points_world), make_range(test_data.points_display));
+            MatrixXd T_proj = pinhole_camera_model.getIntrinsicParameters();
+            MatrixXd T_pose = pinhole_camera_model.getExtrinsicParameters();
+            double error_T_proj = (T_proj - test_data.T_proj).norm(); // 0.123733
+            double error_T_pose = (T_pose - test_data.T_pose).norm(); // 0.521966
+            cout << endl;
+            assert(rmse < 0.001);
+            assert(error_T_proj < 0.2);
+            assert(error_T_pose < 0.7);
+        }
+        STOP_TEST
+
+
+    #ifdef CPPOPTLIB_FOUND
+
+    SUBHEADING(estimateWithConstraints())
+
+
+        START_TEST
+        {
+            PinholeCameraModel<double> pinhole_camera_model;
+            GenerateTestData3 test_data(30, 0.5); // no skewed image plane
+            double rmse = pinhole_camera_model.estimateWithConstraints(make_range(test_data.points_world), make_range(test_data.points_display), PinholeCameraModel<double>::NO_SKEW);
+            MatrixXd T_proj = pinhole_camera_model.getIntrinsicParameters();
+            MatrixXd T_pose = pinhole_camera_model.getExtrinsicParameters();
+            double error_T_proj = (T_proj - test_data.T_proj).norm() / test_data.T_proj.norm(); // 0.025331
+            double error_T_pose = (T_pose - test_data.T_pose).norm() / test_data.T_pose.norm(); // 0.249261
+            assert(rmse < 0.2);
+            assert(error_T_proj < 0.25); // mostly due to a inexact estimate of the focal lengths (previously 0.1)
+            assert(error_T_pose < 2.5); // position may deviate in the z-direction (previously 0.3)
+        }
+        STOP_TEST
+
+
+        START_TEST
+        {
+            PinholeCameraModel<double> pinhole_camera_model;
+            GenerateTestData3 test_data(30, 0.5); // no skewed image plane
+            double rmse = pinhole_camera_model.estimateWithConstraints(make_range(test_data.points_world), make_range(test_data.points_display), PinholeCameraModel<double>::SAME_FOCAL_LENGTHS);
+            MatrixXd T_proj = pinhole_camera_model.getIntrinsicParameters();
+            MatrixXd T_pose = pinhole_camera_model.getExtrinsicParameters();
+            double error_T_proj = (T_proj - test_data.T_proj).norm() / test_data.T_proj.norm(); // 0.0128983
+            double error_T_pose = (T_pose - test_data.T_pose).norm() / test_data.T_pose.norm(); // 0.0485156
+            assert(rmse < 0.2);
+            assert(error_T_proj < 0.1); // mostly due to a inexact estimate of the focal lengths
+            assert(error_T_pose < 0.7); // position may deviate in the z-direction (previously 0.3)
+        }
+        STOP_TEST
+
+
+        START_TEST
+        {
+            PinholeCameraModel<double> pinhole_camera_model;
+            GenerateTestData3 test_data(30, 0.5); // no skewed image plane
+            double rmse = pinhole_camera_model.estimateWithConstraints(make_range(test_data.points_world), make_range(test_data.points_display), PinholeCameraModel<double>::SAME_FOCAL_LENGTHS_AND_NO_SKEW);
+            MatrixXd T_proj = pinhole_camera_model.getIntrinsicParameters();
+            MatrixXd T_pose = pinhole_camera_model.getExtrinsicParameters();
+            double error_T_proj = (T_proj - test_data.T_proj).norm() / test_data.T_proj.norm(); // 0.057552
+            double error_T_pose = (T_pose - test_data.T_pose).norm() / test_data.T_pose.norm(); // 0.394669
+            assert(rmse < 0.2);
+            assert(error_T_proj < 0.1); // mostly due to a inexact estimate of the focal lengths
+            assert(error_T_pose < 0.5); // position may deviate in the z-direction
+        }
+        STOP_TEST
+
+    #endif // CPPOPTLIB_FOUND
 
 }

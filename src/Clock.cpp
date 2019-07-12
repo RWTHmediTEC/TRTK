@@ -9,7 +9,7 @@
 
     See license.txt for more information.
 
-    Version 0.1.2 (2011-06-17)
+    Version 0.1.3 (2019-06-12)
 */
 
 /** \file Clock.cpp
@@ -142,7 +142,7 @@ void Clock::resume()
   * checking if the period of time has already elapsed. Thus, be aware, that
   * this function might be computationally expensive!
   *
-  * \note Depeding on the underlying operating system, the function might be
+  * \note Depending on the underlying operating system, the function might be
   *       inaccurate!
   *
   * \see wait_seconds()
@@ -167,7 +167,7 @@ void Clock::wait_milliseconds(const double time) const
   * checking if the period of time has already elapsed. Thus, be aware, that
   * this function might be computationally expensive!
   *
-  * \note Depeding on the underlying operating system, the function might be
+  * \note Depending on the underlying operating system, the function might be
   *       inaccurate!
   *
   * \see wait_seconds()
@@ -191,7 +191,7 @@ void Clock::wait_seconds(const double time) const
   *
   * \brief Writes the elapsed time of a Clock object to the given stream.
   *
-  * Here is an exampe of how to use the stream operator:
+  * Here is an example of how to use the stream operator:
   *
   * \code
   * Clock clock;

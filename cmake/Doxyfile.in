@@ -75,6 +75,7 @@ PREDEFINED             += TRTK_PARALLELIZE
 PREDEFINED             += TRTK_SUPPORT_CVECTOR
 PREDEFINED             += EIGEN_MACROS_H
 PREDEFINED             += QT_VERSION
+PREDEFINED             += CPPOPTLIB_FOUND
 
 #---------------------------------------------------------------------------
 # Configuration options related to the HTML output

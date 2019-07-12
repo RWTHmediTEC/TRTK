@@ -142,13 +142,15 @@ To get started, please have a look a the \ref Tutorial.
             - Files
                 - \ref TRTK::Tools::fileExists() "Checking for an Existing File"
                 - \ref TRTK::Tools::fileLength() "Determining the Length of a File or a File Stream"
-            - Numbers (Comparisons, Convertions, Random Numbers, etc.)
+            - Numbers (Comparisons, Conversions, Random Numbers, etc.)
                 - \ref TRTK::Tools::Eigen3x3_to_QTransfom "Conversion of an Eigen 3x3 matrix into a QTransform"
                 - \ref TRTK::Tools::isEqual() "Test for Equality"
                 - \ref TRTK::Tools::isZero() "Test for Zero"
                 - \ref TRTK::Tools::rand(T, T) "Uniformly Distributed Random Number"
                 - \ref TRTK::Tools::randn(T, T) "Normally Distributed Random Number"
                 - \ref TRTK::Tools::toString() "Conversion to std::string"
+                - Different representations of rotation (matrix, axis-angle, ...) and conversions between them.
+                - Conversion between Cartesian coordinates and spherical coordinates.
         - <a name=Miscellaneous> Miscellaneous </a>
             - \ref TRTK::Clock "A Simple Clock Class"
             - \ref TRTK::Server "A Simple TCP/IP Client and Server"

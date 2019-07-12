@@ -1,6 +1,6 @@
-// Last changed on 2011-06-06.
+// Last changed on 2019-07-01.
 
-#include <TRTK/Tools.hpp> // check for missing headers 
+#include <TRTK/Tools.hpp> // check for missing headers
 
 #include <fstream>
 #include <list>
@@ -22,7 +22,7 @@ The following functions will (intentionally) not be test:
 
 */
 
-  
+
 // #pragma GCC diagnostic push
 // #pragma GCC diagnostic warning "-Wall"
 
@@ -59,6 +59,144 @@ void unit_test_Tools()
 
     using namespace TRTK;
     using namespace TRTK::Tools;
+
+    const double pi = 3.14159265359;
+
+
+    SUBHEADING(axisAngleFromRotationMatrix() and rotationMatrix())
+
+
+        START_TEST
+        {
+            Eigen::Matrix3d R_ref = Eigen::Matrix3d::Identity();
+            Eigen::Matrix3d R = rotationMatrix(Eigen::Vector3d(1, 0, 0), 0);
+            Eigen::Matrix3d residual_matrix = R - R_ref;
+            double residual = residual_matrix.norm();
+            assert(residual < 1e-7);
+
+            R = rotationMatrix(Eigen::Vector3d(1, 2, 3), 0);
+            residual_matrix = R - R_ref;
+            residual = residual_matrix.norm();
+            assert(residual < 1e-7);
+        }
+        STOP_TEST
+
+
+        START_TEST
+        {
+            double phi = 0.3;
+            Eigen::Matrix3d R_ref = Eigen::Matrix3d();
+            R_ref << cos(phi), -sin(phi), 0,
+                     sin(phi), cos(phi),  0,
+                     0,        0,         1;
+            Eigen::Matrix3d R = rotationMatrix(Eigen::Vector3d(0, 0, 1), 0.3);
+            Eigen::Matrix3d residual_matrix = R - R_ref;
+            double residual = residual_matrix.norm();
+            assert(residual < 1e-7);
+        }
+        STOP_TEST
+
+
+        START_TEST
+        {
+            for (int i = 0; i < 1000; ++i)
+            {
+                Eigen::Vector3d axis = Eigen::Vector3d::Random(3);
+                double angle = rand<double>(0, pi);
+                auto R = rotationMatrix(axis, angle);
+                auto [axis_estimate, angle_estimate] = axisAngleFromRotationMatrix(R);
+                auto R_reconstructed = rotationMatrix(axis_estimate, angle_estimate); // We might have constructed non-unique axis-angle representations but the matrix form is unique.
+                auto residual_matrix = R - R_reconstructed;
+                double residual = residual_matrix.norm();
+                assert(residual < 1e-7);
+            }
+        }
+        STOP_TEST
+
+
+        START_TEST
+        {
+            Eigen::Matrix3d I = Eigen::Matrix3d::Identity();
+            auto [axis_estimate, angle_estimate] = axisAngleFromRotationMatrix(I);
+            bool CORRECT_ANGLE = abs(angle_estimate - 0) < 1e-7;
+            bool CORRECT_AXIS = (axis_estimate - Eigen::Vector3d(1, 0, 0)).norm() < 1e-7;
+            assert(CORRECT_ANGLE);
+            assert(CORRECT_AXIS);
+        }
+        STOP_TEST
+
+
+        START_TEST
+        {
+            Eigen::Vector3d axis = Eigen::Vector3d(1, 1, 1).normalized();
+            auto R = rotationMatrix(axis, pi);
+            auto [axis_estimate, angle_estimate] = axisAngleFromRotationMatrix(R);
+            bool CORRECT_ANGLE = abs(pi - angle_estimate) < 1e-7;
+            bool CORRECT_AXIS = (axis - axis_estimate).norm() < 1e-7;
+            assert(CORRECT_ANGLE);
+            assert(CORRECT_AXIS);
+        }
+        STOP_TEST
+
+
+        START_TEST
+        {
+            Eigen::Vector3d axis = Eigen::Vector3d(-1, -1, -1); // "invalid" representation
+            auto R = rotationMatrix(axis, pi);
+            auto [axis_estimate, angle_estimate] = axisAngleFromRotationMatrix(R);
+            auto R_reconstructed = rotationMatrix(axis_estimate, angle_estimate);
+            auto residual_matrix = R - R_reconstructed;
+            double residual = residual_matrix.norm();
+            assert(residual < 1e-7);
+        }
+        STOP_TEST
+
+
+    SUBHEADING(cartesian2Spherical() and spherical2Cartesian())
+
+
+        START_TEST // Coordinate
+        {
+            for (int i = 0; i < 1000; ++i)
+            {
+                Coordinate<double> v_cart = Coordinate<double>::randn(3, 0, 100);
+                auto v_sph = cartesian2Spherical(v_cart);
+                auto v_cart_reconstr = spherical2Cartesian(v_sph);
+                double residual = (v_cart - v_cart_reconstr).norm();
+                assert(residual < 1e-7);
+            }
+        }
+        STOP_TEST
+
+
+        START_TEST // Vector3d
+        {
+            for (int i = 0; i < 1000; ++i)
+            {
+                Eigen::Vector3d v_cart = 100 * Eigen::Vector3d::Random(3);
+                auto v_sph = cartesian2Spherical(v_cart);
+                auto v_cart_reconstr = spherical2Cartesian(v_sph);
+                double residual = (v_cart - v_cart_reconstr).norm();
+                assert(residual < 1e-7);
+            }
+        }
+        STOP_TEST
+
+
+        START_TEST // x, y, z
+        {
+            for (int i = 0; i < 1000; ++i)
+            {
+                double x = randn<double>(0, 100);
+                double y = randn<double>(0, 100);
+                double z = randn<double>(0, 100);
+                auto [r, theta, phi] = cartesian2Spherical(x, y, z);
+                auto [x_reconstr, y_reconstr, z_reconstr] = spherical2Cartesian(r, theta, phi);
+                double residual = abs(x - x_reconstr) + abs(y - y_reconstr) + abs(z - z_reconstr);
+                assert(residual < 1e-7);
+            }
+        }
+        STOP_TEST
 
 
     SUBHEADING(fileExists())
@@ -273,7 +411,7 @@ void unit_test_Tools()
             assert(isZero<int>(a) == true);
         STOP_TEST
 
-        
+
     SUBHEADING(listToVector())
 
 
@@ -303,12 +441,12 @@ void unit_test_Tools()
             list2.push_back(Coordinate<double>(-1, 2));
             list2.push_back(Coordinate<double>(0, 3));
             Coordinate<double> result = mean(list2, Coordinate<double>(0, 0));
-            assert(result == Coordinate<double>(0, 3)); 
+            assert(result == Coordinate<double>(0, 3));
         STOP_TEST
 
 
     SUBHEADING(orthogonalMatrixToQuaternion())
-        
+
 
         START_TEST
             // Test for id = orthogonalMatrixToQuaternion o quaternionToOrthogonalMatrix.
@@ -340,7 +478,7 @@ void unit_test_Tools()
             assert(abs(orthogonal_matrix.col(2).transpose() * orthogonal_matrix.col(2) - 1) < 10e-10);
             assert(orthogonal_matrix.determinant() > 0);
         STOP_TEST
-    
+
 
     SUBHEADING(rand())
 
@@ -390,15 +528,15 @@ void unit_test_Tools()
                 mean += vect[i];
             }
             mean /= vect.size();
-            assert(abs(mean - 0.5*(a+b)) < 0.1);
+            assert(abs(mean - 0.5*(a+b)) < 0.2);
 
             variance = 0;
             for (unsigned i = 0; i < vect.size(); ++i)
             {
                 variance += (vect[i] - mean) * (vect[i] - mean);
             }
-            variance /= vect.size();
-            assert(abs(variance - 0.0833*(b-a)*(b-a)) < 0.3);
+            variance /= vect.size() - 1;
+            assert(abs(variance - 0.0833*(b-a)*(b-a)) < 0.5);
         STOP_TEST
 
 
@@ -420,7 +558,7 @@ void unit_test_Tools()
                 mean += vect[i];
             }
             mean /= vect.size();
-            assert(abs(mean - mu) < 0.01);
+            assert(abs(mean - mu) < 0.02);
 
             variance = 0;
             for (unsigned i = 0; i < vect.size(); ++i)
@@ -525,7 +663,7 @@ void unit_test_Tools()
             list3.push_back(Coordinate<double>(-2, 2));
             list3.push_back(Coordinate<double>(0, 5));
             result = standardDeviation(list3, Coordinate<double>(0, 0));
-            assert((result - Coordinate<double>(2.255, 3.383)).norm() < 1e-2); 
+            assert((result - Coordinate<double>(2.255, 3.383)).norm() < 1e-2);
         STOP_TEST
 
 
@@ -559,7 +697,7 @@ void unit_test_Tools()
             list4.push_back(Coordinate<double>(0, 5));
             result = Tools::variance(list4, Coordinate<double>(0, 0));
             cout << endl << result << endl;
-            assert((result - Coordinate<double>(1, 9)).norm() < 1e-2); 
+            assert((result - Coordinate<double>(1, 9)).norm() < 1e-2);
         STOP_TEST
 
 

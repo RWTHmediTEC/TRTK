@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2010 - 2014 Christoph Haenisch
+    Copyright (C) 2010 - 2019 Christoph Haenisch
 
     Chair of Medical Engineering (mediTEC)
     RWTH Aachen University
@@ -9,7 +9,7 @@
 
     See license.txt for more information.
 
-    Version 0.3.1 (2013-06-01)
+    Version 0.4.0 (2019-06-24)
 */
 
 /** \file Iterator.hpp
@@ -141,8 +141,8 @@ unsigned long distance(Iterator<T> first, Iterator<T> last);
   * \see IteratorAdapter, make_iterator, Range
   *
   * \author Christoph Haenisch
-  * \version 0.3.0
-  * \date last changed on 2013-04-10
+  * \version 0.4.0
+  * \date last changed on 2019-06-24
   */
 
 template <class T>
@@ -473,8 +473,8 @@ unsigned long distance(IteratorAdapter<T, InputIterator> first, IteratorAdapter<
   * \see Iterator, make_iterator
   *
   * \author Christoph Haenisch
-  * \version 0.3.0
-  * \date last changed on 2013-04-10
+  * \version 0.4.0
+  * \date last changed on 2019-06-24
   */
 
 template <class T, class InputIterator>
@@ -688,7 +688,7 @@ unsigned long IteratorAdapter<T, InputIterator>::distance(const Iterator<T> & ot
     {
         // Is 'other' of type 'IteratorAdapter'?
         const IteratorAdapter<T, InputIterator> & iteratorAdapter = dynamic_cast<const IteratorAdapter<T, InputIterator> &>(other);
-        return distance(iterator, iteratorAdapter.iterator);
+        return (unsigned long ) distance(iterator, iteratorAdapter.iterator);
     }
     catch (std::bad_cast &)
     {
@@ -696,7 +696,7 @@ unsigned long IteratorAdapter<T, InputIterator>::distance(const Iterator<T> & ot
         try
         {
             const IteratorAdapter<T, InputIterator> & iteratorAdapter = dynamic_cast<const IteratorAdapter<T, InputIterator> &>(other.getIterator());
-            return distance(iterator, iteratorAdapter.iterator);
+            return (unsigned long) distance(iterator, iteratorAdapter.iterator);
         }
         catch (std::bad_cast &)
         {

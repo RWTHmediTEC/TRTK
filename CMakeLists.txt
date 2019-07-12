@@ -1,6 +1,6 @@
-# Last changed on 2019-05-23
+# Last changed on 2019-07-02
 
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.10)
 
 set(CMAKE_DEBUG_POSTFIX d)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/bin)
@@ -22,7 +22,7 @@ project(TRTK)
 #####################################################################
 
 set(MAJOR_VERSION  1)
-set(MINOR_VERSION  1)
+set(MINOR_VERSION  2)
 set(PATCH_VERSION  0)
 
 set(FULL_VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION})
@@ -35,17 +35,9 @@ set(TARGET_NAME ${PROJECT_NAME})
 # Compilation Flags
 #####################################################################
 
-# Enable C++11
-include(CheckCXXCompilerFlag)
-check_cxx_compiler_flag("-std=c++11" COMPILER_SUPPORTS_CXX11)
-check_cxx_compiler_flag("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
-if(COMPILER_SUPPORTS_CXX11)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-elseif(COMPILER_SUPPORTS_CXX0X)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
-else()
-        message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support, or our tests failed to detect it correctly. Please use a different C++ compiler or report this problem to the developers.")
-endif()
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 if(UNIX AND CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64")
     add_definitions(-fPIC)
@@ -54,6 +46,7 @@ endif()
 if(MSVC)
     add_definitions(/MP) # Object Level Parallelism (parallel builds)
     add_definitions(/permissive-) # Standards-conforming compiler behavior
+    add_definitions(/bigobj) # Avoid fatal error C1128 (number of sections exceeds object file format limit)
     add_definitions(-D_ENABLE_EXTENDED_ALIGNED_STORAGE) # standard-compliant aligned storage in MSVC 15.8 and higher
     add_definitions(-D_CRT_SECURE_NO_WARNINGS)
     add_definitions(-D_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS)
@@ -102,6 +95,13 @@ if(FFTW_LIBRARY)
     link_directories(${FFTW_LIBRARY}/lib)
     set(LIBS ${LIBS} libfftw3-3.lib)
     add_definitions(-DFFTW3_FOUND)
+endif()
+
+find_path(CPPOPTLIB NAMES cppoptlib cppoptlib-1.0.0)
+if(CPPOPTLIB)
+    set(CPPOPTLIB_FOUND 1)
+    include_directories(${CPPOPTLIB})
+    add_definitions(-DCPPOPTLIB_FOUND)
 endif()
 
 

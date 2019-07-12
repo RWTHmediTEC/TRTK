@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2010 - 2014 Christoph Haenisch
+    Copyright (C) 2010 - 2014 Christoph Hänisch
 
     Chair of Medical Engineering (mediTEC)
     RWTH Aachen University
@@ -37,7 +37,7 @@ namespace Tools
 
 /** \param [in] file_name   Name of the file to check for.
   *
-  * \author Christoph Haenisch
+  * \author Christoph Hänisch
   * \version 0.1.0
   * \date last changed on 2011-11-29
   */
@@ -65,7 +65,7 @@ bool fileExists(const char * file_name)
   *
   * \see fileLength(std::ifstream & file_stream)
   *
-  * \author Christoph Haenisch
+  * \author Christoph Hänisch
   * \version 0.2.1
   * \date last changed on 2013-03-19
   */
@@ -103,7 +103,7 @@ unsigned long long fileLength(const char * file_name)
   *  }
   * \endcode
   *
-  * \author Christoph Haenisch
+  * \author Christoph Hänisch
   * \version 0.2.0
   * \date last changed on 2012-08-03
   */
@@ -121,7 +121,7 @@ unsigned long long fileLength(ifstream & file_stream)
 }
 
 
-/** \author Christoph Haenisch
+/** \author Christoph Hänisch
   * \version 0.1.0
   * \date last changed on 2013-08-19
   */
@@ -134,15 +134,15 @@ string getCurrentDate()
     int year = now->tm_year + 1900;
     int month = now->tm_mon + 1;
     int day = now->tm_mday;
-    
+
     char buffer[11];
     sprintf(buffer, "%04i-%02i-%02i", year, month, day);
-    
+
     return string(buffer);
 }
 
 
-/** \author Christoph Haenisch
+/** \author Christoph Hänisch
   * \version 0.1.0
   * \date last changed on 2013-08-19
   */
@@ -155,7 +155,7 @@ string getCurrentTime()
     int hours = now->tm_hour;
     int minutes = now->tm_min;
     int seconds = now->tm_sec;
-    
+
     char buffer[9];
     sprintf(buffer, "%02i:%02i:%02i", hours, minutes, seconds);
 
@@ -165,7 +165,7 @@ string getCurrentTime()
 
 /** Convenience function for randn<double>().
   *
-  * \author Christoph Haenisch
+  * \author Christoph Hänisch
   * \version 0.1.0
   * \date last changed on 2012-03-15
   */

@@ -1,9 +1,12 @@
-# Last changed on 2019-05-23
+# Last changed on 2019-06-12
 
 cmake_minimum_required(VERSION 3.1)
 
 project(TRTK_UNIT_TESTS)
 
+
+#####################################################################
+# Compiler specific settings
 #####################################################################
 
 # Object Level Parallelism (parallel builds)
@@ -20,15 +23,24 @@ if(NOT EXISTS ${VSXPROJ_USER})
 	configure_file(${CMAKE_CURRENT_SOURCE_DIR}/misc/unit_tests.vcxproj.user.in ${VSXPROJ_USER} @ONLY)
 endif()
 
+
 #####################################################################
-# Find Dependencies
+# Find dependencies and add them later to the linker (see below)
 #####################################################################
 
 # TRTK
 
-include_directories(${CMAKE_SOURCE_DIR}/include)
-link_directories(${CMAKE_BINARY_DIR}/bin)
-set(TRTK_LIBLIST optimized ${TARGET_NAME} debug ${TARGET_NAME}${CMAKE_DEBUG_POSTFIX})
+include_directories(${CMAKE_SOURCE_DIR}/include
+                    ${FLANN_INCLUDE_DIRS}
+)
+
+link_directories(${CMAKE_BINARY_DIR}/bin
+                 ${FLANN_LIBRARIES}
+)
+
+# set(TRTK_LIBLIST optimized ${TARGET_NAME} debug ${TARGET_NAME}${CMAKE_DEBUG_POSTFIX})
+set(LIBS ${TARGET_NAME})
+
 
 # FLANN
 
@@ -38,6 +50,9 @@ if(FLANN_FOUND)
     add_definitions(-DFLANN_FOUND)
 endif()
 
+
+#####################################################################
+# Unit Tests
 #####################################################################
 
 set(SOURCE_FILES
@@ -95,3 +110,11 @@ add_executable(unit_tests ${SOURCE_FILES})
 
 target_link_libraries(unit_tests ${LIBS} ${TRTK_LIBLIST} ${FLANN_LIBRARIES} ${FFTW3_LIBLIST})
 set_target_properties(unit_tests PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test/")
+
+
+#####################################################################
+# Pinhole Camera Analysis
+#####################################################################
+
+add_executable(pinhole_camera_model_analysis pinhole_camera_model_analysis.cpp)
+target_link_libraries(pinhole_camera_model_analysis ${LIBS})

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2010 - 2014 Christoph Haenisch
+    Copyright (C) 2010 - 2019 Christoph Hänisch
 
     Chair of Medical Engineering (mediTEC)
     RWTH Aachen University
@@ -9,7 +9,7 @@
 
     See license.txt for more information.
 
-    Version 0.3.2 (2016-07-13)
+    Version 0.4.0 (2019-07-02)
 */
 
 /** \file Tools.hpp
@@ -27,8 +27,11 @@
 #include <list>
 #include <sstream>
 #include <string>
+#include <tuple>
 #include <utility>
 #include <vector>
+
+#include <Eigen/Core>
 
 #include "Coordinate.hpp"
 
@@ -41,7 +44,7 @@ namespace TRTK
 {
 
 
-template <class T> class Coordinate; // forward declaration
+template <class T> class Coordinate;
 
 
 namespace Tools
@@ -69,18 +72,23 @@ namespace Tools
   * - Files
   *   - \ref fileExists()
   *   - \ref fileLength()
-  * - Numbers (Comparisons, Convertions, Random Numbers, etc.)
-  *   - \ref Eigen3x3_to_QTransfom
+  * - Numbers (Comparisons, Conversions, Random Numbers, etc.)
   *   - \ref isEqual()
   *   - \ref isZero()
-  *   - \ref orthogonalMatrixToQuaternion()
-  *   - \ref quaternionToOrthogonalMatrix()
   *   - \ref rand()
   *   - \ref rand(T, T) "rand(a, b)"
   *   - \ref randn()
   *   - \ref randn(T, T) "randn(mu, sigma)"
   *   - \ref sign()
   *   - \ref toString()
+  * - Rotation and Coordinate Systems
+  *   - \ref cartesian2Spherical()
+  *   - \ref axisAngleFromRotationMatrix()
+  *   - \ref Eigen3x3_to_QTransfom
+  *   - \ref orthogonalMatrixToQuaternion()
+  *   - \ref quaternionToOrthogonalMatrix()
+  *   - \ref rotationMatrix()
+  *   - \ref spherical2Cartesian()
   */
 
 
@@ -91,7 +99,7 @@ namespace Tools
   *
   * \note This function is only available, if Eigen and Qt were included before.
   *
-  * \author Christoph Haenisch
+  * \author Christoph Hänisch
   * \version 0.1.1
   * \date last changed on 2011-10-10
   */
@@ -108,6 +116,179 @@ QTransform Eigen3x3_to_QTransfom(const EigenMatrix & eigenMatrix)
 
 #endif // QT_VERSION
 #endif // EIGEN_MACROS_H
+
+
+ /**
+  * \tparam T scalar (floating point) type
+  *
+  * This function decomposes a given 3-by-3 rotation matrix into the normalized rotation
+  * axis and the positive rotation angle where the rotation angle \f$ \alpha \in [0, \pi] \f$.
+  * The decomposition is unique. The rotation matrix does not need to describe a pure rotation;
+  * an additional scaling may be implied but is neglected. The matrix is assumed to be left
+  * multiplied to column vectors.
+  *
+  * Example:
+  *
+  * \code
+  *
+  * Matrix3d R = rotationMatrix(Vector3d(1, 1, 1), 0.3);
+  * Vector3d axis;
+  * double angle;
+  * tie(axis, angle) = axisAngleFromRotationMatrix(R);
+  *
+  * \endcode
+  *
+  * Then, \p axis = (0.5774, 0.5774, 0.5774) and \p angle = 0.3.
+  *
+  * @returns (axis, angle) where axis is a 3d vector
+  *
+  * \see rotationMatrix
+  *
+  * \author Christoph Hänisch
+  * \version 0.2.0
+  * \date last changed on 2019-07-01
+  */
+
+template <class T>
+std::pair<Eigen::Matrix<T, 3, 1>, T> axisAngleFromRotationMatrix(const Eigen::Matrix<T, 3, 3> & matrix)
+{
+    // The implementation is based on the lecture notes of Carlo Tomasi. See [1] for more information.
+    // [1] https://www2.cs.duke.edu/courses/fall13/compsci527/notes/rodrigues.pdf
+
+    using namespace Eigen;
+    using Matrix3T = Matrix<T, 3, 3>;
+    using Vector3T = Matrix<T, 3, 1>;
+
+    const T eps = 1000 * std::numeric_limits<T>::epsilon();
+    const T pi = 3.14159265359;
+
+    Matrix3T A = (matrix - matrix.transpose()) / 2;
+    Vector3T rho = Vector3T(A(2, 1), A(0, 2), A(1, 0));
+    T s = rho.norm();
+    T c = (matrix.trace() - 1) / 2;
+
+    Vector3T axis;
+    T angle;
+
+    if (abs(s - 0) < eps && abs(c - 1) < eps)
+    {
+        axis = Vector3T(1, 0, 0);
+        angle = 0;
+    }
+    else if (abs(s - 0) < eps && abs(c + 1) < eps)
+    {
+        angle = pi;
+        Matrix3T B = matrix + Matrix3T::Identity();
+        for (int i = 0; i < 3; ++i)
+        {
+            axis = B.col(i).normalized();
+            if (axis.norm() > 0) break;
+        }
+        // Assure uniqueness by forcing the axis onto the half-hemisphere.
+        if (abs(axis.x()) < eps && abs(axis.y()) < eps && axis.z() < 0 ||
+            abs(axis.x()) < eps && axis.y() < 0 ||
+            axis.x() < 0)
+        {
+            angle = -angle;
+            axis = -axis;
+        }
+    }
+    else
+    {
+        using ::atan2;
+        axis = rho / s;
+        angle = atan2(s, c);
+    }
+
+    return std::make_pair(axis, angle);
+}
+
+
+/**
+ * \tparam T scalar (floating point) type
+ *
+ * The Cartesian coordinate is converted to spherical coordinates using the
+ * ISO 80000-2 convention (i.e. as in physics: radius r, inclination theta,
+ * azimuth phi).
+ *
+ * @returns (r, theta, phi)
+ *
+ * \see spherical2Cartesian
+ *
+ * \author Christoph Hänisch
+ * \version 0.1.0
+ * \date last changed on 2019-06-17
+ */
+
+template <class T>
+std::tuple<T, T, T> cartesian2Spherical(const T & x, const T & y, const T & z)
+{
+    const T pi = 3.1415926535897932384626433;
+    using ::sqrt;
+    auto r = sqrt(x * x + y * y + z * z);
+    T theta;
+    if (r == 0)
+        theta = 0;
+    else
+        theta = acos(z / r);
+    auto phi = atan2(y, x);
+
+    assert(0 <= r);
+    assert(0 <= theta && theta <= pi);
+    assert(-pi <= phi && phi <= pi);
+
+    return std::make_tuple(r, theta, phi);
+}
+
+
+/**
+ * \tparam T scalar (floating point) type
+ *
+ * The Cartesian coordinate is converted to spherical coordinates using the
+ * ISO 80000-2 convention (i.e. as in physics: radius r, inclination theta,
+ * azimuth phi).
+ *
+ * @returns 3d vector (r, theta, phi)
+ *
+ * \see spherical2Cartesian
+ *
+ * \author Christoph Hänisch
+ * \version 0.1.0
+ * \date last changed on 2019-06-17
+ */
+
+template <class T>
+Eigen::Matrix<T, 3, 1> cartesian2Spherical(const Eigen::Matrix<T, 3, 1> & point)
+{
+    Eigen::Matrix<T, 3, 1> result;
+    std::tie(result.x(), result.y(), result.z()) = cartesian2Spherical(point.x(), point.y(), point.z());
+    return result;
+}
+
+
+/**
+ * \tparam T scalar (floating point) type
+ *
+ * The Cartesian coordinate is converted to spherical coordinates using the
+ * ISO 80000-2 convention (i.e. as in physics: radius r, inclination theta,
+ * azimuth phi).
+ *
+ * \see spherical2Cartesian
+ *
+ * @returns 3d coordinate (r, theta, phi)
+ *
+ * \author Christoph Hänisch
+ * \version 0.1.0
+ * \date last changed on 2019-06-17
+ */
+
+template <class T>
+Coordinate<T> cartesian2Spherical(const Coordinate<T> & point)
+{
+    Coordinate<T> result(0, 0, 0);
+    std::tie(result.x(), result.y(), result.z()) = cartesian2Spherical(point.x(), point.y(), point.z());
+    return result;
+}
 
 
 /** \brief Checks whether a certain file exists. */
@@ -188,7 +369,7 @@ std::string getCurrentTime();
   *     contain one virtual function (e.g. a virtual destructor)
   *   - The compiler must support RTTI.
   *
-  * \author Christoph Haenisch
+  * \author Christoph Hänisch
   * \version 0.1.1
   * \date last changed on 2011-08-18
   */
@@ -214,7 +395,7 @@ inline bool isClass(Base * base_ptr)
   *     contain one virtual function (e.g. a virtual destructor)
   *   - The compiler must support RTTI.
   *
-  * \author Christoph Haenisch
+  * \author Christoph Hänisch
   * \version 0.1.1
   * \date last changed on 2011-08-18
   */
@@ -280,7 +461,7 @@ inline bool isClass(Base & base)
   * }
   * \endcode
   *
-  * \author Christoph Haenisch
+  * \author Christoph Hänisch
   * \version 0.1.1
   * \date last changed on 2011-08-18
   */
@@ -297,7 +478,7 @@ inline bool isDerivedFrom(const Base * base_ptr)
   * Please have a look at \ref isDerivedFrom(Base * base_ptr) to see some example
   * code.
   *
-  * \author Christoph Haenisch
+  * \author Christoph Hänisch
   * \version 0.1.1
   * \date last changed on 2011-08-18
   */
@@ -331,7 +512,7 @@ inline bool isDerivedFrom(const void * base_ptr)
   *       defined for the given scalar type \c T. (A template function
   *       specialization for integers is implemented.)
   *
-  * \author Christoph Haenisch
+  * \author Christoph Hänisch
   * \version 0.1.0
   * \date last changed on 2011-04-21
   */
@@ -376,7 +557,7 @@ inline bool isEqual<int>(const int x, const int y)
   * isZero(value); // returns false
   * \endcode
   *
-  * \author Christoph Haenisch
+  * \author Christoph Hänisch
   * \version 0.1.0
   * \date last changed on 2011-04-21
   */
@@ -392,7 +573,7 @@ inline bool isZero(const T value)
   *
   * The vector's class type is the same as the one of the list.
   *
-  * \author Christoph Haenisch
+  * \author Christoph Hänisch
   * \version 0.1.0
   * \date last changed on 2011-04-21
   */
@@ -417,7 +598,7 @@ std::vector<T> listToVector(const std::list<T> & lst)
   *
   * \note The container must provide an STL interface.
   *
-  * \author Christoph Haenisch
+  * \author Christoph Hänisch
   * \version 0.1.0
   * \date last changed on 2013-07-30
   */
@@ -441,7 +622,7 @@ inline ValueType mean(const Container & container, ValueType null_value = ValueT
   * \note This function needs the following header to be included!
   *       \code #include <Eigen/Core> \endcode
   *
-  * \author Christoph Haenisch
+  * \author Christoph Hänisch
   * \version 0.1.0
   * \date last changed on 2013-08-12
   */
@@ -515,7 +696,7 @@ TRTK::Coordinate<T> orthogonalMatrixToQuaternion(const Eigen::Matrix<T, 3, 3> & 
   * [1] Bar-Itzhack, "New Method for Extracting the Quaternion from a Rotation
   *     Matrix", J. Guidance, Vol. 23, No. 6: Engineering Notes, 2000
   *
-  * \author Christoph Haenisch
+  * \author Christoph Hänisch
   * \version 0.1.0
   * \date last changed on 2013-08-12
   */
@@ -560,7 +741,7 @@ TRTK::Coordinate<T> orthogonalMatrixToQuaternion2(const Eigen::Matrix<T, 3, 3> &
   * \note This function needs the following header to be included!
   *       \code #include <Eigen/Core> \endcode
   *
-  * \author Christoph Haenisch
+  * \author Christoph Hänisch
   * \version 0.1.1
   * \date last changed on 2016-04-29
   */
@@ -599,7 +780,7 @@ Eigen::Matrix<T, 3, 3> quaternionToOrthogonalMatrix(T q0, T q1, T q2, T q3)
   * \note This function needs the following header to be included!
   *       \code #include <Eigen/Core> \endcode
   *
-  * \author Christoph Haenisch
+  * \author Christoph Hänisch
   * \version 0.1.0
   * \date last changed on 2013-08-06
   */
@@ -628,7 +809,7 @@ inline Eigen::Matrix<T, 3, 3> quaternionToOrthogonalMatrix(const TRTK::Coordinat
   * \returns Returns a pseudo-random sample of the standard uniform distribution,
   *          i.e. a number in the range \f$ [0; 1] \f$.
   *
-  * \author Christoph Haenisch
+  * \author Christoph Hänisch
   * \version 0.1.0
   * \date last changed on 2011-11-07
   */
@@ -658,7 +839,7 @@ inline T rand()
   *
   * \returns Returns a pseudo-random number in the range \f$ [a; b] \f$.
   *
-  * \author Christoph Haenisch
+  * \author Christoph Hänisch
   * \version 0.1.2
   * \date last changed on 2016-07-13
   */
@@ -700,7 +881,7 @@ inline unsigned rand<unsigned>(unsigned a, unsigned b)
   * \note For reasons of convenience, there is also a non-templated \c randn()
   *       function which uses the \c double type.
   *
-  * \author Christoph Haenisch
+  * \author Christoph Hänisch
   * \version 0.1.0
   * \date last changed on 2011-11-08
   */
@@ -771,7 +952,7 @@ double randn(); // Convenience function for randn<double>().
   *
   * \returns Returns a pseudo-random number.
   *
-  * \author Christoph Haenisch
+  * \author Christoph Hänisch
   * \version 0.1.0
   * \date last changed on 2011-11-07
   */
@@ -812,6 +993,79 @@ template <class T> int sign(T value)
 }
 
 
+/**
+ * \tparam T scalar (floating point) type
+ *
+ * Constructs a 3d rotation matrix from a rotation vector and a rotation angle.
+ *
+ * Note, negating the rotation vector or the rotation angle yields the inverse of
+ * the rotation. Consequently, if the rotation vector as well as the rotation angle
+ * are negated the same rotation is obtained.
+ *
+ * @returns 3-by-3 matrix
+ *
+ * \see axisAngleFromRotationMatrix
+ *
+ * \author Christoph Hänisch
+ * \version 0.1.0
+ * \date last changed on 2019-06-24
+ */
+
+template <class T>
+Eigen::Matrix<T, 3, 3> rotationMatrix(const Eigen::Matrix<T, 3, 1> & axis_, double angle)
+{
+    using Vector3T = Eigen::Matrix<T, 3, 1>;
+    using Matrix3T = Eigen::Matrix<T, 3, 3>;
+
+    T axis_magnitude = axis_.norm();
+    assert(axis_magnitude > 0); // Axis may not be a null vector.
+    Vector3T axis = axis_ / axis_magnitude;
+
+    // Find an orthogonal vector.
+
+    const T eps = std::numeric_limits<T>::epsilon();
+
+    auto isNullvector = [&] (Vector3T & vec) -> bool
+    {
+        return vec.norm() < 10 * eps;
+    };
+
+    auto isCollinear = [&] (Vector3T a, Vector3T b) -> bool
+    {
+        a.normalize();
+        b.normalize();
+        return abs(abs(a.dot(b)) - 1) < 10 * eps;
+    };
+
+    auto vec = Vector3T::Random().normalized();
+    while (isNullvector(vec) || isCollinear(vec, axis))
+    {
+        vec = Vector3T::Random().normalized();
+    }
+
+    auto vec_orthonormal = (vec - vec.dot(axis) * axis).normalized(); // Cf. Gram-Schmidt process
+    assert(abs(axis.dot(vec_orthonormal)) < 1000 * eps); // Axis and vec_orthonormal must be orthonormal. Implementation error.
+
+    // Compute the rotation matrix
+
+    // Make a change of basis such that the rotation axis is aligned
+    // with the x-axis, rotate around this axis and revert the change of
+    // basis.
+
+    Matrix3T M;
+    M.row(0) = axis;
+    M.row(1) = vec_orthonormal;
+    M.row(2) = axis.cross(vec_orthonormal);
+
+    Matrix3T R_x;
+    R_x << 1,          0,           0,
+           0, cos(angle), -sin(angle),
+           0, sin(angle),  cos(angle);
+
+    return M.transpose() * R_x * M;
+}
+
+
 /** \tparam T scalar type
   *
   * \brief Rounds towards the next (signed) integer value.
@@ -831,7 +1085,7 @@ template <class T> int sign(T value)
   *
   * \note The functions \c floor() and \c ceil() must be defined for T.
   *
-  * \author Christoph Haenisch
+  * \author Christoph Hänisch
   * \version 0.1.1
   * \date last changed on 2011-07-01
   */
@@ -849,6 +1103,92 @@ template <>
 inline int round<int>(const int number)
 {
     return number;
+}
+
+
+/**
+ * \tparam T scalar (floating point) type
+ *
+ * \param [in] r
+ * \param [in] theta
+ * \param [in] phi
+ *
+ * The spherical coordinate is converted to a Cartesian coordinate using the
+ * ISO 80000-2 convention (i.e., as in physics a coordinate is given as a
+ * triple with radius r, inclination theta, and azimuth phi).
+ *
+ * @returns triple (x, y, z)
+ *
+ * \see cartesian2Spherical
+ *
+ * \author Christoph Hänisch
+ * \version 0.1.0
+ * \date last changed on 2019-06-25
+ */
+
+template <class T>
+std::tuple<T, T, T> spherical2Cartesian(const T & r, const T & theta, const T & phi)
+{
+    using ::sin;
+    using ::cos;
+    double x = r * sin(theta) * cos(phi);
+    double y = r * sin(theta) * sin(phi);
+    double z = r * cos(theta);
+    return std::make_tuple(x, y, z);
+}
+
+
+/**
+ * \tparam T scalar (floating point) type
+ *
+ * \param [in] point    (r, theta, phi)
+ *
+ * The spherical coordinate is converted to a Cartesian coordinate using the
+ * ISO 80000-2 convention (i.e., as in physics a coordinate is given as a
+ * triple with radius r, inclination theta, and azimuth phi).
+ *
+ * @returns 3d coordinate (x, y, z)
+ *
+ * \see cartesian2Spherical
+ *
+ * \author Christoph Hänisch
+ * \version 0.1.0
+ * \date last changed on 2019-06-25
+ */
+
+template <class T>
+Coordinate<T> spherical2Cartesian(const Coordinate<T> & point)
+{
+    Coordinate<T> result(0, 0, 0);
+    std::tie(result.x(), result.y(), result.z()) = spherical2Cartesian(point.x(), point.y(), point.z());
+    return result;
+}
+
+
+/**
+ * \tparam T scalar (floating point) type
+ *
+ * \param [in] point    (r, theta, phi)
+ *
+ * The spherical coordinate is converted to a Cartesian coordinate using the
+ * ISO 80000-2 convention (i.e., as in physics a coordinate is given as a
+ * triple with radius r, inclination theta, and azimuth phi).
+ *
+ * @returns 3d vector (x, y, z)
+ *
+ * \see cartesian2Spherical
+ *
+ * \author Christoph Hänisch
+ * \version 0.1.0
+ * \date last changed on 2019-06-25
+ */
+
+template <class T>
+Eigen::Matrix<T, 3, 1> spherical2Cartesian(const Eigen::Matrix<T, 3, 1> & point)
+{
+    Eigen::Matrix<T, 3, 1> result;
+    std::tie(result.x(), result.y(), result.z()) = spherical2Cartesian(point.x(), point.y(), point.z());
+    return result;
 }
 
 
@@ -886,7 +1226,7 @@ inline int round<int>(const int number)
   *
   * \note The container must provide an STL interface.
   *
-  * \author Christoph Haenisch
+  * \author Christoph Hänisch
   * \version 0.1.0
   * \date last changed on 2011-04-21
   */
@@ -927,7 +1267,7 @@ inline ValueType standardDeviation(const Container & container, ValueType null_v
   * string str = "The value of d is " + toString(d);
   * \endcode
   *
-  * \author Christoph Haenisch
+  * \author Christoph Hänisch
   * \version 0.2.0
   * \date last changed on 2011-08-12
   */
@@ -951,7 +1291,7 @@ inline std::string toString (const T & value)
   *
   * \note The container must provide an STL interface.
   *
-  * \author Christoph Haenisch
+  * \author Christoph Hänisch
   * \version 0.1.0
   * \date last changed on 2011-04-21
   */
@@ -979,7 +1319,7 @@ inline ValueType variance(const Container & container, ValueType null_value = Va
   *
   * The list's class type is the same as the one of the vector.
   *
-  * \author Christoph Haenisch
+  * \author Christoph Hänisch
   * \version 0.1.0
   * \date last changed on 2011-04-21
   */
@@ -1002,7 +1342,7 @@ std::list<T> vectorToList(const std::vector<T> & vec)
 *
 * The elements are stored in pairs. Both vectors must have the same size.
 *
-* \author Christoph Haenisch
+* \author Christoph Hänisch
 * \version 0.1.0
 * \date last changed on 2016-07-13
 */
