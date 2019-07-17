@@ -9,7 +9,7 @@
 
     See license.txt for more information.
 
-    Version 0.4.0 (2019-07-02)
+    Version 0.5.0 (2019-07-17)
 */
 
 /** \file Tools.hpp
@@ -62,6 +62,7 @@ namespace Tools
   * - Containers
   *   - \ref listToVector()
   *   - \ref mean()
+  *   - \ref median()
   *   - \rev standardDeviation()
   *   - \ref variance()
   *   - \ref vectorToList()
@@ -496,7 +497,7 @@ inline bool isDerivedFrom(const void * base_ptr)
   *
   * This function tests whether the absolute difference between the two input
   * arguments is below a certain threshold. The default threshold is
-  * \f$ 10^{-14} \f$ or \c numeric_limits<T>::min() in case the numeric limit
+  * \f$ 1^{-13} \f$ or 10 \c numeric_limits<T>::epsilon() in case the numeric limit
   * of \c T is greater than the default value.
   *
   * Example:
@@ -508,13 +509,13 @@ inline bool isDerivedFrom(const void * base_ptr)
   * isEqual<double>(value, 1);  // different argument types
   * \endcode
   *
-  * \note The functions \c abs() as well as \c numeric_limits<T>::min() must be
-  *       defined for the given scalar type \c T. (A template function
+  * \note The functions \c abs() as well as \c numeric_limits<T>::epsilon()
+  *       must be defined for the given scalar type \c T. (A template function
   *       specialization for integers is implemented.)
   *
   * \author Christoph Hänisch
-  * \version 0.1.0
-  * \date last changed on 2011-04-21
+  * \version 0.1.1
+  * \date last changed on 2019-07-17
   */
 
 template <class T>
@@ -523,7 +524,7 @@ inline bool isEqual(const T x, const T y)
     using std::abs;
     using std::numeric_limits;
 
-    const T epsilon = numeric_limits<T>::min() > 10e-14 ? numeric_limits<T>::min() : 10e-14;
+    const T epsilon = 10 * numeric_limits<T>::epsilon() > 1e-13 ? 10 * numeric_limits<T>::epsilon() : 1e-13;
     return abs(x - y) < epsilon; // needs "cmath" and "limits" to be included
 }
 
@@ -614,6 +615,52 @@ inline ValueType mean(const Container & container, ValueType null_value = ValueT
 	}
 
     return mean / container.size();
+}
+
+
+/** \brief Returns the median of all container elements.
+  *
+  * \note The container must provide an STL interface.
+  * \note If the container is empty a signaling NaN is returned.
+  *
+  * \author Christoph Hänisch
+  * \version 0.1.0
+  * \date last changed on 2019-07-17
+  */
+
+template <class Container>
+inline auto median(const Container & container) -> std::decay_t<decltype(*begin(container))>
+{
+    using T = std::decay_t<decltype(*begin(container))>;
+    using std::begin;
+    using std::end;
+
+    auto v = std::vector<T>(begin(container), end(container));
+    auto size = v.size();
+
+    if (size == 0) // undefined
+    {
+        using std::numeric_limits;
+        return numeric_limits<T>::signaling_NaN();
+    }
+    else
+    {
+        std::sort(begin(v), end(v));
+        if (size % 2 == 0)
+        {
+            auto it1 = begin(v);
+            auto it2 = begin(v);
+            std::advance(it1, size / 2 - 1);
+            std::advance(it2, size / 2);
+            return (*it1 + *it2) / 2;
+        }
+        else
+        {
+            auto it = begin(v);
+            std::advance(it, size / 2);
+            return *it;
+        }
+    }
 }
 
 

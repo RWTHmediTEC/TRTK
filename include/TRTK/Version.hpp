@@ -70,7 +70,7 @@
   *
   */
 
-#define TRTK_MINOR_VERSION 2
+#define TRTK_MINOR_VERSION 3
 
 
 /** \brief %TRTK Patch Level

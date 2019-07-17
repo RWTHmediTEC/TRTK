@@ -445,6 +445,41 @@ void unit_test_Tools()
         STOP_TEST
 
 
+    SUBHEADING(median())
+
+
+        START_TEST
+        {
+            auto l = std::list<double>{1, 2, 3, 4, 5};
+            assert(isEqual(median(l), 3.0));
+            l = std::list<double>{1, 2, 3, 4, 5, 6};
+            assert(isEqual(median(l), 3.5));
+            l = std::list<double>{2, 5, 1, 3, 4};
+            assert(isEqual(median(l), 3.0));
+            l = std::list<double>{2, 5, 5, 2, 2};
+            assert(isEqual(median(l), 2.0));
+            l = std::list<double>{2, 5, 5, 2};
+            assert(isEqual(median(l), 3.5));
+        }
+        STOP_TEST
+
+
+        START_TEST
+        {
+            auto v = std::vector<double>{1, 2, 3, 4, 5};
+            assert(isEqual(median(v), 3.0));
+            v = std::vector<double>{1, 2, 3, 4, 5, 6};
+            assert(isEqual(median(v), 3.5));
+            v = std::vector<double>{2, 5, 1, 3, 4};
+            assert(isEqual(median(v), 3.0));
+            v = std::vector<double>{2, 5, 5, 2, 2};
+            assert(isEqual(median(v), 2.0));
+            v = std::vector<double>{2, 5, 5, 2};
+            assert(isEqual(median(v), 3.5));
+        }
+        STOP_TEST
+
+
     SUBHEADING(orthogonalMatrixToQuaternion())
 
 
