@@ -1,11 +1,11 @@
 <map id="G" name="G">
-<area shape="rect" id="node6" href="$_error_obj_8hpp.html" title="This file contains the declaration of the ErrorObj class." alt="" coords="43,379,139,405"/>
-<area shape="rect" id="node9" href="$_coordinate_8hpp.html" title="This file contains the Coordinate class and related functions." alt="" coords="467,304,577,331"/>
-<area shape="rect" id="node22" href="$_fit_sphere_8hpp.html" title="This file contains the FitSphere class." alt="" coords="605,80,708,107"/>
-<area shape="rect" id="node26" href="$_transform3_d_8hpp.html" title="This file contains the Transform3D class." alt="" coords="645,229,767,256"/>
-<area shape="rect" id="node28" href="$_range_8hpp.html" title="This file contains the Range class as well as some helper functions." alt="" coords="1337,80,1419,107"/>
-<area shape="rect" id="node14" href="$_tools_8hpp.html" title="This file contains various helper functions." alt="" coords="568,379,647,405"/>
-<area shape="rect" id="node25" href="$_fit3_d_8hpp.html" title="This file contains the base class for all 3D fitting classes." alt="" coords="668,155,744,181"/>
-<area shape="rect" id="node27" href="$_fit_8hpp.html" title="This file contains the base class for all fitting classes." alt="" coords="559,229,621,256"/>
-<area shape="rect" id="node29" href="$_iterator_8hpp.html" title="This file contains the Iterator and IteratorAdapterclasses." alt="" coords="1335,155,1426,181"/>
+<area shape="rect" id="node6" href="$_error_obj_8hpp.html" title="This file contains the declaration of the ErrorObj class." alt="" coords="227,379,329,405"/>
+<area shape="rect" id="node9" href="$_coordinate_8hpp.html" title="This file contains the Coordinate class and related functions." alt="" coords="722,304,842,331"/>
+<area shape="rect" id="node23" href="$_fit_sphere_8hpp.html" title="This file contains the FitSphere class." alt="" coords="676,80,787,107"/>
+<area shape="rect" id="node27" href="$_transform3_d_8hpp.html" title="This file contains the Transform3D class." alt="" coords="921,229,1054,256"/>
+<area shape="rect" id="node29" href="$_range_8hpp.html" title="This file contains the Range class as well as some helper functions." alt="" coords="1322,80,1413,107"/>
+<area shape="rect" id="node14" href="$_tools_8hpp.html" title="This file contains various helper functions." alt="" coords="405,379,487,405"/>
+<area shape="rect" id="node26" href="$_fit3_d_8hpp.html" title="This file contains the base class for all 3D fitting classes." alt="" coords="745,155,827,181"/>
+<area shape="rect" id="node28" href="$_fit_8hpp.html" title="This file contains the base class for all fitting classes." alt="" coords="1080,229,1145,256"/>
+<area shape="rect" id="node30" href="$_iterator_8hpp.html" title="This file contains the Iterator and IteratorAdapterclasses." alt="" coords="1548,155,1645,181"/>
 </map>

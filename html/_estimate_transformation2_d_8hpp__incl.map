@@ -1,7 +1,7 @@
 <map id="G" name="G">
-<area shape="rect" id="node5" href="$_coordinate_8hpp.html" title="This file contains the Coordinate class and related functions." alt="" coords="525,155,634,181"/>
-<area shape="rect" id="node19" href="$_error_obj_8hpp.html" title="This file contains the declaration of the ErrorObj class." alt="" coords="963,229,1059,256"/>
-<area shape="rect" id="node22" href="$_estimate_transformation_8hpp.html" title="This file contains the base class of all transformation estimations." alt="" coords="114,155,298,181"/>
-<area shape="rect" id="node23" href="$_transform2_d_8hpp.html" title="This file contains the Transform2D class." alt="" coords="375,80,498,107"/>
-<area shape="rect" id="node11" href="$_tools_8hpp.html" title="This file contains various helper functions." alt="" coords="371,229,449,256"/>
+<area shape="rect" id="node5" href="$_coordinate_8hpp.html" title="This file contains the Coordinate class and related functions." alt="" coords="705,155,825,181"/>
+<area shape="rect" id="node20" href="$_error_obj_8hpp.html" title="This file contains the declaration of the ErrorObj class." alt="" coords="1133,229,1236,256"/>
+<area shape="rect" id="node23" href="$_estimate_transformation_8hpp.html" title="This file contains the base class of all transformation estimations." alt="" coords="29,155,233,181"/>
+<area shape="rect" id="node24" href="$_transform2_d_8hpp.html" title="This file contains the Transform2D class." alt="" coords="798,80,931,107"/>
+<area shape="rect" id="node11" href="$_tools_8hpp.html" title="This file contains various helper functions." alt="" coords="823,229,906,256"/>
 </map>

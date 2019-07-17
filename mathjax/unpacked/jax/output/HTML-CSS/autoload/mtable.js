@@ -9,7 +9,7 @@
  *
  *  ---------------------------------------------------------------------
  *  
- *  Copyright (c) 2010-2015 The MathJax Consortium
+ *  Copyright (c) 2010-2018 The MathJax Consortium
  * 
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@
  */
 
 MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
-  var VERSION = "2.6.0";
+  var VERSION = "2.7.5";
   var MML = MathJax.ElementJax.mml,
       HTMLCSS = MathJax.OutputJax["HTML-CSS"];
   
@@ -401,11 +401,11 @@ MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
       y = Y;
       for (i = 0, m = A.length-1; i < m; i++) {
         dy = Math.max(0,D[i]+H[i+1]+RSPACE[i]);
-        if (RLINES[i] !== "none") {
+        if (RLINES[i] !== MML.LINES.NONE && RLINES[i] !== "") {
           line = HTMLCSS.createRule(stack,1.25/HTMLCSS.em,0,fW); HTMLCSS.addBox(stack,line);
           line.bbox = {h:1.25/HTMLCSS.em, d:0, w:fW, rw:fW, lw:0};
           HTMLCSS.placeBox(line,0,y - D[i] - (dy-D[i]-H[i+1])/2,true);
-          if (RLINES[i] === "dashed") line.style.borderTopStyle = "dashed";
+          if (RLINES[i] === MML.LINES.DASHED) line.style.borderTopStyle = "dashed";
           if (hasRelativeWidth) line.style.width = "100%"
         }
         y -= dy;
@@ -473,8 +473,10 @@ MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
     },
     HTMLhandleSpace: function (span) {
       span.bbox.keepPadding = true; span.bbox.exact = true;
-      if (!this.hasFrame && span.bbox.width == null)
-        {span.style.paddingLeft = span.style.paddingRight = HTMLCSS.Em(1/6)}
+      if (!this.hasFrame && span.bbox.width == null) {
+        span.firstChild.style.marginLeft = span.firstChild.style.marginRight = HTMLCSS.Em(1/6);
+        span.bbox.w += 1/3; span.bbox.rw += 1/3; span.bbox.lw += 1/6;
+      }
       this.SUPER(arguments).HTMLhandleSpace.call(this,span);
     }
   });

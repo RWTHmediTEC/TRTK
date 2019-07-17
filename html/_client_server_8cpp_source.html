@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<title>Transformation and Registration Toolkit: D:/Users/haenisch/Programmierung/C++/TRTK/src/ClientServer.cpp Source File</title>
+<title>Transformation and Registration Toolkit: D:/Programmierung/C/TRTK/src/ClientServer.cpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javaScript" src="search/search.js"></script>
@@ -90,11 +90,11 @@ function toggleVisibility(linkObj) {
   </div>
 <div class="header">
   <div class="headertitle">
-<h1>D:/Users/haenisch/Programmierung/C++/TRTK/src/ClientServer.cpp</h1>  </div>
+<h1>D:/Programmierung/C/TRTK/src/ClientServer.cpp</h1>  </div>
 </div>
 <div class="contents">
 <div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
-<a name="l00002"></a>00002 <span class="comment">    Copyright (C) 2010 - 2014 Christoph Haenisch</span>
+<a name="l00002"></a>00002 <span class="comment">    Copyright (C) 2010 - 2017 Christoph Haenisch</span>
 <a name="l00003"></a>00003 <span class="comment"></span>
 <a name="l00004"></a>00004 <span class="comment">    Chair of Medical Engineering (mediTEC)</span>
 <a name="l00005"></a>00005 <span class="comment">    RWTH Aachen University</span>
@@ -104,7 +104,7 @@ function toggleVisibility(linkObj) {
 <a name="l00009"></a>00009 <span class="comment"></span>
 <a name="l00010"></a>00010 <span class="comment">    See license.txt for more information.</span>
 <a name="l00011"></a>00011 <span class="comment"></span>
-<a name="l00012"></a>00012 <span class="comment">    Version 0.1.1 (2014-07-05)</span>
+<a name="l00012"></a>00012 <span class="comment">    Version 0.1.2 (2017-12-07)</span>
 <a name="l00013"></a>00013 <span class="comment">*/</span>
 <a name="l00014"></a>00014 
 <a name="l00020"></a>00020 <span class="preprocessor">#include &lt;cassert&gt;</span>
@@ -187,12 +187,12 @@ function toggleVisibility(linkObj) {
 <a name="l00107"></a>00107     <span class="comment">// interrupt). In that case recv() has to be called several times until</span>
 <a name="l00108"></a>00108     <span class="comment">// the remaining chunks of data are received.</span>
 <a name="l00109"></a>00109 
-<a name="l00110"></a>00110     <span class="keywordtype">int</span> bytes_left = size;
+<a name="l00110"></a>00110     <span class="keywordtype">size_t</span> bytes_left = size;
 <a name="l00111"></a>00111     data = <span class="keyword">new</span> <span class="keywordtype">char</span>[size];
 <a name="l00112"></a>00112 
 <a name="l00113"></a>00113     <span class="keywordflow">while</span> (bytes_left &gt; 0)
 <a name="l00114"></a>00114     {
-<a name="l00115"></a>00115         <span class="keywordtype">int</span> received_bytes = recv(socket_fd, &amp;data[size - bytes_left], bytes_left, 0);
+<a name="l00115"></a>00115         <span class="keywordtype">int</span> received_bytes = recv(socket_fd, &amp;data[size - bytes_left], bytes_left, 0); <span class="comment">// bytes_left must be of type &#39;size_t&#39; according to &#39;The Single UNIX Specification, Version 2&#39;</span>
 <a name="l00116"></a>00116 
 <a name="l00117"></a>00117         <span class="keywordflow">if</span> (received_bytes == 0)
 <a name="l00118"></a>00118         {
@@ -242,11 +242,11 @@ function toggleVisibility(linkObj) {
 <a name="l00169"></a>00169     <span class="comment">// interrupt). In that case send() has to be invoked several times</span>
 <a name="l00170"></a>00170     <span class="comment">// until the remaining chunks of data are fully transmitted.</span>
 <a name="l00171"></a>00171 
-<a name="l00172"></a>00172     <span class="keywordtype">int</span> bytes_left = size;
+<a name="l00172"></a>00172     <span class="keywordtype">size_t</span> bytes_left = size;
 <a name="l00173"></a>00173 
 <a name="l00174"></a>00174     <span class="keywordflow">while</span> (bytes_left &gt; 0)
 <a name="l00175"></a>00175     {
-<a name="l00176"></a>00176         <span class="keywordtype">int</span> sent_bytes = send(socket_fd, &amp;data[size - bytes_left], bytes_left, 0);
+<a name="l00176"></a>00176         <span class="keywordtype">int</span> sent_bytes = send(socket_fd, &amp;data[size - bytes_left], bytes_left, 0); <span class="comment">// bytes_left must be of type &#39;size_T&#39; according to &#39;The Single UNIX Specification, Version 2&#39;</span>
 <a name="l00177"></a>00177         <span class="keywordflow">if</span> (sent_bytes == -1) <span class="keywordflow">throw</span> <a class="code" href="class_t_r_t_k_1_1_network_error.html" title="This exception is thrown in case of a network error.">NetworkError</a>(<span class="stringliteral">&quot;Error while sending data.&quot;</span>);
 <a name="l00178"></a>00178         bytes_left -= sent_bytes;
 <a name="l00179"></a>00179     }
@@ -296,7 +296,7 @@ function toggleVisibility(linkObj) {
 <a name="l00225"></a>00225 <span class="preprocessor">#endif</span>
 <a name="l00226"></a>00226 <span class="preprocessor"></span>
 <a name="l00227"></a>00227 
-<a name="l00230"></a><a class="code" href="class_t_r_t_k_1_1_client.html#a08ec3040712965d15be541e80e26ed26">00230</a> <a class="code" href="class_t_r_t_k_1_1_client.html#a08ec3040712965d15be541e80e26ed26" title="Constructs a Client object.">Client::Client</a>() : connected(false)
+<a name="l00230"></a><a class="code" href="class_t_r_t_k_1_1_client.html#a08ec3040712965d15be541e80e26ed26">00230</a> Client::Client() : connected(false)
 <a name="l00231"></a>00231 {
 <a name="l00232"></a>00232 <span class="preprocessor">    #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) &amp;&amp; !defined(__CYGWIN__)</span>
 <a name="l00233"></a>00233 <span class="preprocessor"></span>        <span class="comment">// Initialize Winsock</span>
@@ -334,7 +334,7 @@ function toggleVisibility(linkObj) {
 <a name="l00273"></a>00273 {
 <a name="l00274"></a>00274     <span class="comment">// Set up a socket.</span>
 <a name="l00275"></a>00275 
-<a name="l00276"></a>00276     socket_fd = socket(AF_INET, SOCK_STREAM, 0);
+<a name="l00276"></a>00276     socket_fd = <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(socket(AF_INET, SOCK_STREAM, 0)); <span class="comment">// returns type &#39;int&#39; according to &#39;The Single UNIX Specification, Version 2&#39;</span>
 <a name="l00277"></a>00277 
 <a name="l00278"></a>00278     <span class="keywordflow">if</span> (socket_fd == -1)
 <a name="l00279"></a>00279     {
@@ -451,7 +451,7 @@ function toggleVisibility(linkObj) {
 <a name="l00466"></a>00466 {
 <a name="l00467"></a>00467     <span class="comment">// Set up a socket.</span>
 <a name="l00468"></a>00468 
-<a name="l00469"></a>00469     <span class="keywordtype">int</span> server_fd = socket(AF_INET, SOCK_STREAM, 0);
+<a name="l00469"></a>00469     <span class="keywordtype">int</span> server_fd = <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(socket(AF_INET, SOCK_STREAM, 0)); <span class="comment">// returns type &#39;int&#39; according to &#39;The Single UNIX Specification, Version 2&#39;</span>
 <a name="l00470"></a>00470 
 <a name="l00471"></a>00471     <span class="keywordflow">if</span> (server_fd == -1)
 <a name="l00472"></a>00472     {
@@ -484,7 +484,7 @@ function toggleVisibility(linkObj) {
 <a name="l00499"></a>00499         <span class="comment">// Accecpt a connection.</span>
 <a name="l00500"></a>00500 
 <a name="l00501"></a>00501         sockaddr_in client_address;
-<a name="l00502"></a>00502         client_fd = accept(server_fd, reinterpret_cast&lt;sockaddr*&gt;(&amp;client_address), &amp;sockaddr_in_size);
+<a name="l00502"></a>00502         client_fd = <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(accept(server_fd, reinterpret_cast&lt;sockaddr*&gt;(&amp;client_address), &amp;sockaddr_in_size)); <span class="comment">// returns type &#39;int&#39; according to &#39;The Single UNIX Specification, Version 2&#39;</span>
 <a name="l00503"></a>00503 
 <a name="l00504"></a>00504         <span class="keywordflow">if</span> (client_fd == -1)
 <a name="l00505"></a>00505         {
@@ -594,7 +594,7 @@ function toggleVisibility(linkObj) {
 <hr class="footer"/>
     <address class="footer">
         <small>
-            Copyright 2010 - 2016 by Christoph Hänisch,
+            Copyright 2010 - 2019 by Christoph Hänisch,
             Chair of Medical Engineering (mediTEC),
             RWTH Aachen University <p>
             Documentation generated by <a href="http://www.doxygen.org/index.html"> Doxygen </a>

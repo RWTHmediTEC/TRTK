@@ -1,10 +1,10 @@
 <map id="G" name="G">
-<area shape="rect" id="node9" href="$_coordinate_8hpp.html" title="This file contains the Coordinate class and related functions." alt="" coords="1011,229,1120,256"/>
-<area shape="rect" id="node13" href="$_tools_8hpp.html" title="This file contains various helper functions." alt="" coords="1277,304,1355,331"/>
-<area shape="rect" id="node20" href="$_error_obj_8hpp.html" title="This file contains the declaration of the ErrorObj class." alt="" coords="716,304,812,331"/>
-<area shape="rect" id="node23" href="$_estimate_transformation3_d_8hpp.html" title="This file contains the base class of all 3D transformation estimations." alt="" coords="331,80,530,107"/>
-<area shape="rect" id="node26" href="$_transform3_d_8hpp.html" title="This file contains the Transform3D class." alt="" coords="757,155,880,181"/>
-<area shape="rect" id="node27" href="$_signals_8hpp.html" title="This file contains all classes and function related to the signal and slot concept." alt="" coords="1640,229,1728,256"/>
-<area shape="rect" id="node30" href="$_transform2_d_8hpp.html" title="This file contains the Transform2D class." alt="" coords="1061,155,1184,181"/>
-<area shape="rect" id="node25" href="$_estimate_transformation_8hpp.html" title="This file contains the base class of all transformation estimations." alt="" coords="347,229,531,256"/>
+<area shape="rect" id="node9" href="$_coordinate_8hpp.html" title="This file contains the Coordinate class and related functions." alt="" coords="728,229,848,256"/>
+<area shape="rect" id="node13" href="$_tools_8hpp.html" title="This file contains various helper functions." alt="" coords="1272,304,1355,331"/>
+<area shape="rect" id="node21" href="$_error_obj_8hpp.html" title="This file contains the declaration of the ErrorObj class." alt="" coords="1043,304,1146,331"/>
+<area shape="rect" id="node24" href="$_estimate_transformation3_d_8hpp.html" title="This file contains the base class of all 3D transformation estimations." alt="" coords="487,80,710,107"/>
+<area shape="rect" id="node27" href="$_transform3_d_8hpp.html" title="This file contains the Transform3D class." alt="" coords="912,155,1045,181"/>
+<area shape="rect" id="node28" href="$_signals_8hpp.html" title="This file contains all classes and function related to the signal and slot concept." alt="" coords="1696,229,1792,256"/>
+<area shape="rect" id="node31" href="$_transform2_d_8hpp.html" title="This file contains the Transform2D class." alt="" coords="1069,155,1203,181"/>
+<area shape="rect" id="node26" href="$_estimate_transformation_8hpp.html" title="This file contains the base class of all transformation estimations." alt="" coords="297,229,501,256"/>
 </map>

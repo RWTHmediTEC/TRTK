@@ -1,8 +1,8 @@
 <map id="G" name="G">
-<area shape="rect" id="node7" href="$_coordinate_8hpp.html" title="This file contains the Coordinate class and related functions." alt="" coords="481,155,591,181"/>
-<area shape="rect" id="node18" href="$_error_obj_8hpp.html" title="This file contains the declaration of the ErrorObj class." alt="" coords="123,229,219,256"/>
-<area shape="rect" id="node21" href="$_polynomial_8hpp.html" title="This file contains the interface for all polynomials." alt="" coords="754,80,862,107"/>
-<area shape="rect" id="node26" href="$_range_8hpp.html" title="This file contains the Range class as well as some helper functions." alt="" coords="1149,155,1232,181"/>
-<area shape="rect" id="node11" href="$_tools_8hpp.html" title="This file contains various helper functions." alt="" coords="497,229,575,256"/>
-<area shape="rect" id="node22" href="$_iterator_8hpp.html" title="This file contains the Iterator and IteratorAdapterclasses." alt="" coords="1149,229,1240,256"/>
+<area shape="rect" id="node7" href="$_coordinate_8hpp.html" title="This file contains the Coordinate class and related functions." alt="" coords="570,155,690,181"/>
+<area shape="rect" id="node19" href="$_error_obj_8hpp.html" title="This file contains the declaration of the ErrorObj class." alt="" coords="720,229,823,256"/>
+<area shape="rect" id="node22" href="$_polynomial_8hpp.html" title="This file contains the interface for all polynomials." alt="" coords="901,80,1020,107"/>
+<area shape="rect" id="node27" href="$_range_8hpp.html" title="This file contains the Range class as well as some helper functions." alt="" coords="1279,155,1370,181"/>
+<area shape="rect" id="node11" href="$_tools_8hpp.html" title="This file contains various helper functions." alt="" coords="562,229,645,256"/>
+<area shape="rect" id="node23" href="$_iterator_8hpp.html" title="This file contains the Iterator and IteratorAdapterclasses." alt="" coords="1284,229,1381,256"/>
 </map>

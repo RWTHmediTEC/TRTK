@@ -1,5 +1,5 @@
 <map id="G" name="G">
-<area shape="rect" id="node7" href="$_error_obj_8hpp.html" title="This file contains the declaration of the ErrorObj class." alt="" coords="5,229,101,256"/>
-<area shape="rect" id="node10" href="$_tools_8hpp.html" title="This file contains various helper functions." alt="" coords="654,80,733,107"/>
-<area shape="rect" id="node17" href="$_coordinate_8hpp.html" title="This file contains the Coordinate class and related functions." alt="" coords="379,155,488,181"/>
+<area shape="rect" id="node7" href="$_error_obj_8hpp.html" title="This file contains the declaration of the ErrorObj class." alt="" coords="105,229,207,256"/>
+<area shape="rect" id="node10" href="$_tools_8hpp.html" title="This file contains various helper functions." alt="" coords="589,80,672,107"/>
+<area shape="rect" id="node18" href="$_coordinate_8hpp.html" title="This file contains the Coordinate class and related functions." alt="" coords="305,155,425,181"/>
 </map>

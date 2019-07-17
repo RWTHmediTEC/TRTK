@@ -128,8 +128,6 @@ Namespaces</h2></td></tr>
 </p>
 <tr><td colspan="2"><h2><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_t_r_t_k_1_1_circle.html">Circle</a></td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">A simple circle structure.  <a href="struct_t_r_t_k_1_1_circle.html#_details">More...</a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_network_error.html">NetworkError</a></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">This exception is thrown in case of a network error.  <a href="class_t_r_t_k_1_1_network_error.html#_details">More...</a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_connection_closed.html">ConnectionClosed</a></td></tr>
@@ -142,8 +140,7 @@ Classes</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">A simple clock class.  <a href="class_t_r_t_k_1_1_clock.html#_details">More...</a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_coordinate.html">Coordinate</a></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">A generic coordinate class.  <a href="class_t_r_t_k_1_1_coordinate.html#_details">More...</a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_correlation_circle.html">CorrelationCircle</a></td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the cross correlation between a 2D input image and several circle images.  <a href="class_t_r_t_k_1_1_correlation_circle.html#_details">More...</a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_correlation_sphere.html">CorrelationSphere</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_error_obj.html">ErrorObj</a></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Error class that incorporates additional information.  <a href="class_t_r_t_k_1_1_error_obj.html#_details">More...</a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_estimate_affine_transformation2_d.html">EstimateAffineTransformation2D</a></td></tr>
@@ -210,6 +207,8 @@ Classes</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Common base class for input iterator adapter classes.  <a href="class_t_r_t_k_1_1_iterator.html#_details">More...</a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_iterator_adapter.html">IteratorAdapter</a></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Adapter class for arbitrary input iterator classes.  <a href="class_t_r_t_k_1_1_iterator_adapter.html#_details">More...</a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pinhole_camera_model.html">PinholeCameraModel</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">A simple pinhole camera model.  <a href="class_t_r_t_k_1_1_pinhole_camera_model.html#_details">More...</a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration.html">PivotCalibration</a></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">This is the common interface for all pivot-point-calibration classes.  <a href="class_t_r_t_k_1_1_pivot_calibration.html#_details">More...</a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_pivot_calibration_combinatorial_approach.html">PivotCalibrationCombinatorialApproach</a></td></tr>
@@ -254,8 +253,6 @@ Functions</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Receives a block of data from the given socket.  <a href="#af3a8a955779c8c310c75913348f667e8"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_t_r_t_k.html#a362bfaa09687e4d579d32f1659ec96a2">send_all</a> (int socket_fd, const char *data, size_t size)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends a block of data over the given socket.  <a href="#a362bfaa09687e4d579d32f1659ec96a2"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a097972ed04e4e4438397cbdd3b11ef28"></a><!-- doxytag: member="TRTK::ConvertToGrayScale32F" ref="a097972ed04e4e4438397cbdd3b11ef28" args="(const IplImage *input)" -->
-IplImage *&#160;</td><td class="memItemRight" valign="bottom"><b>ConvertToGrayScale32F</b> (const IplImage *input)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a17c49088fcbaa4b716e8cf185cd1ef7e"></a><!-- doxytag: member="TRTK::operator&lt;&lt;" ref="a17c49088fcbaa4b716e8cf185cd1ef7e" args="(std::ostream &amp;output, Clock &amp;clock)" -->
 std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;&lt;</b> (std::ostream &amp;output, <a class="el" href="class_t_r_t_k_1_1_clock.html">Clock</a> &amp;clock)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaee1ad9e290e9ff513b7fe2514b0524b"></a><!-- doxytag: member="TRTK::operator+" ref="aaee1ad9e290e9ff513b7fe2514b0524b" args="(int, const Coordinate&lt; double &gt; &amp;)" -->
@@ -306,6 +303,15 @@ template&lt;class T &gt; </td></tr>
 <tr><td class="memTemplParams" colspan="2"><a class="anchor" id="a96c6b3ff5e8bc3104b78e16e6c36a8da"></a><!-- doxytag: member="TRTK::distance" ref="a96c6b3ff5e8bc3104b78e16e6c36a8da" args="(IteratorAdapter&lt; T, InputIterator &gt; first, IteratorAdapter&lt; T, InputIterator &gt; last)" -->
 template&lt;class T , class InputIterator &gt; </td></tr>
 <tr><td class="memTemplItemLeft" align="right" valign="top">unsigned long&#160;</td><td class="memTemplItemRight" valign="bottom"><b>distance</b> (<a class="el" href="class_t_r_t_k_1_1_iterator_adapter.html">IteratorAdapter</a>&lt; T, InputIterator &gt; first, <a class="el" href="class_t_r_t_k_1_1_iterator_adapter.html">IteratorAdapter</a>&lt; T, InputIterator &gt; last)</td></tr>
+<tr><td class="memTemplParams" colspan="2"><a class="anchor" id="a3193bece695c4f4b0b25601fefd8257b"></a><!-- doxytag: member="TRTK::test" ref="a3193bece695c4f4b0b25601fefd8257b" args="(const int t)" -->
+template&lt;class T &gt; </td></tr>
+<tr><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><b>test</b> (const int t)</td></tr>
+<tr><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr><td class="memTemplItemLeft" align="right" valign="top">std::tuple&lt; Eigen::Matrix&lt; T, <br class="typebreak"/>
+Eigen::Dynamic, Eigen::Dynamic &gt;<br class="typebreak"/>
+, Eigen::Matrix&lt; T, <br class="typebreak"/>
+Eigen::Dynamic, Eigen::Dynamic &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_t_r_t_k.html#ab886c359951145f5eefa712ec159ada5">computeRQDecomposition</a> (const Eigen::Matrix&lt; T, Eigen::Dynamic, Eigen::Dynamic &gt; &amp;A)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">RQ decomposition of a square matrix.  <a href="#ab886c359951145f5eefa712ec159ada5"></a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aee51d735fdefb6a56fb3a8eceac03bb4"></a><!-- doxytag: member="TRTK::pi" ref="aee51d735fdefb6a56fb3a8eceac03bb4" args="" -->
@@ -313,8 +319,79 @@ const double&#160;</td><td class="memItemRight" valign="bottom"><b>pi</b> = 3.14
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>Namespace of the Transformation and Registration Toolkit. </p>
-<p>This is the global namespace of the <em>Transformation</em> <em>and</em> <em>Registration</em> <em>Toolkit</em>. All functions and classes are surrounded by this namespace. </p>
+<p>A generic coordinate class.</p>
+<p>This is the global namespace of the <em>Transformation</em> <em>and</em> <em>Registration</em> <em>Toolkit</em>. All functions and classes are surrounded by this namespace.</p>
+<dl><dt><b>Template Parameters:</b></dt><dd>
+  <table class="">
+    <tr><td class="paramname">T</td><td>scalar type</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Line3D represents an ordinary line that consists of one point on the line and normal vector. This line is represented in 3 dimensions. Its elements are of Coordinate&lt;T&gt; <code>T</code> and can be freely chosen, thus also allowing the use of classes with arbitrary precision (like CLN or GMP), for instance.</p>
+<p>Here are some examples:</p>
+<div class="fragment"><pre class="fragment"> <span class="keyword">using namespace </span>TRTK;
+
+ Line3D&lt;T&gt; line1(Coordinate&lt;double&gt; point(1, 0), Coordinate&lt;double&gt; direction(1, 0));
+ Line3D&lt;T&gt; line2(Line3D&lt;T&gt; line1);
+
+ Line3D&lt;T&gt; line3 = line1 * 3 ;
+
+ !!cout &lt;&lt; c3        &lt;&lt; endl
+  !!    &lt;&lt; c3.norm() &lt;&lt; endl
+  !!    &lt;&lt; (c3, 1)   &lt;&lt; endl;
+
+ !!
+</pre></div><p>!! Output:</p>
+<p>!! </p>
+<div class="fragment"><pre class="fragment"> !!(3, 4)
+ !!5
+ !!(3, 4, 1)
+
+ !!
+</pre></div><p>TODO typedef Line3D&lt;double&gt; CoordinateD; typedef Coordinate&lt;int&gt; CoordinateI; </p>
 <hr/><h2>Function Documentation</h2>
+<a class="anchor" id="ab886c359951145f5eefa712ec159ada5"></a><!-- doxytag: member="TRTK::computeRQDecomposition" ref="ab886c359951145f5eefa712ec159ada5" args="(const Eigen::Matrix&lt; T, Eigen::Dynamic, Eigen::Dynamic &gt; &amp;A)" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::tuple&lt;Eigen::Matrix&lt;T, Eigen::Dynamic, Eigen::Dynamic&gt;, Eigen::Matrix&lt;T, Eigen::Dynamic, Eigen::Dynamic&gt; &gt; TRTK::computeRQDecomposition </td>
+          <td>(</td>
+          <td class="paramtype">const Eigen::Matrix&lt; T, Eigen::Dynamic, Eigen::Dynamic &gt; &amp;&#160;</td>
+          <td class="paramname"> <em>A</em>&#160;)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>RQ decomposition of a square matrix. </p>
+<dl><dt><b>Template Parameters:</b></dt><dd>
+  <table class="">
+    <tr><td class="paramname">T</td><td>scalar (floating point) type</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">A</td><td>square matrix</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This decomposition is unique if A is of full rank (i.e., if A is invertable). Then, R is computed in such a way that all diagonal elements are positive.</p>
+<p>Note, this function computes the RQ decomposition of a square matrix and not the QR decomposition. The order of the orthogonal matrix and the upper triangular matrix is reversed.</p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>This function returns the tuple (R, Q).</dd></dl>
+<dl class="user"><dt><b>References:</b></dt><dd><a href="https://math.stackexchange.com/questions/1640695/rq-decomposition/1640762">https://math.stackexchange.com/questions/1640695/rq-decomposition/1640762</a></dd></dl>
+<dl class="author"><dt><b>Author:</b></dt><dd>Christoph Hänisch </dd></dl>
+<dl class="version"><dt><b>Version:</b></dt><dd>1.0.0 </dd></dl>
+<dl class="date"><dt><b>Date:</b></dt><dd>last changed on 2019-05-22 </dd></dl>
+
+<p>Definition at line <a class="el" href="_pinhole_camera_model_8hpp_source.html#l00075">75</a> of file <a class="el" href="_pinhole_camera_model_8hpp_source.html">PinholeCameraModel.hpp</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="af3a8a955779c8c310c75913348f667e8"></a><!-- doxytag: member="TRTK::receive_all" ref="af3a8a955779c8c310c75913348f667e8" args="(int socket_fd, char *&amp;data, size_t &amp;size)" -->
 <div class="memitem">
 <div class="memproto">
@@ -435,7 +512,7 @@ template&lt;class T &gt; </div>
 <hr class="footer"/>
     <address class="footer">
         <small>
-            Copyright 2010 - 2016 by Christoph Hänisch,
+            Copyright 2010 - 2019 by Christoph Hänisch,
             Chair of Medical Engineering (mediTEC),
             RWTH Aachen University <p>
             Documentation generated by <a href="http://www.doxygen.org/index.html"> Doxygen </a>

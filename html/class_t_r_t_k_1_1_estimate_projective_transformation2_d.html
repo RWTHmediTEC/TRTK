@@ -118,7 +118,7 @@ function toggleVisibility(linkObj) {
 <!-- startSectionContent --><div id="dynsection-0-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="class_t_r_t_k_1_1_estimate_projective_transformation2_d__inherit__graph.png" border="0" usemap="#_t_r_t_k_1_1_estimate_projective_transformation2_d_3_01_t_01_4_inherit__map" alt="Inheritance graph"/></div>
 <map name="_t_r_t_k_1_1_estimate_projective_transformation2_d_3_01_t_01_4_inherit__map" id="_t_r_t_k_1_1_estimate_projective_transformation2_d_3_01_t_01_4_inherit__map">
-<area shape="rect" id="node2" href="class_t_r_t_k_1_1_estimate_transformation2_d.html" title="Base class for 2D transformation estimations from two point sets." alt="" coords="33,80,283,107"/><area shape="rect" id="node3" href="class_t_r_t_k_1_1_estimate_transformation.html" title="Base class for all transformation estimations from two point sets." alt="" coords="41,5,275,32"/></map>
+<area shape="rect" id="node2" href="class_t_r_t_k_1_1_estimate_transformation2_d.html" title="Base class for 2D transformation estimations from two point sets." alt="" coords="36,80,305,107"/><area shape="rect" id="node3" href="class_t_r_t_k_1_1_estimate_transformation.html" title="Base class for all transformation estimations from two point sets." alt="" coords="45,5,296,32"/></map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center><!-- endSectionContent --></div>
 <!-- startSectionHeader --><div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-1-trigger" src="closed.png"/> Collaboration diagram for TRTK::EstimateProjectiveTransformation2D&lt; T &gt;:<!-- endSectionHeader --></div>
@@ -127,7 +127,7 @@ function toggleVisibility(linkObj) {
 <!-- startSectionContent --><div id="dynsection-1-content" class="dyncontent" style="display:none;">
 <div class="center"><img src="class_t_r_t_k_1_1_estimate_projective_transformation2_d__coll__graph.png" border="0" usemap="#_t_r_t_k_1_1_estimate_projective_transformation2_d_3_01_t_01_4_coll__map" alt="Collaboration graph"/></div>
 <map name="_t_r_t_k_1_1_estimate_projective_transformation2_d_3_01_t_01_4_coll__map" id="_t_r_t_k_1_1_estimate_projective_transformation2_d_3_01_t_01_4_coll__map">
-<area shape="rect" id="node2" href="class_t_r_t_k_1_1_estimate_transformation2_d.html" title="Base class for 2D transformation estimations from two point sets." alt="" coords="33,80,283,107"/><area shape="rect" id="node3" href="class_t_r_t_k_1_1_estimate_transformation.html" title="Base class for all transformation estimations from two point sets." alt="" coords="41,5,275,32"/></map>
+<area shape="rect" id="node2" href="class_t_r_t_k_1_1_estimate_transformation2_d.html" title="Base class for 2D transformation estimations from two point sets." alt="" coords="36,80,305,107"/><area shape="rect" id="node3" href="class_t_r_t_k_1_1_estimate_transformation.html" title="Base class for all transformation estimations from two point sets." alt="" coords="45,5,296,32"/></map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center><!-- endSectionContent --></div>
 
 <p><a href="class_t_r_t_k_1_1_estimate_projective_transformation2_d-members.html">List of all members.</a></p>
@@ -347,11 +347,13 @@ Protected Attributes</h2></td></tr>
 
  RMS: 0.0458
 </pre></div><dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_estimate_rigid_transformation2_d.html" title="Estimates a 2D rigid transformation from two point sets.">EstimateRigidTransformation2D</a>, <a class="el" href="class_t_r_t_k_1_1_estimate_projective_transformation2_d.html" title="Estimates a 2D projective transformation from two point sets.">EstimateProjectiveTransformation2D</a></dd></dl>
+<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000001">Bug:</a></b></dt><dd>Depending on the compiler this function may be numerically unstable. It has to be investigated what is the reason for it.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd>Check the estimation algorithm for numerical issues.</dd></dl>
 <dl class="author"><dt><b>Author:</b></dt><dd>Christoph Haenisch </dd></dl>
 <dl class="version"><dt><b>Version:</b></dt><dd>0.2.4 </dd></dl>
-<dl class="date"><dt><b>Date:</b></dt><dd>2013-08-20 </dd></dl>
+<dl class="date"><dt><b>Date:</b></dt><dd>2019-07-12 </dd></dl>
 
-<p>Definition at line <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html#l00217">217</a> of file <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html">EstimateProjectiveTransformation2D.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html#l00222">222</a> of file <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html">EstimateProjectiveTransformation2D.hpp</a>.</p>
 <hr/><h2>Member Enumeration Documentation</h2>
 <a class="anchor" id="a23619dbc6b8f338922a09357f2189856"></a><!-- doxytag: member="TRTK::EstimateProjectiveTransformation2D::Error" ref="a23619dbc6b8f338922a09357f2189856" args="" -->
 <div class="memitem">
@@ -411,7 +413,7 @@ template&lt;class T &gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html#l00284">284</a> of file <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html">EstimateProjectiveTransformation2D.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html#l00289">289</a> of file <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html">EstimateProjectiveTransformation2D.hpp</a>.</p>
 
 </div>
 </div>
@@ -465,7 +467,7 @@ template&lt;class T &gt; </div>
 </dl>
 <dl class="note"><dt><b>Note:</b></dt><dd>The point sets must have the same cardinality, and the points must correspond to each other. </dd></dl>
 
-<p>Definition at line <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html#l00313">313</a> of file <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html">EstimateProjectiveTransformation2D.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html#l00318">318</a> of file <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html">EstimateProjectiveTransformation2D.hpp</a>.</p>
 
 </div>
 </div>
@@ -513,7 +515,7 @@ template&lt;class T &gt; </div>
 <p>No transformation estimation is done. To do so, please call <a class="el" href="class_t_r_t_k_1_1_estimate_projective_transformation2_d.html#a4b9499dadc5534b243620655b2549257" title="Computes the transformation estimation.">compute()</a>.</p>
 <dl class="note"><dt><b>Note:</b></dt><dd>The point sets must have the same cardinality, and the points must correspond to each other. </dd></dl>
 
-<p>Definition at line <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html#l00337">337</a> of file <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html">EstimateProjectiveTransformation2D.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html#l00342">342</a> of file <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html">EstimateProjectiveTransformation2D.hpp</a>.</p>
 
 </div>
 </div>
@@ -561,7 +563,7 @@ template&lt;class T &gt; </div>
 <p>No transformation estimation is done. To do so, please call <a class="el" href="class_t_r_t_k_1_1_estimate_projective_transformation2_d.html#a4b9499dadc5534b243620655b2549257" title="Computes the transformation estimation.">compute()</a>.</p>
 <dl class="note"><dt><b>Note:</b></dt><dd>The point sets must have the same cardinality, and the points must correspond to each other. </dd></dl>
 
-<p>Definition at line <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html#l00361">361</a> of file <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html">EstimateProjectiveTransformation2D.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html#l00366">366</a> of file <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html">EstimateProjectiveTransformation2D.hpp</a>.</p>
 
 </div>
 </div>
@@ -589,7 +591,7 @@ template&lt;class T &gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html#l00377">377</a> of file <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html">EstimateProjectiveTransformation2D.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html#l00382">382</a> of file <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html">EstimateProjectiveTransformation2D.hpp</a>.</p>
 
 </div>
 </div>
@@ -629,7 +631,7 @@ template&lt;class T &gt; </div>
 
 <p>Implements <a class="el" href="class_t_r_t_k_1_1_estimate_transformation2_d.html#a440885e23d6d500313b7bdd7f325170f">TRTK::EstimateTransformation2D&lt; T &gt;</a>.</p>
 
-<p>Definition at line <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html#l00403">403</a> of file <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html">EstimateProjectiveTransformation2D.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html#l00408">408</a> of file <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html">EstimateProjectiveTransformation2D.hpp</a>.</p>
 
 </div>
 </div>
@@ -728,7 +730,7 @@ template&lt;class T &gt; </div>
 <p>The default value is 0.1.</p>
 <dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_estimate_projective_transformation2_d.html#a128a63958546241c745972966cb9052e" title="Sets the maximum root mean square (RMS) error value.">setMaxRMS()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html#l00596">596</a> of file <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html">EstimateProjectiveTransformation2D.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html#l00601">601</a> of file <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html">EstimateProjectiveTransformation2D.hpp</a>.</p>
 
 </div>
 </div>
@@ -760,7 +762,7 @@ template&lt;class T &gt; </div>
 <p>The default value is 10.</p>
 <dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_estimate_projective_transformation2_d.html#a744eea0a0a2dd877ead6b74e29518011" title="Sets the maximum number of iterations within Newton&#39;s method.">setMaxIterations()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html#l00616">616</a> of file <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html">EstimateProjectiveTransformation2D.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html#l00621">621</a> of file <a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html">EstimateProjectiveTransformation2D.hpp</a>.</p>
 
 </div>
 </div>
@@ -987,7 +989,7 @@ template&lt;class T &gt; </div>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>D:/Users/haenisch/Programmierung/C++/TRTK/include/TRTK/<a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html">EstimateProjectiveTransformation2D.hpp</a></li>
+<li>D:/Programmierung/C/TRTK/include/TRTK/<a class="el" href="_estimate_projective_transformation2_d_8hpp_source.html">EstimateProjectiveTransformation2D.hpp</a></li>
 </ul>
 </div>
 <!--- window showing the filter options -->
@@ -1007,7 +1009,7 @@ template&lt;class T &gt; </div>
 <hr class="footer"/>
     <address class="footer">
         <small>
-            Copyright 2010 - 2016 by Christoph Hänisch,
+            Copyright 2010 - 2019 by Christoph Hänisch,
             Chair of Medical Engineering (mediTEC),
             RWTH Aachen University <p>
             Documentation generated by <a href="http://www.doxygen.org/index.html"> Doxygen </a>

@@ -11,7 +11,7 @@
  *  
  *  ---------------------------------------------------------------------
  *  
- *  Copyright (c) 2013-2015 The MathJax Consortium
+ *  Copyright (c) 2013-2018 The MathJax Consortium
  * 
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -89,10 +89,10 @@
 
     ".MJXp-mphantom": {"visibility": "hidden"},
 
-    ".MJXp-munderover": {"display":"inline-table!important"},
+    ".MJXp-munderover, .MJXp-munder": {"display":"inline-table!important"},
     ".MJXp-over": {"display":"inline-block!important","text-align":"center"},
     ".MJXp-over > *": {"display":"block!important"},
-    ".MJXp-munderover > *": {"display":"table-row!important"},
+    ".MJXp-munderover > *, .MJXp-munder > *": {"display":"table-row!important"},
 
     ".MJXp-mtable": {"vertical-align":".25em", "margin":"0 .125em"},
     ".MJXp-mtable > *": {"display":"inline-table!important", "vertical-align":"middle"},
@@ -185,11 +185,11 @@
         //  Remove any existing output
         //
         prev = script.previousSibling;
-        if (prev && String(prev.className).match(/^MathJax_PHTML(_Display)?( MathJax_Processing)?$/))
+        if (prev && String(prev.className).match(/^MathJax(_PHTML)?(_Display)?( MathJax_Process(ing|ed))?$/))
           {prev.parentNode.removeChild(prev)}
         //
         //  Add the span, and a div if in display mode,
-        //  then set the role and mark it as being processed
+        //  then mark it as being processed
         //
         jax = script.MathJax.elementJax; if (!jax) continue;
         jax.PHTML = {display: (jax.root.Get("display") === "block")}
@@ -276,7 +276,7 @@
     },
 
     getJaxFromMath: function (math) {
-      if (math.parentNode.className === "MathJax_PHTML_Display") {math = math.parentNode}
+      if (math.parentNode.className.match(/MathJax_PHTML_Display/)) {math = math.parentNode}
       do {math = math.nextSibling} while (math && math.nodeName.toLowerCase() !== "script");
       return HUB.getJaxFor(math);
     },
@@ -767,8 +767,10 @@
             bbox = this.PHTMLbboxFor(this.base),
             BBOX = this.PHTML, acc = obox.acc;
         if (this.data[this.over]) {
-          span.lastChild.firstChild.style.marginLeft = obox.l =
-            span.lastChild.firstChild.style.marginRight = obox.r = 0;
+          if (span.lastChild.firstChild){
+            span.lastChild.firstChild.style.marginLeft = obox.l =
+              span.lastChild.firstChild.style.marginRight = obox.r = 0;
+          }
           var over = HTML.Element("span",{},[["span",{className:"MJXp-over"}]]);
           over.firstChild.appendChild(span.lastChild);
           if (span.childNodes.length > (this.data[this.under] ? 1 : 0))
@@ -786,8 +788,10 @@
             else {span.appendChild(over)}
         }
         if (this.data[this.under]) {
-          span.lastChild.firstChild.style.marginLeft = ubox.l =
-            span.lastChild.firstChild.marginRight = ubox.r = 0;
+          if (span.lastChild.firstChild) {
+            span.lastChild.firstChild.style.marginLeft = ubox.l =
+              span.lastChild.firstChild.marginRight = ubox.r = 0;
+          }
           this.data[this.under].PHTMLhandleScriptlevel(span.lastChild);
         }
         BBOX.w = Math.max(.8*obox.w,.8*ubox.w,bbox.w);

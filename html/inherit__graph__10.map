@@ -1,3 +1,4 @@
 <map id="G" name="G">
-<area shape="rect" id="node1" href="$class_t_r_t_k_1_1_interpolation3_d.html" title="Three&#45;dimensional interpolation for irregularly&#45;spaced data." alt="" coords="5,5,368,32"/>
+<area shape="rect" id="node1" href="$class_t_r_t_k_1_1_iterator.html" title="Common base class for input iterator adapter classes." alt="" coords="5,5,149,32"/>
+<area shape="rect" id="node2" href="$class_t_r_t_k_1_1_iterator_adapter.html" title="Adapter class for arbitrary input iterator classes." alt="" coords="197,5,480,32"/>
 </map>

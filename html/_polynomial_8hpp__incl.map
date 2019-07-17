@@ -1,7 +1,7 @@
 <map id="G" name="G">
-<area shape="rect" id="node7" href="$_coordinate_8hpp.html" title="This file contains the Coordinate class and related functions." alt="" coords="525,80,634,107"/>
-<area shape="rect" id="node18" href="$_error_obj_8hpp.html" title="This file contains the declaration of the ErrorObj class." alt="" coords="838,155,934,181"/>
-<area shape="rect" id="node21" href="$_iterator_8hpp.html" title="This file contains the Iterator and IteratorAdapterclasses." alt="" coords="1021,155,1111,181"/>
-<area shape="rect" id="node25" href="$_range_8hpp.html" title="This file contains the Range class as well as some helper functions." alt="" coords="874,80,957,107"/>
-<area shape="rect" id="node11" href="$_tools_8hpp.html" title="This file contains various helper functions." alt="" coords="540,155,619,181"/>
+<area shape="rect" id="node7" href="$_coordinate_8hpp.html" title="This file contains the Coordinate class and related functions." alt="" coords="701,80,821,107"/>
+<area shape="rect" id="node19" href="$_error_obj_8hpp.html" title="This file contains the declaration of the ErrorObj class." alt="" coords="1026,155,1129,181"/>
+<area shape="rect" id="node22" href="$_iterator_8hpp.html" title="This file contains the Iterator and IteratorAdapterclasses." alt="" coords="1230,155,1327,181"/>
+<area shape="rect" id="node26" href="$_range_8hpp.html" title="This file contains the Range class as well as some helper functions." alt="" coords="1111,80,1201,107"/>
+<area shape="rect" id="node11" href="$_tools_8hpp.html" title="This file contains various helper functions." alt="" coords="463,155,545,181"/>
 </map>

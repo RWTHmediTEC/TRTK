@@ -1,6 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node2" href="$class_t_r_t_k_1_1_icp_base.html" title="Base class for all ICP implementations." alt="" coords="99,171,292,197"/>
-<area shape="rect" id="node3" href="$class_t_r_t_k_1_1_icp_interface.html" title="Iterative Closest Point." alt="" coords="5,81,223,108"/>
-<area shape="rect" id="node4" href="$class_t_r_t_k_1_1_estimate_transformation3_d.html" title="TRTK::EstimateTransformation3D\&lt; ValueType \&gt;" alt="" coords="247,81,549,108"/>
-<area shape="rect" id="node5" href="$class_t_r_t_k_1_1_estimate_transformation.html" title="TRTK::EstimateTransformation\&lt; ValueType \&gt;" alt="" coords="255,5,541,32"/>
+<area shape="rect" id="node2" href="$class_t_r_t_k_1_1_icp_base.html" title="Base class for all ICP implementations." alt="" coords="104,171,311,197"/>
+<area shape="rect" id="node3" href="$class_t_r_t_k_1_1_icp_interface.html" title="Iterative Closest Point." alt="" coords="5,81,236,108"/>
+<area shape="rect" id="node4" href="$class_t_r_t_k_1_1_estimate_transformation3_d.html" title="TRTK::EstimateTransformation3D\&lt; ValueType \&gt;" alt="" coords="261,81,589,108"/>
+<area shape="rect" id="node5" href="$class_t_r_t_k_1_1_estimate_transformation.html" title="TRTK::EstimateTransformation\&lt; ValueType \&gt;" alt="" coords="269,5,580,32"/>
 </map>

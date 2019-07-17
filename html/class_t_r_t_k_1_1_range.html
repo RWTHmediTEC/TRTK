@@ -150,14 +150,14 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if <code><a class="el" href="class_t_r_t_k_1_1_range.html#ae5e5bd7d06f7766b425ca7ed20d17855" title="Returns the first element of the range.">begin()</a></code> and <code><a class="el" href="class_t_r_t_k_1_1_range.html#ae459cb0f1a602de9e6e419b67f8cc36e" title="Returns the last element of the range (as done in the STL).">end()</a></code> reference iterators.  <a href="#ad2841d8f7879a303c492bf61a3f80bf9"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_range.html#a733ebdc233a89fc0da4501e060bb45e8">isEmpty</a> () const </td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the sequence does not contain any elements.  <a href="#a733ebdc233a89fc0da4501e060bb45e8"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a081e1dd4e4a162552d5af90d82f9f478"></a><!-- doxytag: member="TRTK::Range::first" ref="a081e1dd4e4a162552d5af90d82f9f478" args="()" -->
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_range.html#a081e1dd4e4a162552d5af90d82f9f478">first</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae6367df45f962d9591641fa49891632c"></a><!-- doxytag: member="TRTK::Range::first" ref="ae6367df45f962d9591641fa49891632c" args="() const " -->
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_range.html#ae6367df45f962d9591641fa49891632c">first</a> () const </td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the internal iterator to the begin of the range. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae28aaba99ec561b539b65c201bc2d5ac"></a><!-- doxytag: member="TRTK::Range::isDone" ref="ae28aaba99ec561b539b65c201bc2d5ac" args="() const " -->
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_range.html#ae28aaba99ec561b539b65c201bc2d5ac">isDone</a> () const </td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the traversal is done or if a sequence is empty or uninitialized. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8585dc340cac3c520f5bda4a6257d6c9"></a><!-- doxytag: member="TRTK::Range::next" ref="a8585dc340cac3c520f5bda4a6257d6c9" args="()" -->
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_range.html#a8585dc340cac3c520f5bda4a6257d6c9">next</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2d4b767c82c1f706cfe32f4ce8d3e2f1"></a><!-- doxytag: member="TRTK::Range::next" ref="a2d4b767c82c1f706cfe32f4ce8d3e2f1" args="() const " -->
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_range.html#a2d4b767c82c1f706cfe32f4ce8d3e2f1">next</a> () const </td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Selects the next element in the range. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9c11802aea4e7f605c0892951d57d46e"></a><!-- doxytag: member="TRTK::Range::currentItem" ref="a9c11802aea4e7f605c0892951d57d46e" args="() const " -->
 T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_range.html#a9c11802aea4e7f605c0892951d57d46e">currentItem</a> () const </td></tr>
@@ -186,7 +186,7 @@ Sequence::value_type &gt;&#160;</td><td class="memTemplItemRight" valign="bottom
 </dl>
 <p>Many algorithms (like sorting) can be formulated such that they do not depend on a certain data structure. Access to the data might be abstracted via data traversal. This can be realized via iterators, for instance, as done in the STL; also many algorithms in <a class="el" href="namespace_t_r_t_k.html" title="Namespace of the Transformation and Registration Toolkit.">TRTK</a> are implemented in this manner. However, this generally involves passing two arguments; one for the begin of a data sequence and one for its end. Using ranges, this verbosity can be significantly reduced.</p>
 <p>The range of a sequence is the half-open interval <code>[first, last)</code> which means that the first element is included but but not the last.</p>
-<p>A range can be traversed using <a class="el" href="class_t_r_t_k_1_1_range.html#a8585dc340cac3c520f5bda4a6257d6c9">next()</a>. The actual element is obtained via <a class="el" href="class_t_r_t_k_1_1_range.html#a9c11802aea4e7f605c0892951d57d46e">currentItem()</a>. To check whether a traversal is done use <a class="el" href="class_t_r_t_k_1_1_range.html#ae28aaba99ec561b539b65c201bc2d5ac">isDone()</a>. The position can be reseted via <a class="el" href="class_t_r_t_k_1_1_range.html#a081e1dd4e4a162552d5af90d82f9f478">first()</a>.</p>
+<p>A range can be traversed using <a class="el" href="class_t_r_t_k_1_1_range.html#a2d4b767c82c1f706cfe32f4ce8d3e2f1">next()</a>. The actual element is obtained via <a class="el" href="class_t_r_t_k_1_1_range.html#a9c11802aea4e7f605c0892951d57d46e">currentItem()</a>. To check whether a traversal is done use <a class="el" href="class_t_r_t_k_1_1_range.html#ae28aaba99ec561b539b65c201bc2d5ac">isDone()</a>. The position can be reseted via <a class="el" href="class_t_r_t_k_1_1_range.html#ae6367df45f962d9591641fa49891632c">first()</a>.</p>
 <p><b>Example:</b> </p>
 <div class="fragment"><pre class="fragment"> vector&lt;double&gt; vec;
  vec.push_back(1);
@@ -390,7 +390,7 @@ template&lt;class Sequence &gt; </div>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>D:/Users/haenisch/Programmierung/C++/TRTK/include/TRTK/<a class="el" href="_range_8hpp_source.html">Range.hpp</a></li>
+<li>D:/Programmierung/C/TRTK/include/TRTK/<a class="el" href="_range_8hpp_source.html">Range.hpp</a></li>
 </ul>
 </div>
 <!--- window showing the filter options -->
@@ -410,7 +410,7 @@ template&lt;class Sequence &gt; </div>
 <hr class="footer"/>
     <address class="footer">
         <small>
-            Copyright 2010 - 2016 by Christoph Hänisch,
+            Copyright 2010 - 2019 by Christoph Hänisch,
             Chair of Medical Engineering (mediTEC),
             RWTH Aachen University <p>
             Documentation generated by <a href="http://www.doxygen.org/index.html"> Doxygen </a>

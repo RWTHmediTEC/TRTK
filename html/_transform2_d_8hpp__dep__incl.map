@@ -1,8 +1,8 @@
 <map id="G" name="G">
-<area shape="rect" id="node2" href="$_estimate_transformation2_d_8hpp.html" title="This file contains the base class of all 2D transformation estimations." alt="" coords="958,80,1514,107"/>
-<area shape="rect" id="node7" href="$_icp_8hpp.html" title="This file contains the ICP class." alt="" coords="1539,80,1960,107"/>
-<area shape="rect" id="node3" href="$_estimate_affine_transformation2_d_8hpp.html" title="This file contains the EstimateAffineTransformation2D class." alt="" coords="5,155,595,181"/>
-<area shape="rect" id="node4" href="$_estimate_projective_transformation2_d_8hpp.html" title="This file contains the EstimateProjectiveTransformation2D class." alt="" coords="619,155,1231,181"/>
-<area shape="rect" id="node5" href="$_estimate_rigid_transformation2_d_8hpp.html" title="This file contains the EstimateRigidTransformation2D class." alt="" coords="1256,155,1840,181"/>
-<area shape="rect" id="node6" href="$_estimate_similarity_transformation2_d_8hpp.html" title="This file contains the EstimateSimilarityTransformation2D class." alt="" coords="1865,155,2474,181"/>
+<area shape="rect" id="node2" href="$_estimate_transformation2_d_8hpp.html" title="This file contains the base class of all 2D transformation estimations." alt="" coords="855,80,1338,107"/>
+<area shape="rect" id="node7" href="$_icp_8hpp.html" title="This file contains the ICP class." alt="" coords="1362,80,1690,107"/>
+<area shape="rect" id="node3" href="$_estimate_affine_transformation2_d_8hpp.html" title="This file contains the EstimateAffineTransformation2D class." alt="" coords="5,155,524,181"/>
+<area shape="rect" id="node4" href="$_estimate_projective_transformation2_d_8hpp.html" title="This file contains the EstimateProjectiveTransformation2D class." alt="" coords="549,155,1093,181"/>
+<area shape="rect" id="node5" href="$_estimate_rigid_transformation2_d_8hpp.html" title="This file contains the EstimateRigidTransformation2D class." alt="" coords="1117,155,1629,181"/>
+<area shape="rect" id="node6" href="$_estimate_similarity_transformation2_d_8hpp.html" title="This file contains the EstimateSimilarityTransformation2D class." alt="" coords="1653,155,2194,181"/>
 </map>

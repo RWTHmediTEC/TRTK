@@ -1,7 +1,7 @@
 <map id="G" name="G">
-<area shape="rect" id="node3" href="$class_t_r_t_k_1_1_fit_circle3_d.html" title="Estimates the parameters of a circle in 3D space from a set of points lying on the circle..." alt="" coords="339,5,497,32"/>
-<area shape="rect" id="node4" href="$class_t_r_t_k_1_1_fit_line3_d.html" title="Estimates the parameters of a line in 3D space from a set of points lying on the line." alt="" coords="343,56,493,83"/>
-<area shape="rect" id="node5" href="$class_t_r_t_k_1_1_fit_plane.html" title="Estimates the parameters of a 2D plane in 3D space from a set of points lying on the surface..." alt="" coords="347,107,489,133"/>
-<area shape="rect" id="node6" href="$class_t_r_t_k_1_1_fit_sphere.html" title="Estimates the parameters of a 3D sphere from a set of points lying on the surface." alt="" coords="342,157,494,184"/>
-<area shape="rect" id="node2" href="$class_t_r_t_k_1_1_fit.html" title="Base class for all fitting classes." alt="" coords="5,81,116,108"/>
+<area shape="rect" id="node3" href="$class_t_r_t_k_1_1_fit_circle3_d.html" title="Estimates the parameters of a circle in 3D space from a set of points lying on the circle..." alt="" coords="344,5,509,32"/>
+<area shape="rect" id="node4" href="$class_t_r_t_k_1_1_fit_line3_d.html" title="Estimates the parameters of a line in 3D space from a set of points lying on the line." alt="" coords="349,56,505,83"/>
+<area shape="rect" id="node5" href="$class_t_r_t_k_1_1_fit_plane.html" title="Estimates the parameters of a 2D plane in 3D space from a set of points lying on the surface..." alt="" coords="353,107,500,133"/>
+<area shape="rect" id="node6" href="$class_t_r_t_k_1_1_fit_sphere.html" title="Estimates the parameters of a 3D sphere from a set of points lying on the surface." alt="" coords="347,157,506,184"/>
+<area shape="rect" id="node2" href="$class_t_r_t_k_1_1_fit.html" title="Base class for all fitting classes." alt="" coords="5,81,117,108"/>
 </map>

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<title>Transformation and Registration Toolkit: D:/Users/haenisch/Programmierung/C++/TRTK/include/TRTK/Iterator.hpp Source File</title>
+<title>Transformation and Registration Toolkit: D:/Programmierung/C/TRTK/include/TRTK/Iterator.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javaScript" src="search/search.js"></script>
@@ -90,11 +90,11 @@ function toggleVisibility(linkObj) {
   </div>
 <div class="header">
   <div class="headertitle">
-<h1>D:/Users/haenisch/Programmierung/C++/TRTK/include/TRTK/Iterator.hpp</h1>  </div>
+<h1>D:/Programmierung/C/TRTK/include/TRTK/Iterator.hpp</h1>  </div>
 </div>
 <div class="contents">
 <a href="_iterator_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
-<a name="l00002"></a>00002 <span class="comment">    Copyright (C) 2010 - 2014 Christoph Haenisch</span>
+<a name="l00002"></a>00002 <span class="comment">    Copyright (C) 2010 - 2019 Christoph Haenisch</span>
 <a name="l00003"></a>00003 <span class="comment"></span>
 <a name="l00004"></a>00004 <span class="comment">    Chair of Medical Engineering (mediTEC)</span>
 <a name="l00005"></a>00005 <span class="comment">    RWTH Aachen University</span>
@@ -104,7 +104,7 @@ function toggleVisibility(linkObj) {
 <a name="l00009"></a>00009 <span class="comment"></span>
 <a name="l00010"></a>00010 <span class="comment">    See license.txt for more information.</span>
 <a name="l00011"></a>00011 <span class="comment"></span>
-<a name="l00012"></a>00012 <span class="comment">    Version 0.3.1 (2013-06-01)</span>
+<a name="l00012"></a>00012 <span class="comment">    Version 0.4.0 (2019-06-24)</span>
 <a name="l00013"></a>00013 <span class="comment">*/</span>
 <a name="l00014"></a>00014 
 <a name="l00020"></a>00020 <span class="preprocessor">#ifndef ITERATOR_HPP_3437312701</span>
@@ -514,7 +514,7 @@ function toggleVisibility(linkObj) {
 <a name="l00688"></a>00688     {
 <a name="l00689"></a>00689         <span class="comment">// Is &#39;other&#39; of type &#39;IteratorAdapter&#39;?</span>
 <a name="l00690"></a>00690         <span class="keyword">const</span> <a class="code" href="class_t_r_t_k_1_1_iterator_adapter.html" title="Adapter class for arbitrary input iterator classes.">IteratorAdapter&lt;T, InputIterator&gt;</a> &amp; iteratorAdapter = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span><a class="code" href="class_t_r_t_k_1_1_iterator_adapter.html" title="Adapter class for arbitrary input iterator classes.">IteratorAdapter&lt;T, InputIterator&gt;</a> &amp;<span class="keyword">&gt;</span>(other);
-<a name="l00691"></a>00691         <span class="keywordflow">return</span> distance(iterator, iteratorAdapter.iterator);
+<a name="l00691"></a>00691         <span class="keywordflow">return</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> ) distance(iterator, iteratorAdapter.iterator);
 <a name="l00692"></a>00692     }
 <a name="l00693"></a>00693     <span class="keywordflow">catch</span> (std::bad_cast &amp;)
 <a name="l00694"></a>00694     {
@@ -522,7 +522,7 @@ function toggleVisibility(linkObj) {
 <a name="l00696"></a>00696         <span class="keywordflow">try</span>
 <a name="l00697"></a>00697         {
 <a name="l00698"></a>00698             <span class="keyword">const</span> <a class="code" href="class_t_r_t_k_1_1_iterator_adapter.html" title="Adapter class for arbitrary input iterator classes.">IteratorAdapter&lt;T, InputIterator&gt;</a> &amp; iteratorAdapter = <span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span><a class="code" href="class_t_r_t_k_1_1_iterator_adapter.html" title="Adapter class for arbitrary input iterator classes.">IteratorAdapter&lt;T, InputIterator&gt;</a> &amp;<span class="keyword">&gt;</span>(other.<a class="code" href="class_t_r_t_k_1_1_iterator.html#ac986c27c0db647424feed5eeac388820" title="Returns a reference to the internally stored IteratorAdapter.">getIterator</a>());
-<a name="l00699"></a>00699             <span class="keywordflow">return</span> distance(iterator, iteratorAdapter.iterator);
+<a name="l00699"></a>00699             <span class="keywordflow">return</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span>) distance(iterator, iteratorAdapter.iterator);
 <a name="l00700"></a>00700         }
 <a name="l00701"></a>00701         <span class="keywordflow">catch</span> (std::bad_cast &amp;)
 <a name="l00702"></a>00702         {
@@ -577,7 +577,7 @@ function toggleVisibility(linkObj) {
 <hr class="footer"/>
     <address class="footer">
         <small>
-            Copyright 2010 - 2016 by Christoph Hänisch,
+            Copyright 2010 - 2019 by Christoph Hänisch,
             Chair of Medical Engineering (mediTEC),
             RWTH Aachen University <p>
             Documentation generated by <a href="http://www.doxygen.org/index.html"> Doxygen </a>

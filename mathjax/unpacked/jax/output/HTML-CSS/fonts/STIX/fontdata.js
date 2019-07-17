@@ -10,7 +10,7 @@
  *
  *  ---------------------------------------------------------------------
  *  
- *  Copyright (c) 2009-2015 The MathJax Consortium
+ *  Copyright (c) 2009-2018 The MathJax Consortium
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
  */
 
 (function (HTMLCSS,MML,HTML) {
-  var VERSION = "2.6.0";
+  var VERSION = "2.7.5";
   
   HTMLCSS.allowWebFonts = false;
   
@@ -42,6 +42,7 @@
       SIZE4   = "STIXSizeFourSym",
       SIZE5   = "STIXSizeFiveSym";
   var H = "H", V = "V", EXTRAH = {load:"extra", dir:H}, EXTRAV = {load:"extra", dir:V};
+  var ARROWREP = [0x2212,GENERAL,0,0,0,-.26,-.26];   // remove extra height/depth added below
 
   HTMLCSS.Augment({
     FONTDATA: {
@@ -72,10 +73,14 @@
       
       VARIANT: {
         "normal": {fonts: [GENERAL,NONUNI,SIZE1],
-                   remap: {0x2205: [0x2205,"-STIX-variant"]}}, // \emptyset
-        "bold":   {fonts: [BOLD,"STIXNonUnicode-bold","STIXSizeOneSym-bold"], bold:true},
-        "italic": {fonts: [ITALIC,NONUNII,GENERAL,NONUNI,SIZE1], italic:true},
-        "bold-italic": {fonts: [BITALIC,"STIXNonUnicode-bold-italic"], bold:true, italic:true},
+                   remap: {0x2205: [0x2205,"-STIX-variant"], // \emptyset
+                           0x7C: [0x7C,"-STIX-variant"]}},   // absolute value
+        "bold":   {fonts: [BOLD,"STIXNonUnicode-bold","STIXSizeOneSym-bold"], offsetA: 0x1D400, offsetG: 0x1D6A8, bold:true,
+                   remap: {0x2202: 0x1D6DB, 0x2207: 0x1D6C1}},
+        "italic": {fonts: [ITALIC,NONUNII,GENERAL,NONUNI,SIZE1], offsetA: 0x1D434, offsetG: 0x1D6E2, italic:true,
+                   remap: {0x1D455: 0x210E, 0x2202: 0x1D715, 0x2207: 0x1D6FB}},
+        "bold-italic": {fonts: [BITALIC,"STIXNonUnicode-bold-italic"], offsetA: 0x1D434, offsetG: 0x1D71C, bold:true, italic:true,
+                   remap: {0x1D455: 0x210E, 0x2202: 0x1D74F, 0x2207: 0x1D735}},
         "double-struck": {offsetA: 0x1D538, offsetN: 0x1D7D8,
                    remap: {0x1D53A: 0x2102, 0x1D53F: 0x210D, 0x1D545: 0x2115, 0x1D547: 0x2119,
                            0x1D548: 0x211A, 0x1D549: 0x211D, 0x1D551: 0x2124}},
@@ -87,17 +92,22 @@
                            0x1D4A4: 0x2110, 0x1D4A7: 0x2112, 0x1D4A8: 0x2133, 0x1D4AD: 0x211B,
                            0x1D4BA: 0x212F, 0x1D4BC: 0x210A, 0x1D4C4: 0x2134}},
         "bold-script": {fonts: [BITALIC], offsetA: 0x1D4D0, bold:true, italic:true},
-        "sans-serif": {offsetA: 0x1D5A0, offsetN: 0x1D7E2, offsetG: 0xE17D, offsetE: 0xE17D},
-        "bold-sans-serif": {offsetA: 0x1D5D4, offsetG: 0x1D756, offsetN: 0x1D7EC, bold:true},
-        "sans-serif-italic": {fonts: [ITALIC,NONUNII], offsetA: 0x1D608, offsetN: 0xE1B4, offsetG: 0xE1BF, offsetE: 0xE1BF, italic:true},
-        "sans-serif-bold-italic": {fonts: [BITALIC,"STIXNonUnicode-bold-italic"], offsetA: 0x1D63C, offsetN: 0xE1F6, offsetG: 0x1D790, bold:true, italic:true},
+        "sans-serif": {offsetA: 0x1D5A0, offsetN: 0x1D7E2, offsetP: 0xE17D,
+                   remap: {0x2202: 0xE17C}},
+        "bold-sans-serif": {offsetA: 0x1D5D4, offsetG: 0x1D756, offsetN: 0x1D7EC, bold:true,
+                   remap: {0x2202: 0x1D789, 0x2207: 0x1D76F}},
+        "sans-serif-italic": {fonts: [ITALIC,NONUNII], offsetA: 0x1D608, offsetN: 0xE1B4, offsetP: 0xE1BF, italic:true,
+                   remap: {0x2202: 0xE1BE}},
+        "sans-serif-bold-italic": {fonts: [BITALIC,"STIXNonUnicode-bold-italic"], offsetA: 0x1D63C, offsetN: 0xE1F6, offsetG: 0x1D790, bold:true, italic:true,
+                   remap: {0x2202: 0x1D7C3, 0x2207: 0x1D7A9}},
         "monospace": {offsetA: 0x1D670, offsetN: 0x1D7F6,
-                   remap: {0x20: [0x20,"-STIX-variant"]}}, // use a special space for monospace (see below)
+                   remap: {0x20: [0x20,"-STIX-variant"], 0xA0: [0xA0,"-STIX-variant"]}}, // use a special space for monospace (see below)
         "-STIX-variant": {fonts:["STIXVariants",NONUNI,GENERAL],
                    remap: {0x2A87: 0xE010, 0x2A88: 0xE00F, 0x2270: 0xE011, 0x2271: 0xE00E,
                            0x22E0: 0xE04B, 0x22E1: 0xE04F, 0x2288: 0xE016, 0x2289: 0xE018,
                            0x25B3: 0x25B5, 0x25BD: 0x25BF,
-                           0x2205: [0x2205,MML.VARIANT.NORMAL]}},  // \varnothing
+                           0x2205: [0x2205,MML.VARIANT.NORMAL],    // \varnothing
+                           0x007C: [0x007C,MML.VARIANT.NORMAL]}},  // absolute value
         "-tex-caligraphic": {fonts: [ITALIC,NONUNII,NONUNI,SIZE1], offsetA: 0xE22D, noLowerCase: 1},
         "-tex-oldstyle": {offsetN: 0xE261,
                    remap: {0xE262: 0xE265, 0xE263: 0xE269, 0xE264: 0xE26D, 0xE265: 0xE271,
@@ -122,15 +132,20 @@
         {name: "alpha", low: 0x61, high: 0x7A, offset: "A", add: 26},
         {name: "Alpha", low: 0x41, high: 0x5A, offset: "A"},
         {name: "number", low: 0x30, high: 0x39, offset: "N"},
-        {name: "greek-non-unicode", low: 0x03B1, high: 0x03C9, offset: "E", add: 25},
         {name: "greek", low: 0x03B1, high: 0x03C9, offset: "G", add: 26},
-        {name: "Greek", low: 0x0391, high: 0x03F6, offset: "G",
-           remap: {0x03F5: 53, 0x03D1: 54, 0x03F0: 55, 0x03D5: 56, 0x03F1: 57, 0x03D6: 58, 0x03F4: 17}}
+        {name: "Greek", low: 0x0391, high: 0x03A9, offset: "G"},
+        {name: "vargreek", low: 0x03D1, high: 0x03F6, offset: "G", remapOnly: true,
+           remap: {0x03F5: 52, 0x03D1: 53, 0x03F0: 54, 0x03D5: 55, 0x03F1: 56, 0x03D6: 57, 0x03F4: 17}},
+        {name: "PUAgreek", low: 0x03B1, high: 0x03C9, offset: "P", add: 25},
+        {name: "PUAGreek", low: 0x0391, high: 0x03A9, offset: "P"}, 
+        {name: "varPUAgreek", low: 0x03D1, high: 0x03F6, offset: "P", remapOnly: true,
+           remap: {0x03F5: 50, 0x03D1: 51, 0x03D5: 52, 0x03F1: 53, 0x03D6: 54, 0x03F4: 17}}
       ],
       
       RULECHAR: 0x203E,
       
       REMAP: {
+        0xA: 0x20,                      // newline
         0x2F3: 0x2DA, 0x2F4: 0x2CA,     // ring below, middle grave
         0xFE37: 0x23DE, 0xFE38: 0x23DF, // OverBrace, UnderBrace
         0x3008: 0x27E8, 0x3009: 0x27E9, // langle, rangle
@@ -140,6 +155,7 @@
       REMAPACCENT: {
         "\u007E": "\u0303",
         "\u2192": "\u20D7",
+        "\u2190": "\u20D6",
         "\u0060": "\u0300",
         "\u005E": "\u0302",
         "\u00B4": "\u0301",
@@ -222,7 +238,7 @@
         },
         0x2190: // left arrow
         {
-          dir: H, HW: [[.926,GENERAL]], stretch: {left:[0x2190,GENERAL], rep:[0x2212,GENERAL]}
+          dir: H, HW: [[.926,GENERAL]], stretch: {left:[0x2190,GENERAL], rep:ARROWREP}
         },
         0x2191: // \uparrow
         {
@@ -230,7 +246,7 @@
         },
         0x2192: // right arrow
         {
-          dir: H, HW: [[.926,GENERAL]], stretch: {rep:[0x2212,GENERAL], right:[0x2192,GENERAL]}
+          dir: H, HW: [[.926,GENERAL]], stretch: {rep:ARROWREP, right:[0x2192,GENERAL]}
         },
         0x2193: // \downarrow
         {
@@ -239,7 +255,7 @@
         0x2194: // left-right arrow
         {
           dir: H, HW: [[.926,GENERAL]],
-          stretch: {left:[0x2190,GENERAL], rep:[0x2212,GENERAL], right:[0x2192,GENERAL]}
+          stretch: {left:[0x2190,GENERAL], rep:ARROWREP, right:[0x2192,GENERAL]}
         },
         0x2195: // \updownarrow
         {
@@ -295,7 +311,7 @@
         {
           dir: V, HW: [[.926,GENERAL],[1.230,SIZE1],[1.353,SIZE1,1.1],[1.845,SIZE2],
                        [2.048,SIZE2,1.11],[2.460,SIZE3],[2.472,SIZE3,1.005],[3.075,SIZE4]],
-          streth: {top:[0x23A4,SIZE1], ext:[0x23A5,SIZE1]}
+          stretch: {top:[0x23A4,SIZE1], ext:[0x23A5,SIZE1]}
         },
         0x230A: // \lfloor
         {
@@ -375,6 +391,7 @@
         0x0332: {alias: 0x23AF, dir:H}, // combining low line
         0x2015: {alias: 0x23AF, dir:H}, // horizontal line
         0x2017: {alias: 0x23AF, dir:H}, // horizontal line
+        0x20D7: {alias: 0x2192, dir:H}, // combinining over right arrow (vector arrow)
         0x2212: {alias: 0x23AF, dir:H}, // minus
         0x2215: {alias: 0x002F, dir:V}, // division slash
         0x2329: {alias: 0x27E8, dir:V}, // langle
@@ -405,6 +422,7 @@
         0x21C3: EXTRAV, // down harpoon with barb left
         0x21DA: EXTRAH, // left triple arrow
         0x21DB: EXTRAH, // right triple arrow
+        0x222B: EXTRAV, // integral
         0x23B4: EXTRAH, // top square bracket
         0x23B5: EXTRAH, // bottom square bracket
         0x23DC: EXTRAH, // top paren
@@ -1504,6 +1522,9 @@
     0x221A: [943,11,737,67,767]        // SQUARE ROOT
   };
 
+  
+  HTMLCSS.FONTDATA.FONTS['STIXGeneral'][0x2212][0] = HTMLCSS.FONTDATA.FONTS['STIXGeneral'][0x002B][0]; // minus is sized as plus
+  HTMLCSS.FONTDATA.FONTS['STIXGeneral'][0x2212][1] = HTMLCSS.FONTDATA.FONTS['STIXGeneral'][0x002B][1]; // minus is sized as plus
   HTMLCSS.FONTDATA.FONTS['STIXGeneral'][0x22EE][0] += 400;  // adjust height for \vdots
   HTMLCSS.FONTDATA.FONTS['STIXGeneral'][0x22F1][0] += 500;  // adjust height for \ddots
   HTMLCSS.FONTDATA.FONTS['STIXGeneral'][0x2212][1] += 100;  // adjust depth for minus (arrow extender)
@@ -1516,6 +1537,8 @@
     // monospace mathvariant uses space from STIXVariants, so make it the right size
     HTMLCSS.FONTDATA.FONTS['STIXVariants'][0x20][2] += 275;       // fix error in character width
     HTMLCSS.FONTDATA.FONTS['STIXVariants'][0x20][5] = {rfix:275}; // fix error in character width
+    HTMLCSS.FONTDATA.FONTS['STIXVariants'][0xA0][2] += 275;       // fix error in character width
+    HTMLCSS.FONTDATA.FONTS['STIXVariants'][0xA0][5] = {rfix:275}; // fix error in character width
   });
 
   //

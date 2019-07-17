@@ -8,11 +8,11 @@
  *  Implements the CommonHTML OutputJax that displays mathematics
  *  using HTML and CSS to position the characters from math fonts
  *  in their proper locations.  Unlike the HTML-CSS output jax,
- *  this HTML is browswer and OS independent.
+ *  this HTML is browser and OS independent.
  *  
  *  ---------------------------------------------------------------------
  *  
- *  Copyright (c) 2013-2015 The MathJax Consortium
+ *  Copyright (c) 2013-2018 The MathJax Consortium
  * 
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -30,6 +30,7 @@
 
 (function (AJAX,HUB,HTML,CHTML) {
   var MML;
+  var isArray = MathJax.Object.isArray;
 
   var EVENT, TOUCH, HOVER; // filled in later
 
@@ -71,13 +72,24 @@
     ".mjx-chtml[tabindex]:focus, body :focus .mjx-chtml[tabindex]": {
       display: "inline-table"  // see issues #1282 and #1338
     },
+    ".mjx-full-width": {
+      "text-align": "center",
+      display: "table-cell!important",
+      width:   "10000em"
+    },
 
     ".mjx-math":   {
       "display":         "inline-block",
       "border-collapse": "separate",
-      "border-spacing":  0,
+      "border-spacing":  0
     },
-    ".mjx-math *": {display:"inline-block", "text-align":"left"},
+    ".mjx-math *": {
+      display:"inline-block",
+      "-webkit-box-sizing": "content-box!important",
+      "-moz-box-sizing": "content-box!important",
+      "box-sizing": "content-box!important",          // override bootstrap settings
+      "text-align":"left"
+    },
 
     ".mjx-numerator":   {display:"block", "text-align":"center"},
     ".mjx-denominator": {display:"block", "text-align":"center"},
@@ -119,13 +131,13 @@
     ".mjx-mtr":    {display:"table-row"},
     ".mjx-mlabeledtr": {display:"table-row"},
     ".mjx-mtd":    {display:"table-cell", "text-align":"center"},
-    ".mjx-label":  {display:"block"},
+    ".mjx-label":  {display:"table-row"},
 
     ".mjx-box":    {display:"inline-block"},
     ".mjx-block":  {display:"block"},
-    ".mjx-span":   {display:"span"},
+    ".mjx-span":   {display:"inline"},
     ".mjx-char":   {display:"block", "white-space":"pre"},
-    ".mjx-itable": {display:"inline-table"},
+    ".mjx-itable": {display:"inline-table", width:"auto"},
     ".mjx-row":    {display:"table-row"},
     ".mjx-cell":   {display:"table-cell"},
     ".mjx-table":  {display:"table", width:"100%"},
@@ -154,7 +166,6 @@
     ".MJXc-processed": {display:"none"},
     
     ".mjx-test": {
-      display:           "block",
       "font-style":      "normal",
       "font-weight":     "normal",
       "font-size":       "100%",
@@ -166,9 +177,40 @@
       overflow:          "hidden",
       height:            "1px"
     },
-    ".mjx-ex-box-test": {
-      position:  "absolute",
+    ".mjx-test.mjx-test-display": {
+      display: "table!important"
+    },
+    ".mjx-test.mjx-test-inline": {
+      display:           "inline!important",
+      "margin-right":    "-1px"
+    },
+    ".mjx-test.mjx-test-default": {
+      display: "block!important",
+      clear:   "both"
+    },
+    ".mjx-ex-box": {
+      display: "inline-block!important",
+      position: "absolute",
+      overflow: "hidden",
+      "min-height": 0, "max-height":"none",
+      padding:0, border: 0, margin: 0,
       width:"1px", height:"60ex"
+    },
+    ".mjx-test-inline .mjx-left-box": {
+      display: "inline-block",
+      width: 0,
+      "float":"left"
+    },
+    ".mjx-test-inline .mjx-right-box": {
+      display: "inline-block",
+      width: 0,
+      "float":"right"
+    },
+    ".mjx-test-display .mjx-right-box": {
+      display: "table-cell!important",
+      width: "10000em!important",
+      "min-width":0, "max-width":"none",
+      padding:0, border:0, margin:0
     },
     
     "#MathJax_CHTML_Tooltip": {
@@ -176,7 +218,7 @@
       border: "1px solid black",
       "box-shadow": "2px 2px 5px #AAAAAA",         // Opera 10.5
       "-webkit-box-shadow": "2px 2px 5px #AAAAAA", // Safari 3 and Chrome
-      "-moz-box-shadow": "2px 2px 5px #AAAAAA",    // Forefox 3.5
+      "-moz-box-shadow": "2px 2px 5px #AAAAAA",    // Firefox 3.5
       "-khtml-box-shadow": "2px 2px 5px #AAAAAA",  // Konqueror
       padding: "3px 4px",
       "z-index": 401,
@@ -191,6 +233,7 @@
   /************************************************************/
   
   var BIGDIMEN = 1000000;
+  var MAXREMAP = 5;
   var LINEBREAKS = {}, CONFIG = MathJax.Hub.config;
 
   CHTML.Augment({
@@ -230,7 +273,8 @@
       //
       // Used in preTranslate to get scaling factors and line width
       //
-      this.TestSpan = CHTML.Element("mjx-test",{style:{left:"1em"}},[["mjx-ex-box-test"]]);
+      this.TestSpan = CHTML.Element("mjx-test",{style:{left:"1em"}},
+          [["mjx-left-box"],["mjx-ex-box"],["mjx-right-box"]]);
 
       //
       //  Set up styles and preload web fonts
@@ -259,11 +303,12 @@
       //
       //  Get the default sizes (need styles in place to do this)
       //
-      document.body.appendChild(this.TestSpan);
-      this.defaultEm    = this.getFontSize(this.TestSpan);
-      this.defaultEx    = this.TestSpan.firstChild.offsetHeight/60;
-      this.defaultWidth = this.TestSpan.offsetWidth;
-      document.body.removeChild(this.TestSpan);
+      var test = document.body.appendChild(this.TestSpan.cloneNode(true));
+      test.className += " mjx-test-inline mjx-test-default";
+      this.defaultEm    = this.getFontSize(test);
+      this.defaultEx    = test.childNodes[1].offsetHeight/60;
+      this.defaultWidth = Math.max(0,test.lastChild.offsetLeft-test.firstChild.offsetLeft-2);
+      document.body.removeChild(test);
     },
     getFontSize: (window.getComputedStyle ? 
       function (node) {
@@ -315,7 +360,7 @@
       if (!font.match(/-|fontdata/)) font += "-Regular";
       if (!font.match(/\.js$/)) font += ".js"
       MathJax.Callback.Queue(
-        ["Post",HUB.Startup.signal,["CommonHTML - font data loaded",font]],
+        ["Post",HUB.Startup.signal,"CommonHTML - font data loaded for " + font],
         ["loadComplete",AJAX,this.fontDir+"/"+font]
       );
     },
@@ -336,40 +381,38 @@
     ucMatch: HTML.ucMatch,
     setScript: HTML.setScript,
     
-    getNodesByClass: (document.getElementsByClassName ? 
-      function (node,type) {return node.getElementsByClassName(type)} :
-      function (node,type) {
-        var NODES = [];
-        var nodes = node.getElementsByTagName("span");
-        var name = RegExp("\\b"+type+"\\b");
-        for (var i = 0, m = nodes.length; i < m; i++) {
-          if (name.test(nodes[i].className)) NODES.push = nodes[i];
-        }
-        return NODES;
-      }
-    ),
+    //
+    //  Look through the direct children of a node for one with the given
+    //  type (but if the node has intervening containers for its children,
+    //  step into them; note that elements corresponding to MathML nodes
+    //  will have id's so we don't step into them).
+    //  
+    //  This is used by munderover and msubsup to locate their child elements
+    //  when they are part of an embellished operator that is being stretched.
+    //  We don't use querySelector because we want to find only the direct child
+    //  nodes, not nodes that might be nested deeper in the tree (see issue #1447).
+    //
     getNode: function (node,type) {
-      var nodes = this.getNodesByClass(node,type);
-      if (nodes.length === 1) return nodes[0];
-      var closest = nodes[0], N = this.getNodeDepth(node,closest);
-      for (var i = 1, m = nodes.length; i < m; i++) {
-        var n = this.getNodeDepth(node,nodes[i]);
-        if (n < N) {closest = nodes[i]; N = n}
+      var name = RegExp("\\b"+type+"\\b");
+      var nodes = [];
+      while (node) {
+        for (var i = 0, m = node.childNodes.length; i < m; i++) {
+          var child = node.childNodes[i];
+          if (child) {
+            if (name.test(child.className)) return child;
+            if (child.id === "") nodes.push(child);
+          }
+        }
+        node = nodes.shift();
       }
-      return closest;
+      return null;
     },
-    getNodeDepth: function (parent,node) {
-      var n = 0;
-      while (node && node !== parent) {node = node.parentNode; n++}
-      return n;
-    },
-    
 
     /********************************************/
     
     preTranslate: function (state) {
       var scripts = state.jax[this.id], i, m = scripts.length,
-          script, prev, node, jax, ex, em;
+          script, prev, node, test, jax, ex, em, scale;
       //
       //  Get linebreaking information
       //
@@ -392,11 +435,15 @@
         prev = script.previousSibling;
 	if (prev && prev.className && String(prev.className).substr(0,9) === "mjx-chtml")
 	  prev.parentNode.removeChild(prev);
+        if (script.MathJax.preview) script.MathJax.preview.style.display = "none";
         //
         //  Add the node for the math and mark it as being processed
         //
         jax = script.MathJax.elementJax; if (!jax) continue;
-        jax.CHTML = {display: (jax.root.Get("display") === "block")}
+        jax.CHTML = {
+          display: (jax.root.Get("display") === "block"),
+          preview: (jax.CHTML||{}).preview     // in case typeset calls are interleaved
+        };
         node = CHTML.Element("mjx-chtml",{
           id:jax.inputID+"-Frame", className:"MathJax_CHTML", isMathJax:true, jaxID:this.id,
           oncontextmenu:EVENT.Menu, onmousedown: EVENT.Mousedown,
@@ -420,9 +467,11 @@
         node.className += " MJXc-processing";
         script.parentNode.insertBefore(node,script);
         //
-        //  Add test nodes for determineing scales and linebreak widths
+        //  Add test nodes for determining scales and linebreak widths
         //
-        script.parentNode.insertBefore(this.TestSpan.cloneNode(true),script);
+        test = this.TestSpan.cloneNode(true);
+        test.className += " mjx-test-" + (jax.CHTML.display ? "display" : "inline");
+        script.parentNode.insertBefore(test,script);
       }
       //
       //  Determine the scaling factors for each script
@@ -433,14 +482,14 @@
         test = script.previousSibling;
         jax = script.MathJax.elementJax; if (!jax) continue;
         em = CHTML.getFontSize(test);
-        ex = test.firstChild.offsetHeight/60;
-        if (ex === 0 || ex === "NaN") ex = this.defaultEx
-        node = test;
-        while (node) {
-          cwidth = node.offsetWidth; if (cwidth) break;
-          cwidth = CHTML.getMaxWidth(node); if (cwidth) break;
-          node = node.parentNode;
+        ex = test.childNodes[1].offsetHeight/60;
+        cwidth = Math.max(0, jax.CHTML.display ? test.lastChild.offsetWidth - 1: 
+                  test.lastChild.offsetLeft - test.firstChild.offsetLeft - 2);
+        if (ex === 0 || ex === "NaN") {
+          ex = this.defaultEx;
+          cwidth = this.defaultWidth;
         }
+        if (cwidth === 0 && !jax.CHTML.display) cwidth = this.defaultWidth;
         if (relwidth) maxwidth = cwidth;
         scale = (this.config.matchFontHeight ? ex/this.TEX.x_height/em : 1);
         scale = Math.floor(Math.max(this.config.minScaleAdjust/100,scale)*this.config.scale);
@@ -454,9 +503,9 @@
       //
       for (i = 0; i < m; i++) {
         script = scripts[i]; if (!script.parentNode) continue;
-        test = scripts[i].previousSibling;
-        jax = scripts[i].MathJax.elementJax; if (!jax) continue;
-        test.parentNode.removeChild(test);
+        jax = script.MathJax.elementJax; if (!jax) continue;
+        script.parentNode.removeChild(script.previousSibling);
+        if (script.MathJax.preview) script.MathJax.preview.style.display = "";
       }
       state.CHTMLeqn = state.CHTMLlast = 0; state.CHTMLi = -1;
       state.CHTMLchunk = this.config.EqnChunk;
@@ -481,6 +530,7 @@
       //
       var jax = script.MathJax.elementJax, math = jax.root,
           node = document.getElementById(jax.inputID+"-Frame");
+      if (!node) return;
       this.getMetrics(jax);
       if (this.scale !== 1) node.style.fontSize = jax.CHTML.fontSize;
       //
@@ -717,6 +767,15 @@
     /********************************************************/
     
     //
+    //  True if text holds a single (unicode) glyph
+    //
+    isChar: function (text) {
+      if (text.length === 1) return true;
+      if (text.length !== 2) return false;
+      var n = text.charCodeAt(0);
+      return (n >= 0xD800 && n < 0xDBFF);
+    },
+    //
     //  Get a unicode character by number (even when it takes two character)
     //
     unicodeChar: function (n) {
@@ -742,8 +801,12 @@
     //  require looking through the data again.
     //
     getCharList: function (variant,n) {
-      var id, M, list = [], cache = variant.cache, nn = n;
+      var id, M, cache = variant.cache, nn = n;
       if (cache[n]) return cache[n];
+      if (n > 0xFFFF && this.FONTDATA.RemapPlane1) {
+        var nv = this.FONTDATA.RemapPlane1(n,variant);
+        n = nv.n; variant = nv.variant;
+      }
       var RANGES = this.FONTDATA.RANGES, VARIANT = this.FONTDATA.VARIANT;
       if (n >= RANGES[0].low && n <= RANGES[RANGES.length-1].high) {
         for (id = 0, M = RANGES.length; id < M; id++) {
@@ -762,13 +825,21 @@
           }
         }
       }
+      cache[nn] = this.remapChar(variant,n,0);
+      return cache[nn];
+    },
+    remapChar: function (variant,n,N) {
+      var list = [], VARIANT = this.FONTDATA.VARIANT;
       if (variant.remap && variant.remap[n]) {
         n = variant.remap[n];
         if (variant.remap.variant) {variant = VARIANT[variant.remap.variant]}
       } else if (this.FONTDATA.REMAP[n] && !variant.noRemap) {
         n = this.FONTDATA.REMAP[n];
       }
-      if (n instanceof Array) {variant = VARIANT[n[1]]; n = n[0]} 
+      if (isArray(n)) {
+        if (n[2]) N = MAXREMAP; // stop remapping
+        variant = VARIANT[n[1]]; n = n[0];
+      } 
       if (typeof(n) === "string") {
         var string = {text:n, i:0, length:n.length};
         while (string.i < string.length) {
@@ -778,18 +849,17 @@
         }
       } else {
         if (variant.cache[n]) {list = variant.cache[n]}
-          else {variant.cache[n] = list = [this.lookupChar(variant,n)]}
+          else {variant.cache[n] = list = this.lookupChar(variant,n,N)}
       }
-      cache[nn] = list;
       return list;
     },
     //
     //  After all remapping has been done, look up a character
     //  in the fonts for a given variant, chaining to other
     //  variants as needed.  Return an undefined character if
-    //  it isnt' found in the given variant.
+    //  it isn't found in the given variant.
     //
-    lookupChar: function (variant,n) {
+    lookupChar: function (variant,n,N) {
       var VARIANT = variant;
       while (variant) {
         for (var i = 0, m = variant.fonts.length; i < m; i++) {
@@ -797,20 +867,27 @@
           if (typeof(font) === "string") this.loadFont(font);
           var C = font[n];
           if (C) {
-            if (C.length === 5) C[5] = {};
-            if (C.c == null) {
-              C[0] /= 1000; C[1] /= 1000; C[2] /= 1000; C[3] /= 1000; C[4] /= 1000;
-              C.c = this.unicodeChar(n);
-            }
-            if (C[5].space) return {type:"space", w:C[2], font:font};
-            return {type:"char", font:font, n:n};
+            this.fixChar(C,n);
+            if (C[5].space) return [{type:"space", w:C[2], font:font}];
+            return [{type:"char", font:font, n:n}];
           } else if (font.Extra) {
             this.findBlock(font,n);
           }
         }
         variant = this.FONTDATA.VARIANT[variant.chain];
+        if (variant && variant.remap && variant.remap[n] && N++ < MAXREMAP) {
+          return this.remapChar(variant,n,N);
+        }
       }
-      return this.unknownChar(VARIANT,n);
+      return [this.unknownChar(VARIANT,n)];
+    },
+    fixChar: function (C,n) {
+      if (C.length === 5) C[5] = {};
+      if (C.c == null) {
+        C[0] /= 1000; C[1] /= 1000; C[2] /= 1000; C[3] /= 1000; C[4] /= 1000;
+        C.c = this.unicodeChar(n);
+      }
+      return C;
     },
     findBlock: function (font,n) {
       var extra = font.Extra, name = font.file, file;
@@ -919,19 +996,45 @@
       //  Character from the known fonts
       //
       "char": function (item,node,bbox,state,m) {
-        var font = item.font;
-        if (state.className && font.className !== state.className) this.flushText(node,state);
+        var font = item.font, remap = (font.remapCombining||{})[item.n];
+        if (font.className === state.className) {
+          remap = null;
+        } else if (state.className || (remap && state.text !== "")) {
+          this.flushText(node,state);
+        }
         if (!state.a) state.a = font.centerline/1000;
         if (state.a > (bbox.a||0)) bbox.a = state.a;
+        state.className = font.className;
         var C = font[item.n];
-        state.text += C.c; state.className = font.className;
+        if (remap) {
+          var FONT = font;
+          if (isArray(remap)) {
+            FONT = CHTML.FONTDATA.FONTS[remap[1]];
+            remap = remap[0];
+            if (typeof(FONT) === 'string') CHTML.loadFont(FONT);
+          }
+          if (FONT[item.n]) CHTML.fixChar(FONT[item.n],item.n);
+          C = CHTML.fixChar(FONT[remap],remap);
+          state.className = FONT.className;
+        }
+        state.text += C.c;
         if (bbox.h < C[0]+HFUZZ) bbox.t = bbox.h = C[0]+HFUZZ;
         if (bbox.d < C[1]+DFUZZ) bbox.b = bbox.d = C[1]+DFUZZ;
         if (bbox.l > bbox.w+C[3]) bbox.l = bbox.w+C[3];
         if (bbox.r < bbox.w+C[4]) bbox.r = bbox.w+C[4];
         bbox.w += C[2] * (item.rscale||1);
         if (m == 1 && font.skew && font.skew[item.n]) bbox.skew = font.skew[item.n];
-        if (C[5].rfix) this.flushText(node,state).style.marginRight = CHTML.Em(C[5].rfix/1000);
+        if (C[5] && C[5].rfix) this.flushText(node,state).style.marginRight = CHTML.Em(C[5].rfix/1000);
+        if (remap) {
+          //
+          //  Remap combining characters to non-combining versions since Safari
+          //  handles them differently from everyone else.  (#1709)
+          //
+          var chr = this.flushText(node,state);
+          var r = (FONT[item.n]||font[item.n])[4] - (C[4] - C[2]);
+          chr.style.marginLeft = CHTML.Em(-C[2]-r);
+          if (r < 0) chr.style.marginRight = CHTML.Em(-r);
+        }
       },
       //
       //  Space characters (not actually in the fonts)
@@ -954,7 +1057,7 @@
           if (bbox.a == null || state.a > bbox.a) bbox.a = state.a;
         }
         node = this.flushText(node,state,item.style);
-        node.style.width = CHTML.Em(C[2]);
+        if (C[2] < 3) node.style.width = CHTML.Em(C[2]); // only force width if not too large (#1718)
       },
       //
       //  Put the pending text into a box of the class, and
@@ -1276,7 +1379,7 @@
     },
     combine: function (cbox,x,y) {
       cbox.X = x; cbox.Y = y;  // save for use with line breaking
-      scale = cbox.rscale;
+      var scale = cbox.rscale;
       if (x + scale*cbox.r > this.r) this.r = x + scale*cbox.r;
       if (x + scale*cbox.l < this.l) this.l = x + scale*cbox.l;
       if (x + scale*(cbox.w+(cbox.L||0)+(cbox.R||0)) > this.w)
@@ -1289,7 +1392,7 @@
       if (scale*cbox.b - y > this.b) this.b = scale*cbox.b - y;
     },
     append: function (cbox) {
-      scale = cbox.rscale; var x = this.w;
+      var scale = cbox.rscale; var x = this.w;
       if (x + scale*cbox.r > this.r) this.r = x + scale*cbox.r;
       if (x + scale*cbox.l < this.l) this.l = x + scale*cbox.l;
       this.w += scale*(cbox.w+(cbox.L||0)+(cbox.R||0)) ;
@@ -1303,6 +1406,7 @@
     updateFrom: function (cbox) {
       this.h = cbox.h; this.d = cbox.d; this.w = cbox.w; this.r = cbox.r; this.l = cbox.l;
       this.t = cbox.t; this.b = cbox.b;
+      if (cbox.pwidth) this.pwidth = cbox.pwidth;
       if (cbox.D) this.D = cbox.D; else delete this.D;
     },
     adjust: function (m,x,X,M) {
@@ -1320,7 +1424,8 @@
     empty: function (bbox) {
       if (!bbox) bbox = CHTML.BBOX.zero();
       bbox.h = bbox.d = bbox.r = bbox.t = bbox.b = -BIGDIMEN;
-      bbox.w = 0;  bbox.l = BIGDIMEN;
+      bbox.w = 0; bbox.l = BIGDIMEN;
+      delete bbox.pwidth;
       return bbox;
     },
     //
@@ -1355,8 +1460,8 @@
         if (!options) options = {};
         node = this.CHTMLcreateNode(node); this.CHTML = CHTML.BBOX.empty();
         this.CHTMLhandleStyle(node);
-        this.CHTMLhandleScale(node);
         if (this.isToken) this.CHTMLgetVariant();
+        this.CHTMLhandleScale(node);
         var m = Math.max((options.minChildren||0),this.data.length);
         for (var i = 0; i < m; i++) this.CHTMLaddChild(node,i,options);
         if (!options.noBBox) this.CHTML.clean();
@@ -1367,12 +1472,10 @@
       },
       CHTMLaddChild: function (node,i,options) {
         var child = this.data[i], cnode;
+        var type = options.childNodes;
+        if (type instanceof Array) type = type[i]||"span";
         if (child) {
-          var type = options.childNodes;
-          if (type) {
-            if (type instanceof Array) type = type[i]||"span";
-            node = CHTML.addElement(node,type);
-          }
+          if (type) node = CHTML.addElement(node,type);
           cnode = child.toCommonHTML(node,options.childOptions);
           if (type && child.CHTML.rscale !== 1) {
             // move scale factor to outer container (which seems to be more accurate)
@@ -1382,11 +1485,18 @@
           if (!options.noBBox) {
             var bbox = this.CHTML, cbox = child.CHTML;
             bbox.append(cbox);
-            if (cbox.ic) {bbox.ic = cbox.ic} else {delete bbox.ic}
-            if (cbox.skew) bbox.skew = cbox.skew;
+            if (this.data.length === 1) {
+              if (cbox.ic) bbox.ic = cbox.ic;
+              if (cbox.skew) bbox.skew = cbox.skew;
+            } else {
+              delete bbox.ic;
+              delete bbox.skew;
+            }
             if (cbox.pwidth) bbox.pwidth = cbox.pwidth;
           }
-        } else if (options.forceChild) {cnode = CHTML.addElement(node,"mjx-box")}
+        } else if (options.forceChild) {
+          cnode = CHTML.addElement(node,(type||"mjx-box"));
+        }
         return cnode;
       },
       
@@ -1396,6 +1506,7 @@
         return node;
       },
       CHTMLcoreNode: function (node) {
+        if (this.inferRow && this.data[0]) return this.data[0].CHTMLcoreNode(node.firstChild);
         return this.CHTMLchildNode(node,this.CoreIndex());
       },
       
@@ -1431,6 +1542,10 @@
           }
         }
       },
+      CHTMLupdateFrom: function (bbox) {
+        this.CHTML.updateFrom(bbox);
+        if (this.inferRow) this.data[0].CHTML.updateFrom(bbox);
+      },
 
       CHTMLcanStretch: function (direction,H,D) {
         var stretch = false;
@@ -1442,11 +1557,11 @@
         return stretch;
       },
       CHTMLstretchV: function (h,d) {
-        this.CHTML.updateFrom(this.Core().CHTMLstretchV(h,d));
+        this.CHTMLupdateFrom(this.Core().CHTMLstretchV(h,d));
         return this.CHTML;
       },
       CHTMLstretchH: function (node,w) {
-        this.CHTML.updateFrom(this.CHTMLstretchCoreH(node,w));
+        this.CHTMLupdateFrom(this.CHTMLstretchCoreH(node,w));
         return this.CHTML;
       },
       CHTMLstretchCoreH: function (node,w) {
@@ -1511,6 +1626,9 @@
           values.fontsize = this.removedStyles.fontSize;
         if (values.fontsize && !this.mathsize) values.mathsize = values.fontsize;
         if (values.mathsize !== 1) scale *= CHTML.length2em(values.mathsize,1,1);
+        var variant = this.CHTMLvariant;
+        if (variant && variant.style && variant.style["font-family"])
+          scale *= (CHTML.config.scale/100)/CHTML.scale;
         this.CHTML.scale = scale; pscale = this.CHTML.rscale = scale/pscale;
         if (Math.abs(pscale-1) < .001) pscale = 1;
         if (node && pscale !== 1) node.style.fontSize = CHTML.Percent(pscale);
@@ -1666,10 +1784,19 @@
       //  Autoload files based on node type or file name
       //
       CHTMLautoload: function () {
+        this.constructor.Augment({toCommonHTML: MML.mbase.CHTMLautoloadFail});
 	var file = CHTML.autoloadDir+"/"+this.type+".js";
 	HUB.RestartAfter(AJAX.Require(file));
       },
+      CHTMLautoloadFail: function () {
+        throw Error("CommonHTML can't autoload '"+ this.type + "'");
+      },
+      CHTMLautoloadList: {},
       CHTMLautoloadFile: function (name) {
+        if (MML.mbase.CHTMLautoloadList.hasOwnProperty(name)) {
+          throw Error("CommonHTML can't autoload file '"+name+"'");
+        }
+        MML.mbase.CHTMLautoloadList[name] = true;
 	var file = CHTML.autoloadDir+"/"+name+".js";
 	HUB.RestartAfter(AJAX.Require(file));
       },
@@ -1678,12 +1805,12 @@
       //
       CHTMLstretchV: function (h,d) {
         this.Core().CHTMLstretchV(h,d);
-        this.toCommonHTML(this.CHTMLnodeElement(),true);
+        this.toCommonHTML(this.CHTMLnodeElement(),{stretch:true});
         return this.CHTML;
       },
       CHTMLstretchH: function (node,w) {
-        this.CHTMLstretchCoreH(node,w);
-        this.toCommonHTML(node,true);
+        this.CHTMLupdateFrom(this.CHTMLstretchCoreH(node,w));
+        this.toCommonHTML(node,{stretch:true});
         return this.CHTML;
       }      
     });
@@ -1692,6 +1819,7 @@
     
     MML.chars.Augment({
       toCommonHTML: function (node,options) {
+        this.CHTML = null;
         if (options == null) options = {};
         var text = this.toString();
         if (options.remap) text = options.remap(text,options.remapchars);
@@ -1718,10 +1846,10 @@
         }
         var alttext = this.Get("alttext");
         if (alttext && !node.getAttribute("aria-label")) node.setAttribute("aria-label",alttext);
-        if (!node.getAttribute("role")) node.setAttribute("role","math");
         if (this.CHTML.pwidth) {
-          node.parentNode.style.width = this.CHTML.pwidth;
           node.parentNode.style.minWidth = this.CHTML.mwidth||CHTML.Em(this.CHTML.w);
+          node.parentNode.className = "mjx-full-width "+node.parentNode.className;
+          node.style.width = this.CHTML.pwidth;
         } else if (!this.isMultiline && this.Get("display") === "block") {
           var values = this.getValues("indentalignfirst","indentshiftfirst","indentalign","indentshift");
           if (values.indentalignfirst !== MML.INDENTALIGN.INDENTALIGN) values.indentalign = values.indentalignfirst;
@@ -1734,7 +1862,7 @@
             shift += (values.indentalign === MML.INDENTALIGN.RIGHT ? -indent : indent);
           }
           var styles = node.parentNode.parentNode.style;
-          styles.textAlign = values.indentalign;
+          node.parentNode.style.textAlign = styles.textAlign = values.indentalign;
           // ### FIXME: make percentage widths respond to changes in container
           if (shift) {
             shift *= CHTML.em/CHTML.outerEm;
@@ -1755,8 +1883,8 @@
       toCommonHTML: function (node) {
         node = this.CHTMLdefaultNode(node);
         var bbox = this.CHTML, text = this.data.join("");
-        if (bbox.skew != null && text.length !== 1) delete bbox.skew;
-        if (bbox.r > bbox.w && text.length === 1 && !this.CHTMLvariant.noIC) {
+        if (bbox.skew != null && !CHTML.isChar(text)) delete bbox.skew;
+        if (bbox.r > bbox.w && CHTML.isChar(text) && !this.CHTMLvariant.noIC) {
           bbox.ic = bbox.r - bbox.w; bbox.w = bbox.r;
           node.lastChild.style.paddingRight = CHTML.Em(bbox.ic);
         }
@@ -1767,11 +1895,12 @@
     /********************************************************/
     
     MML.mn.Augment({
+      CHTMLremapMinus: function (text) {return text.replace(/^-/,"\u2212")},
       toCommonHTML: function (node) {
-        node = this.CHTMLdefaultNode(node);
+        node = this.CHTMLdefaultNode(node,{childOptions:{remap:this.CHTMLremapMinus}});
         var bbox = this.CHTML, text = this.data.join("");
-        if (bbox.skew != null && text.length !== 1) delete bbox.skew;
-        if (bbox.r > bbox.w && text.length === 1 && !this.CHTMLvariant.noIC) {
+        if (bbox.skew != null && !CHTML.isChar(text)) delete bbox.skew;
+        if (bbox.r > bbox.w && CHTML.isChar(text) && !this.CHTMLvariant.noIC) {
           bbox.ic = bbox.r - bbox.w; bbox.w = bbox.r;
           node.lastChild.style.paddingRight = CHTML.Em(bbox.ic);
         }
@@ -1785,8 +1914,8 @@
       toCommonHTML: function (node) {
         node = this.CHTMLcreateNode(node);
         this.CHTMLhandleStyle(node);
-        this.CHTMLhandleScale(node);
         this.CHTMLgetVariant();
+        this.CHTMLhandleScale(node);
         CHTML.BBOX.empty(this.CHTML);
         
         var values = this.getValues("displaystyle","largeop");
@@ -1805,7 +1934,7 @@
               remapchars: values.remapchars
             }});
           }
-          if (values.text.length !== 1) delete this.CHTML.skew;
+          if (!CHTML.isChar(values.text)) delete this.CHTML.skew;
             else if (this.CHTML.w === 0 && this.CHTML.l < 0) this.CHTMLfixCombiningChar(node);
           if (values.largeop) this.CHTMLcenterOp(node);
         }
@@ -1818,7 +1947,7 @@
         return node;
       },
       CHTMLhandleSpace: function (node) {
-        if (this.useMMLspacing) {
+        if (this.hasMMLspacing()) {
           var values = this.getValues("scriptlevel","lspace","rspace");
           values.lspace = Math.max(0,this.CHTMLlength2em(values.lspace));
           values.rspace = Math.max(0,this.CHTMLlength2em(values.rspace));
@@ -1838,8 +1967,7 @@
       },
       CHTMLadjustAccent: function (data) {
         var parent = this.CoreParent(); data.parent = parent;
-        if (data.text.length === 1 && parent && parent.isa(MML.munderover) && 
-            this.CoreText(parent.data[parent.base]).length === 1) {
+        if (CHTML.isChar(data.text) && parent && parent.isa(MML.munderover)) {
           var over = parent.data[parent.over], under = parent.data[parent.under];
           if (over && this === over.CoreMO() && parent.Get("accent")) {
             data.remapchars = CHTML.FONTDATA.REMAPACCENT;
@@ -1864,7 +1992,7 @@
         //  something, so put them over a space and remove the space's width
         //
         node = node.firstChild;
-        var space = CHTML.Element("mjx-span",{style:{width:".25em","margin-left":"-.25em"}});
+        var space = CHTML.Element("mjx-box",{style:{width:".25em","margin-left":"-.25em"}});
         node.insertBefore(space,node.firstChild);
       },
       CHTMLcenterOp: function (node) {
@@ -1879,7 +2007,7 @@
       },
       CHTMLcanStretch: function (direction,H,D) {
         if (!this.Get("stretchy")) return false;
-        var c = this.data.join(""); if (c.length !== 1) return false;
+        var c = this.data.join(""); if (!CHTML.isChar(c)) return false;
         var values = {text: c};
         this.CHTMLadjustAccent(values);
         if (values.remapchars) c = values.remapchars[c]||c;
@@ -2016,9 +2144,9 @@
     /********************************************************/
     
     MML.mpadded.Augment({
-      toCommonHTML: function (node,stretch) {
+      toCommonHTML: function (node,options) {
         var child;
-        if (stretch) {
+        if (options && options.stretch) {
           node = node.firstChild; child = node.firstChild;
         } else {
           node = this.CHTMLdefaultNode(node,{childNodes:"mjx-box", forceChild:true});
@@ -2073,7 +2201,7 @@
     /********************************************************/
     
     MML.munderover.Augment({
-      toCommonHTML: function (node,stretch) {
+      toCommonHTML: function (node,options) {
         var values = this.getValues("displaystyle","accent","accentunder","align");
         var base = this.data[this.base];
         if (!values.displaystyle && base != null &&
@@ -2082,12 +2210,13 @@
         //
         //  Get the nodes for base and limits
         //
-        var under, over, nodes = [];
-        if (stretch) {
+        var under, over, nodes = [], stretch = false;
+        if (options && options.stretch) {
           if (this.data[this.base])  base = CHTML.getNode(node,"mjx-op");
           if (this.data[this.under]) under = CHTML.getNode(node,"mjx-under");
           if (this.data[this.over])  over = CHTML.getNode(node,"mjx-over");
           nodes[0] = base; nodes[1] = under||over; nodes[2] = over;
+          stretch = true;
         } else {
           var types = ["mjx-op","mjx-under","mjx-over"];
           if (this.over === 1) types[1] = types[2];
@@ -2104,6 +2233,22 @@
         var boxes = [], W = this.CHTMLgetBBoxes(boxes,nodes,values);
         var bbox = boxes[this.base], BBOX = this.CHTML;
         BBOX.w = W; BBOX.h = bbox.h; BBOX.d = bbox.d; // modified below
+        //
+        // Adjust for bases shorter than the center line (#1657)
+        // (the center line really depends on the surrounding font, so
+        //  it should be measured along with ems and exs, but currently isn't.
+        //  so this value is an approximation that is reasonable for most fonts.)
+        //
+        if (bbox.h < .35) base.style.marginTop = CHTML.Em(bbox.h - .35);
+        //
+        //  Use a minimum height for accents (#1706)
+        //  (same issues with the center line as above)
+        //
+        if (values.accent && bbox.h < CHTML.TEX.x_height) {
+          BBOX.h += CHTML.TEX.x_height - bbox.h;
+          base.style.marginTop = CHTML.Em(CHTML.TEX.x_height - Math.max(bbox.h,.35));
+          bbox.h = CHTML.TEX.x_height;
+        }
         //
         //  Add over- and under-scripts
         //  
@@ -2133,7 +2278,7 @@
           bbox[i] = this.CHTMLbboxFor(i); bbox[i].x = bbox[i].y = 0;
           if (this.data[i]) bbox[i].stretch = this.data[i].CHTMLcanStretch("Horizontal");
           scale = (i === this.base ? 1 : bbox[i].rscale);
-          if (i !== this.base) {delete bbox[i].L; delete bbox[i].R} // these are overriden by CSS
+          if (i !== this.base) {delete bbox[i].L; delete bbox[i].R} // these are overridden by CSS
           W = Math.max(W,scale*(bbox[i].w + (bbox[i].L||0) + (bbox[i].R||0)));
           if (!bbox[i].stretch && W > w) w = W;
         }
@@ -2281,7 +2426,7 @@
     /********************************************************/
     
     MML.msubsup.Augment({
-      toCommonHTML: function (node,stretch) {
+      toCommonHTML: function (node,options) {
         var values = this.getValues(
            "displaystyle","subscriptshift","superscriptshift","texprimestyle"
         );
@@ -2289,7 +2434,7 @@
         //  Get the nodes for base and limits
         //
         var base, sub, sup;
-        if (stretch) {
+        if (options && options.stretch) {
           if (this.data[this.base]) base = CHTML.getNode(node,"mjx-base");
           if (this.data[this.sub])  sub = CHTML.getNode(node,"mjx-sub");
           if (this.data[this.sup])  sup = CHTML.getNode(node,"mjx-sup");
@@ -2333,7 +2478,7 @@
         if (bmml) {
           if ((bmml.type === "mrow" || bmml.type === "mstyle") && bmml.data.length === 1) bmml = bmml.data[0];
           if (bmml.type === "mi" || bmml.type === "mo") {
-            if (bmml.data.join("").length === 1 && bbox.rscale === 1 && !bbox.sH &&
+            if (CHTML.isChar(bmml.data.join("")) && bbox.rscale === 1 && !bbox.sH &&
                 !bmml.Get("largeop")) {u = v = 0}
           }
         }
@@ -2395,6 +2540,7 @@
       toCommonHTML: function (node) {
         node = this.CHTMLdefaultNode(node,{
           childNodes:["mjx-numerator","mjx-denominator"],
+          childOptions: {autowidth: true},
           forceChild:true, noBBox:true, minChildren:2
         });
         var values = this.getValues("linethickness","displaystyle",
@@ -2479,7 +2625,7 @@
         //  Add nulldelimiterspace around the fraction
         //  (TeXBook pg 150 and Appendix G rule 15e)
         //
-        if (!this.texWithDelims && !this.useMMLspacing) {
+        if (!this.texWithDelims) {
           var space = CHTML.TEX.nulldelimiterspace;
           frac.style.padding = "0 "+CHTML.Em(space);
           BBOX.l += space; BBOX.r += space; BBOX.w += 2*space;
@@ -2520,13 +2666,19 @@
         BBOX.clean();
         return node;
       },
-      CHTMLaddRoot: function () {return 0}
+      CHTMLaddRoot: function () {return 0},
+      CHTMLhandleBBox: function (node) {
+        var bbox = this.CHTMLbboxFor(0);
+        delete bbox.pwidth;
+        this.SUPER(arguments).CHTMLhandleBBox.apply(this,arguments);
+      }
     });
 
     /********************************************************/
     
     MML.mroot.Augment({
       toCommonHTML: MML.msqrt.prototype.toCommonHTML,
+      CHTMLhandleBBox: MML.msqrt.prototype.CHTMLhandleBBox,
       CHTMLaddRoot: function (sqrt,sbox,d) {
         if (!this.data[1]) return;
         var BBOX = this.CHTML, bbox = this.data[1].CHTML, root = sqrt.firstChild;
@@ -2582,7 +2734,8 @@
     /********************************************************/
     
     MML.mrow.Augment({
-      toCommonHTML: function (node) {
+      toCommonHTML: function (node,options) {
+        options = options || {};
         node = this.CHTMLdefaultNode(node);
         var bbox = this.CHTML, H = bbox.h, D = bbox.d, hasNegative;
         for (var i = 0, m = this.data.length; i < m; i++) {
@@ -2591,6 +2744,7 @@
         }
         if (this.CHTMLlineBreaks()) {
           this.CHTMLmultiline(node);
+          if (options.autowidth) node.style.width = "";
         } else {
           if (hasNegative && bbox.w) node.style.width = CHTML.Em(Math.max(0,bbox.w));
           if (bbox.w < 0) node.style.marginRight = CHTML.Em(bbox.w);
@@ -2613,19 +2767,9 @@
 
     /********************************************************/
     
-    MML.mstyle.Augment({
-      toCommonHTML: function (node) {
-        node = this.CHTMLdefaultNode(node);
-        if (this.scriptlevel && this.data[0]) this.CHTML.rescale(this.data[0].CHTML.rscale);
-        return node;
-      }
-    });
-
-    /********************************************************/
-    
     MML.TeXAtom.Augment({
-      toCommonHTML: function (node,stretch) {
-        if (!stretch) node = this.CHTMLdefaultNode(node);
+      toCommonHTML: function (node,options) {
+        if (!options || !options.stretch) node = this.CHTMLdefaultNode(node);
         if (this.texClass === MML.TEXCLASS.VCENTER) {
           var a = CHTML.TEX.axis_height, BBOX = this.CHTML;
           var v = a-(BBOX.h+BBOX.d)/2+BBOX.d;
@@ -2637,13 +2781,13 @@
         return node;
       },
       CHTMLstretchV: function (h,d) {
-        this.CHTML.updateFrom(this.Core().CHTMLstretchV(h,d));
-        this.toCommonHTML(this.CHTMLnodeElement(),true);
+        this.CHTMLupdateFrom(this.Core().CHTMLstretchV(h,d));
+        this.toCommonHTML(this.CHTMLnodeElement(),{stretch:true});
         return this.CHTML;
       },
       CHTMLstretchH: function (node,w) {
-        this.CHTML.updateFrom(this.CHTMLstretchCoreH(node,w));
-        this.toCommonHTML(node,true);
+        this.CHTMLupdateFrom(this.CHTMLstretchCoreH(node,w));
+        this.toCommonHTML(node,{stretch:true});
         return this.CHTML;
       }
     });
@@ -2655,7 +2799,8 @@
         node = this.CHTMLcreateNode(node);
 	if (this.data[0]) {
 	  this.data[0].toCommonHTML(node);
-	  this.CHTML.updateFrom(this.data[0].CHTML);
+	  this.CHTMLupdateFrom(this.data[0].CHTML);
+          this.CHTMLhandleBBox(node);
 	}
         return node;
       }

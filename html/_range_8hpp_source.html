@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<title>Transformation and Registration Toolkit: D:/Users/haenisch/Programmierung/C++/TRTK/include/TRTK/Range.hpp Source File</title>
+<title>Transformation and Registration Toolkit: D:/Programmierung/C/TRTK/include/TRTK/Range.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javaScript" src="search/search.js"></script>
@@ -90,11 +90,11 @@ function toggleVisibility(linkObj) {
   </div>
 <div class="header">
   <div class="headertitle">
-<h1>D:/Users/haenisch/Programmierung/C++/TRTK/include/TRTK/Range.hpp</h1>  </div>
+<h1>D:/Programmierung/C/TRTK/include/TRTK/Range.hpp</h1>  </div>
 </div>
 <div class="contents">
 <a href="_range_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
-<a name="l00002"></a>00002 <span class="comment">    Copyright (C) 2010 - 2014 Christoph Haenisch</span>
+<a name="l00002"></a>00002 <span class="comment">    Copyright (C) 2010 - 2014, 2019 Christoph Hänisch</span>
 <a name="l00003"></a>00003 <span class="comment"></span>
 <a name="l00004"></a>00004 <span class="comment">    Chair of Medical Engineering (mediTEC)</span>
 <a name="l00005"></a>00005 <span class="comment">    RWTH Aachen University</span>
@@ -104,7 +104,7 @@ function toggleVisibility(linkObj) {
 <a name="l00009"></a>00009 <span class="comment"></span>
 <a name="l00010"></a>00010 <span class="comment">    See license.txt for more information.</span>
 <a name="l00011"></a>00011 <span class="comment"></span>
-<a name="l00012"></a>00012 <span class="comment">    Version 0.1.1 (2014-08-31)</span>
+<a name="l00012"></a>00012 <span class="comment">    Version 0.1.2 (2019-05-21)</span>
 <a name="l00013"></a>00013 <span class="comment">*/</span>
 <a name="l00014"></a>00014 
 <a name="l00020"></a>00020 <span class="preprocessor">#ifndef RANGE_HPP_7631082974</span>
@@ -147,20 +147,20 @@ function toggleVisibility(linkObj) {
 <a name="l00112"></a>00112     <span class="keywordtype">bool</span> <a class="code" href="class_t_r_t_k_1_1_range.html#ad2841d8f7879a303c492bf61a3f80bf9" title="Returns true if begin() and end() reference iterators.">isValid</a>() <span class="keyword">const</span>;
 <a name="l00113"></a>00113     <span class="keywordtype">bool</span> <a class="code" href="class_t_r_t_k_1_1_range.html#a733ebdc233a89fc0da4501e060bb45e8" title="Returns true if the sequence does not contain any elements.">isEmpty</a>() <span class="keyword">const</span>;
 <a name="l00114"></a>00114 
-<a name="l00115"></a>00115     <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_range.html#a081e1dd4e4a162552d5af90d82f9f478" title="Sets the internal iterator to the begin of the range.">first</a>();
+<a name="l00115"></a>00115     <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_range.html#ae6367df45f962d9591641fa49891632c" title="Sets the internal iterator to the begin of the range.">first</a>() <span class="keyword">const</span>;
 <a name="l00116"></a>00116     <span class="keywordtype">bool</span> <a class="code" href="class_t_r_t_k_1_1_range.html#ae28aaba99ec561b539b65c201bc2d5ac" title="Returns true if the traversal is done or if a sequence is empty or uninitialized.">isDone</a>() <span class="keyword">const</span>;
-<a name="l00117"></a>00117     <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_range.html#a8585dc340cac3c520f5bda4a6257d6c9" title="Selects the next element in the range.">next</a>();
+<a name="l00117"></a>00117     <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_range.html#a2d4b767c82c1f706cfe32f4ce8d3e2f1" title="Selects the next element in the range.">next</a>() <span class="keyword">const</span>;
 <a name="l00118"></a>00118     T <a class="code" href="class_t_r_t_k_1_1_range.html#a9c11802aea4e7f605c0892951d57d46e" title="Returns the current element of the range traversal.">currentItem</a>() <span class="keyword">const</span>;
 <a name="l00119"></a>00119 
 <a name="l00120"></a>00120     <span class="keywordtype">size_t</span> <a class="code" href="class_t_r_t_k_1_1_range.html#a10f58af635fed97f331229fc4a518912" title="Returns the size of the sequence.">size</a>() <span class="keyword">const</span>;
-<a name="l00121"></a>00121     
+<a name="l00121"></a>00121 
 <a name="l00122"></a>00122     <span class="keyword">typedef</span> <a class="code" href="class_t_r_t_k_1_1_iterator.html" title="Common base class for input iterator adapter classes.">Iterator&lt;T&gt;</a> <a class="code" href="class_t_r_t_k_1_1_iterator.html" title="Common base class for input iterator adapter classes.">const_iterator</a>;
 <a name="l00123"></a>00123 
 <a name="l00124"></a>00124 <span class="keyword">private</span>:
 <a name="l00125"></a>00125 
 <a name="l00126"></a>00126     <a class="code" href="class_t_r_t_k_1_1_iterator.html" title="Common base class for input iterator adapter classes.">Iterator&lt;T&gt;</a> m_begin;
 <a name="l00127"></a>00127     <a class="code" href="class_t_r_t_k_1_1_iterator.html" title="Common base class for input iterator adapter classes.">Iterator&lt;T&gt;</a> m_end;
-<a name="l00128"></a>00128     <a class="code" href="class_t_r_t_k_1_1_iterator.html" title="Common base class for input iterator adapter classes.">Iterator&lt;T&gt;</a> m_current;
+<a name="l00128"></a>00128     <span class="keyword">mutable</span> <a class="code" href="class_t_r_t_k_1_1_iterator.html" title="Common base class for input iterator adapter classes.">Iterator&lt;T&gt;</a> m_current;
 <a name="l00129"></a>00129 };
 <a name="l00130"></a>00130 
 <a name="l00131"></a>00131 
@@ -275,8 +275,8 @@ function toggleVisibility(linkObj) {
 <a name="l00296"></a>00296 
 <a name="l00297"></a>00297 
 <a name="l00300"></a>00300 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
-<a name="l00301"></a><a class="code" href="class_t_r_t_k_1_1_range.html#a081e1dd4e4a162552d5af90d82f9f478">00301</a> <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_range.html#a081e1dd4e4a162552d5af90d82f9f478" title="Sets the internal iterator to the begin of the range.">Range&lt;T&gt;::first</a>()
-<a name="l00302"></a>00302 {
+<a name="l00301"></a><a class="code" href="class_t_r_t_k_1_1_range.html#ae6367df45f962d9591641fa49891632c">00301</a> <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_range.html#ae6367df45f962d9591641fa49891632c" title="Sets the internal iterator to the begin of the range.">Range&lt;T&gt;::first</a>()<span class="keyword"> const</span>
+<a name="l00302"></a>00302 <span class="keyword"></span>{
 <a name="l00303"></a>00303     m_current = m_begin;
 <a name="l00304"></a>00304 }
 <a name="l00305"></a>00305 
@@ -317,8 +317,8 @@ function toggleVisibility(linkObj) {
 <a name="l00366"></a>00366 
 <a name="l00367"></a>00367 
 <a name="l00370"></a>00370 <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt;
-<a name="l00371"></a><a class="code" href="class_t_r_t_k_1_1_range.html#a8585dc340cac3c520f5bda4a6257d6c9">00371</a> <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_range.html#a8585dc340cac3c520f5bda4a6257d6c9" title="Selects the next element in the range.">Range&lt;T&gt;::next</a>()
-<a name="l00372"></a>00372 {
+<a name="l00371"></a><a class="code" href="class_t_r_t_k_1_1_range.html#a2d4b767c82c1f706cfe32f4ce8d3e2f1">00371</a> <span class="keywordtype">void</span> <a class="code" href="class_t_r_t_k_1_1_range.html#a2d4b767c82c1f706cfe32f4ce8d3e2f1" title="Selects the next element in the range.">Range&lt;T&gt;::next</a>()<span class="keyword"> const</span>
+<a name="l00372"></a>00372 <span class="keyword"></span>{
 <a name="l00373"></a>00373     <span class="keywordflow">if</span> (m_begin &amp;&amp; m_end)
 <a name="l00374"></a>00374     {
 <a name="l00375"></a>00375         <span class="keywordflow">if</span> (m_current != m_end)
@@ -384,7 +384,7 @@ function toggleVisibility(linkObj) {
 <hr class="footer"/>
     <address class="footer">
         <small>
-            Copyright 2010 - 2016 by Christoph Hänisch,
+            Copyright 2010 - 2019 by Christoph Hänisch,
             Chair of Medical Engineering (mediTEC),
             RWTH Aachen University <p>
             Documentation generated by <a href="http://www.doxygen.org/index.html"> Doxygen </a>

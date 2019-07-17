@@ -1,7 +1,8 @@
 <map id="G" name="G">
-<area shape="rect" id="node2" href="$_polynomial_8hpp.html" title="This file contains the interface for all polynomials." alt="" coords="321,80,787,107"/>
-<area shape="rect" id="node3" href="$_generic_polynomial_8hpp.html" title="This file contains the GenericPolynomial class." alt="" coords="5,155,513,181"/>
-<area shape="rect" id="node4" href="$_trivariate_quadratic_polynomial_8hpp.html" title="This file contains the TrivariateQuadraticPolynomial class." alt="" coords="537,155,1112,181"/>
-<area shape="rect" id="node5" href="$_pivot_calibration_8hpp.html" title="This file contains the PivotCalibration class." alt="" coords="1017,80,1509,107"/>
-<area shape="rect" id="node6" href="$_ransac_pivot_calibration_model_8hpp.html" title="This file contains the RansacPivotCalibrationModel class." alt="" coords="1136,155,1703,181"/>
+<area shape="rect" id="node2" href="$_polynomial_8hpp.html" title="This file contains the interface for all polynomials." alt="" coords="282,80,661,107"/>
+<area shape="rect" id="node3" href="$_generic_polynomial_8hpp.html" title="This file contains the GenericPolynomial class." alt="" coords="5,155,433,181"/>
+<area shape="rect" id="node4" href="$_trivariate_quadratic_polynomial_8hpp.html" title="This file contains the TrivariateQuadraticPolynomial class." alt="" coords="457,155,957,181"/>
+<area shape="rect" id="node5" href="$_pinhole_camera_model_8hpp.html" title="This file contains the PinholeCameraModel class." alt="" coords="735,80,1181,107"/>
+<area shape="rect" id="node6" href="$_pivot_calibration_8hpp.html" title="This file contains the PivotCalibration class." alt="" coords="1205,80,1615,107"/>
+<area shape="rect" id="node7" href="$_ransac_pivot_calibration_model_8hpp.html" title="This file contains the RansacPivotCalibrationModel class." alt="" coords="1163,155,1657,181"/>
 </map>

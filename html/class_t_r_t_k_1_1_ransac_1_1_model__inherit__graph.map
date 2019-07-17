@@ -1,4 +1,4 @@
 <map id="G" name="G">
-<area shape="rect" id="node2" href="$class_t_r_t_k_1_1_ransac_generic_fitting_model.html" title="This class implements the Ransac::Model interface for all fitting classes." alt="" coords="5,80,256,107"/>
-<area shape="rect" id="node3" href="$class_t_r_t_k_1_1_ransac_pivot_calibration_model.html" title="This class implements the Ransac::Model interface for all PivotCalibration classes." alt="" coords="281,80,541,107"/>
+<area shape="rect" id="node2" href="$class_t_r_t_k_1_1_ransac_generic_fitting_model.html" title="This class implements the Ransac::Model interface for all fitting classes." alt="" coords="5,80,275,107"/>
+<area shape="rect" id="node3" href="$class_t_r_t_k_1_1_ransac_pivot_calibration_model.html" title="This class implements the Ransac::Model interface for all PivotCalibration classes." alt="" coords="299,80,579,107"/>
 </map>

@@ -1,11 +1,11 @@
 <map id="G" name="G">
-<area shape="rect" id="node2" href="$class_t_r_t_k_1_1_fit2_d.html" title="Base class for 2D fitting algorithms where fitting is done to a 2D point set." alt="" coords="164,81,291,108"/>
-<area shape="rect" id="node6" href="$class_t_r_t_k_1_1_fit3_d.html" title="Base class for 3D fitting algorithms where fitting is done to a 3D point set." alt="" coords="164,208,291,235"/>
-<area shape="rect" id="node3" href="$class_t_r_t_k_1_1_fit_circle.html" title="Estimates the parameters of a circle from a set of 2D points lying on the circle." alt="" coords="361,5,504,32"/>
-<area shape="rect" id="node4" href="$class_t_r_t_k_1_1_fit_circle_in_origin.html" title="Estimates the radius of a circle centered at the origin from a set of 2D points." alt="" coords="339,56,527,83"/>
-<area shape="rect" id="node5" href="$class_t_r_t_k_1_1_fit_line.html" title="Estimates the parameters of a line from a set of 2D points." alt="" coords="365,107,500,133"/>
-<area shape="rect" id="node7" href="$class_t_r_t_k_1_1_fit_circle3_d.html" title="Estimates the parameters of a circle in 3D space from a set of points lying on the circle..." alt="" coords="353,157,512,184"/>
-<area shape="rect" id="node8" href="$class_t_r_t_k_1_1_fit_line3_d.html" title="Estimates the parameters of a line in 3D space from a set of points lying on the line." alt="" coords="358,208,507,235"/>
-<area shape="rect" id="node9" href="$class_t_r_t_k_1_1_fit_plane.html" title="Estimates the parameters of a 2D plane in 3D space from a set of points lying on the surface..." alt="" coords="361,259,504,285"/>
-<area shape="rect" id="node10" href="$class_t_r_t_k_1_1_fit_sphere.html" title="Estimates the parameters of a 3D sphere from a set of points lying on the surface." alt="" coords="357,309,509,336"/>
+<area shape="rect" id="node2" href="$class_t_r_t_k_1_1_fit2_d.html" title="Base class for 2D fitting algorithms where fitting is done to a 2D point set." alt="" coords="165,81,296,108"/>
+<area shape="rect" id="node6" href="$class_t_r_t_k_1_1_fit3_d.html" title="Base class for 3D fitting algorithms where fitting is done to a 3D point set." alt="" coords="165,208,296,235"/>
+<area shape="rect" id="node3" href="$class_t_r_t_k_1_1_fit_circle.html" title="Estimates the parameters of a circle from a set of 2D points lying on the circle." alt="" coords="368,5,515,32"/>
+<area shape="rect" id="node4" href="$class_t_r_t_k_1_1_fit_circle_in_origin.html" title="Estimates the radius of a circle centered at the origin from a set of 2D points." alt="" coords="344,56,539,83"/>
+<area shape="rect" id="node5" href="$class_t_r_t_k_1_1_fit_line.html" title="Estimates the parameters of a line from a set of 2D points." alt="" coords="372,107,511,133"/>
+<area shape="rect" id="node7" href="$class_t_r_t_k_1_1_fit_circle3_d.html" title="Estimates the parameters of a circle in 3D space from a set of points lying on the circle..." alt="" coords="359,157,524,184"/>
+<area shape="rect" id="node8" href="$class_t_r_t_k_1_1_fit_line3_d.html" title="Estimates the parameters of a line in 3D space from a set of points lying on the line." alt="" coords="363,208,519,235"/>
+<area shape="rect" id="node9" href="$class_t_r_t_k_1_1_fit_plane.html" title="Estimates the parameters of a 2D plane in 3D space from a set of points lying on the surface..." alt="" coords="368,259,515,285"/>
+<area shape="rect" id="node10" href="$class_t_r_t_k_1_1_fit_sphere.html" title="Estimates the parameters of a 3D sphere from a set of points lying on the surface." alt="" coords="362,309,521,336"/>
 </map>
