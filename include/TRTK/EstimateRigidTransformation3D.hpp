@@ -7,7 +7,7 @@
     52074 Aachen
     Germany
 
-    Version 0.3.3 (2012-10-12)
+    Version 0.4.0 (2019-07-19)
 */
 
 /** \file EstimateRigidTransformation3D.hpp
@@ -43,8 +43,9 @@ namespace TRTK
   *
   * This class estimates a 3D rigid transformation between two point sets
   * in terms of least squares. The point sets must have the same cardinality,
-  * and the points must correspond to each other. There must be at least two
-  * corresponding point pairs.
+  * and the points must correspond to each other. There must be at least three
+  * corresponding point pairs. By default no reflection is allowed which can
+  * be changed by calling the \ref allowReflection() method.
   *
   * The algorithm estimates a transformation matrix as shown below:
   *
@@ -196,8 +197,8 @@ namespace TRTK
   * \see EstimateRigidTransformation2D
   *
   * \author Christoph Haenisch
-  * \version 0.3.3
-  * \date 2012-10-12
+  * \version 0.4.0
+  * \date 2019-07-19
   */
 
 template <class T>
@@ -242,10 +243,14 @@ public:
 
     virtual ~EstimateRigidTransformation3D();
 
-    virtual void compute();
+    virtual void compute() override;
+    void allowReflection(bool value = true);
 
     Matrix3T getRotationMatrix() const;
     Vector3T getTranslationVector() const;
+
+private:
+    bool allow_reflection = false;
 };
 
 
@@ -347,6 +352,18 @@ EstimateRigidTransformation3D<T>::~EstimateRigidTransformation3D()
 
 /** \tparam T scalar type of the coordinates
   *
+  * \brief Allow or disallow reflections when computing an estimate.
+  */
+
+template <class T>
+void EstimateRigidTransformation3D<T>::allowReflection(bool value)
+{
+    allow_reflection = value;
+}
+
+
+/** \tparam T scalar type of the coordinates
+  *
   * \brief Computes the transformation estimation.
   *
   * The transformation estimation is a least square scheme which decomposes a
@@ -361,7 +378,7 @@ EstimateRigidTransformation3D<T>::~EstimateRigidTransformation3D()
   *                 object is thrown and its error code is set to
   *                 \c UNEQUAL_NUMBER_OF_POINTS.
   *
-  * \throw ErrorObj If there are not enough points (at least two) to perform the
+  * \throw ErrorObj If there are not enough points (at least three) to perform the
   *                 transformation estimation, an error object is thrown and its
   *                 error code is set to \c NOT_ENOUGH_POINTS.
   */
@@ -379,7 +396,7 @@ void EstimateRigidTransformation3D<T>::compute()
         throw error;
     }
 
-    if (super::m_source_points.cols() < 2 || super::m_target_points.cols() < 2)
+    if (super::m_source_points.cols() < 3 || super::m_target_points.cols() < 3)
     {
         ErrorObj error;
         error.setClassName("EstimateRigidTransformation3D<T>");
@@ -471,7 +488,7 @@ void EstimateRigidTransformation3D<T>::compute()
 
     // assure a right-handed coordinate system
 
-    if (R.determinant() < 0)
+    if (R.determinant() < 0 && !allow_reflection)
     {
         R = svd.matrixV() * Vector3T(1, 1, -1).asDiagonal() * svd.matrixU().transpose();
     }

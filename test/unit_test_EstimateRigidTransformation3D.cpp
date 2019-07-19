@@ -343,7 +343,7 @@ void unit_test_EstimateRigidTransformation3D()
 
             assert(estimator.getTransformationMatrix().determinant() > 0); // right-handed coordinate system?
 
-            // second test for right-handness (generate new points along the z-axis and ...)
+            // second test for right-handedness (generate new points along the z-axis and ...)
 
             Coordinate<double> s1 = Coordinate<double>( 2,  5, 1);
             Coordinate<double> s2 = Coordinate<double>(-3,  2, 1);
@@ -356,5 +356,41 @@ void unit_test_EstimateRigidTransformation3D()
             double residual = (transformator * s1 - t1).squaredNorm() + (transformator * s2 - t2).squaredNorm();
 
             assert(residual < 1e-15);
+        STOP_TEST
+
+
+        START_TEST
+        {
+            Transform3D<T> transform;
+            Eigen::Matrix4d T1 = transform.reset().rotateZ(1.0).rotateY(2.0).translate(1, 2, 3).getTransformationMatrix();
+            Eigen::Matrix4d T2 = transform.reset().rotateX(2.0).rotateY(-0.3).translate(7, 7, 7).getTransformationMatrix();
+            Eigen::Matrix4d T = T2 * Eigen::Vector4d(1, 1, -1, 1).asDiagonal() * T1; // involves a reflection
+            transform = T;
+
+            // generate some test points
+
+            vector<Coordinate<double>> source_points;
+
+            source_points.push_back(Coordinate<double>( 1,  1, 0));
+            source_points.push_back(Coordinate<double>(-1, -1, 3));
+            source_points.push_back(Coordinate<double>( 2,  0, 1));
+
+            vector<Coordinate<double>> target_points;
+
+            for (auto const & point : source_points)
+            {
+                target_points.push_back(transform * point);
+            }
+
+            // estimate the transformation
+
+            EstimateRigidTransformation estimator(source_points, target_points);
+            estimator.allowReflection();
+            estimator.compute();
+
+            auto T_estimated = estimator.getTransformationMatrix();
+            auto residual = (T - T_estimated).norm();
+            assert(residual < 1e-7);
+        }
         STOP_TEST
 }
