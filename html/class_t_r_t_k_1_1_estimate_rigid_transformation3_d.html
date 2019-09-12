@@ -184,8 +184,10 @@ Public Member Functions</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a new instance of this class.  <a href="#acd0dd5a231c7671ab081562c5b868e17"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_estimate_rigid_transformation3_d.html#ae228d33ff4e3c5e56147ed92e1ce89bb">~EstimateRigidTransformation3D</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Deletes the instance.  <a href="#ae228d33ff4e3c5e56147ed92e1ce89bb"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_estimate_rigid_transformation3_d.html#a1b6fb1307e9ea79878702a10548b0343">compute</a> ()</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the transformation estimation.  <a href="#a1b6fb1307e9ea79878702a10548b0343"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_estimate_rigid_transformation3_d.html#a95a54bae4515a04c0af1d9a865760bef">compute</a> () override</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the transformation estimation.  <a href="#a95a54bae4515a04c0af1d9a865760bef"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_estimate_rigid_transformation3_d.html#a40293028c05c785c42860f697efdb620">allowReflection</a> (bool value=true)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Allow or disallow reflections when computing an estimate.  <a href="#a40293028c05c785c42860f697efdb620"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_t_r_t_k_1_1_estimate_rigid_transformation3_d.html#a03c0f8b281fad5799f07b60536a02478">Matrix3T</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_estimate_rigid_transformation3_d.html#a73b8f868f11cf74fa835dfaaa7bc9202">getRotationMatrix</a> () const </td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_t_r_t_k_1_1_estimate_rigid_transformation3_d.html#a6f26e08070c0f0095c7d77ddb2222a99">Vector3T</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_estimate_rigid_transformation3_d.html#ad53dbeb03ebfc389420bc021cf5404d3">getTranslationVector</a> () const </td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_t_r_t_k_1_1_estimate_rigid_transformation3_d.html#a187b6e85ad67dd165b0ac5023fd6488a">value_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_r_t_k_1_1_estimate_transformation3_d.html#adff0af4f5a4bd17b8ec7a9f6cb0c30db">getRMS</a> () const </td></tr>
@@ -223,7 +225,7 @@ Protected Attributes</h2></td></tr>
  class TRTK::EstimateRigidTransformation3D&lt; T &gt;</h3>
 
 <p>Estimates a 3D rigid transformation from two point sets. </p>
-<p>This class estimates a 3D rigid transformation between two point sets in terms of least squares. The point sets must have the same cardinality, and the points must correspond to each other. There must be at least two corresponding point pairs.</p>
+<p>This class estimates a 3D rigid transformation between two point sets in terms of least squares. The point sets must have the same cardinality, and the points must correspond to each other. There must be at least three corresponding point pairs. By default no reflection is allowed which can be changed by calling the <a class="el" href="class_t_r_t_k_1_1_estimate_rigid_transformation3_d.html#a40293028c05c785c42860f697efdb620">allowReflection()</a> method.</p>
 <p>The algorithm estimates a transformation matrix as shown below:</p>
 <p class="formulaDsp">
 \[ \begin{pmatrix} y_1 \\ y_2 \\ y_3 \\ 1 \end{pmatrix} = \begin{pmatrix} r_{11} &amp; r_{12} &amp; r_{13} &amp; b_1 \\ r_{21} &amp; r_{22} &amp; r_{23} &amp; b_2 \\ r_{31} &amp; r_{32} &amp; r_{33} &amp; b_3 \\ 0 &amp; 0 &amp; 0 &amp; 1 \end{pmatrix} \begin{pmatrix} x_1 \\ x_2 \\ x_3 \\ 1 \end{pmatrix} \qquad \qquad \text{or} \qquad \qquad y = Rx + b \quad \wedge \quad RR^T = I \]
@@ -328,10 +330,10 @@ Protected Attributes</h2></td></tr>
 </pre></div><dl class="note"><dt><b>Note:</b></dt><dd>If you plan to use this class with an STL container, please have a look at <a href="http://eigen.tuxfamily.org/dox/TopicStlContainers.html">this site. </a></dd></dl>
 <dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_estimate_rigid_transformation2_d.html" title="Estimates a 2D rigid transformation from two point sets.">EstimateRigidTransformation2D</a></dd></dl>
 <dl class="author"><dt><b>Author:</b></dt><dd>Christoph Haenisch </dd></dl>
-<dl class="version"><dt><b>Version:</b></dt><dd>0.3.3 </dd></dl>
-<dl class="date"><dt><b>Date:</b></dt><dd>2012-10-12 </dd></dl>
+<dl class="version"><dt><b>Version:</b></dt><dd>0.4.0 </dd></dl>
+<dl class="date"><dt><b>Date:</b></dt><dd>2019-07-19 </dd></dl>
 
-<p>Definition at line <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html#l00204">204</a> of file <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html">EstimateRigidTransformation3D.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html#l00205">205</a> of file <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html">EstimateRigidTransformation3D.hpp</a>.</p>
 <hr/><h2>Member Enumeration Documentation</h2>
 <a class="anchor" id="a23619dbc6b8f338922a09357f2189856"></a><!-- doxytag: member="TRTK::EstimateRigidTransformation3D::Error" ref="a23619dbc6b8f338922a09357f2189856" args="" -->
 <div class="memitem">
@@ -391,7 +393,7 @@ template&lt;class T &gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html#l00258">258</a> of file <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html">EstimateRigidTransformation3D.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html#l00263">263</a> of file <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html">EstimateRigidTransformation3D.hpp</a>.</p>
 
 </div>
 </div>
@@ -436,7 +438,7 @@ template&lt;class T&gt; </div>
   </table>
   </dd>
 </dl>
-<p>No transformation estimation is done. To do so, please call <a class="el" href="class_t_r_t_k_1_1_estimate_rigid_transformation3_d.html#a1b6fb1307e9ea79878702a10548b0343" title="Computes the transformation estimation.">compute()</a>.</p>
+<p>No transformation estimation is done. To do so, please call <a class="el" href="class_t_r_t_k_1_1_estimate_rigid_transformation3_d.html#a95a54bae4515a04c0af1d9a865760bef" title="Computes the transformation estimation.">compute()</a>.</p>
 <dl><dt><b>Exceptions:</b></dt><dd>
   <table class="exception">
     <tr><td class="paramname"><a class="el" href="class_t_r_t_k_1_1_error_obj.html" title="Error class that incorporates additional information.">ErrorObj</a></td><td>If there are any coordinates other than 3D or 4D coordinates, an error object is thrown and its error code is set to <code>WRONG_POINT_SIZE</code>.</td></tr>
@@ -445,7 +447,7 @@ template&lt;class T&gt; </div>
 </dl>
 <dl class="note"><dt><b>Note:</b></dt><dd>The point sets must have the same cardinality, and the points must correspond to each other. </dd></dl>
 
-<p>Definition at line <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html#l00285">285</a> of file <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html">EstimateRigidTransformation3D.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html#l00290">290</a> of file <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html">EstimateRigidTransformation3D.hpp</a>.</p>
 
 </div>
 </div>
@@ -490,10 +492,10 @@ template&lt;class T&gt; </div>
   </table>
   </dd>
 </dl>
-<p>No transformation estimation is done. To do so, please call <a class="el" href="class_t_r_t_k_1_1_estimate_rigid_transformation3_d.html#a1b6fb1307e9ea79878702a10548b0343" title="Computes the transformation estimation.">compute()</a>.</p>
+<p>No transformation estimation is done. To do so, please call <a class="el" href="class_t_r_t_k_1_1_estimate_rigid_transformation3_d.html#a95a54bae4515a04c0af1d9a865760bef" title="Computes the transformation estimation.">compute()</a>.</p>
 <dl class="note"><dt><b>Note:</b></dt><dd>The point sets must have the same cardinality, and the points must correspond to each other. </dd></dl>
 
-<p>Definition at line <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html#l00307">307</a> of file <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html">EstimateRigidTransformation3D.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html#l00312">312</a> of file <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html">EstimateRigidTransformation3D.hpp</a>.</p>
 
 </div>
 </div>
@@ -538,10 +540,10 @@ template&lt;class T&gt; </div>
   </table>
   </dd>
 </dl>
-<p>No transformation estimation is done. To do so, please call <a class="el" href="class_t_r_t_k_1_1_estimate_rigid_transformation3_d.html#a1b6fb1307e9ea79878702a10548b0343" title="Computes the transformation estimation.">compute()</a>.</p>
+<p>No transformation estimation is done. To do so, please call <a class="el" href="class_t_r_t_k_1_1_estimate_rigid_transformation3_d.html#a95a54bae4515a04c0af1d9a865760bef" title="Computes the transformation estimation.">compute()</a>.</p>
 <dl class="note"><dt><b>Note:</b></dt><dd>The point sets must have the same cardinality, and the points must correspond to each other. </dd></dl>
 
-<p>Definition at line <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html#l00329">329</a> of file <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html">EstimateRigidTransformation3D.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html#l00334">334</a> of file <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html">EstimateRigidTransformation3D.hpp</a>.</p>
 
 </div>
 </div>
@@ -569,12 +571,41 @@ template&lt;class T &gt; </div>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html#l00343">343</a> of file <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html">EstimateRigidTransformation3D.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html#l00348">348</a> of file <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html">EstimateRigidTransformation3D.hpp</a>.</p>
 
 </div>
 </div>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="a1b6fb1307e9ea79878702a10548b0343"></a><!-- doxytag: member="TRTK::EstimateRigidTransformation3D::compute" ref="a1b6fb1307e9ea79878702a10548b0343" args="()" -->
+<a class="anchor" id="a40293028c05c785c42860f697efdb620"></a><!-- doxytag: member="TRTK::EstimateRigidTransformation3D::allowReflection" ref="a40293028c05c785c42860f697efdb620" args="(bool value=true)" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="class_t_r_t_k_1_1_estimate_rigid_transformation3_d.html">TRTK::EstimateRigidTransformation3D</a>&lt; T &gt;::allowReflection </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"> <em>value</em> = <code>true</code>&#160;)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Allow or disallow reflections when computing an estimate. </p>
+<dl><dt><b>Template Parameters:</b></dt><dd>
+  <table class="">
+    <tr><td class="paramname">T</td><td>scalar type of the coordinates </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html#l00359">359</a> of file <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html">EstimateRigidTransformation3D.hpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a95a54bae4515a04c0af1d9a865760bef"></a><!-- doxytag: member="TRTK::EstimateRigidTransformation3D::compute" ref="a95a54bae4515a04c0af1d9a865760bef" args="() override" -->
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -584,7 +615,7 @@ template&lt;class T &gt; </div>
           <td class="memname">void <a class="el" href="class_t_r_t_k_1_1_estimate_rigid_transformation3_d.html">TRTK::EstimateRigidTransformation3D</a>&lt; T &gt;::compute </td>
           <td>(</td>
           <td class="paramname">&#160;)</td>
-          <td><code> [virtual]</code></td>
+          <td><code> [override, virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -602,14 +633,14 @@ template&lt;class T &gt; </div>
 <dl><dt><b>Exceptions:</b></dt><dd>
   <table class="exception">
     <tr><td class="paramname"><a class="el" href="class_t_r_t_k_1_1_error_obj.html" title="Error class that incorporates additional information.">ErrorObj</a></td><td>If the point sets do not have the same cardinality, an error object is thrown and its error code is set to <code>UNEQUAL_NUMBER_OF_POINTS</code>.</td></tr>
-    <tr><td class="paramname"><a class="el" href="class_t_r_t_k_1_1_error_obj.html" title="Error class that incorporates additional information.">ErrorObj</a></td><td>If there are not enough points (at least two) to perform the transformation estimation, an error object is thrown and its error code is set to <code>NOT_ENOUGH_POINTS</code>. </td></tr>
+    <tr><td class="paramname"><a class="el" href="class_t_r_t_k_1_1_error_obj.html" title="Error class that incorporates additional information.">ErrorObj</a></td><td>If there are not enough points (at least three) to perform the transformation estimation, an error object is thrown and its error code is set to <code>NOT_ENOUGH_POINTS</code>. </td></tr>
   </table>
   </dd>
 </dl>
 
 <p>Implements <a class="el" href="class_t_r_t_k_1_1_estimate_transformation3_d.html#a547c6ffa1fe4034ba951347f140830ac">TRTK::EstimateTransformation3D&lt; T &gt;</a>.</p>
 
-<p>Definition at line <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html#l00370">370</a> of file <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html">EstimateRigidTransformation3D.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html#l00387">387</a> of file <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html">EstimateRigidTransformation3D.hpp</a>.</p>
 
 </div>
 </div>
@@ -674,9 +705,9 @@ template&lt;class T &gt; </div>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Returns the rotation matrix as part of the sought transformation.</dd></dl>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_estimate_rigid_transformation3_d.html#a1b6fb1307e9ea79878702a10548b0343" title="Computes the transformation estimation.">compute()</a>, <a class="el" href="class_t_r_t_k_1_1_estimate_rigid_transformation3_d.html#ad53dbeb03ebfc389420bc021cf5404d3">getTranslationVector()</a> and <a class="el" href="class_t_r_t_k_1_1_estimate_transformation3_d.html#a5be425b6c59d29c9267532c446e354f7">getTransformationMatrix()</a> </dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_estimate_rigid_transformation3_d.html#a95a54bae4515a04c0af1d9a865760bef" title="Computes the transformation estimation.">compute()</a>, <a class="el" href="class_t_r_t_k_1_1_estimate_rigid_transformation3_d.html#ad53dbeb03ebfc389420bc021cf5404d3">getTranslationVector()</a> and <a class="el" href="class_t_r_t_k_1_1_estimate_transformation3_d.html#a5be425b6c59d29c9267532c446e354f7">getTransformationMatrix()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html#l00496">496</a> of file <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html">EstimateRigidTransformation3D.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html#l00513">513</a> of file <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html">EstimateRigidTransformation3D.hpp</a>.</p>
 
 </div>
 </div>
@@ -730,9 +761,50 @@ template&lt;class T &gt; </div>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Returns the translation vector as part of the sought transformation.</dd></dl>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_estimate_rigid_transformation3_d.html#a1b6fb1307e9ea79878702a10548b0343" title="Computes the transformation estimation.">compute()</a>, <a class="el" href="class_t_r_t_k_1_1_estimate_rigid_transformation3_d.html#a73b8f868f11cf74fa835dfaaa7bc9202">getRotationMatrix()</a> and <a class="el" href="class_t_r_t_k_1_1_estimate_transformation3_d.html#a5be425b6c59d29c9267532c446e354f7">getTransformationMatrix()</a> </dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_r_t_k_1_1_estimate_rigid_transformation3_d.html#a95a54bae4515a04c0af1d9a865760bef" title="Computes the transformation estimation.">compute()</a>, <a class="el" href="class_t_r_t_k_1_1_estimate_rigid_transformation3_d.html#a73b8f868f11cf74fa835dfaaa7bc9202">getRotationMatrix()</a> and <a class="el" href="class_t_r_t_k_1_1_estimate_transformation3_d.html#a5be425b6c59d29c9267532c446e354f7">getTransformationMatrix()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html#l00510">510</a> of file <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html">EstimateRigidTransformation3D.hpp</a>.</p>
+<p>Definition at line <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html#l00527">527</a> of file <a class="el" href="_estimate_rigid_transformation3_d_8hpp_source.html">EstimateRigidTransformation3D.hpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0ad53b87bc953d5baa25b05c19759edb"></a><!-- doxytag: member="TRTK::EstimateRigidTransformation3D::setSourcePoints" ref="a0ad53b87bc953d5baa25b05c19759edb" args="(const std::vector&lt; Coordinate&lt; T &gt; &gt; &amp;)" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="class_t_r_t_k_1_1_estimate_transformation3_d.html">TRTK::EstimateTransformation3D</a>&lt; T &gt;::setSourcePoints </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="class_t_r_t_k_1_1_coordinate.html">Coordinate</a>&lt; T &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"> <em>source_points</em>&#160;)</td>
+          <td><code> [inherited]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Sets the source points. </p>
+<dl><dt><b>Template Parameters:</b></dt><dd>
+  <table class="">
+    <tr><td class="paramname">T</td><td>scalar type of the coordinates</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">source_points</td><td>The points can either be plain 3D or 4D <a class="el" href="_homogeneous_coordinates.html">homogeneous</a> coordinates.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl><dt><b>Exceptions:</b></dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="class_t_r_t_k_1_1_error_obj.html" title="Error class that incorporates additional information.">ErrorObj</a></td><td>If there are any coordinates other than 3D or 4D coordinates, an error object is thrown and its error code is set to <code>WRONG_POINT_SIZE</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_estimate_transformation3_d_8hpp_source.html#l00215">215</a> of file <a class="el" href="_estimate_transformation3_d_8hpp_source.html">EstimateTransformation3D.hpp</a>.</p>
 
 </div>
 </div>
@@ -806,88 +878,6 @@ template&lt;class T&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a0ad53b87bc953d5baa25b05c19759edb"></a><!-- doxytag: member="TRTK::EstimateRigidTransformation3D::setSourcePoints" ref="a0ad53b87bc953d5baa25b05c19759edb" args="(const std::vector&lt; Coordinate&lt; T &gt; &gt; &amp;)" -->
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class T&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="class_t_r_t_k_1_1_estimate_transformation3_d.html">TRTK::EstimateTransformation3D</a>&lt; T &gt;::setSourcePoints </td>
-          <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="class_t_r_t_k_1_1_coordinate.html">Coordinate</a>&lt; T &gt; &gt; &amp;&#160;</td>
-          <td class="paramname"> <em>source_points</em>&#160;)</td>
-          <td><code> [inherited]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Sets the source points. </p>
-<dl><dt><b>Template Parameters:</b></dt><dd>
-  <table class="">
-    <tr><td class="paramname">T</td><td>scalar type of the coordinates</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">source_points</td><td>The points can either be plain 3D or 4D <a class="el" href="_homogeneous_coordinates.html">homogeneous</a> coordinates.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl><dt><b>Exceptions:</b></dt><dd>
-  <table class="exception">
-    <tr><td class="paramname"><a class="el" href="class_t_r_t_k_1_1_error_obj.html" title="Error class that incorporates additional information.">ErrorObj</a></td><td>If there are any coordinates other than 3D or 4D coordinates, an error object is thrown and its error code is set to <code>WRONG_POINT_SIZE</code>. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_estimate_transformation3_d_8hpp_source.html#l00215">215</a> of file <a class="el" href="_estimate_transformation3_d_8hpp_source.html">EstimateTransformation3D.hpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a28ae9a048e919e51ebcaec44f59ce599"></a><!-- doxytag: member="TRTK::EstimateRigidTransformation3D::setTargetPoints" ref="a28ae9a048e919e51ebcaec44f59ce599" args="(const std::vector&lt; Coordinate&lt; T &gt; &gt; &amp;)" -->
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class T&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="class_t_r_t_k_1_1_estimate_transformation3_d.html">TRTK::EstimateTransformation3D</a>&lt; T &gt;::setTargetPoints </td>
-          <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="class_t_r_t_k_1_1_coordinate.html">Coordinate</a>&lt; T &gt; &gt; &amp;&#160;</td>
-          <td class="paramname"> <em>target_points</em>&#160;)</td>
-          <td><code> [inherited]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Sets the target points. </p>
-<dl><dt><b>Template Parameters:</b></dt><dd>
-  <table class="">
-    <tr><td class="paramname">T</td><td>scalar type of the coordinates</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">target_points</td><td>The points can either be plain 3D or 4D <a class="el" href="_homogeneous_coordinates.html">homogeneous</a> coordinates.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl><dt><b>Exceptions:</b></dt><dd>
-  <table class="exception">
-    <tr><td class="paramname"><a class="el" href="class_t_r_t_k_1_1_error_obj.html" title="Error class that incorporates additional information.">ErrorObj</a></td><td>If there are any coordinates other than 3D or 4D coordinates, an error object is thrown and its error code is set to <code>WRONG_POINT_SIZE</code>. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="_estimate_transformation3_d_8hpp_source.html#l00293">293</a> of file <a class="el" href="_estimate_transformation3_d_8hpp_source.html">EstimateTransformation3D.hpp</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="a75990dc4b8bdbbf73ff78bb2534921f8"></a><!-- doxytag: member="TRTK::EstimateRigidTransformation3D::setTargetPoints" ref="a75990dc4b8bdbbf73ff78bb2534921f8" args="(const std::vector&lt; Vector3T &gt; &amp;)" -->
 <div class="memitem">
 <div class="memproto">
@@ -955,6 +945,47 @@ template&lt;class T&gt; </div>
 </dl>
 
 <p>Definition at line <a class="el" href="_estimate_transformation3_d_8hpp_source.html#l00343">343</a> of file <a class="el" href="_estimate_transformation3_d_8hpp_source.html">EstimateTransformation3D.hpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a28ae9a048e919e51ebcaec44f59ce599"></a><!-- doxytag: member="TRTK::EstimateRigidTransformation3D::setTargetPoints" ref="a28ae9a048e919e51ebcaec44f59ce599" args="(const std::vector&lt; Coordinate&lt; T &gt; &gt; &amp;)" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="class_t_r_t_k_1_1_estimate_transformation3_d.html">TRTK::EstimateTransformation3D</a>&lt; T &gt;::setTargetPoints </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="class_t_r_t_k_1_1_coordinate.html">Coordinate</a>&lt; T &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"> <em>target_points</em>&#160;)</td>
+          <td><code> [inherited]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Sets the target points. </p>
+<dl><dt><b>Template Parameters:</b></dt><dd>
+  <table class="">
+    <tr><td class="paramname">T</td><td>scalar type of the coordinates</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">target_points</td><td>The points can either be plain 3D or 4D <a class="el" href="_homogeneous_coordinates.html">homogeneous</a> coordinates.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl><dt><b>Exceptions:</b></dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="class_t_r_t_k_1_1_error_obj.html" title="Error class that incorporates additional information.">ErrorObj</a></td><td>If there are any coordinates other than 3D or 4D coordinates, an error object is thrown and its error code is set to <code>WRONG_POINT_SIZE</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_estimate_transformation3_d_8hpp_source.html#l00293">293</a> of file <a class="el" href="_estimate_transformation3_d_8hpp_source.html">EstimateTransformation3D.hpp</a>.</p>
 
 </div>
 </div>
