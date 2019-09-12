@@ -9,7 +9,7 @@
 
     See license.txt for more information.
 
-    Version 0.5.0 (2019-07-17)
+    Version 0.6.0 (2019-09-12)
 */
 
 /** \file Tools.hpp
@@ -62,6 +62,7 @@ namespace Tools
   * - Containers
   *   - \ref listToVector()
   *   - \ref mean()
+  *   - \ref weightedMean()
   *   - \ref median()
   *   - \rev standardDeviation()
   *   - \ref variance()
@@ -615,6 +616,59 @@ inline ValueType mean(const Container & container, ValueType null_value = ValueT
 	}
 
     return mean / container.size();
+}
+
+
+/** \brief Returns the weighted mean of all container elements.
+  *
+  * This function computes
+  *
+  * \f[
+  *    \bar{x}_{mean} = \frac{\sum_{i=1}^n w_i x_i}{\sum_{i=1}^n w_i}
+  * \f]
+  *
+  * It is assumed that there is an associated weight for each value and that
+  * the ordering in both containers is the same. Each containers must provide
+  * the STL interface. The weights are assumed to be scalars and its underlying
+  * type must be initializable with 0. Also, the container elements must
+  * support the addition operation and values must support the multiplication
+  * with a scalar.
+  *
+  * \note The computation of the weighted mean stops as soon as the end of one of
+  *       the containers is reached. In all cases a valid weighted mean is computed
+  *       for the subset of weight-value pairs.
+  *
+  * \author Christoph Hänisch
+  * \version 0.1.0
+  * \date last changed on 2019-09-12
+  */
+
+template <class WeightsContainer, class ValuesContainer, class ValueType = typename ValuesContainer::value_type>
+inline ValueType weightedMean(const WeightsContainer & weights,
+                              const ValuesContainer & values,
+                              ValueType null_value = ValueType(0))
+{
+    using WeightType = typename WeightsContainer::value_type; // should be a scalar
+
+    WeightType sum_of_weights = WeightType(0);
+    ValueType weighted_sum = null_value;
+
+    auto it_weights = weights.begin();
+    auto it_values = values.begin();
+
+    while (it_weights != weights.end() && it_values != values.end())
+	{
+        auto weight = *it_weights;
+        auto value = *it_values;
+
+        sum_of_weights += weight;
+        weighted_sum += weight * value;
+
+        ++it_weights;
+        ++it_values;
+	}
+
+    return weighted_sum / sum_of_weights;
 }
 
 

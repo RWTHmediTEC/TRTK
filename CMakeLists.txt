@@ -1,4 +1,4 @@
-# Last changed on 2019-07-19
+# Last changed on 2019-09-12
 
 cmake_minimum_required(VERSION 3.10)
 
@@ -22,7 +22,7 @@ project(TRTK)
 #####################################################################
 
 set(MAJOR_VERSION  1)
-set(MINOR_VERSION  4)
+set(MINOR_VERSION  5)
 set(PATCH_VERSION  0)
 
 set(FULL_VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION})

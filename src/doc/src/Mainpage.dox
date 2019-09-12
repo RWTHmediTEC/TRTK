@@ -139,6 +139,7 @@ To get started, please have a look a the \ref Tutorial.
             - Containers
                 - \ref TRTK::Tools::listToVector() "Conversion of a List to a Vector"
                 - \ref TRTK::Tools::vectorToList() "Conversion of a Vector to a List"
+                - \ref TRTK::Tools::mean() "mean", \ref TRTK::Tools::weightedMean() "weighted mean", \ref TRTK::Tools::standardDeviation() "standard deviation", etc.
             - Files
                 - \ref TRTK::Tools::fileExists() "Checking for an Existing File"
                 - \ref TRTK::Tools::fileLength() "Determining the Length of a File or a File Stream"

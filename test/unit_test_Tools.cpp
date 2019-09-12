@@ -445,6 +445,46 @@ void unit_test_Tools()
         STOP_TEST
 
 
+    SUBHEADING(weightedMean())
+
+        START_TEST
+        {
+            std::list<double> weights{1, 1, 1};
+            std::list<double> values{3, 4, 5};
+            double result = weightedMean(weights, values);
+            assert(isEqual(result, 4.0));
+        }
+        STOP_TEST
+
+        START_TEST
+        {
+            std::list<double> weights{1, 2, 2};
+            std::list<double> values{3, 4, 5};
+            double result = weightedMean(weights, values);
+            assert(isEqual(result, 4.2));
+        }
+        STOP_TEST
+
+        START_TEST
+        {
+            std::list<double> weights{1, 2, 1};
+            std::list<Coordinate<double>> values{Coordinate<double>(1, 4), Coordinate<double>(-1, 2), Coordinate<double>(0, 3)};
+            Coordinate<double> result = weightedMean(weights, values, Coordinate<double>(0, 0));
+            double error = (result - Coordinate<double>(-0.25, 2.75)).norm();
+            assert(error < 1e-7);
+        }
+        STOP_TEST
+
+        START_TEST
+        {
+            std::list<double> weights{1, 1, 1};
+            std::list<double> values{3, 4, 5, 6, 7};
+            double result = weightedMean(weights, values);
+            assert(isEqual(result, 4.0));
+        }
+        STOP_TEST
+
+
     SUBHEADING(median())
 
 
@@ -731,7 +771,6 @@ void unit_test_Tools()
             list4.push_back(Coordinate<double>(-1, 2));
             list4.push_back(Coordinate<double>(0, 5));
             result = Tools::variance(list4, Coordinate<double>(0, 0));
-            cout << endl << result << endl;
             assert((result - Coordinate<double>(1, 9)).norm() < 1e-2);
         STOP_TEST
 
